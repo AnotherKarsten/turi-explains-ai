@@ -1,0 +1,40 @@
+# Legt per Knopfdruck einen Release an: Tag vX.Y.Z, Release-Text aus .github/release-notes.md,
+# beide Lernseiten als Downloads „turi-explains-ai.html“ (Turi erklärt KI) und „ai-under-the-hood.html“ (KI unter der Haube). Start: Actions → „Release erstellen“ → Run workflow.
+name: Release erstellen
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Versionsnummer im Format 1.0.0"
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Release anlegen
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ inputs.version }}
+        run: |
+          if ! printf '%s' "$VERSION" | grep -Eq '^[0-9]+\.[0-9]+\.[0-9]+$'; then
+            echo "Bitte die Version im Format 1.0.0 angeben (eingegeben: $VERSION)."
+            exit 1
+          fi
+          TAG="v$VERSION"
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            echo "Den Release $TAG gibt es schon."
+            exit 1
+          fi
+          DATEIEN="turi-explains-ai.html"
+          if [ -f ai-under-the-hood.html ]; then DATEIEN="$DATEIEN ai-under-the-hood.html"; fi
+          gh release create "$TAG" $DATEIEN \
+            --target "$GITHUB_SHA" \
+            --title "Turi erklärt KI & KI unter der Haube $VERSION · Turi explains AI & AI under the hood $VERSION" \
+            --notes-file .github/release-notes.md
