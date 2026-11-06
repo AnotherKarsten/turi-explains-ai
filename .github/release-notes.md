@@ -1,30 +1,32 @@
-**Version 1.0: Turi erklärt KI und KI unter der Haube.** Zwei interaktive Lernseiten, die zeigen, wie KI-Chats wie ChatGPT oder Claude funktionieren und wie man sie klug und sicher nutzt.
+**Version 1.1: Rätsel auf der Wortkarte und ein klarerer Energie-Rechner in „KI unter der Haube“.**
 
 | Datei | Für wen |
 |---|---|
 | `turi-explains-ai.html` | **Turi erklärt KI**: für Kinder ab etwa 9 Jahren, spielerisch mit dem Roboter Turi |
 | `ai-under-the-hood.html` | **KI unter der Haube**: für Jugendliche ab etwa 14 Jahren und Erwachsene |
 
-- **Turi erklärt KI:** Elf Stationen vom Training bis zur fertigen Antwort: Wörter in Schnipsel schneiden, eine Landkarte der Wörter, Aufmerksamkeit, Kontext, das nächste Wort würfeln, Nachschlagen mit Werkzeugen und ein Ampel-Spiel zum klugen Umgang mit KI. Mit Aufgaben, Quiz und Urkunde.
-- **KI unter der Haube:** 13 Experimente in zwei Teilen, jede Station auf einer eigenen Seite mit Übersicht. Wortkarte mit Rechenweg zum Aufklappen, Energie im Vergleich mit Alltagsgeräten und Wasserverbrauch, Tipps, wie eine KI vor Aktionen um Freigabe bittet. Fachbegriffe „Unter der Haube“ zum Aufklappen, Quiz und Spickzettel als PDF.
+- **Wortkarte als Rätsel:** Statt der Formel „König − Mann + Frau“ gibt es zwei Analogie-Rätsel: „Mann verhält sich zu Frau wie König zu …?“ und neu „Hund verhält sich zu Welpe wie Katze zu …?“. Pfeile auf der Karte zeigen, wie die KI die Lösung findet; der Rechenweg mit Zahlen lässt sich aufklappen. Ein neuer Absatz erklärt, wozu das im Alltag gut ist.
+- **Energie verständlicher:** Der Rechner „Dein KI-Tag“ nennt zuerst den geschätzten Verbrauch in Wattstunden und Millilitern Wasser und erst danach Vergleiche mit Bekanntem: Smartphone-Ladungen, Minuten LED-Lampe, Esslöffel Wasser und den Jahresverbrauch eines Haushalts.
+- **Besser auf kleinen Handys:** Die Wortkarte ist neu angeordnet, damit sich auch auf dem iPhone SE keine Wörter überlappen.
+- **Turi erklärt KI** ist unverändert.
 - **Online ausprobieren:** https://anotherkarsten.github.io/turi-explains-ai/
-- **Sechs Sprachen:** Deutsch, Englisch, Französisch, Italienisch, Spanisch und Niederländisch.
 
 **So geht’s:** Unten bei „Assets“ die passende Datei herunterladen und mit dem Browser öffnen. Beide laufen offline, ohne Installation und ohne Tracking.
 
 ---
 
-**Version 1.0: Turi explains AI and AI under the hood.** Two interactive learning pages that show how AI chats such as ChatGPT or Claude work and how to use them wisely and safely.
+**Version 1.1: riddles on the word map and a clearer energy calculator in “AI under the hood”.**
 
 | File | For whom |
 |---|---|
 | `turi-explains-ai.html` | **Turi explains AI**: for children aged about 9 and up, playful with the robot Turi |
 | `ai-under-the-hood.html` | **AI under the hood**: for teenagers aged about 14 and up and adults |
 
-- **Turi explains AI:** eleven stations from training to the finished answer: cutting words into snippets, a map of words, attention, context, rolling the dice for the next word, looking things up with tools and a traffic-light game about using AI wisely. With tasks, a quiz and a certificate.
-- **AI under the hood:** 13 experiments in two parts, each station on its own page with an overview. Word map with a step-by-step calculation, energy compared with everyday devices plus water use, tips on making an AI ask for approval before it acts. Technical terms to fold out, a quiz and a PDF cheat sheet.
+- **Word map as riddles:** instead of the formula “King − Man + Woman” there are two analogy riddles: “Man is to Woman as King is to …?” and the new “Dog is to Puppy as Cat is to …?”. Arrows on the map show how the AI finds the answer; the calculation with numbers can be folded out. A new paragraph explains why this matters in everyday life.
+- **Energy made clearer:** the “Your AI day” calculator first shows the estimated use in watt-hours and millilitres of water, and only then comparisons with familiar things: phone charges, minutes of an LED lamp, tablespoons of water and a household’s yearly electricity use.
+- **Better on small phones:** the word map has been rearranged so that no words overlap, even on an iPhone SE.
+- **Turi explains AI** is unchanged.
 - **Try it online:** https://anotherkarsten.github.io/turi-explains-ai/
-- **Six languages:** German, English, French, Italian, Spanish and Dutch.
 
 Download the file you need below under “Assets” and open it in your browser. Both work offline, with no installation and no tracking.
 
