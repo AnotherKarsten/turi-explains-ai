@@ -421,18 +421,17 @@ stations:[
 {id:'wortkarte',part:'a',short:'Wortkarte',
  q:'Wie kann eine Maschine mit Bedeutung rechnen?',
  text:['Jedes Token wird in eine lange Liste von Zahlen übersetzt, ein <b>Embedding</b>. Man kann sich das als Adresse auf einer Landkarte der Bedeutungen vorstellen. Wörter, die in ähnlichen Zusammenhängen vorkommen, landen nah beieinander.',
-       'Echte Modelle verwenden nicht zwei, sondern Tausende Koordinaten pro Token. Dadurch tragen sogar Richtungen Bedeutung, zum Beispiel „männlich nach weiblich“ oder „Land nach Hauptstadt“.'],
+       'Echte Modelle verwenden nicht zwei, sondern Tausende Koordinaten pro Token. Dadurch tragen sogar Richtungen Bedeutung, zum Beispiel „männlich nach weiblich“ oder „Land nach Hauptstadt“.',
+       '<b>Wozu das gut ist:</b> Im Alltag rechnet niemand „König − Mann + Frau“. Das Beispiel zeigt aber, dass ein Modell Beziehungen zwischen Wörtern als Richtungen lernt, ohne dass ihm jemand eine Liste gibt. Darauf beruht zum Beispiel, dass eine Suche bei „PKW“ auch Treffer zu „Auto“ findet und dass eine KI ein Muster wie „Land → Hauptstadt“ auf neue Fälle überträgt.'],
  lab:{type:'map',title:'Ausprobieren: Die Bedeutungs-Landkarte',
-   intro:'Tippe ein Wort an, um seine nächsten Nachbarn zu sehen. Die Zahlen in Klammern sind die Abstände.',
-   words:[['Hund',14,90],['Katze',34,80],['Pferd',12,68],['Welpe',32,58],['Pizza',66,90],['Nudeln',86,78],['Salat',64,66],['Brot',84,56],
-     ['Meeting',64,40],['E-Mail',86,27],['Kalender',62,22],['Bericht',86,12],['König',14,40],['Königin',38,40],['Mann',14,16],['Frau',38,16]],
+   intro:'Tippe ein Wort an, um seine nächsten Nachbarn zu sehen. Die Zahlen in Klammern sind die Abstände. Oder löse ein Rätsel so, wie die KI es tut.',
+   words:[['Hund',14,92],['Welpe',14,78],['Katze',44,92],['Kätzchen',44,78],['Pferd',29,64],['Pizza',76,92],['Nudeln',86,78],['Salat',66,64],['Brot',88,64],['Meeting',76,49],['E-Mail',76,35],['Kalender',76,21],['Bericht',76,8],['König',14,36],['Königin',42,36],['Mann',14,12],['Frau',42,12]],
    pick:'Tippe ein Wort auf der Karte an.',
    near:(w,c,list)=>`<b>${w}</b> ${c}: nächste Nachbarn sind ${list}.`,
-   calc:['König','Mann','Frau'],
-   calcBtn:'Rechnen: König − Mann + Frau = ?',
+   riddles:[{calc:['König','Mann','Frau'],btn:'Rätsel: Mann verhält sich zu Frau wie König zu …?',dir:'männlich → weiblich'},{calc:['Katze','Hund','Welpe'],btn:'Rätsel: Hund verhält sich zu Welpe wie Katze zu …?',dir:'Tier → Tierkind'}],
    stepsBtn:'Rechenweg Schritt für Schritt',
-   steps:(A,B,C,R,dx,dy)=>[`Jedes Wort hat eine Adresse aus zwei Zahlen: <b>${B[0]}</b> liegt bei (${B[1]} | ${B[2]}), <b>${C[0]}</b> bei (${C[1]} | ${C[2]}).`,`Der Weg von ${B[0]} nach ${C[0]} ist der <span class="k-dir">blaue Pfeil</span>: ${C[1]} − ${B[1]} = ${dx} nach rechts und ${C[2]} − ${B[2]} = ${dy} nach oben. Er steht für „männlich → weiblich“.`,`Denselben Pfeil setzen wir bei <b>${A[0]}</b> an, das ist der <span class="k-go">rote Pfeil</span>: ${A[1]} + ${dx} = ${A[1]+dx} und ${A[2]} + ${dy} = ${A[2]+dy}.`,`Beim Punkt (${A[1]+dx} | ${A[2]+dy}) liegt <b>${R}</b>. Genau das bedeutet „${A[0]} − ${B[0]} + ${C[0]}“: Man geht von ${A[0]} denselben Weg wie von ${B[0]} nach ${C[0]}.`],
-   calcOut:(eq,res)=>`${eq}. Der nächste Punkt dort ist <b>${res}</b>. Mit Bedeutungen rechnen klappt, weil die Richtung „Mann → Frau“ überall auf der Karte ähnlich ist.`},
+   steps:(A,B,C,R,dx,dy,dir)=>{const n=v=>String(v).replace('-','−');const mv=[dx?`${C[1]} − ${B[1]} = ${n(dx)}, also ${Math.abs(dx)} ${dx>0?'nach rechts':'nach links'}`:'',dy?`${C[2]} − ${B[2]} = ${n(dy)}, also ${Math.abs(dy)} ${dy>0?'nach oben':'nach unten'}`:''].filter(Boolean).join(' und ');const go=[dx?`${A[1]} ${dx<0?'−':'+'} ${Math.abs(dx)} = ${A[1]+dx}`:'',dy?`${A[2]} ${dy<0?'−':'+'} ${Math.abs(dy)} = ${A[2]+dy}`:''].filter(Boolean).join(' und ');return [`Jedes Wort hat eine Adresse aus zwei Zahlen: <b>${B[0]}</b> liegt bei (${B[1]} | ${B[2]}), <b>${C[0]}</b> bei (${C[1]} | ${C[2]}).`,`Der Weg von ${B[0]} nach ${C[0]} ist der <span class="k-dir">blaue Pfeil</span>: ${mv}. Er steht für die Richtung „${dir}“.`,`Denselben Pfeil setzen wir bei <b>${A[0]}</b> an, das ist der <span class="k-go">rote Pfeil</span>: ${go}.`,`Beim Punkt (${A[1]+dx} | ${A[2]+dy}) liegt <b>${R}</b>. In der Fachsprache schreibt man das als Rechnung: ${A[0]} − ${B[0]} + ${C[0]} ≈ ${R}.`]},
+   calcOut:(A,B,C,R,dir)=>`Lösung: <b>${R}</b>. Die KI geht von ${A} denselben Weg wie von ${B} nach ${C}, also in Richtung „${dir}“. Das klappt, weil diese Richtung überall auf der Karte ähnlich ist.`},
  hood:[['Embedding','Die Zahlenliste, die ein Token im Modell darstellt. Sie wird beim Training mitgelernt.'],
    ['Dimensionen','Die Anzahl der Zahlen pro Token, bei großen Modellen oft mehrere Tausend. Unsere Karte zeigt nur zwei.'],
    ['Ähnlichkeit','Wie nah sich zwei Embeddings sind, misst man meist über den Winkel zwischen ihnen (Kosinus-Ähnlichkeit).'],
@@ -788,18 +787,17 @@ stations:[
 {id:'wortkarte',part:'a',short:'Word map',
  q:'How can a machine calculate with meaning?',
  text:['Every token is translated into a long list of numbers, an <b>embedding</b>. Think of it as an address on a map of meanings. Words that appear in similar contexts end up close together.',
-       'Real models use not two but thousands of coordinates per token. That way even directions carry meaning, for example “male to female” or “country to capital”.'],
+       'Real models use not two but thousands of coordinates per token. That way even directions carry meaning, for example “male to female” or “country to capital”.',
+       '<b>Why this matters:</b> Nobody calculates “King − Man + Woman” in everyday life. But the example shows that a model learns relationships between words as directions, without anyone giving it a list. That is why, for example, a search for “car” also finds results about “automobile”, and why an AI can apply a pattern like “country → capital” to new cases.'],
  lab:{type:'map',title:'Try it: the map of meanings',
-   intro:'Tap a word to see its nearest neighbours. The numbers in brackets are the distances.',
-   words:[['Dog',14,90],['Cat',34,80],['Horse',12,68],['Puppy',32,58],['Pizza',66,90],['Pasta',86,78],['Salad',64,66],['Bread',84,56],
-     ['Meeting',64,40],['Email',86,27],['Calendar',62,22],['Report',86,12],['King',14,40],['Queen',38,40],['Man',14,16],['Woman',38,16]],
+   intro:'Tap a word to see its nearest neighbours. The numbers in brackets are the distances. Or solve a riddle the way the AI does.',
+   words:[['Dog',14,92],['Puppy',14,78],['Cat',44,92],['Kitten',44,78],['Horse',29,64],['Pizza',76,92],['Pasta',86,78],['Salad',66,64],['Bread',88,64],['Meeting',76,49],['Email',76,35],['Calendar',76,21],['Report',76,8],['King',14,36],['Queen',42,36],['Man',14,12],['Woman',42,12]],
    pick:'Tap a word on the map.',
    near:(w,c,list)=>`<b>${w}</b> ${c}: the nearest neighbours are ${list}.`,
-   calc:['King','Man','Woman'],
-   calcBtn:'Calculate: King − Man + Woman = ?',
+   riddles:[{calc:['King','Man','Woman'],btn:'Riddle: Man is to Woman as King is to …?',dir:'male → female'},{calc:['Cat','Dog','Puppy'],btn:'Riddle: Dog is to Puppy as Cat is to …?',dir:'animal → young animal'}],
    stepsBtn:'Show the calculation step by step',
-   steps:(A,B,C,R,dx,dy)=>[`Every word has an address made of two numbers: <b>${B[0]}</b> is at (${B[1]} | ${B[2]}), <b>${C[0]}</b> at (${C[1]} | ${C[2]}).`,`The way from ${B[0]} to ${C[0]} is the <span class="k-dir">blue arrow</span>: ${C[1]} − ${B[1]} = ${dx} to the right and ${C[2]} − ${B[2]} = ${dy} up. It stands for “male → female”.`,`We place the same arrow at <b>${A[0]}</b>, that is the <span class="k-go">red arrow</span>: ${A[1]} + ${dx} = ${A[1]+dx} and ${A[2]} + ${dy} = ${A[2]+dy}.`,`At the point (${A[1]+dx} | ${A[2]+dy}) lies <b>${R}</b>. That is exactly what “${A[0]} − ${B[0]} + ${C[0]}” means: from ${A[0]} you take the same path as from ${B[0]} to ${C[0]}.`],
-   calcOut:(eq,res)=>`${eq}. The nearest point there is <b>${res}</b>. Calculating with meanings works because the direction “man → woman” is similar everywhere on the map.`},
+   steps:(A,B,C,R,dx,dy,dir)=>{const n=v=>String(v).replace('-','−');const mv=[dx?`${C[1]} − ${B[1]} = ${n(dx)}, so ${Math.abs(dx)} ${dx>0?'to the right':'to the left'}`:'',dy?`${C[2]} − ${B[2]} = ${n(dy)}, so ${Math.abs(dy)} ${dy>0?'up':'down'}`:''].filter(Boolean).join(' and ');const go=[dx?`${A[1]} ${dx<0?'−':'+'} ${Math.abs(dx)} = ${A[1]+dx}`:'',dy?`${A[2]} ${dy<0?'−':'+'} ${Math.abs(dy)} = ${A[2]+dy}`:''].filter(Boolean).join(' and ');return [`Every word has an address made of two numbers: <b>${B[0]}</b> is at (${B[1]} | ${B[2]}), <b>${C[0]}</b> at (${C[1]} | ${C[2]}).`,`The way from ${B[0]} to ${C[0]} is the <span class="k-dir">blue arrow</span>: ${mv}. It stands for the direction “${dir}”.`,`We place the same arrow at <b>${A[0]}</b>, that is the <span class="k-go">red arrow</span>: ${go}.`,`At the point (${A[1]+dx} | ${A[2]+dy}) lies <b>${R}</b>. In technical terms this is written as a calculation: ${A[0]} − ${B[0]} + ${C[0]} ≈ ${R}.`]},
+   calcOut:(A,B,C,R,dir)=>`Answer: <b>${R}</b>. The AI takes the same path from ${A} as from ${B} to ${C}, in the direction “${dir}”. This works because that direction is similar everywhere on the map.`},
  hood:[['Embedding','The list of numbers that represents a token inside the model. It is learned during training.'],
    ['Dimensions','The number of values per token, often several thousand in large models. Our map shows only two.'],
    ['Similarity','How close two embeddings are is usually measured by the angle between them (cosine similarity).'],
@@ -1153,18 +1151,17 @@ stations:[
 {id:'wortkarte',part:'a',short:'Carte des mots',
  q:'Comment une machine peut-elle calculer avec le sens ?',
  text:['Chaque jeton est traduit en une longue liste de nombres, un <b>embedding</b> (plongement). On peut l’imaginer comme une adresse sur une carte des significations. Les mots qui apparaissent dans des contextes semblables se retrouvent proches.',
-       'Les vrais modèles n’utilisent pas deux coordonnées mais des milliers par jeton. Ainsi, même des directions portent un sens, par exemple « masculin vers féminin » ou « pays vers capitale ».'],
+       'Les vrais modèles n’utilisent pas deux coordonnées mais des milliers par jeton. Ainsi, même des directions portent un sens, par exemple « masculin vers féminin » ou « pays vers capitale ».',
+       '<b>À quoi ça sert :</b> personne ne calcule « Roi − Homme + Femme » au quotidien. Mais l’exemple montre qu’un modèle apprend les relations entre les mots sous forme de directions, sans que personne lui donne de liste. C’est pour cela, par exemple, qu’une recherche sur « voiture » trouve aussi des résultats sur « automobile » et qu’une IA applique un schéma comme « pays → capitale » à de nouveaux cas.'],
  lab:{type:'map',title:'À essayer : la carte des significations',
-   intro:'Touche un mot pour voir ses plus proches voisins. Les nombres entre parenthèses sont les distances.',
-   words:[['Chien',14,90],['Chat',34,80],['Cheval',12,68],['Chiot',32,58],['Pizza',66,90],['Pâtes',86,78],['Salade',64,66],['Pain',84,56],
-     ['Réunion',64,40],['E-mail',86,27],['Agenda',62,22],['Rapport',86,12],['Roi',14,40],['Reine',38,40],['Homme',14,16],['Femme',38,16]],
+   intro:'Touche un mot pour voir ses plus proches voisins. Les nombres entre parenthèses sont les distances. Ou résous une énigme comme le fait l’IA.',
+   words:[['Chien',14,92],['Chiot',14,78],['Chat',44,92],['Chaton',44,78],['Cheval',29,64],['Pizza',76,92],['Pâtes',86,78],['Salade',66,64],['Pain',88,64],['Réunion',76,49],['E-mail',76,35],['Agenda',76,21],['Rapport',76,8],['Roi',14,36],['Reine',42,36],['Homme',14,12],['Femme',42,12]],
    pick:'Touche un mot sur la carte.',
    near:(w,c,list)=>`<b>${w}</b> ${c} : les plus proches voisins sont ${list}.`,
-   calc:['Roi','Homme','Femme'],
-   calcBtn:'Calculer : Roi − Homme + Femme = ?',
+   riddles:[{calc:['Roi','Homme','Femme'],btn:'Énigme : Homme est à Femme ce que Roi est à … ?',dir:'masculin → féminin'},{calc:['Chat','Chien','Chiot'],btn:'Énigme : Chien est à Chiot ce que Chat est à … ?',dir:'animal → petit'}],
    stepsBtn:'Voir le calcul étape par étape',
-   steps:(A,B,C,R,dx,dy)=>[`Chaque mot a une adresse faite de deux nombres : <b>${B[0]}</b> se trouve en (${B[1]} | ${B[2]}), <b>${C[0]}</b> en (${C[1]} | ${C[2]}).`,`Le chemin de ${B[0]} à ${C[0]} est la <span class="k-dir">flèche bleue</span> : ${C[1]} − ${B[1]} = ${dx} vers la droite et ${C[2]} − ${B[2]} = ${dy} vers le haut. Elle représente « masculin → féminin ».`,`On place la même flèche sur <b>${A[0]}</b>, c’est la <span class="k-go">flèche rouge</span> : ${A[1]} + ${dx} = ${A[1]+dx} et ${A[2]} + ${dy} = ${A[2]+dy}.`,`Au point (${A[1]+dx} | ${A[2]+dy}) se trouve <b>${R}</b>. C’est exactement ce que veut dire « ${A[0]} − ${B[0]} + ${C[0]} » : depuis ${A[0]}, on fait le même chemin que de ${B[0]} à ${C[0]}.`],
-   calcOut:(eq,res)=>`${eq}. Le point le plus proche est <b>${res}</b>. Calculer avec le sens fonctionne parce que la direction « homme → femme » est semblable partout sur la carte.`},
+   steps:(A,B,C,R,dx,dy,dir)=>{const n=v=>String(v).replace('-','−');const mv=[dx?`${C[1]} − ${B[1]} = ${n(dx)}, soit ${Math.abs(dx)} ${dx>0?'vers la droite':'vers la gauche'}`:'',dy?`${C[2]} − ${B[2]} = ${n(dy)}, soit ${Math.abs(dy)} ${dy>0?'vers le haut':'vers le bas'}`:''].filter(Boolean).join(' et ');const go=[dx?`${A[1]} ${dx<0?'−':'+'} ${Math.abs(dx)} = ${A[1]+dx}`:'',dy?`${A[2]} ${dy<0?'−':'+'} ${Math.abs(dy)} = ${A[2]+dy}`:''].filter(Boolean).join(' et ');return [`Chaque mot a une adresse faite de deux nombres : <b>${B[0]}</b> se trouve en (${B[1]} | ${B[2]}), <b>${C[0]}</b> en (${C[1]} | ${C[2]}).`,`Le chemin de ${B[0]} à ${C[0]} est la <span class="k-dir">flèche bleue</span> : ${mv}. Elle représente la direction « ${dir} ».`,`On place la même flèche sur <b>${A[0]}</b>, c’est la <span class="k-go">flèche rouge</span> : ${go}.`,`Au point (${A[1]+dx} | ${A[2]+dy}) se trouve <b>${R}</b>. En langage technique, on l’écrit comme un calcul : ${A[0]} − ${B[0]} + ${C[0]} ≈ ${R}.`]},
+   calcOut:(A,B,C,R,dir)=>`Réponse : <b>${R}</b>. L’IA fait depuis ${A} le même chemin que de ${B} à ${C}, dans la direction « ${dir} ». Cela marche parce que cette direction est semblable partout sur la carte.`},
  hood:[['Embedding (plongement)','La liste de nombres qui représente un jeton dans le modèle. Elle est apprise pendant l’entraînement.'],
    ['Dimensions','Le nombre de valeurs par jeton, souvent plusieurs milliers dans les grands modèles. Notre carte n’en montre que deux.'],
    ['Similarité','La proximité de deux embeddings se mesure le plus souvent par l’angle entre eux (similarité cosinus).'],
@@ -1518,18 +1515,17 @@ stations:[
 {id:'wortkarte',part:'a',short:'Mappa delle parole',
  q:'Come può una macchina calcolare con il significato?',
  text:['Ogni token viene tradotto in una lunga lista di numeri, un <b>embedding</b>. Puoi immaginarlo come un indirizzo su una mappa dei significati. Le parole che compaiono in contesti simili finiscono vicine.',
-       'I modelli veri non usano due coordinate, ma migliaia per token. Così anche le direzioni hanno un significato, per esempio «da maschile a femminile» o «da paese a capitale».'],
+       'I modelli veri non usano due coordinate, ma migliaia per token. Così anche le direzioni hanno un significato, per esempio «da maschile a femminile» o «da paese a capitale».',
+       '<b>A che cosa serve:</b> nessuno calcola «Re − Uomo + Donna» nella vita di tutti i giorni. L’esempio però mostra che un modello impara le relazioni tra le parole come direzioni, senza che nessuno gli dia un elenco. Per questo, per esempio, una ricerca su «macchina» trova anche risultati su «automobile» e un’IA applica uno schema come «paese → capitale» a casi nuovi.'],
  lab:{type:'map',title:'Prova: la mappa dei significati',
-   intro:'Tocca una parola per vedere i suoi vicini più prossimi. I numeri tra parentesi sono le distanze.',
-   words:[['Cane',14,90],['Gatto',34,80],['Cavallo',12,68],['Cucciolo',32,58],['Pizza',66,90],['Pasta',86,78],['Insalata',64,66],['Pane',84,56],
-     ['Riunione',64,40],['E-mail',86,27],['Agenda',62,22],['Rapporto',86,12],['Re',14,40],['Regina',38,40],['Uomo',14,16],['Donna',38,16]],
+   intro:'Tocca una parola per vedere i suoi vicini più prossimi. I numeri tra parentesi sono le distanze. Oppure risolvi un indovinello come fa l’IA.',
+   words:[['Cane',14,92],['Cucciolo',14,78],['Gatto',44,92],['Gattino',44,78],['Cavallo',29,64],['Pizza',76,92],['Pasta',86,78],['Insalata',66,64],['Pane',88,64],['Riunione',76,49],['E-mail',76,35],['Agenda',76,21],['Rapporto',76,8],['Re',14,36],['Regina',42,36],['Uomo',14,12],['Donna',42,12]],
    pick:'Tocca una parola sulla mappa.',
    near:(w,c,list)=>`<b>${w}</b> ${c}: i vicini più prossimi sono ${list}.`,
-   calc:['Re','Uomo','Donna'],
-   calcBtn:'Calcola: Re − Uomo + Donna = ?',
+   riddles:[{calc:['Re','Uomo','Donna'],btn:'Indovinello: Uomo sta a Donna come Re sta a …?',dir:'maschile → femminile'},{calc:['Gatto','Cane','Cucciolo'],btn:'Indovinello: Cane sta a Cucciolo come Gatto sta a …?',dir:'animale → cucciolo'}],
    stepsBtn:'Mostra il calcolo passo dopo passo',
-   steps:(A,B,C,R,dx,dy)=>[`Ogni parola ha un indirizzo fatto di due numeri: <b>${B[0]}</b> si trova in (${B[1]} | ${B[2]}), <b>${C[0]}</b> in (${C[1]} | ${C[2]}).`,`Il percorso da ${B[0]} a ${C[0]} è la <span class="k-dir">freccia blu</span>: ${C[1]} − ${B[1]} = ${dx} a destra e ${C[2]} − ${B[2]} = ${dy} in alto. Rappresenta «maschile → femminile».`,`Mettiamo la stessa freccia su <b>${A[0]}</b>, è la <span class="k-go">freccia rossa</span>: ${A[1]} + ${dx} = ${A[1]+dx} e ${A[2]} + ${dy} = ${A[2]+dy}.`,`Nel punto (${A[1]+dx} | ${A[2]+dy}) c’è <b>${R}</b>. È proprio questo che significa «${A[0]} − ${B[0]} + ${C[0]}»: da ${A[0]} si fa lo stesso percorso che da ${B[0]} a ${C[0]}.`],
-   calcOut:(eq,res)=>`${eq}. Il punto più vicino lì è <b>${res}</b>. Calcolare con i significati funziona perché la direzione «uomo → donna» è simile ovunque sulla mappa.`},
+   steps:(A,B,C,R,dx,dy,dir)=>{const n=v=>String(v).replace('-','−');const mv=[dx?`${C[1]} − ${B[1]} = ${n(dx)}, cioè ${Math.abs(dx)} ${dx>0?'a destra':'a sinistra'}`:'',dy?`${C[2]} − ${B[2]} = ${n(dy)}, cioè ${Math.abs(dy)} ${dy>0?'in alto':'in basso'}`:''].filter(Boolean).join(' e ');const go=[dx?`${A[1]} ${dx<0?'−':'+'} ${Math.abs(dx)} = ${A[1]+dx}`:'',dy?`${A[2]} ${dy<0?'−':'+'} ${Math.abs(dy)} = ${A[2]+dy}`:''].filter(Boolean).join(' e ');return [`Ogni parola ha un indirizzo fatto di due numeri: <b>${B[0]}</b> si trova in (${B[1]} | ${B[2]}), <b>${C[0]}</b> in (${C[1]} | ${C[2]}).`,`Il percorso da ${B[0]} a ${C[0]} è la <span class="k-dir">freccia blu</span>: ${mv}. Rappresenta la direzione «${dir}».`,`Mettiamo la stessa freccia su <b>${A[0]}</b>, è la <span class="k-go">freccia rossa</span>: ${go}.`,`Nel punto (${A[1]+dx} | ${A[2]+dy}) c’è <b>${R}</b>. In linguaggio tecnico lo si scrive come un calcolo: ${A[0]} − ${B[0]} + ${C[0]} ≈ ${R}.`]},
+   calcOut:(A,B,C,R,dir)=>`Soluzione: <b>${R}</b>. L’IA fa da ${A} lo stesso percorso che da ${B} a ${C}, nella direzione «${dir}». Funziona perché questa direzione è simile ovunque sulla mappa.`},
  hood:[['Embedding','La lista di numeri che rappresenta un token nel modello. Viene appresa durante l’addestramento.'],
    ['Dimensioni','Il numero di valori per token, spesso diverse migliaia nei grandi modelli. La nostra mappa ne mostra solo due.'],
    ['Somiglianza','Quanto due embedding sono vicini si misura di solito con l’angolo tra loro (similarità del coseno).'],
@@ -1883,18 +1879,17 @@ stations:[
 {id:'wortkarte',part:'a',short:'Mapa de palabras',
  q:'¿Cómo puede una máquina calcular con el significado?',
  text:['Cada token se traduce en una larga lista de números, un <b>embedding</b>. Puedes imaginarlo como una dirección en un mapa de significados. Las palabras que aparecen en contextos parecidos acaban cerca unas de otras.',
-       'Los modelos reales no usan dos coordenadas, sino miles por token. Así, hasta las direcciones tienen significado, por ejemplo «de masculino a femenino» o «de país a capital».'],
+       'Los modelos reales no usan dos coordenadas, sino miles por token. Así, hasta las direcciones tienen significado, por ejemplo «de masculino a femenino» o «de país a capital».',
+       '<b>Para qué sirve:</b> nadie calcula «Rey − Hombre + Mujer» en el día a día. Pero el ejemplo muestra que un modelo aprende las relaciones entre palabras como direcciones, sin que nadie le dé una lista. Por eso, por ejemplo, una búsqueda de «coche» también encuentra resultados sobre «automóvil» y una IA aplica un patrón como «país → capital» a casos nuevos.'],
  lab:{type:'map',title:'Pruébalo: el mapa de significados',
-   intro:'Toca una palabra para ver sus vecinas más cercanas. Los números entre paréntesis son las distancias.',
-   words:[['Perro',14,90],['Gato',34,80],['Caballo',12,68],['Cachorro',32,58],['Pizza',66,90],['Pasta',86,78],['Ensalada',64,66],['Pan',84,56],
-     ['Reunión',64,40],['Correo',86,27],['Agenda',62,22],['Informe',86,12],['Rey',14,40],['Reina',38,40],['Hombre',14,16],['Mujer',38,16]],
+   intro:'Toca una palabra para ver sus vecinas más cercanas. Los números entre paréntesis son las distancias. O resuelve un acertijo como lo hace la IA.',
+   words:[['Perro',14,92],['Cachorro',14,78],['Gato',44,92],['Gatito',44,78],['Caballo',29,64],['Pizza',76,92],['Pasta',86,78],['Ensalada',66,64],['Pan',88,64],['Reunión',76,49],['Correo',76,35],['Agenda',76,21],['Informe',76,8],['Rey',14,36],['Reina',42,36],['Hombre',14,12],['Mujer',42,12]],
    pick:'Toca una palabra del mapa.',
    near:(w,c,list)=>`<b>${w}</b> ${c}: las vecinas más cercanas son ${list}.`,
-   calc:['Rey','Hombre','Mujer'],
-   calcBtn:'Calcular: Rey − Hombre + Mujer = ?',
+   riddles:[{calc:['Rey','Hombre','Mujer'],btn:'Acertijo: Hombre es a Mujer lo que Rey es a …?',dir:'masculino → femenino'},{calc:['Gato','Perro','Cachorro'],btn:'Acertijo: Perro es a Cachorro lo que Gato es a …?',dir:'animal → cría'}],
    stepsBtn:'Ver el cálculo paso a paso',
-   steps:(A,B,C,R,dx,dy)=>[`Cada palabra tiene una dirección de dos números: <b>${B[0]}</b> está en (${B[1]} | ${B[2]}), <b>${C[0]}</b> en (${C[1]} | ${C[2]}).`,`El camino de ${B[0]} a ${C[0]} es la <span class="k-dir">flecha azul</span>: ${C[1]} − ${B[1]} = ${dx} a la derecha y ${C[2]} − ${B[2]} = ${dy} hacia arriba. Representa «masculino → femenino».`,`Ponemos la misma flecha en <b>${A[0]}</b>, es la <span class="k-go">flecha roja</span>: ${A[1]} + ${dx} = ${A[1]+dx} y ${A[2]} + ${dy} = ${A[2]+dy}.`,`En el punto (${A[1]+dx} | ${A[2]+dy}) está <b>${R}</b>. Eso es justo lo que significa «${A[0]} − ${B[0]} + ${C[0]}»: desde ${A[0]} se recorre el mismo camino que de ${B[0]} a ${C[0]}.`],
-   calcOut:(eq,res)=>`${eq}. El punto más cercano ahí es <b>${res}</b>. Calcular con significados funciona porque la dirección «hombre → mujer» es parecida en todo el mapa.`},
+   steps:(A,B,C,R,dx,dy,dir)=>{const n=v=>String(v).replace('-','−');const mv=[dx?`${C[1]} − ${B[1]} = ${n(dx)}, o sea ${Math.abs(dx)} ${dx>0?'a la derecha':'a la izquierda'}`:'',dy?`${C[2]} − ${B[2]} = ${n(dy)}, o sea ${Math.abs(dy)} ${dy>0?'hacia arriba':'hacia abajo'}`:''].filter(Boolean).join(' y ');const go=[dx?`${A[1]} ${dx<0?'−':'+'} ${Math.abs(dx)} = ${A[1]+dx}`:'',dy?`${A[2]} ${dy<0?'−':'+'} ${Math.abs(dy)} = ${A[2]+dy}`:''].filter(Boolean).join(' y ');return [`Cada palabra tiene una dirección de dos números: <b>${B[0]}</b> está en (${B[1]} | ${B[2]}), <b>${C[0]}</b> en (${C[1]} | ${C[2]}).`,`El camino de ${B[0]} a ${C[0]} es la <span class="k-dir">flecha azul</span>: ${mv}. Representa la dirección «${dir}».`,`Ponemos la misma flecha en <b>${A[0]}</b>, es la <span class="k-go">flecha roja</span>: ${go}.`,`En el punto (${A[1]+dx} | ${A[2]+dy}) está <b>${R}</b>. En lenguaje técnico se escribe como un cálculo: ${A[0]} − ${B[0]} + ${C[0]} ≈ ${R}.`]},
+   calcOut:(A,B,C,R,dir)=>`Solución: <b>${R}</b>. La IA recorre desde ${A} el mismo camino que de ${B} a ${C}, en la dirección «${dir}». Funciona porque esa dirección es parecida en todo el mapa.`},
  hood:[['Embedding','La lista de números que representa un token dentro del modelo. Se aprende durante el entrenamiento.'],
    ['Dimensiones','La cantidad de valores por token, a menudo varios miles en los modelos grandes. Nuestro mapa solo muestra dos.'],
    ['Similitud','Lo cerca que están dos embeddings se suele medir por el ángulo entre ellos (similitud del coseno).'],
@@ -2248,18 +2243,17 @@ stations:[
 {id:'wortkarte',part:'a',short:'Woordkaart',
  q:'Hoe kan een machine rekenen met betekenis?',
  text:['Elk token wordt vertaald in een lange lijst getallen, een <b>embedding</b>. Je kunt het zien als een adres op een kaart van betekenissen. Woorden die in vergelijkbare samenhang voorkomen, komen dicht bij elkaar terecht.',
-       'Echte modellen gebruiken niet twee maar duizenden coördinaten per token. Daardoor dragen zelfs richtingen betekenis, bijvoorbeeld „mannelijk naar vrouwelijk” of „land naar hoofdstad”.'],
+       'Echte modellen gebruiken niet twee maar duizenden coördinaten per token. Daardoor dragen zelfs richtingen betekenis, bijvoorbeeld „mannelijk naar vrouwelijk” of „land naar hoofdstad”.',
+       '<b>Waar is dit goed voor?</b> Niemand rekent in het dagelijks leven „Koning − Man + Vrouw”. Het voorbeeld laat wel zien dat een model verbanden tussen woorden als richtingen leert, zonder dat iemand het een lijst geeft. Daardoor vindt een zoekopdracht naar „wagen” bijvoorbeeld ook resultaten over „auto”, en past een AI een patroon als „land → hoofdstad” toe op nieuwe gevallen.'],
  lab:{type:'map',title:'Probeer het: de betekeniskaart',
-   intro:'Tik op een woord om zijn naaste buren te zien. De getallen tussen haakjes zijn de afstanden.',
-   words:[['Hond',14,90],['Kat',34,80],['Paard',12,68],['Puppy',32,58],['Pizza',66,90],['Pasta',86,78],['Salade',64,66],['Brood',84,56],
-     ['Overleg',64,40],['E-mail',86,27],['Agenda',62,22],['Verslag',86,12],['Koning',14,40],['Koningin',38,40],['Man',14,16],['Vrouw',38,16]],
+   intro:'Tik op een woord om zijn naaste buren te zien. De getallen tussen haakjes zijn de afstanden. Of los een raadsel op zoals de AI dat doet.',
+   words:[['Hond',14,92],['Puppy',14,78],['Kat',44,92],['Kitten',44,78],['Paard',29,64],['Pizza',76,92],['Pasta',86,78],['Salade',66,64],['Brood',88,64],['Overleg',76,49],['E-mail',76,35],['Agenda',76,21],['Verslag',76,8],['Koning',14,36],['Koningin',42,36],['Man',14,12],['Vrouw',42,12]],
    pick:'Tik op een woord op de kaart.',
    near:(w,c,list)=>`<b>${w}</b> ${c}: de naaste buren zijn ${list}.`,
-   calc:['Koning','Man','Vrouw'],
-   calcBtn:'Reken: Koning − Man + Vrouw = ?',
+   riddles:[{calc:['Koning','Man','Vrouw'],btn:'Raadsel: Man staat tot Vrouw als Koning tot …?',dir:'mannelijk → vrouwelijk'},{calc:['Kat','Hond','Puppy'],btn:'Raadsel: Hond staat tot Puppy als Kat tot …?',dir:'dier → jong dier'}],
    stepsBtn:'Berekening stap voor stap',
-   steps:(A,B,C,R,dx,dy)=>[`Elk woord heeft een adres van twee getallen: <b>${B[0]}</b> ligt bij (${B[1]} | ${B[2]}), <b>${C[0]}</b> bij (${C[1]} | ${C[2]}).`,`De weg van ${B[0]} naar ${C[0]} is de <span class="k-dir">blauwe pijl</span>: ${C[1]} − ${B[1]} = ${dx} naar rechts en ${C[2]} − ${B[2]} = ${dy} omhoog. Die staat voor „mannelijk → vrouwelijk”.`,`Dezelfde pijl zetten we bij <b>${A[0]}</b> neer, dat is de <span class="k-go">rode pijl</span>: ${A[1]} + ${dx} = ${A[1]+dx} en ${A[2]} + ${dy} = ${A[2]+dy}.`,`Bij het punt (${A[1]+dx} | ${A[2]+dy}) ligt <b>${R}</b>. Precies dat betekent „${A[0]} − ${B[0]} + ${C[0]}”: vanaf ${A[0]} ga je dezelfde weg als van ${B[0]} naar ${C[0]}.`],
-   calcOut:(eq,res)=>`${eq}. Het dichtstbijzijnde punt daar is <b>${res}</b>. Rekenen met betekenis werkt omdat de richting „man → vrouw” overal op de kaart ongeveer gelijk is.`},
+   steps:(A,B,C,R,dx,dy,dir)=>{const n=v=>String(v).replace('-','−');const mv=[dx?`${C[1]} − ${B[1]} = ${n(dx)}, dus ${Math.abs(dx)} ${dx>0?'naar rechts':'naar links'}`:'',dy?`${C[2]} − ${B[2]} = ${n(dy)}, dus ${Math.abs(dy)} ${dy>0?'omhoog':'omlaag'}`:''].filter(Boolean).join(' en ');const go=[dx?`${A[1]} ${dx<0?'−':'+'} ${Math.abs(dx)} = ${A[1]+dx}`:'',dy?`${A[2]} ${dy<0?'−':'+'} ${Math.abs(dy)} = ${A[2]+dy}`:''].filter(Boolean).join(' en ');return [`Elk woord heeft een adres van twee getallen: <b>${B[0]}</b> ligt bij (${B[1]} | ${B[2]}), <b>${C[0]}</b> bij (${C[1]} | ${C[2]}).`,`De weg van ${B[0]} naar ${C[0]} is de <span class="k-dir">blauwe pijl</span>: ${mv}. Die staat voor de richting „${dir}”.`,`Dezelfde pijl zetten we bij <b>${A[0]}</b> neer, dat is de <span class="k-go">rode pijl</span>: ${go}.`,`Bij het punt (${A[1]+dx} | ${A[2]+dy}) ligt <b>${R}</b>. In vaktaal schrijf je dat als een som: ${A[0]} − ${B[0]} + ${C[0]} ≈ ${R}.`]},
+   calcOut:(A,B,C,R,dir)=>`Oplossing: <b>${R}</b>. De AI gaat vanaf ${A} dezelfde weg als van ${B} naar ${C}, in de richting „${dir}”. Dat werkt omdat die richting overal op de kaart ongeveer gelijk is.`},
  hood:[['Embedding','De lijst getallen die een token in het model voorstelt. Die wordt tijdens de training meegeleerd.'],
    ['Dimensies','Het aantal getallen per token, bij grote modellen vaak enkele duizenden. Onze kaart laat er maar twee zien.'],
    ['Gelijkenis','Hoe dicht twee embeddings bij elkaar liggen, meet je meestal via de hoek ertussen (cosinusgelijkenis).'],
@@ -2671,12 +2665,13 @@ LAB.map={
   html:(d,id)=>`<p class="small">${d.intro}</p>
     <div class="map" id="${id}-map"><svg class="arrows" id="${id}-svg" aria-hidden="true"></svg>${d.words.map(([w,x,y],i)=>`<button class="mw" data-i="${i}" style="left:${x}%;top:${100-y}%">${esc(w)}</button>`).join('')}<span class="mark" id="${id}-mark" hidden></span></div>
     <p id="${id}-out" aria-live="polite">${d.pick}</p>
-    <div class="row"><button class="btn teal" id="${id}-calc">${esc(d.calcBtn)}</button><button class="btn" id="${id}-steps" aria-pressed="false" hidden>${esc(d.stepsBtn)}</button></div>
+    <div class="row" id="${id}-rid" role="group">${d.riddles.map((r,k)=>`<button class="btn teal" data-r="${k}" aria-pressed="false">${esc(r.btn)}</button>`).join('')}</div>
+    <div class="row"><button class="btn" id="${id}-steps" aria-pressed="false" hidden>${esc(d.stepsBtn)}</button></div>
     <ol class="calcsteps" id="${id}-list" hidden></ol>`,
   bind(d,id){const W=d.words,dist=(a,b)=>Math.hypot(a[0]-b[0],a[1]-b[1]),fmt=n=>Math.round(n);let last=null;
     const svg=$(`#${id}-svg`),mapEl=$(`#${id}-map`);
     const clear=()=>{$$(`#${id}-map .mw`).forEach(b=>b.classList.remove('sel','near','res'));$(`#${id}-mark`).hidden=true;svg.innerHTML='';last=null;
-      $(`#${id}-steps`).hidden=true;$(`#${id}-list`).hidden=true;$(`#${id}-steps`).setAttribute('aria-pressed','false')};
+      $(`#${id}-steps`).hidden=true;$(`#${id}-list`).hidden=true;$(`#${id}-steps`).setAttribute('aria-pressed','false');press(`#${id}-rid .btn`,()=>false)};
     /* Pfeile in Bildschirm-Pixeln, damit die Spitzen nicht verzerrt werden */
     const arrows=()=>{if(!last||!mapEl.isConnected)return;const r=mapEl.getBoundingClientRect(),X=x=>x/100*r.width,Y=y=>(100-y)/100*r.height;
       svg.setAttribute('viewBox',`0 0 ${r.width} ${r.height}`);
@@ -2691,15 +2686,17 @@ LAB.map={
       const nn=W.map((w,j)=>[j,dist(p,[w[1],w[2]])]).filter(([j])=>j!==i).sort((a,b)=>a[1]-b[1]).slice(0,3);
       nn.forEach(([j])=>$(`#${id}-map .mw[data-i="${j}"]`).classList.add('near'));
       $(`#${id}-out`).innerHTML=d.near(esc(W[i][0]),`(${W[i][1]}${u.coordSep}${W[i][2]})`,nn.map(([j,dd])=>`<b>${esc(W[j][0])}</b> (${fmt(dd)})`).join(', '))});
-    $(`#${id}-calc`).onclick=()=>{clear();const g=n=>W.find(w=>w[0]===n),[a,b,c]=d.calc.map(g);
-      const p=[a[1]-b[1]+c[1],a[2]-b[2]+c[2]],best=W.filter(w=>!d.calc.includes(w[0])).sort((x,y)=>dist(p,[x[1],x[2]])-dist(p,[y[1],y[2]]))[0];
+    /* Rätsel „B verhält sich zu C wie A zu …?“: von A denselben Weg gehen wie von B nach C (A − B + C) */
+    $$(`#${id}-rid .btn`).forEach(btn=>btn.onclick=()=>{clear();const r=d.riddles[+btn.dataset.r];press(`#${id}-rid .btn`,x=>x===btn);
+      const g=n=>W.find(w=>w[0]===n),[a,b,c]=r.calc.map(g);
+      const p=[a[1]-b[1]+c[1],a[2]-b[2]+c[2]],best=W.filter(w=>!r.calc.includes(w[0])).sort((x,y)=>dist(p,[x[1],x[2]])-dist(p,[y[1],y[2]]))[0];
       const m=$(`#${id}-mark`);m.style.left=p[0]+'%';m.style.top=(100-p[1])+'%';m.hidden=false;
-      d.calc.forEach(n=>$(`#${id}-map .mw[data-i="${W.indexOf(g(n))}"]`).classList.add('near'));
+      r.calc.forEach(n=>$(`#${id}-map .mw[data-i="${W.indexOf(g(n))}"]`).classList.add('near'));
       $(`#${id}-map .mw[data-i="${W.indexOf(best)}"]`).classList.add('res');
       last=[a,b,c,p];arrows();
-      $(`#${id}-list`).innerHTML=d.steps(a,b,c,best[0],c[1]-b[1],c[2]-b[2]).map(x=>`<li>${x}</li>`).join('');
+      $(`#${id}-list`).innerHTML=d.steps(a,b,c,best[0],c[1]-b[1],c[2]-b[2],r.dir).map(x=>`<li>${x}</li>`).join('');
       $(`#${id}-steps`).hidden=false;
-      $(`#${id}-out`).innerHTML=d.calcOut(`(${a[1]}${u.coordSep}${a[2]}) − (${b[1]}${u.coordSep}${b[2]}) + (${c[1]}${u.coordSep}${c[2]}) = (${p[0]}${u.coordSep}${p[1]})`,esc(best[0]))};
+      $(`#${id}-out`).innerHTML=d.calcOut(esc(a[0]),esc(b[0]),esc(c[0]),esc(best[0]),r.dir)});
     $(`#${id}-steps`).onclick=e=>{const l=$(`#${id}-list`);l.hidden=!l.hidden;e.currentTarget.setAttribute('aria-pressed',String(!l.hidden))}}};
 
 /* Aufmerksamkeit: worauf ein Wort schaut */

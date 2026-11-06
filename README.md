@@ -101,7 +101,7 @@ will, klappt bei jeder Station „Unter der Haube“ auf.
 | **Teil 1: So funktioniert ein Sprachmodell** | | |
 | 1. Training | Wie lernt ein Sprachmodell aus Text? | Ein Mini-Modell liest Sätze und lernt, welches Wort folgt. |
 | 2. Tokens | Warum zählt die KI in Tokens, und warum kostet Deutsch mehr? | Eigenen Text zerlegen; schätzen, welche Sprache mehr Tokens braucht. |
-| 3. Wortkarte | Wie kann eine Maschine mit Bedeutung rechnen? | Nachbarn auf einer Bedeutungskarte; König − Mann + Frau = ?, mit Pfeilen auf der Karte und Rechenweg Schritt für Schritt zum Aufklappen. |
+| 3. Wortkarte | Wie kann eine Maschine mit Bedeutung rechnen? | Nachbarn auf einer Bedeutungskarte und zwei Analogie-Rätsel („Mann verhält sich zu Frau wie König zu …?“, „Hund verhält sich zu Welpe wie Katze zu …?“), gelöst mit Pfeilen auf der Karte; der Rechenweg lässt sich Schritt für Schritt aufklappen. |
 | 4. Aufmerksamkeit | Woher weiß das Modell, worauf sich ein Wort bezieht? | Sehen, worauf „sie“ oder „er“ im Satz schaut. |
 | 5. Kontextfenster | Warum vergisst die KI, was am Anfang stand? | Das Fenster verkleinern, bis die KI etwas erfindet. |
 | 6. Zufall | Warum bekommt dieselbe Frage zwei Antworten? | Temperaturregler, Antworten würfeln, passende Einstellung wählen. |
