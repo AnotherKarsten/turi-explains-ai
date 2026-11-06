@@ -240,7 +240,13 @@ function pruefeHaubePakete() {
       if (ref.stations[i] && (s.id !== ref.stations[i].id || s.lab.type !== ref.stations[i].lab.type)) errs.push(`${l}: Station ${i + 1} weicht ab (${s.id})`);
       if (s.lab.type === 'confidence') s.lab.prompts.forEach((p, k) => { const sum = p.opts.reduce((a, o) => a + o[1], 0); if (Math.abs(sum - 1) > .011) errs.push(`${l}: ${s.id} Frage ${k + 1}: Summe ${sum}`); });
       if (s.lab.type === 'bias') s.lab.prompts.forEach((p, k) => [1, 2].forEach(j => { const sum = p.names.reduce((a, n) => a + n[j], 0); if (Math.abs(sum - 1) > .011) errs.push(`${l}: ${s.id} Satz ${k + 1}: Summe ${sum}`); }));
-      if (s.lab.type === 'map') { const c = s.lab.calc.filter(w => !s.lab.words.some(x => x[0] === w)); if (c.length) errs.push(`${l}: Wortkarte: ${c.join(', ')} fehlt auf der Karte`); }
+      // Wortkarte: Jedes Rätsel (A − B + C) muss genau auf einem Wort der Karte landen
+      if (s.lab.type === 'map') for (const r of s.lab.riddles || []) {
+        const g = w => s.lab.words.find(x => x[0] === w), [A, B, C] = r.calc.map(g);
+        if (!A || !B || !C) { errs.push(`${l}: Wortkarte: ${r.calc.filter(w => !g(w)).join(', ')} fehlt auf der Karte`); continue; }
+        const x = A[1] - B[1] + C[1], y = A[2] - B[2] + C[2];
+        if (!s.lab.words.some(w => w[1] === x && w[2] === y && !r.calc.includes(w[0]))) errs.push(`${l}: Wortkarte: Rätsel ${r.calc.join(', ')} führt auf (${x} | ${y}), dort liegt kein Wort`);
+      }
       if (s.lab.type === 'attention') s.lab.variants.forEach((v, k) => { if (!(v.start in v.focus)) errs.push(`${l}: Aufmerksamkeit Variante ${k + 1}: Startwort ohne Gewichte`); });
     });
   }

@@ -45,7 +45,7 @@ Sprache der Seite, der Commits und der Pull Requests: Deutsch.
   den Blöcken `TURI_LANG.de`, `.en`, `.fr`, `.it`, `.es`, `.nl` (Turi) bzw. `HAUBE_LANG.de` usw. (KI unter der Haube).
   Der Programmcode im letzten `<script>` enthält keine Texte.
 - KI unter der Haube: Wortkarten-Koordinaten so wählen, dass sich die Wörter auch auf dem iPhone SE nicht überlappen
-  (prüft `pruefen.js`), und die Rechnung `calc` muss auf ein Wort der Karte führen. Wahrscheinlichkeiten in den Laboren
+  (prüft `pruefen.js`), und jedes Rätsel in `riddles` (`calc`: A − B + C) muss genau auf ein Wort der Karte führen. Wahrscheinlichkeiten in den Laboren
   `confidence` und `bias` ergeben je 100 %. Im Labor `tokens` vergleicht jede Sprache mit einer anderen (`other`).
 - Jede Text- oder Inhaltsänderung in allen sechs Sprachen machen. Alle Pakete haben dieselben Schlüssel und gleich
   lange Listen (Fortschritt wird über Listenpositionen gespeichert und bleibt beim Sprachwechsel erhalten).
