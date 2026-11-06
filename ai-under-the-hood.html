@@ -305,6 +305,8 @@ h1:focus,h2:focus{outline:none}
 .how .prompt{background:#fff;font-size:.92em}
 .k-dir{color:var(--blue);font-weight:700}
 .k-go{color:var(--coral);font-weight:700}
+
+.subhead{font-family:var(--f-display);font-weight:600;font-size:1.05rem;margin:6px 0 -4px}
 </style>
 <!-- Hinweis für Vorschaufenster ohne JavaScript (z. B. Mailprogramm, Dateien-App). Wird beim Programmstart entfernt. -->
 <div id="nojs">
@@ -602,6 +604,7 @@ stations:[
    sizes:[['Kleines Modell',.25],['Mittleres Modell',1],['Großes Modell',5]],
    words:'Wörter pro Antwort', reqs:'Anfragen pro Tag', think:'Nachdenk-Modus',
    tokPerWord:1.5, whPer1k:.5,
+   measured:'Geschätzter Verbrauch', compare:'Das entspricht ungefähr', spoon:'Esslöffel Wasser (je ca. 15 ml), Mittelwert',
    perDay:'Wattstunden pro Tag (Spanne)', led:'Minuten LED-Lampe (10 Watt), Mittelwert',
    phone:'Smartphone-Ladungen (je ca. 15 Wh), Mittelwert', water:'Milliliter Wasser pro Tag (Spanne)',
    yearLine:(k,p)=>`Im Jahr mit 220 Arbeitstagen: etwa <b>${k} Kilowattstunden</b>. Das sind rund ${p} % des Jahresverbrauchs eines Zwei-Personen-Haushalts (etwa 2.500 kWh).`,
@@ -968,6 +971,7 @@ stations:[
    sizes:[['Small model',.25],['Medium model',1],['Large model',5]],
    words:'Words per answer', reqs:'Requests per day', think:'Thinking mode',
    tokPerWord:1.3, whPer1k:.5,
+   measured:'Estimated consumption', compare:'That is roughly the same as', spoon:'tablespoons of water (about 15 ml each), average',
    perDay:'Watt-hours per day (range)', led:'Minutes of a 10-watt LED lamp, middle value',
    phone:'Smartphone charges (about 15 Wh each), middle value', water:'Millilitres of water per day (range)',
    yearLine:(k,p)=>`Over a year with 220 working days: about <b>${k} kilowatt-hours</b>. That is roughly ${p} % of the annual electricity use of a two-person household (about 2,500 kWh).`,
@@ -1332,6 +1336,7 @@ stations:[
    sizes:[['Petit modèle',.25],['Modèle moyen',1],['Grand modèle',5]],
    words:'Mots par réponse', reqs:'Requêtes par jour', think:'Mode réflexion',
    tokPerWord:1.6, whPer1k:.5,
+   measured:'Consommation estimée', compare:'Cela correspond à peu près à', spoon:'cuillères à soupe d’eau (environ 15 ml chacune), moyenne',
    perDay:'Wattheures par jour (fourchette)', led:'Minutes de lampe LED de 10 watts, valeur moyenne',
    phone:'Recharges de smartphone (environ 15 Wh chacune), valeur moyenne', water:'Millilitres d’eau par jour (fourchette)',
    yearLine:(k,p)=>`Sur une année de 220 jours ouvrés : environ <b>${k} kilowattheures</b>. C’est à peu près ${p} % de la consommation annuelle d’électricité d’un foyer de deux personnes (environ 2 500 kWh).`,
@@ -1696,6 +1701,7 @@ stations:[
    sizes:[['Modello piccolo',.25],['Modello medio',1],['Modello grande',5]],
    words:'Parole per risposta', reqs:'Richieste al giorno', think:'Modalità ragionamento',
    tokPerWord:1.6, whPer1k:.5,
+   measured:'Consumo stimato', compare:'Corrisponde più o meno a', spoon:'cucchiai d’acqua (circa 15 ml ciascuno), media',
    perDay:'Wattora al giorno (intervallo)', led:'Minuti di lampada LED da 10 watt, valore medio',
    phone:'Ricariche di smartphone (circa 15 Wh l’una), valore medio', water:'Millilitri d’acqua al giorno (intervallo)',
    yearLine:(k,p)=>`In un anno con 220 giorni lavorativi: circa <b>${k} chilowattora</b>. Sono all’incirca il ${p} % del consumo annuo di elettricità di una famiglia di due persone (circa 2.500 kWh).`,
@@ -2060,6 +2066,7 @@ stations:[
    sizes:[['Modelo pequeño',.25],['Modelo mediano',1],['Modelo grande',5]],
    words:'Palabras por respuesta', reqs:'Peticiones al día', think:'Modo razonamiento',
    tokPerWord:1.6, whPer1k:.5,
+   measured:'Consumo estimado', compare:'Equivale más o menos a', spoon:'cucharadas de agua (unos 15 ml cada una), media',
    perDay:'Vatios-hora al día (margen)', led:'Minutos de una bombilla LED de 10 vatios, valor medio',
    phone:'Cargas de móvil (unos 15 Wh cada una), valor medio', water:'Mililitros de agua al día (margen)',
    yearLine:(k,p)=>`En un año con 220 días laborables: unos <b>${k} kilovatios-hora</b>. Es aproximadamente el ${p} % del consumo eléctrico anual de un hogar de dos personas (unos 2.500 kWh).`,
@@ -2424,6 +2431,7 @@ stations:[
    sizes:[['Klein model',.25],['Middelgroot model',1],['Groot model',5]],
    words:'Woorden per antwoord', reqs:'Vragen per dag', think:'Denkmodus',
    tokPerWord:1.6, whPer1k:.5,
+   measured:'Geschat verbruik', compare:'Dat komt ongeveer overeen met', spoon:'eetlepels water (elk ca. 15 ml), gemiddelde',
    perDay:'Wattuur per dag (marge)', led:'Minuten led-lamp van 10 watt, middenwaarde',
    phone:'Keer een smartphone opladen (elk ongeveer 15 Wh), middenwaarde', water:'Milliliter water per dag (marge)',
    yearLine:(k,p)=>`In een jaar met 220 werkdagen: ongeveer <b>${k} kilowattuur</b>. Dat is ongeveer ${p} % van het jaarlijkse stroomverbruik van een tweepersoonshuishouden (ongeveer 2.500 kWh).`,
@@ -2822,17 +2830,21 @@ LAB.cost={
     <div class="slider"><label for="${id}-w">${d.words}</label><input type="range" id="${id}-w" min="50" max="2000" step="50" value="400"><span class="tval" id="${id}-wv"></span></div>
     <div class="slider"><label for="${id}-n">${d.reqs}</label><input type="range" id="${id}-n" min="1" max="200" step="1" value="20"><span class="tval" id="${id}-nv"></span></div>
     <div class="row"><button class="btn" id="${id}-think" aria-pressed="false">${d.think}</button></div>
-    <div class="result" id="${id}-r"></div><p id="${id}-y"></p><p class="small">${d.note}</p><p class="small">${d.waterNote}</p>`,
+    <p class="subhead">${d.measured}</p><div class="result" id="${id}-r"></div>
+    <p class="subhead">${d.compare}</p><div class="result" id="${id}-c"></div><p id="${id}-y"></p>
+    <p class="small">${d.note}</p><p class="small">${d.waterNote}</p>`,
   bind(d,id){let si=1,think=false;
     const fmt=x=>x<10?x.toFixed(1).replace('.',u.dec):Math.round(x).toLocaleString(u.locale);
     const upd=()=>{const w=+$(`#${id}-w`).value,n=+$(`#${id}-n`).value;$(`#${id}-wv`).textContent=w;$(`#${id}-nv`).textContent=n;
       const tokens=w*d.tokPerWord*(think?4:1),wh=tokens/1000*d.whPer1k*d.sizes[si][1]*n;
       /* Vergleiche: Smartphone-Ladung ca. 15 Wh, LED-Lampe 10 W; Wasser grob 1 bis 5 ml je Wh (siehe Hinweis im Sprachpaket) */
       const kwh=wh*220/1000;
+      /* Erst die Schätzung in echten Maßeinheiten, danach die Vergleiche mit Bekanntem */
       $(`#${id}-r`).innerHTML=`<div class="stat"><b>${fmt(wh*.5)}–${fmt(wh*2)}</b><span>${d.perDay}</span></div>
-        <div class="stat"><b>${fmt(wh/15)}</b><span>${d.phone}</span></div>
-        <div class="stat"><b>${fmt(wh/10*60)}</b><span>${d.led}</span></div>
         <div class="stat"><b>${fmt(wh*1)}–${fmt(wh*5)}</b><span>${d.water}</span></div>`;
+      $(`#${id}-c`).innerHTML=`<div class="stat"><b>${fmt(wh/15)}</b><span>${d.phone}</span></div>
+        <div class="stat"><b>${fmt(wh/10*60)}</b><span>${d.led}</span></div>
+        <div class="stat"><b>${fmt(wh*3/15)}</b><span>${d.spoon}</span></div>`;
       $(`#${id}-y`).innerHTML=d.yearLine(fmt(kwh),fmt(kwh/2500*100))};
     $$(`#${id} [data-s]`).forEach(b=>b.onclick=()=>{si=+b.dataset.s;press(`#${id} [data-s]`,x=>x===b);upd()});
     $(`#${id}-think`).onclick=e=>{think=!think;e.currentTarget.setAttribute('aria-pressed',String(think));upd()};

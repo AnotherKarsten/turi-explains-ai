@@ -110,7 +110,7 @@ will, klappt bei jeder Station „Unter der Haube“ auf.
 | **Teil 2: Klug damit arbeiten** | | |
 | 9. Gut fragen | Wie fragt man so, dass etwas Brauchbares herauskommt? | Einen Prompt aus Bausteinen zusammensetzen und die Antwort vergleichen. |
 | 10. Vorurteile | Hat eine KI Vorurteile? | Welche Vornamen das Modell für einen Beruf erwartet, vor und nach dem Ausgleich. |
-| 11. Energie | Wie viel Energie kostet eine Antwort? | Den eigenen KI-Alltag in Wattstunden abschätzen, verglichen mit Handy-Ladungen, LED-Lampe und Haushaltsstrom, dazu der Wasserverbrauch. |
+| 11. Energie | Wie viel Energie kostet eine Antwort? | Den eigenen KI-Alltag abschätzen: zuerst Wattstunden und Milliliter Wasser, danach Vergleiche mit Handy-Ladungen, LED-Lampe, Esslöffeln Wasser und Haushaltsstrom. |
 | 12. Was in den Chat darf | Was darf in den Chat, und was nicht? | Ampel-Spiel mit acht Situationen aus dem Berufsalltag. |
 | 13. KI-Agenten | Was ändert sich, wenn die KI handelt? | Entscheiden, welche Schritte ein Agent nur mit Freigabe tun darf; dazu Tipps und eine Prompt-Vorlage, damit die KI vorher fragt. |
 
