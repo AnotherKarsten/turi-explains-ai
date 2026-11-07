@@ -307,6 +307,66 @@ h1:focus,h2:focus{outline:none}
 .k-go{color:var(--coral);font-weight:700}
 
 .subhead{font-family:var(--f-display);font-weight:600;font-size:1.05rem;margin:6px 0 -4px}
+
+/* Drei Arten von Bedienelementen:
+   Aktion (.btn, Taste mit Schatten), Auswahl (.opt, flache Pille mit Häkchen), Schalter (.tgl, mit Schiebeschalter) */
+.btn.go::before{content:"▶";font-size:.8em;margin-right:8px}
+.btn.undo::before{content:"↺";margin-right:6px}
+.btn.ghost{background:transparent;box-shadow:none;border-style:dashed;color:var(--ink-soft)}
+.btn.ghost:active{transform:none}
+.seg{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.seglbl{font-family:var(--f-display);font-weight:600;font-size:.92rem;color:var(--ink-soft);margin-right:2px}
+.opt{min-height:44px;border:2px solid var(--edge);border-radius:999px;padding:6px 16px;background:var(--card);color:var(--ink);font-family:var(--f-body);font-weight:700;font-size:.95rem;text-align:left}
+.opt[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.opt[aria-pressed="true"]::before{content:"✓";margin-right:6px}
+.opt.light[aria-pressed="true"]::before{content:""}
+.opt.light::before{flex:none}
+.tgl{background:var(--card);box-shadow:none;display:inline-flex;align-items:center;gap:10px;text-align:left}
+.tgl:active{transform:none;box-shadow:none}
+.tgl::before{content:"";flex:none;width:38px;height:22px;border-radius:999px;border:2px solid var(--edge);background:var(--track) radial-gradient(circle at 9px 50%,var(--edge) 6px,transparent 6.5px) no-repeat}
+.tgl[aria-pressed="true"]{outline:none}
+.tgl[aria-pressed="true"]::before{background:var(--teal) radial-gradient(circle at 25px 50%,#fff 6px,transparent 6.5px) no-repeat}
+@media (hover:hover){.opt:hover{background:var(--key)}.opt[aria-pressed="true"]:hover{background:var(--ink)}.btn.ghost:hover{background:var(--soft)}}
+.quiz .q .opt{text-align:left}
+/* Hinweise und Warnungen als Kasten mit Zeichen statt als farbige Linie */
+.call{border:2px solid var(--teal);border-radius:12px;padding:10px 14px 10px 44px;position:relative;background:var(--card)}
+.call::before{content:"💡";position:absolute;left:12px;top:9px}
+.call.warn{border-color:var(--coral)}
+.call.warn::before{content:"⚠️"}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.lkout.good,.lkout.bad{border-left:0;padding-left:0}
+/* Training: gezähltes Wort markiert */
+.corpus span mark{background:var(--hi);color:var(--on-hi);border-radius:4px;padding:0 3px}
+.corpus span .ctx{text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:3px}
+.corpus span.other{opacity:.6}
+.only{border-left:0}
+/* Tokens: Sätze vor dem Schätzen als Text */
+.toks.plain{font-size:1.05rem;align-items:flex-start}
+#app .wait{visibility:hidden}
+/* Wortkarte: Hilfslinien zu den Achsen */
+.map .arrows line.guide{stroke:var(--ink-soft);stroke-width:1.5;stroke-dasharray:4 4}
+.map .arrows text.gl{font-family:var(--f-mono);font-size:12px;fill:var(--ink);font-weight:700;paint-order:stroke;stroke:var(--soft);stroke-width:4px}
+/* Aufmerksamkeit und Erklärkästen mit nummerierten Schritten */
+.how ol{margin:0;padding-left:1.4em;display:flex;flex-direction:column;gap:6px}
+/* Kontextfenster: Zusammenfassung mit erfundenen Teilen */
+.facts{margin:4px 0 0;padding-left:1.2em;display:flex;flex-direction:column;gap:4px}
+.facts li.no{text-decoration:none}
+/* Zufall: Würfe direkt unter dem Knopf, Platz reserviert */
+.rolls{border:2px solid var(--edge);border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:10px;background:var(--soft)}
+ol.samples{display:block;margin:0;padding-left:1.6em;min-height:calc(10 * 1.7em)}
+ol.samples li{line-height:1.7em}
+ol.samples li .pre{color:var(--ink-soft)}
+ol.samples li b{background:var(--t1);color:var(--tok-ink);border-radius:6px;padding:0 6px}
+ol.samples li.odd b{background:var(--t2)}
+ol.samples li.empty{list-style:none;margin-left:-1.6em;color:var(--ink-soft)}
+.tag{font-size:.75rem;border:1.5px solid var(--edge);border-radius:6px;padding:0 5px;color:var(--ink-soft)}
+.legend2{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center}
+.legend2 .sw{display:inline-block;width:14px;height:14px;border-radius:4px;background:var(--teal);margin-right:-8px}
+.legend2 .sw.odd{background:var(--coral)}
+.chatlog.conf{min-height:120px}
+/* Gut fragen: was die Bausteine geändert haben */
+.effects ul{margin:4px 0 0;padding-left:1.2em}
+.call p{margin:0}
 </style>
 <!-- Hinweis für Vorschaufenster ohne JavaScript (z. B. Mailprogramm, Dateien-App). Wird beim Programmstart entfernt. -->
 <div id="nojs">
@@ -367,7 +427,9 @@ stations:[
  q:'Wie lernt ein Sprachmodell aus Text?',
  text:['Ein Sprachmodell lernt eine einzige Aufgabe: das nächste Wortstück vorherzusagen. Es liest riesige Mengen Text, deckt jeweils das nächste Stück ab, rät und vergleicht. Liegt es daneben, werden seine Milliarden <b>Gewichte</b> ein winziges Stück in die richtige Richtung verschoben.',
        'Aus dieser schlichten Übung entsteht erstaunlich viel: Grammatik, Faktenwissen, Stil. Danach folgt ein <b>Feinschliff</b> mit Menschen, die Antworten bewerten. Erst dadurch wird aus dem Textvervollständiger ein hilfsbereiter Assistent.'],
- lab:{type:'train',title:'Ausprobieren: Ein Mini-Modell trainieren',
+ lab:{type:'train',probeLbl:'Satzanfang:',
+   only:l=>`Gezählt wird nur das Wort direkt nach „${l}“. In den gelesenen Sätzen ist es markiert. Was danach kommt, etwa „klar“ in „blau und klar“, lernt das Modell für einen anderen Anfang („… und“).`,
+   title:'Ausprobieren: Ein Mini-Modell trainieren',
    intro:'Das Mini-Modell zählt nur, welches Wort auf zwei Wörter folgt. Lies Sätze ein und beobachte, wie aus Gleichverteilung eine Erwartung wird.',
    corpus:['Der Himmel ist blau.','Der Kaffee ist heiß.','Der Himmel ist heute grau.','Das Meeting ist verschoben.','Der Kaffee ist alle.','Der Himmel ist blau und klar.','Der Kaffee ist heiß und stark.','Das Meeting ist abgesagt.','Der Himmel ist wolkenlos.','Das Meeting ist verschoben, sagt die Chefin.'],
    probes:[{label:'Der Himmel ist …',ctx:['himmel','ist']},{label:'Der Kaffee ist …',ctx:['kaffee','ist']},{label:'Das Meeting ist …',ctx:['meeting','ist']}],
@@ -387,7 +449,8 @@ stations:[
  q:'Warum zählt die KI in Tokens, und warum kostet Deutsch mehr?',
  text:['Ein Sprachmodell liest keine Buchstaben und keine Wörter. Es zerlegt Text in <b>Tokens</b>: Häufige Wörter bleiben ganz, seltene und lange werden in Stücke geteilt. Jedes Stück bekommt eine Nummer, und nur mit diesen Nummern rechnet das Modell.',
        'Tokens sind die Währung der KI. Abgerechnet wird pro Token, das Gedächtnis eines Gesprächs ist in Tokens begrenzt, und auch die Antwortzeit hängt davon ab.'],
- lab:{type:'tokens',title:'Ausprobieren: Dein Text in Tokens',
+ lab:{type:'tokens',pairLbl:'Satzpaar:',
+   title:'Ausprobieren: Dein Text in Tokens',
    label:'Tippe einen Text ein oder füge einen ein. Die Schnipsel erscheinen sofort.',
    sample:'Die Donaudampfschifffahrtsgesellschaft verschiebt die Hauptversammlung auf nächsten Donnerstag.',
    stats:['Zeichen','Wörter','Tokens'],
@@ -412,7 +475,7 @@ stations:[
    ownMore:p=>`Die deutsche Fassung braucht hier etwa ${p} % mehr Tokens.`,
    otherMore:p=>`Hier braucht ausnahmsweise die englische Fassung etwa ${p} % mehr.`,
    equal:'Hier liegen beide etwa gleichauf.',
-   more:'Anderes Satzpaar', pos:(i,n)=>`Satzpaar ${i} von ${n}`, again:'Neues Satzpaar: Schätze wieder zuerst.'},
+   more:'Nächstes Satzpaar schätzen', pos:(i,n)=>`Satzpaar ${i} von ${n}`, again:'Neues Satzpaar: Schätze wieder zuerst.'},
  hood:[['Tokenizer','Das Programm, das Text in Tokens zerlegt. Viele Modelle nutzen ein Verfahren namens <i>Byte-Pair-Encoding</i>: Es fügt beim Erstellen die häufigsten Zeichenpaare immer wieder zu neuen Bausteinen zusammen.'],
    ['Vokabular','Der feste Vorrat an Tokens, bei aktuellen Modellen grob 50.000 bis 250.000. Was nicht als Ganzes darin steht, wird aus Teilen zusammengesetzt.'],
    ['Kontextfenster','Wie viele Tokens das Modell auf einmal berücksichtigen kann: deine Frage, der bisherige Verlauf, angehängte Dokumente und die Antwort zusammen.'],
@@ -445,7 +508,10 @@ stations:[
  q:'Woher weiß das Modell, worauf sich ein Wort bezieht?',
  text:['Ein Wort allein ist oft mehrdeutig. Deshalb schaut jedes Token, bevor es weiterverarbeitet wird, auf alle Tokens davor und gewichtet sie: Welche sind für mich gerade wichtig? Dieser Mechanismus heißt <b>Aufmerksamkeit</b> (Attention).',
        'Das passiert in vielen Schichten hintereinander und mit vielen „Köpfen“ gleichzeitig, die auf unterschiedliche Dinge achten: Grammatik, Bezüge, Themen.'],
- lab:{type:'attention',title:'Ausprobieren: Worauf schaut ein Wort?',
+ lab:{type:'attention',varLbl:'Satz:',
+   barsTitle:w=>`Die stärksten Gewichte für „${w}“ (alle Gewichte zusammen ergeben 100 %)`,
+   how:{title:'So verarbeitet die KI das',items:['<b>Vergleichen:</b> Für „sie“ vergleicht das Modell seine Zahlenliste (das Embedding aus Station 3) mit der jedes Worts davor. Passt ein Wort gut, bekommt es ein hohes Gewicht. Alle Gewichte ergeben zusammen 100 %.','<b>Mischen:</b> Dann mischt es die Bedeutungen der Wörter nach diesen Gewichten in „sie“ hinein. Danach steht in „sie“ gewissermaßen zu 58 % „Ärztin“.','<b>Warum das zählt:</b> Fragst du danach „Wer wollte den Befund besprechen?“, findet das Modell die Antwort nur über diese Verbindung. Ändert sich ein Wort im Satz (Variante 2), ändern sich die Gewichte und damit die Antwort.']},
+   title:'Ausprobieren: Worauf schaut ein Wort?',
    intro:'Tippe ein Wort an. Je kräftiger die Farbe der anderen Wörter, desto mehr Aufmerksamkeit bekommen sie. Das Modell schaut dabei nur nach links, auf das, was schon da ist.',
    pick:'Tippe ein Wort an.',
    first:'Das erste Wort hat noch nichts, worauf es schauen kann.',
@@ -469,7 +535,7 @@ stations:[
  text:['Ein Sprachmodell hat kein Gedächtnis wie ein Mensch. Bei jeder Antwort bekommt es den ganzen bisherigen Chat noch einmal vorgelegt. Wie viel davon hineinpasst, bestimmt das <b>Kontextfenster</b>, gemessen in Tokens.',
        'Was nicht mehr hineinpasst, existiert für das Modell nicht. Dann erfindet es im schlimmsten Fall eine plausible Antwort, statt zu sagen, dass es die Information nicht mehr sieht.'],
  lab:{type:'window',title:'Ausprobieren: Das Kontextfenster verkleinern',
-   intro:'Ein Chat über ein Projekt. Schieb den Regler nach links: Ältere Nachrichten fallen aus dem Fenster, die neuesten bleiben.',
+   intro:'Ein Chat über ein Projekt. Schieb den Regler nach links: Ältere Nachrichten fallen nach und nach aus dem Fenster. Achte darauf, wie sich die Zusammenfassung unten mit jeder vergessenen Nachricht ändert.',
    slider:'Kontextfenster',
    msgs:[{who:'du',t:'Wir starten heute das Projekt „Leuchtturm“: neue Website bis Ende Mai, Budget 40.000 Euro.',n:120},
      {who:'ki',t:'Verstanden. Für die Website bis Ende Mai schlage ich vier Phasen vor: Planung, Gestaltung, Umsetzung, Test.',n:160},
@@ -477,9 +543,15 @@ stations:[
      {who:'ki',t:'Gern: Referenzen, Zeitplan, Abstimmungsrunden, Nutzungsrechte an Bildern, Barrierefreiheit, Pflege nach dem Start …',n:220},
      {who:'du',t:'Danke. Jetzt bitte noch einen Entwurf für eine Rundmail an das Team.',n:90},
      {who:'ki',t:'Hier ist ein Entwurf: „Liebes Team, wir starten ein neues Projekt …“',n:190}],
-   question:{t:'Wie hieß das Projekt noch mal, und wie hoch war das Budget?',n:40},
-   answerIn:'Das Projekt heißt „Leuchtturm“, das Budget beträgt 40.000 Euro.',
-   answerOut:'Das Projekt heißt „Website-Relaunch 2026“, das Budget liegt bei 25.000 Euro.',
+   question:{t:'Fass bitte den Stand zusammen: Projekt, Termin, Budget, Ablauf, Gestaltung und was schon erledigt ist.',n:40},
+   facts:[{t:'Projekt „Leuchtturm“: neue Website bis Ende Mai, Budget 40.000 Euro.',fake:'Projekt „Website-Relaunch 2026“: neue Website bis Jahresende, Budget 25.000 Euro.'},
+     {t:'Vier Phasen: Planung, Gestaltung, Umsetzung, Test.',fake:'Drei Phasen: Konzept, Umsetzung, Start.'},
+     {t:'Die Gestaltung übernimmt eine Agentur.',fake:'Die Gestaltung macht das eigene Team.'},
+     {t:'Fragen für das erste Agentur-Gespräch sind gesammelt.',fake:'Eine Fragenliste gibt es noch nicht.'},
+     null,
+     {t:'Ein Entwurf für die Rundmail ans Team liegt vor.',fake:'Die Rundmail ans Team ist noch offen.'}],
+   allIn:'Alles steht noch im Kontextfenster: Die Zusammenfassung stimmt.',
+   someOut:(k,n)=>`${k} von ${n} Angaben stehen nicht mehr im Fenster. Die KI füllt die Lücken trotzdem, mit plausibel klingenden Erfindungen.`,
    lost:'erfunden', outside:'außerhalb',
    tok:n=>`${n} Tokens`, used:(n,m)=>`${n} von ${m} Tokens belegt`},
  hood:[['Kontextfenster','Die Höchstzahl an Tokens, die ein Modell auf einmal verarbeitet. Bei aktuellen Modellen oft 100.000 bis über eine Million Tokens, also ganze Bücher.'],
@@ -493,7 +565,10 @@ stations:[
  q:'Warum bekommt dieselbe Frage zwei verschiedene Antworten?',
  text:['Für jedes nächste Token berechnet das Modell eine Wahrscheinlichkeit für jedes Wort in seinem Vokabular. Dann wird gewürfelt, gewichtet nach diesen Wahrscheinlichkeiten.',
        'Der Regler <b>Temperatur</b> bestimmt, wie mutig gewürfelt wird: Niedrig heißt fast immer das wahrscheinlichste Wort, hoch heißt mehr Überraschungen.'],
- lab:{type:'temperature',title:'Ausprobieren: Am Temperaturregler drehen',
+ lab:{type:'temperature',rollsTitle:'Zehnmal gewürfelt: So könnte die KI den Betreff fortsetzen',
+   rare:'selten', empty:'Noch nicht gewürfelt. Tippe auf „10 Antworten erzeugen“.',
+   legend:{common:'naheliegend',rare:'selten oder unpassend'},
+   title:'Ausprobieren: Am Temperaturregler drehen',
    prompt:'Betreff: Unser Team-Meeting am Donnerstag', gap:'Lücke',
    next:[['wird verschoben',3.2],['fällt aus',2.5],['findet online statt',2.1],['beginnt später',1.5],['braucht eure Ideen',.6],['ist abgesagt, Pizza für alle',-.6,1],['explodiert',-2.2,1]],
    slider:'Temperatur',
@@ -517,9 +592,12 @@ stations:[
  q:'Warum erfindet die KI manchmal Dinge, und klingt dabei so sicher?',
  text:['Das Modell erzeugt das plausibelste Weiter, nicht das wahre. Ist es sich bei einer Frage unsicher, verteilt sich die Wahrscheinlichkeit auf mehrere Antworten. Gewürfelt wird trotzdem, und der Satz drumherum klingt immer gleich überzeugt.',
        'Solche erfundenen Antworten heißen <b>Halluzinationen</b>. Besonders anfällig sind Nischenwissen, genaue Zahlen, Zitate, Quellen, Gesetzesstellen und Urteile.'],
- lab:{type:'confidence',title:'Ausprobieren: Sicher klingen, unsicher sein',
-   intro:'Wähle eine Frage und lass die KI mehrmals antworten. Mit „Wahrscheinlichkeiten zeigen“ siehst du, was im Inneren los ist.',
-   go:'Antwort erzeugen', show:'Wahrscheinlichkeiten zeigen',
+ lab:{type:'confidence',barsTitle:'Was das Modell im Inneren berechnet (im Chat siehst du das nie):',
+   why:'Der Satz klingt immer gleich sicher, ob die Antwort eine Wahrscheinlichkeit von 97 % oder nur von 20 % hatte. Deshalb verrät der Tonfall nichts über die Verlässlichkeit.',
+   qLbl:'Frage:',
+   title:'Ausprobieren: Sicher klingen, unsicher sein',
+   intro:'Wähle eine Frage und lass die KI mehrmals antworten. Die Balken zeigen, für wie wahrscheinlich das Modell jede mögliche Antwort hält.',
+   go:'Antwort erzeugen',
    ok:p=>`Stimmt. Das Modell war sich hier zu ${p} sicher.`,
    bad:(p,t)=>`Falsch, aber genauso überzeugt formuliert. Diese Antwort hatte nur ${p} Wahrscheinlichkeit. Richtig wäre: ${t}`,
    prompts:[
@@ -536,7 +614,8 @@ stations:[
  q:'Wie wird eine KI verlässlicher?',
  text:['Ein Sprachmodell allein rät aus dem Gedächtnis. Verlässlicher wird es mit Werkzeugen: Es kann im Internet oder in Firmendokumenten <b>nachschlagen</b>, einen <b>Taschenrechner</b> benutzen oder sich Zeit zum <b>Nachdenken</b> nehmen, bevor es antwortet.',
        'Moderne Assistenten entscheiden oft selbst, wann sie ein Werkzeug brauchen. Du erkennst es an Hinweisen wie „Suche läuft“ oder an Quellenangaben unter der Antwort.'],
- lab:{type:'lookup',title:'Ausprobieren: Raten oder nachschlagen?',
+ lab:{type:'lookup',warnLbl:'Warnung', infoLbl:'Hinweis',
+   title:'Ausprobieren: Raten oder nachschlagen?',
    guessed:'geraten',
    items:[{title:'Nachschlagen',p:'Eine Frage zu internen Regeln, die nicht im Internet stehen.',q:'Ab wann gilt bei uns die neue Reisekostenrichtlinie?',
        bad:{btn:'Aus dem Gedächtnis antworten',answer:'Die neue Reisekostenrichtlinie gilt seit dem 1. Januar.',note:'Klingt sicher, ist aber geraten. Die interne Richtlinie stand nie in den Trainingsdaten.'},
@@ -557,8 +636,18 @@ stations:[
  q:'Wie fragt man so, dass eine brauchbare Antwort herauskommt?',
  text:['Was du nicht sagst, muss die KI raten. Eine kurze Frage ohne Zusammenhang bekommt eine allgemeine Antwort mit Platzhaltern. Je mehr Kontext, Ziel und gewünschtes Format du nennst, desto weniger muss geraten werden.',
        'Eine gute Anfrage ist wie ein gutes Briefing für einen neuen Kollegen, der zwar sehr fleißig ist, aber nichts über dein Projekt weiß.'],
- lab:{type:'prompt',title:'Ausprobieren: Einen Prompt zusammenbauen',
-   intro:'Die Aufgabe: eine Mail, dass ein Meeting verschoben wird. Füge Bausteine hinzu und beobachte, wie die Antwort besser wird.',
+ lab:{type:'prompt',changed:'Das haben deine Bausteine geändert:',
+   effects:['Rolle: klarer Absender, geschrieben im Auftrag der Teamleitung','Kontext: echte Termine und der Grund statt Platzhaltern','Empfänger: Anrede an das Team, Du-Form, Bitte um Kalendereintrag','Format: Betreff und knapper Text','Ton: keine Entschuldigungsfloskeln'],
+   compose:on=>{const R=on.has(0),K=on.has(1),E=on.has(2),F=on.has(3),T=on.has(4),du=E||T,s=[];
+     if(R)s.push(du?'ich schreibe euch im Auftrag der Teamleitung.':'ich schreibe Ihnen im Auftrag der Teamleitung.');
+     s.push(K?'das Meeting von Donnerstag, 10 Uhr, findet stattdessen am Freitag um 14 Uhr statt, weil der Kunde abgesagt hat.':(du?'leider müssen wir das Meeting verschieben. Den neuen Termin teilen wir euch so bald wie möglich mit.':'leider müssen wir das Meeting verschieben. Den neuen Termin teilen wir Ihnen so bald wie möglich mit.'));
+     if(E&&K)s.push('Bitte tragt euch den neuen Termin in den Kalender ein.');
+     if(K)s.push(F?(du?'Bitte meldet euch bis Mittwoch, falls ihr nicht könnt.':'Bitte melden Sie sich bis Mittwoch, falls Sie nicht können.'):(du?'Falls ihr am Freitag nicht könnt, gebt mir bitte Bescheid, dann suchen wir gemeinsam eine Lösung.':'Falls Sie am Freitag nicht können, geben Sie mir bitte Bescheid, dann suchen wir gemeinsam eine Lösung.'));
+     if(!T)s.push(du?'Wir bitten um euer Verständnis und entschuldigen uns für etwaige Unannehmlichkeiten.':'Wir bitten um Ihr Verständnis und entschuldigen uns für etwaige Unannehmlichkeiten.');
+     const body=s.map((x,i)=>i?x[0].toUpperCase()+x.slice(1):x).join(' ');
+     return [...(F?['Betreff: '+(K?'Team-Meeting verschoben auf Freitag, 14 Uhr':'Meeting verschoben'),'']:[]),E?'Hallo zusammen,':T?'Hallo,':'Sehr geehrte Damen und Herren,',body,R?'Viele Grüße\n[Name]\nAssistenz der Teamleitung':du?'Viele Grüße\n[Dein Name]':'Mit freundlichen Grüßen\n[Ihr Name]'].join('\n')},
+   title:'Ausprobieren: Einen Prompt zusammenbauen',
+   intro:'Die Aufgabe: eine Mail, dass ein Meeting verschoben wird. Schalte Bausteine in beliebiger Reihenfolge ein und aus und beobachte, was sich an der Antwort ändert.',
    base:'Schreib eine Mail, dass das Meeting verschoben ist.',
    parts:[{btn:'Rolle',pos:'pre',text:'Du bist Assistenz der Teamleitung.'},
      {btn:'Kontext',text:'Das Meeting am Donnerstag um 10 Uhr wird auf Freitag um 14 Uhr verschoben, weil der Kunde abgesagt hat.'},
@@ -566,10 +655,7 @@ stations:[
      {btn:'Format',text:'Höchstens fünf Sätze, zuerst ein Betreff.'},
      {btn:'Ton',text:'Freundlich und sachlich, ohne Entschuldigungsfloskeln.'}],
    meter:'Wie viel weiß die KI?',
-   tiers:['Antwort mit wenig Kontext','Antwort mit etwas Kontext','Antwort mit vollem Kontext'],
-   answers:['Sehr geehrte Damen und Herren,\nleider müssen wir das Meeting verschieben. Den neuen Termin teilen wir Ihnen so bald wie möglich mit. Wir bitten um Ihr Verständnis und entschuldigen uns für etwaige Unannehmlichkeiten.\nMit freundlichen Grüßen\n[Ihr Name]',
-     'Hallo zusammen,\nunser Meeting am Donnerstag um 10 Uhr wird auf Freitag um 14 Uhr verschoben, da der Kunde kurzfristig abgesagt hat. Bitte tragt euch den neuen Termin ein. Falls ihr Freitag nicht könnt, gebt mir bitte Bescheid, dann suchen wir gemeinsam nach einer Lösung. Vielen Dank für eure Flexibilität und euer Verständnis!\nViele Grüße',
-     'Betreff: Team-Meeting verschoben auf Freitag, 14 Uhr\n\nHallo zusammen,\ndas Meeting von Donnerstag, 10 Uhr, findet stattdessen am Freitag um 14 Uhr statt, weil der Kunde abgesagt hat. Ort und Tagesordnung bleiben gleich. Bitte meldet euch bis Mittwoch, falls ihr nicht könnt.\nViele Grüße']},
+   tiers:['Antwort mit wenig Kontext','Antwort mit etwas Kontext','Antwort mit vollem Kontext']},
  hood:[['Prompt','Die Eingabe an das Modell. Alles, was darin steht, wird Teil des Kontextfensters und lenkt die Wahrscheinlichkeiten.'],
    ['Rolle','„Du bist …“ verschiebt Wortwahl und Blickwinkel. Es macht das Modell nicht klüger, aber passender.'],
    ['Beispiele (Few-Shot)','Ein oder zwei Beispiele für das gewünschte Ergebnis wirken oft stärker als lange Beschreibungen.'],
@@ -580,8 +666,11 @@ stations:[
 {id:'vorurteile',part:'b',short:'Vorurteile',
  q:'Hat eine KI Vorurteile?',
  text:['Ein Sprachmodell lernt aus Texten, die Menschen geschrieben haben, mitsamt deren Schieflagen. Was in den Daten häufig zusammen vorkommt, hält es für wahrscheinlich. So entstehen <b>Verzerrungen</b> (Bias), etwa bei Geschlecht, Herkunft oder Alter.',
-       'Anbieter versuchen, das im Feinschliff auszugleichen. Ganz verschwinden die Muster aber selten, und manchmal wird auch übers Ziel hinaus korrigiert.'],
- lab:{type:'bias',title:'Ausprobieren: Wen stellt sich das Modell vor?',
+       'Anbieter versuchen, das im Feinschliff auszugleichen. Ganz verschwinden die Muster aber selten, und manchmal wird auch übers Ziel hinaus korrigiert.',
+       'Das Tückische: Eine Verzerrung fällt in einer einzelnen Antwort kaum auf. Sie wirkt erst, wenn viele Menschen sich auf dieselbe KI verlassen, etwa beim Vorsortieren von Bewerbungen oder beim Schreiben von Stellenanzeigen.'],
+ lab:{type:'bias',probLbl:'Satz:', modeLbl:'Daten:',
+   why:{title:'Warum das ein echtes Problem ist',items:['<b>Unsichtbar im Einzelfall:</b> Eine einzelne Antwort wirkt neutral. Das Muster zeigt sich erst über viele Anfragen, also genau dann, wenn eine KI in großem Stil Texte schreibt oder Bewerbungen vorsortiert.','<b>Nicht nur Geschlecht:</b> Ähnliche Schieflagen gibt es bei Herkunft, Alter, Behinderung oder Dialekt. Namen, die fremd klingen, werden zum Beispiel seltener mit Führungsrollen verbunden.','<b>Folgen in der Praxis:</b> Stellenanzeigen, die unbewusst nur eine Gruppe ansprechen, KI-Bilder, auf denen Fachleute fast immer gleich aussehen, oder Medizin: Beschreiben Studien und Lehrbücher überwiegend Männer, kann eine KI typische Herzinfarkt-Anzeichen bei Frauen schlechter einordnen.','<b>Es verstärkt sich selbst:</b> KI-Texte landen wieder im Internet und damit in künftigen Trainingsdaten. Was heute schief ist, kann morgen noch schiefer werden.','<b>Was hilft:</b> klare Kriterien vorgeben, ausdrücklich nach anderen Beispielen fragen, Ergebnisse stichprobenartig prüfen und Entscheidungen über Menschen immer von Menschen treffen lassen.']},
+   title:'Ausprobieren: Wen stellt sich das Modell vor?',
    intro:'Das Modell soll einen Satz vervollständigen. Die Balken zeigen, welche Vornamen es für wahrscheinlich hält. Blau sind weibliche Vornamen.',
    modes:{web:'Trainingsdaten wie im Internet',fair:'Nach dem Ausgleich'},
    noteWeb:p=>`Weibliche Vornamen zusammen: ${p}. Das Modell spiegelt wider, wer in den Texten häufig in dieser Rolle vorkommt.`,
@@ -599,7 +688,8 @@ stations:[
  q:'Wie viel Energie kostet eine Antwort?',
  text:['Jedes Token ist Rechenarbeit in einem Rechenzentrum. Eine einzelne Antwort braucht wenig Strom, aber Milliarden Anfragen am Tag summieren sich. Größere Modelle, längere Antworten und „Nachdenken“ kosten mehr.',
        'Die genauen Werte sind umstritten und ändern sich schnell, weil Chips und Modelle effizienter werden. Deshalb rechnen wir hier nur mit groben Größenordnungen.'],
- lab:{type:'cost',title:'Ausprobieren: Dein KI-Tag in Wattstunden',
+ lab:{type:'cost',sizeLbl:'Modell:',
+   title:'Ausprobieren: Dein KI-Tag in Wattstunden',
    intro:'Stell ein, wie du eine KI nutzt. Das Ergebnis ist eine grobe Schätzung mit großer Spanne.',
    sizes:[['Kleines Modell',.25],['Mittleres Modell',1],['Großes Modell',5]],
    words:'Wörter pro Antwort', reqs:'Anfragen pro Tag', think:'Nachdenk-Modus',
@@ -648,7 +738,7 @@ stations:[
        'Dazu kommt eine neue Gefahr: Texte, die der Agent unterwegs liest, können versteckte Anweisungen enthalten, die ihn umlenken sollen.'],
  lab:{type:'agent',title:'Ausprobieren: Wo braucht es deine Freigabe?',
    intro:'Ein Agent soll deine Dienstreise nach Hamburg vorbereiten. Entscheide für jeden Schritt: Darf er das allein, oder nur mit deiner Freigabe?',
-   how:{title:'So sorgst du dafür, dass die KI vorher fragt',items:['<b>In den Einstellungen:</b> Viele Assistenten mit Agenten- oder Aktionsmodus haben Schalter wie „Vor Aktionen fragen“, „Immer bestätigen“ oder Berechtigungen pro Werkzeug. Stell Kaufen, Senden und Löschen dort auf „Fragen“.','<b>Bei den Zugriffen:</b> Gib nur frei, was nötig ist: Kalender nur lesen, kein Zahlungsmittel hinterlegen, E-Mails nur als Entwurf.','<b>Im Prompt:</b> Schreib die Regel ausdrücklich dazu, zum Beispiel mit dieser Vorlage:'],prompt:'Bevor du etwas kaufst, bezahlst, sendest, veröffentlichst oder löschst: Halte an, zeig mir genau, was du tun willst, und warte auf mein ausdrückliches „Ja“. Lesen, suchen und Entwürfe schreiben darfst du ohne Rückfrage.',caveat:'Wichtig: Eine Anweisung im Prompt ist eine Bitte, keine Sperre. Versteckte Anweisungen in Webseiten (Prompt-Injection) können sie aushebeln. Verlässlicher sind fehlende Zugriffe und Bestätigungs-Schalter im Programm. Am sichersten ist beides zusammen.'},
+   how:{title:'So sorgst du dafür, dass die KI vorher fragt',items:['<b>In den Einstellungen:</b> Viele Assistenten mit Agenten- oder Aktionsmodus haben Schalter wie „Vor Aktionen fragen“, „Immer bestätigen“ oder Berechtigungen pro Werkzeug. Stell Kaufen, Senden und Löschen dort auf „Fragen“.','<b>Bei den Zugriffen:</b> Gib nur frei, was nötig ist: Kalender nur lesen, kein Zahlungsmittel hinterlegen, E-Mails nur als Entwurf.','<b>Im Prompt:</b> Schreib die Regel ausdrücklich dazu, zum Beispiel mit dieser Vorlage:'],prompt:'Bevor du etwas kaufst, bezahlst, sendest, veröffentlichst oder löschst: Halte an, zeig mir genau, was du tun willst, und warte auf mein ausdrückliches „Ja“. Lesen, suchen und Entwürfe schreiben darfst du ohne Rückfrage.',caveat:'<b>Eine Anweisung im Prompt ist keine Sperre.</b> Sie ist nur Text im Kontextfenster, den das Modell meistens befolgt, aber nicht garantiert. Bei langen Aufgaben kann sie aus dem Kontextfenster rutschen (siehe <a href="#kontext">Station 5: Kontextfenster</a>), sie kann übersehen werden, und versteckte Anweisungen in Webseiten oder Mails (Prompt-Injection) können sie aushebeln. Eine echte Sperre setzt nur das Programm: fehlende Zugriffe und Bestätigungs-Schalter. Nutze den Prompt deshalb zusätzlich, nie allein.'},
    keys:['ok','ask'],
    names:{ok:'Darf allein',ask:'Nur mit Freigabe'},
    btn:{ok:'Darf allein',ask:'Nur mit Freigabe'},
@@ -735,7 +825,9 @@ stations:[
  q:'How does a language model learn from text?',
  text:['A language model learns one single task: predicting the next piece of a word. It reads huge amounts of text, covers up the next piece each time, guesses and compares. When it is wrong, its billions of <b>weights</b> are nudged a tiny bit in the right direction.',
        'A surprising amount comes out of this simple exercise: grammar, factual knowledge, style. Then comes <b>fine-tuning</b> with people who rate answers. Only that turns the text completer into a helpful assistant.'],
- lab:{type:'train',title:'Try it: train a mini model',
+ lab:{type:'train',probeLbl:'Sentence start:',
+   only:l=>`Only the word directly after “${l}” is counted. It is marked in the sentences read so far. Anything after it, such as “clear” in “blue and clear”, is learned for a different start (“… and”).`,
+   title:'Try it: train a mini model',
    intro:'The mini model only counts which word follows two words. Feed it sentences and watch an even spread turn into an expectation.',
    corpus:['The sky is blue.','The coffee is hot.','The sky is grey today.','The meeting is postponed.','The coffee is gone.','The sky is blue and clear.','The coffee is hot and strong.','The meeting is cancelled.','The sky is cloudless.','The meeting is postponed, says the boss.'],
    probes:[{label:'The sky is …',ctx:['sky','is']},{label:'The coffee is …',ctx:['coffee','is']},{label:'The meeting is …',ctx:['meeting','is']}],
@@ -755,7 +847,8 @@ stations:[
  q:'Why does AI count in tokens, and why do some languages cost more?',
  text:['A language model reads neither letters nor words. It splits text into <b>tokens</b>: common words stay whole, rare and long ones are cut into pieces. Each piece gets a number, and the model only calculates with these numbers.',
        'Tokens are the currency of AI. You are billed per token, a conversation’s memory is limited in tokens, and response time depends on them too.'],
- lab:{type:'tokens',title:'Try it: your text in tokens',
+ lab:{type:'tokens',pairLbl:'Sentence pair:',
+   title:'Try it: your text in tokens',
    label:'Type or paste some text. The pieces appear immediately.',
    sample:'Internationalisation of our customer onboarding is postponed until next Thursday.',
    stats:['Characters','Words','Tokens'],
@@ -779,7 +872,7 @@ stations:[
    ownMore:p=>`Here, unusually, the English version needs about ${p} % more.`,
    otherMore:p=>`The German version needs about ${p} % more tokens here. Long compound words get cut into many pieces.`,
    equal:'Here both are about level.',
-   more:'Another sentence pair', pos:(i,n)=>`Sentence pair ${i} of ${n}`, again:'New sentence pair: guess first again.'},
+   more:'Guess the next sentence pair', pos:(i,n)=>`Sentence pair ${i} of ${n}`, again:'New sentence pair: guess first again.'},
  hood:[['Tokeniser','The program that splits text into tokens. Many models use a method called <i>byte-pair encoding</i>: while it is built, it keeps merging the most frequent pairs of characters into new building blocks.'],
    ['Vocabulary','The fixed set of tokens, roughly 50,000 to 250,000 in current models. Anything not in it as a whole is assembled from parts.'],
    ['Context window','How many tokens the model can take into account at once: your question, the conversation so far, attached documents and the answer together.'],
@@ -812,7 +905,10 @@ stations:[
  q:'How does the model know what a word refers to?',
  text:['A word on its own is often ambiguous. So before it is processed further, every token looks at all the tokens before it and weighs them: which ones matter to me right now? This mechanism is called <b>attention</b>.',
        'It happens in many layers one after another and with many “heads” at once, each paying attention to different things: grammar, references, topics.'],
- lab:{type:'attention',title:'Try it: what does a word look at?',
+ lab:{type:'attention',varLbl:'Sentence:',
+   barsTitle:w=>`The strongest weights for “${w}” (all weights together add up to 100 %)`,
+   how:{title:'How the AI processes this',items:['<b>Compare:</b> For “she” the model compares its list of numbers (the embedding from station 3) with that of every word before it. A word that fits well gets a high weight. All weights add up to 100 %.','<b>Mix:</b> It then mixes the meanings of those words into “she” according to the weights. Afterwards “she” is, so to speak, 58 % “doctor”.','<b>Why it matters:</b> If you then ask “Who wanted to discuss the results?”, the model can only find the answer through this link. Change one word in the sentence (version 2) and the weights, and with them the answer, change too.']},
+   title:'Try it: what does a word look at?',
    intro:'Tap a word. The stronger the colour of the other words, the more attention they get. The model only looks to the left, at what is already there.',
    pick:'Tap a word.',
    first:'The first word has nothing to look at yet.',
@@ -836,7 +932,7 @@ stations:[
  text:['A language model has no memory like a person’s. For every answer it is shown the whole chat so far again. How much of it fits is set by the <b>context window</b>, measured in tokens.',
        'What no longer fits does not exist for the model. In the worst case it then invents a plausible answer instead of saying that it can no longer see the information.'],
  lab:{type:'window',title:'Try it: shrink the context window',
-   intro:'A chat about a project. Move the slider to the left: older messages drop out of the window, the newest ones stay.',
+   intro:'A chat about a project. Move the slider to the left: older messages drop out of the window one by one. Watch how the summary below changes with every forgotten message.',
    slider:'Context window',
    msgs:[{who:'du',t:'Today we are starting project “Lighthouse”: a new website by the end of May, budget 40,000 euros.',n:110},
      {who:'ki',t:'Understood. For the website by the end of May I suggest four phases: planning, design, build, testing.',n:150},
@@ -844,9 +940,15 @@ stations:[
      {who:'ki',t:'Sure: references, schedule, feedback rounds, usage rights for images, accessibility, maintenance after launch …',n:200},
      {who:'du',t:'Thanks. Now please also draft an email to the team.',n:80},
      {who:'ki',t:'Here is a draft: “Dear team, we are starting a new project …”',n:180}],
-   question:{t:'What was the project called again, and how big was the budget?',n:35},
-   answerIn:'The project is called “Lighthouse”, and the budget is 40,000 euros.',
-   answerOut:'The project is called “Website Relaunch 2026”, and the budget is 25,000 euros.',
+   question:{t:'Please sum up where we are: project, deadline, budget, phases, design and what is already done.',n:35},
+   facts:[{t:'Project “Lighthouse”: new website by the end of May, budget 40,000 euros.',fake:'Project “Website Relaunch 2026”: new website by the end of the year, budget 25,000 euros.'},
+     {t:'Four phases: planning, design, build, testing.',fake:'Three phases: concept, build, launch.'},
+     {t:'An agency is doing the design.',fake:'Our own team is doing the design.'},
+     {t:'Questions for the first agency meeting have been collected.',fake:'There is no list of questions yet.'},
+     null,
+     {t:'A draft email to the team is ready.',fake:'The email to the team is still to be written.'}],
+   allIn:'Everything is still inside the context window: the summary is correct.',
+   someOut:(k,n)=>`${k} of ${n} details are no longer in the window. The AI fills the gaps anyway, with plausible-sounding inventions.`,
    lost:'invented', outside:'outside',
    tok:n=>`${n} tokens`, used:(n,m)=>`${n} of ${m} tokens used`},
  hood:[['Context window','The maximum number of tokens a model processes at once. Current models often handle 100,000 to over a million tokens, whole books.'],
@@ -860,7 +962,10 @@ stations:[
  q:'Why does the same question get two different answers?',
  text:['For every next token the model calculates a probability for every word in its vocabulary. Then it rolls the dice, weighted by these probabilities.',
        'The <b>temperature</b> setting decides how boldly it rolls: low means almost always the most likely word, high means more surprises.'],
- lab:{type:'temperature',title:'Try it: turn the temperature dial',
+ lab:{type:'temperature',rollsTitle:'Ten rolls: this is how the AI might continue the subject line',
+   rare:'rare', empty:'No rolls yet. Tap “Generate 10 answers”.',
+   legend:{common:'likely',rare:'rare or odd'},
+   title:'Try it: turn the temperature dial',
    prompt:'Subject: Our team meeting on Thursday', gap:'gap',
    next:[['is postponed',3.2],['is cancelled',2.5],['moves online',2.1],['starts later',1.5],['needs your ideas',.6],['is off, pizza for everyone',-.6,1],['explodes',-2.2,1]],
    slider:'Temperature',
@@ -884,9 +989,12 @@ stations:[
  q:'Why does AI sometimes make things up, and sound so sure about it?',
  text:['The model produces the most plausible continuation, not the true one. If it is unsure about a question, the probability spreads over several answers. It still rolls the dice, and the sentence around it always sounds equally convinced.',
        'Such invented answers are called <b>hallucinations</b>. Particularly prone are niche knowledge, exact figures, quotations, sources, legal references and court rulings.'],
- lab:{type:'confidence',title:'Try it: sounding sure, being unsure',
-   intro:'Choose a question and let the AI answer several times. With “Show probabilities” you see what is going on inside.',
-   go:'Generate answer', show:'Show probabilities',
+ lab:{type:'confidence',barsTitle:'What the model calculates inside (you never see this in a chat):',
+   why:'The sentence always sounds equally sure, whether the answer had a probability of 97 % or only 20 %. That is why the tone tells you nothing about reliability.',
+   qLbl:'Question:',
+   title:'Try it: sounding sure, being unsure',
+   intro:'Pick a question and let the AI answer several times. The bars show how likely the model thinks each possible answer is.',
+   go:'Generate answer',
    ok:p=>`Correct. The model was ${p} sure here.`,
    bad:(p,t)=>`Wrong, but phrased just as confidently. This answer only had a ${p} probability. The right answer would be: ${t}`,
    prompts:[
@@ -903,7 +1011,8 @@ stations:[
  q:'How does an AI become more reliable?',
  text:['A language model on its own guesses from memory. It becomes more reliable with tools: it can <b>look things up</b> on the internet or in company documents, use a <b>calculator</b> or take time to <b>think</b> before answering.',
        'Modern assistants often decide by themselves when they need a tool. You can tell by notes like “searching” or by sources listed under the answer.'],
- lab:{type:'lookup',title:'Try it: guess or look it up?',
+ lab:{type:'lookup',warnLbl:'Warning', infoLbl:'Note',
+   title:'Try it: guess or look it up?',
    guessed:'guessed',
    items:[{title:'Looking it up',p:'A question about internal rules that are not on the internet.',q:'From when does our new travel expenses policy apply?',
        bad:{btn:'Answer from memory',answer:'The new travel expenses policy has applied since 1 January.',note:'Sounds sure, but it is a guess. The internal policy was never in the training data.'},
@@ -924,8 +1033,17 @@ stations:[
  q:'How do you ask so that a useful answer comes out?',
  text:['Whatever you do not say, the AI has to guess. A short question without context gets a generic answer with placeholders. The more context, goal and desired format you give, the less has to be guessed.',
        'A good request is like a good briefing for a new colleague who is very hard-working but knows nothing about your project.'],
- lab:{type:'prompt',title:'Try it: build a prompt',
-   intro:'The task: an email saying that a meeting is postponed. Add building blocks and watch the answer get better.',
+ lab:{type:'prompt',changed:'What your building blocks changed:',
+   effects:['Role: a clear sender, writing on behalf of the team lead','Context: real times and the reason instead of placeholders','Recipients: addressed to the team, with a request to update calendars','Format: a subject line and a short text','Tone: no stock apologies'],
+   compose:on=>{const R=on.has(0),K=on.has(1),E=on.has(2),F=on.has(3),T=on.has(4),s=[];
+     if(R)s.push('I am writing on behalf of the team lead.');
+     s.push(K?'The meeting on Thursday at 10 am will take place on Friday at 2 pm instead, because the client cancelled.':'Unfortunately, we have to postpone the meeting. We will let you know the new date as soon as possible.');
+     if(E&&K)s.push('Please update your calendars.');
+     if(K)s.push(F?'Please let me know by Wednesday if you cannot make it.':'If Friday does not work for you, let me know and we will find a solution together.');
+     if(!T)s.push('We apologise for any inconvenience and thank you for your understanding.');
+     return [...(F?['Subject: '+(K?'Team meeting moved to Friday, 2 pm':'Meeting postponed'),'']:[]),E?'Hi everyone,':T?'Hi,':'Dear Sir or Madam,',s.join(' '),R?'Best regards\n[Name]\nAssistant to the team lead':E||T?'Best,\n[Your name]':'Yours faithfully\n[Your name]'].join('\n')},
+   title:'Try it: build a prompt',
+   intro:'The task: an email saying a meeting is postponed. Switch building blocks on and off in any order and watch what changes in the answer.',
    base:'Write an email saying the meeting is postponed.',
    parts:[{btn:'Role',pos:'pre',text:'You are the team lead’s assistant.'},
      {btn:'Context',text:'The meeting on Thursday at 10 am moves to Friday at 2 pm because the client cancelled.'},
@@ -933,10 +1051,7 @@ stations:[
      {btn:'Format',text:'At most five sentences, subject line first.'},
      {btn:'Tone',text:'Friendly and factual, without stock apologies.'}],
    meter:'How much does the AI know?',
-   tiers:['Answer with little context','Answer with some context','Answer with full context'],
-   answers:['Dear Sir or Madam,\nunfortunately we have to postpone the meeting. We will let you know the new date as soon as possible. We ask for your understanding and apologise for any inconvenience.\nKind regards\n[Your name]',
-     'Hi everyone,\nour meeting on Thursday at 10 am is moving to Friday at 2 pm, as the client cancelled at short notice. Please put the new date in your calendars. If Friday does not work for you, let me know and we will find a solution together. Thank you all for your flexibility and understanding!\nBest wishes',
-     'Subject: Team meeting moved to Friday, 2 pm\n\nHi everyone,\nThursday’s 10 am meeting will take place on Friday at 2 pm instead, because the client cancelled. Room and agenda stay the same. Please let me know by Wednesday if you cannot make it.\nBest wishes']},
+   tiers:['Answer with little context','Answer with some context','Answer with full context']},
  hood:[['Prompt','The input to the model. Everything in it becomes part of the context window and steers the probabilities.'],
    ['Role','“You are …” shifts word choice and perspective. It does not make the model smarter, but more fitting.'],
    ['Examples (few-shot)','One or two examples of the desired result often work better than long descriptions.'],
@@ -947,8 +1062,11 @@ stations:[
 {id:'vorurteile',part:'b',short:'Bias',
  q:'Is an AI biased?',
  text:['A language model learns from texts written by people, including their imbalances. Whatever often appears together in the data, it considers likely. That is how <b>bias</b> arises, for example around gender, origin or age.',
-       'Providers try to correct this during fine-tuning. But the patterns rarely disappear completely, and sometimes the correction overshoots.'],
- lab:{type:'bias',title:'Try it: whom does the model imagine?',
+       'Providers try to correct this during fine-tuning. But the patterns rarely disappear completely, and sometimes the correction overshoots.',
+       'The tricky part: a bias hardly shows in a single answer. It takes effect when many people rely on the same AI, for example when pre-sorting job applications or writing job ads.'],
+ lab:{type:'bias',probLbl:'Sentence:', modeLbl:'Data:',
+   why:{title:'Why this is a real problem',items:['<b>Invisible in a single case:</b> one answer looks neutral. The pattern only shows across many requests, which is exactly what happens when an AI writes texts or pre-sorts job applications at scale.','<b>Not just gender:</b> similar biases exist for origin, age, disability or dialect. Names that sound foreign, for example, are less often linked to leadership roles.','<b>Real consequences:</b> job ads that unintentionally address only one group, AI images in which experts almost always look the same, or medicine: if studies and textbooks mostly describe men, an AI may be worse at recognising typical heart-attack signs in women.','<b>It reinforces itself:</b> AI texts end up on the internet again and so in future training data. What is skewed today can become more skewed tomorrow.','<b>What helps:</b> give clear criteria, explicitly ask for other examples, spot-check results, and always let people make decisions about people.']},
+   title:'Try it: whom does the model imagine?',
    intro:'The model is asked to complete a sentence. The bars show which first names it considers likely. Blue marks female first names.',
    modes:{web:'Training data as on the internet',fair:'After correction'},
    noteWeb:p=>`Female first names together: ${p}. The model mirrors who often appears in this role in the texts.`,
@@ -966,7 +1084,8 @@ stations:[
  q:'How much energy does an answer cost?',
  text:['Every token is computation in a data centre. A single answer uses little electricity, but billions of requests a day add up. Larger models, longer answers and “thinking” cost more.',
        'The exact figures are disputed and change quickly as chips and models become more efficient. That is why we only calculate with rough orders of magnitude here.'],
- lab:{type:'cost',title:'Try it: your AI day in watt-hours',
+ lab:{type:'cost',sizeLbl:'Model:',
+   title:'Try it: your AI day in watt-hours',
    intro:'Set how you use an AI. The result is a rough estimate with a wide range.',
    sizes:[['Small model',.25],['Medium model',1],['Large model',5]],
    words:'Words per answer', reqs:'Requests per day', think:'Thinking mode',
@@ -1015,7 +1134,7 @@ stations:[
        'There is also a new danger: texts the agent reads along the way may contain hidden instructions meant to redirect it.'],
  lab:{type:'agent',title:'Try it: where is your approval needed?',
    intro:'An agent is to prepare your business trip to Hamburg. Decide for each step: may it do this alone, or only with your approval?',
-   how:{title:'How to make sure the AI asks first',items:['<b>In the settings:</b> Many assistants with an agent or action mode have switches such as “ask before actions”, “always confirm” or permissions per tool. Set buying, sending and deleting to “ask”.','<b>With access rights:</b> Only grant what is needed: calendar read-only, no stored payment method, emails as drafts only.','<b>In the prompt:</b> State the rule explicitly, for example with this template:'],prompt:'Before you buy, pay, send, publish or delete anything: stop, show me exactly what you are about to do and wait for my explicit “yes”. You may read, search and write drafts without asking.',caveat:'Important: an instruction in the prompt is a request, not a lock. Hidden instructions in web pages (prompt injection) can override it. Missing access rights and confirmation switches in the program are more reliable. Safest of all is both together.'},
+   how:{title:'How to make sure the AI asks first',items:['<b>In the settings:</b> Many assistants with an agent or action mode have switches such as “ask before actions”, “always confirm” or permissions per tool. Set buying, sending and deleting to “ask”.','<b>With access rights:</b> Only grant what is needed: calendar read-only, no stored payment method, emails as drafts only.','<b>In the prompt:</b> State the rule explicitly, for example with this template:'],prompt:'Before you buy, pay, send, publish or delete anything: stop, show me exactly what you are about to do and wait for my explicit “yes”. You may read, search and write drafts without asking.',caveat:'<b>An instruction in the prompt is not a lock.</b> It is just text in the context window that the model usually follows, but not guaranteed. In long tasks it can slip out of the context window (see <a href="#kontext">station 5: context window</a>), it can be overlooked, and hidden instructions in web pages or emails (prompt injection) can override it. Only the software sets a real lock: missing permissions and confirmation switches. So use the prompt in addition, never on its own.'},
    keys:['ok','ask'],
    names:{ok:'May act alone',ask:'Only with approval'},
    btn:{ok:'May act alone',ask:'Only with approval'},
@@ -1102,7 +1221,9 @@ stations:[
  q:'Comment un modèle de langage apprend-il à partir de textes ?',
  text:['Un modèle de langage apprend une seule tâche : prédire le prochain morceau de mot. Il lit d’énormes quantités de texte, cache à chaque fois le morceau suivant, devine et compare. S’il se trompe, ses milliards de <b>poids</b> sont légèrement ajustés dans la bonne direction.',
        'De cet exercice tout simple naît une quantité étonnante de choses : grammaire, connaissances, style. Vient ensuite un <b>réglage fin</b> avec des personnes qui évaluent les réponses. C’est seulement ainsi que le compléteur de texte devient un assistant serviable.'],
- lab:{type:'train',title:'À essayer : entraîner un mini-modèle',
+ lab:{type:'train',probeLbl:'Début de phrase :',
+   only:l=>`Seul le mot qui suit directement « ${l} » est compté. Il est marqué dans les phrases déjà lues. Ce qui vient après, comme « clair » dans « bleu et clair », est appris pour un autre début (« … et »).`,
+   title:'À essayer : entraîner un mini-modèle',
    intro:'Le mini-modèle compte seulement quel mot suit deux mots. Fais-lui lire des phrases et observe comment une répartition égale devient une attente.',
    corpus:['Le ciel est bleu.','Le café est chaud.','Le ciel est gris aujourd’hui.','La réunion est reportée.','Le café est fini.','Le ciel est bleu et clair.','Le café est chaud et fort.','La réunion est annulée.','Le ciel est dégagé.','La réunion est reportée, dit la cheffe.'],
    probes:[{label:'Le ciel est …',ctx:['ciel','est']},{label:'Le café est …',ctx:['café','est']},{label:'La réunion est …',ctx:['réunion','est']}],
@@ -1122,7 +1243,8 @@ stations:[
  q:'Pourquoi l’IA compte-t-elle en jetons, et pourquoi le français coûte-t-il plus cher ?',
  text:['Un modèle de langage ne lit ni des lettres ni des mots. Il découpe le texte en <b>jetons</b> (en anglais <i>tokens</i>) : les mots courants restent entiers, les mots rares et longs sont coupés en morceaux. Chaque morceau reçoit un numéro, et le modèle ne calcule qu’avec ces numéros.',
        'Les jetons sont la monnaie de l’IA. On paie au jeton, la mémoire d’une conversation est limitée en jetons, et le temps de réponse en dépend aussi.'],
- lab:{type:'tokens',title:'À essayer : ton texte en jetons',
+ lab:{type:'tokens',pairLbl:'Paire de phrases :',
+   title:'À essayer : ton texte en jetons',
    label:'Tape ou colle un texte. Les morceaux apparaissent aussitôt.',
    sample:'L’internationalisation de notre service client est reportée à jeudi prochain.',
    stats:['Caractères','Mots','Jetons'],
@@ -1144,7 +1266,7 @@ stations:[
    ownMore:p=>`La version française demande ici environ ${p} % de jetons en plus.`,
    otherMore:p=>`Ici, exceptionnellement, la version anglaise demande environ ${p} % de plus.`,
    equal:'Ici, les deux sont à peu près à égalité.',
-   more:'Autre paire de phrases', pos:(i,n)=>`Paire ${i} sur ${n}`, again:'Nouvelle paire : devine d’abord à nouveau.'},
+   more:'Estimer la paire suivante', pos:(i,n)=>`Paire ${i} sur ${n}`, again:'Nouvelle paire : devine d’abord à nouveau.'},
  hood:[['Découpeur (tokenizer)','Le programme qui découpe le texte en jetons. Beaucoup de modèles utilisent une méthode appelée <i>byte-pair encoding</i> : lors de sa création, elle fusionne sans cesse les paires de caractères les plus fréquentes en nouvelles briques.'],
    ['Vocabulaire','La réserve fixe de jetons, en gros 50 000 à 250 000 pour les modèles actuels. Ce qui n’y figure pas en entier est assemblé à partir de morceaux.'],
    ['Fenêtre de contexte','Le nombre de jetons que le modèle peut prendre en compte à la fois : ta question, la conversation jusque-là, les documents joints et la réponse ensemble.'],
@@ -1177,7 +1299,10 @@ stations:[
  q:'Comment le modèle sait-il à quoi un mot se rapporte ?',
  text:['Un mot isolé est souvent ambigu. C’est pourquoi chaque jeton, avant d’être traité plus loin, regarde tous les jetons qui le précèdent et les pondère : lesquels comptent pour moi en ce moment ? Ce mécanisme s’appelle l’<b>attention</b>.',
        'Cela se produit dans de nombreuses couches successives et avec de nombreuses « têtes » en parallèle, attentives à des choses différentes : grammaire, références, thèmes.'],
- lab:{type:'attention',title:'À essayer : que regarde un mot ?',
+ lab:{type:'attention',varLbl:'Phrase :',
+   barsTitle:w=>`Les poids les plus forts pour « ${w} » (tous les poids réunis font 100 %)`,
+   how:{title:'Comment l’IA traite cela',items:['<b>Comparer :</b> pour « elle », le modèle compare sa liste de nombres (l’embedding de l’étape 3) avec celle de chaque mot précédent. Un mot qui correspond bien reçoit un poids élevé. Tous les poids réunis font 100 %.','<b>Mélanger :</b> il mélange ensuite le sens de ces mots dans « elle » selon leurs poids. Ensuite, « elle » contient pour ainsi dire 58 % de « médecin ».','<b>Pourquoi c’est important :</b> si tu demandes ensuite « Qui voulait discuter des résultats ? », le modèle ne trouve la réponse que grâce à ce lien. Change un mot de la phrase (version 2) et les poids changent, donc la réponse aussi.']},
+   title:'À essayer : que regarde un mot ?',
    intro:'Touche un mot. Plus la couleur des autres mots est intense, plus ils reçoivent d’attention. Le modèle ne regarde que vers la gauche, ce qui est déjà là.',
    pick:'Touche un mot.',
    first:'Le premier mot n’a encore rien à regarder.',
@@ -1201,7 +1326,7 @@ stations:[
  text:['Un modèle de langage n’a pas de mémoire comme un humain. À chaque réponse, on lui présente à nouveau toute la conversation. La quantité qui tient dedans est fixée par la <b>fenêtre de contexte</b>, mesurée en jetons.',
        'Ce qui n’y tient plus n’existe pas pour le modèle. Dans le pire des cas, il invente alors une réponse plausible au lieu de dire qu’il ne voit plus l’information.'],
  lab:{type:'window',title:'À essayer : réduire la fenêtre de contexte',
-   intro:'Une conversation sur un projet. Pousse le curseur vers la gauche : les messages anciens sortent de la fenêtre, les plus récents restent.',
+   intro:'Une discussion sur un projet. Déplace le curseur vers la gauche : les anciens messages sortent de la fenêtre l’un après l’autre. Observe comment le résumé en bas change à chaque message oublié.',
    slider:'Fenêtre de contexte',
    msgs:[{who:'du',t:'Nous lançons aujourd’hui le projet « Phare » : nouveau site web d’ici fin mai, budget 40 000 euros.',n:125},
      {who:'ki',t:'Compris. Pour le site d’ici fin mai, je propose quatre phases : planification, conception graphique, réalisation, tests.',n:165},
@@ -1209,9 +1334,15 @@ stations:[
      {who:'ki',t:'Volontiers : références, calendrier, cycles de relecture, droits d’utilisation des images, accessibilité, maintenance après le lancement…',n:225},
      {who:'du',t:'Merci. Maintenant, un brouillon de mail à toute l’équipe, s’il te plaît.',n:95},
      {who:'ki',t:'Voici un brouillon : « Chère équipe, nous lançons un nouveau projet… »',n:195}],
-   question:{t:'Comment s’appelait le projet, déjà, et quel était le budget ?',n:40},
-   answerIn:'Le projet s’appelle « Phare », le budget est de 40 000 euros.',
-   answerOut:'Le projet s’appelle « Refonte du site 2026 », le budget est de 25 000 euros.',
+   question:{t:'Fais-moi le point : projet, échéance, budget, phases, graphisme et ce qui est déjà fait.',n:40},
+   facts:[{t:'Projet « Phare » : nouveau site web d’ici fin mai, budget 40 000 euros.',fake:'Projet « Refonte web 2026 » : nouveau site d’ici la fin de l’année, budget 25 000 euros.'},
+     {t:'Quatre phases : planification, conception graphique, réalisation, tests.',fake:'Trois phases : concept, réalisation, lancement.'},
+     {t:'Une agence s’occupe du graphisme.',fake:'Le graphisme est fait par notre équipe.'},
+     {t:'Les questions pour le premier rendez-vous avec l’agence sont prêtes.',fake:'Il n’y a pas encore de liste de questions.'},
+     null,
+     {t:'Un brouillon de mail à l’équipe est prêt.',fake:'Le mail à l’équipe reste à écrire.'}],
+   allIn:'Tout est encore dans la fenêtre de contexte : le résumé est juste.',
+   someOut:(k,n)=>`${k} informations sur ${n} ne sont plus dans la fenêtre. L’IA comble quand même les trous, avec des inventions plausibles.`,
    lost:'inventé', outside:'hors fenêtre',
    tok:n=>`${n} jetons`, used:(n,m)=>`${n} jetons sur ${m} utilisés`},
  hood:[['Fenêtre de contexte','Le nombre maximal de jetons qu’un modèle traite à la fois. Les modèles actuels gèrent souvent de 100 000 à plus d’un million de jetons, des livres entiers.'],
@@ -1225,7 +1356,10 @@ stations:[
  q:'Pourquoi la même question reçoit-elle deux réponses différentes ?',
  text:['Pour chaque jeton suivant, le modèle calcule une probabilité pour chaque mot de son vocabulaire. Puis il tire au sort, en pondérant selon ces probabilités.',
        'Le réglage <b>température</b> décide de l’audace du tirage : basse, c’est presque toujours le mot le plus probable ; haute, il y a plus de surprises.'],
- lab:{type:'temperature',title:'À essayer : tourner le bouton de température',
+ lab:{type:'temperature',rollsTitle:'Dix tirages : voici comment l’IA pourrait compléter l’objet',
+   rare:'rare', empty:'Pas encore de tirage. Touche « Générer 10 réponses ».',
+   legend:{common:'probable',rare:'rare ou bizarre'},
+   title:'À essayer : tourner le bouton de température',
    prompt:'Objet : Notre réunion d’équipe de jeudi', gap:'trou',
    next:[['est reportée',3.2],['est annulée',2.5],['passe en visio',2.1],['commence plus tard',1.5],['a besoin de vos idées',.6],['n’a pas lieu, pizza pour tous',-.6,1],['explose',-2.2,1]],
    slider:'Température',
@@ -1249,9 +1383,12 @@ stations:[
  q:'Pourquoi l’IA invente-t-elle parfois des choses, avec autant d’assurance ?',
  text:['Le modèle produit la suite la plus plausible, pas la vraie. S’il n’est pas sûr d’une question, la probabilité se répartit entre plusieurs réponses. Il tire quand même au sort, et la phrase autour paraît toujours aussi convaincue.',
        'Ces réponses inventées s’appellent des <b>hallucinations</b>. Y sont particulièrement sujets : les connaissances pointues, les chiffres précis, les citations, les sources, les articles de loi et les décisions de justice.'],
- lab:{type:'confidence',title:'À essayer : paraître sûr, être incertain',
-   intro:'Choisis une question et laisse l’IA répondre plusieurs fois. Avec « Montrer les probabilités », tu vois ce qui se passe à l’intérieur.',
-   go:'Générer une réponse', show:'Montrer les probabilités',
+ lab:{type:'confidence',barsTitle:'Ce que le modèle calcule en interne (tu ne le vois jamais dans un chat) :',
+   why:'La phrase semble toujours aussi sûre, que la réponse ait eu une probabilité de 97 % ou seulement de 20 %. Le ton ne dit donc rien de la fiabilité.',
+   qLbl:'Question :',
+   title:'À essayer : paraître sûr, être incertain',
+   intro:'Choisis une question et laisse l’IA répondre plusieurs fois. Les barres montrent quelle probabilité le modèle attribue à chaque réponse possible.',
+   go:'Générer une réponse',
    ok:p=>`Exact. Le modèle en était sûr à ${p}.`,
    bad:(p,t)=>`Faux, mais formulé avec la même assurance. Cette réponse n’avait que ${p} de probabilité. La bonne réponse serait : ${t}`,
    prompts:[
@@ -1268,7 +1405,8 @@ stations:[
  q:'Comment une IA devient-elle plus fiable ?',
  text:['Seul, un modèle de langage devine de mémoire. Il devient plus fiable avec des outils : il peut <b>chercher</b> sur Internet ou dans les documents de l’entreprise, utiliser une <b>calculatrice</b> ou prendre le temps de <b>réfléchir</b> avant de répondre.',
        'Les assistants modernes décident souvent eux-mêmes quand ils ont besoin d’un outil. Tu le reconnais à des mentions comme « recherche en cours » ou aux sources sous la réponse.'],
- lab:{type:'lookup',title:'À essayer : deviner ou vérifier ?',
+ lab:{type:'lookup',warnLbl:'Attention', infoLbl:'À noter',
+   title:'À essayer : deviner ou vérifier ?',
    guessed:'deviné',
    items:[{title:'Chercher',p:'Une question sur des règles internes qui ne sont pas sur Internet.',q:'À partir de quand notre nouvelle politique de frais de déplacement s’applique-t-elle ?',
        bad:{btn:'Répondre de mémoire',answer:'La nouvelle politique de frais de déplacement s’applique depuis le 1er janvier.',note:'Ça a l’air sûr, mais c’est deviné. La politique interne n’a jamais figuré dans les données d’entraînement.'},
@@ -1289,8 +1427,17 @@ stations:[
  q:'Comment demander pour obtenir une réponse utile ?',
  text:['Ce que tu ne dis pas, l’IA doit le deviner. Une question courte sans contexte reçoit une réponse générale avec des espaces à remplir. Plus tu donnes de contexte, d’objectif et de format souhaité, moins il faut deviner.',
        'Une bonne demande ressemble à un bon briefing pour un nouveau collègue très travailleur, mais qui ne sait rien de ton projet.'],
- lab:{type:'prompt',title:'À essayer : construire un prompt',
-   intro:'La tâche : un mail annonçant qu’une réunion est reportée. Ajoute des éléments et observe comment la réponse s’améliore.',
+ lab:{type:'prompt',changed:'Ce que tes éléments ont changé :',
+   effects:['Rôle : un expéditeur clair, qui écrit de la part de la direction d’équipe','Contexte : de vrais horaires et la raison au lieu de formules vagues','Destinataires : adressé à l’équipe, avec la demande de noter l’horaire','Format : un objet et un texte court','Ton : pas d’excuses toutes faites'],
+   compose:on=>{const R=on.has(0),K=on.has(1),E=on.has(2),F=on.has(3),T=on.has(4),s=[];
+     if(R)s.push('Je vous écris de la part de la direction de l’équipe.');
+     s.push(K?'La réunion de jeudi à 10 h aura lieu vendredi à 14 h, car le client a annulé.':'Nous devons malheureusement reporter la réunion. Nous vous communiquerons la nouvelle date dès que possible.');
+     if(E&&K)s.push('Merci de noter le nouvel horaire dans vos agendas.');
+     if(K)s.push(F?'Merci de me prévenir d’ici mercredi si vous n’êtes pas disponibles.':'Si vendredi ne vous convient pas, dites-le-moi et nous trouverons une solution ensemble.');
+     if(!T)s.push('Nous vous prions de nous excuser pour la gêne occasionnée et vous remercions de votre compréhension.');
+     return [...(F?['Objet : '+(K?'Réunion d’équipe déplacée à vendredi, 14 h':'Réunion reportée'),'']:[]),E?'Bonjour à tous,':T?'Bonjour,':'Madame, Monsieur,',s.join(' '),R?'Bien cordialement,\n[Nom]\nAssistance de la direction d’équipe':E||T?'Bonne journée,\n[Ton nom]':'Veuillez agréer nos salutations distinguées.\n[Votre nom]'].join('\n')},
+   title:'À essayer : construire un prompt',
+   intro:'La tâche : un mail annonçant qu’une réunion est reportée. Active et désactive les éléments dans n’importe quel ordre et observe ce qui change dans la réponse.',
    base:'Écris un mail pour dire que la réunion est reportée.',
    parts:[{btn:'Rôle',pos:'pre',text:'Tu es l’assistant de la responsable d’équipe.'},
      {btn:'Contexte',text:'La réunion de jeudi à 10 h est déplacée à vendredi à 14 h parce que le client a annulé.'},
@@ -1298,10 +1445,7 @@ stations:[
      {btn:'Format',text:'Cinq phrases au maximum, l’objet en premier.'},
      {btn:'Ton',text:'Aimable et factuel, sans formules d’excuse toutes faites.'}],
    meter:'Que sait l’IA ?',
-   tiers:['Réponse avec peu de contexte','Réponse avec un peu de contexte','Réponse avec tout le contexte'],
-   answers:['Madame, Monsieur,\nnous sommes au regret de devoir reporter la réunion. Nous vous communiquerons la nouvelle date dans les meilleurs délais. Nous vous remercions de votre compréhension et vous prions de nous excuser pour la gêne occasionnée.\nCordialement,\n[Votre nom]',
-     'Bonjour à tous,\nnotre réunion de jeudi à 10 h est déplacée à vendredi à 14 h, car le client a annulé à la dernière minute. Merci de noter le nouveau créneau. Si vendredi ne vous convient pas, dites-le-moi et nous trouverons une solution ensemble. Merci à tous pour votre souplesse et votre compréhension !\nBien à vous',
-     'Objet : Réunion d’équipe déplacée à vendredi, 14 h\n\nBonjour à tous,\nla réunion de jeudi 10 h aura lieu vendredi à 14 h, car le client a annulé. Salle et ordre du jour restent identiques. Merci de me prévenir d’ici mercredi si vous ne pouvez pas venir.\nBien à vous']},
+   tiers:['Réponse avec peu de contexte','Réponse avec un peu de contexte','Réponse avec tout le contexte']},
  hood:[['Prompt','L’entrée donnée au modèle. Tout ce qu’elle contient entre dans la fenêtre de contexte et oriente les probabilités.'],
    ['Rôle','« Tu es… » modifie le vocabulaire et le point de vue. Cela ne rend pas le modèle plus intelligent, mais plus adapté.'],
    ['Exemples (few-shot)','Un ou deux exemples du résultat souhaité fonctionnent souvent mieux que de longues descriptions.'],
@@ -1312,8 +1456,11 @@ stations:[
 {id:'vorurteile',part:'b',short:'Préjugés',
  q:'Une IA a-t-elle des préjugés ?',
  text:['Un modèle de langage apprend à partir de textes écrits par des humains, avec leurs déséquilibres. Ce qui apparaît souvent ensemble dans les données lui paraît probable. C’est ainsi que naissent des <b>biais</b>, par exemple liés au genre, à l’origine ou à l’âge.',
-       'Les fournisseurs tentent de corriger cela lors du réglage fin. Mais les schémas disparaissent rarement complètement, et parfois la correction va trop loin.'],
- lab:{type:'bias',title:'À essayer : qui le modèle imagine-t-il ?',
+       'Les fournisseurs tentent de corriger cela lors du réglage fin. Mais les schémas disparaissent rarement complètement, et parfois la correction va trop loin.',
+       'Le piège : un biais se remarque à peine dans une réponse isolée. Il agit quand beaucoup de personnes se fient à la même IA, par exemple pour trier des candidatures ou rédiger des offres d’emploi.'],
+ lab:{type:'bias',probLbl:'Phrase :', modeLbl:'Données :',
+   why:{title:'Pourquoi c’est un vrai problème',items:['<b>Invisible au cas par cas :</b> une réponse isolée paraît neutre. Le schéma n’apparaît que sur de nombreuses demandes, c’est-à-dire justement quand une IA écrit des textes ou trie des candidatures à grande échelle.','<b>Pas seulement le genre :</b> il existe des biais semblables pour l’origine, l’âge, le handicap ou l’accent. Les noms à consonance étrangère, par exemple, sont moins souvent associés à des postes de direction.','<b>Des conséquences concrètes :</b> des offres d’emploi qui ne s’adressent sans le vouloir qu’à un groupe, des images d’IA où les spécialistes se ressemblent presque toujours, ou la médecine : si les études et les manuels décrivent surtout des hommes, une IA peut moins bien reconnaître les signes typiques d’un infarctus chez les femmes.','<b>Ça s’auto-renforce :</b> les textes d’IA se retrouvent sur Internet, donc dans les futures données d’entraînement. Ce qui est biaisé aujourd’hui peut l’être encore plus demain.','<b>Ce qui aide :</b> donner des critères clairs, demander explicitement d’autres exemples, vérifier les résultats par échantillons et toujours laisser des humains décider à propos d’humains.']},
+   title:'À essayer : qui le modèle imagine-t-il ?',
    intro:'Le modèle doit compléter une phrase. Les barres montrent quels prénoms il juge probables. En bleu, les prénoms féminins.',
    modes:{web:'Données comme sur Internet',fair:'Après correction'},
    noteWeb:p=>`Prénoms féminins au total : ${p}. Le modèle reflète qui apparaît souvent dans ce rôle dans les textes.`,
@@ -1331,7 +1478,8 @@ stations:[
  q:'Combien d’énergie coûte une réponse ?',
  text:['Chaque jeton est du calcul dans un centre de données. Une seule réponse consomme peu d’électricité, mais des milliards de requêtes par jour s’additionnent. Les grands modèles, les longues réponses et la « réflexion » coûtent davantage.',
        'Les chiffres exacts sont discutés et évoluent vite, car puces et modèles deviennent plus efficaces. C’est pourquoi nous ne calculons ici qu’avec des ordres de grandeur.'],
- lab:{type:'cost',title:'À essayer : ta journée d’IA en wattheures',
+ lab:{type:'cost',sizeLbl:'Modèle :',
+   title:'À essayer : ta journée d’IA en wattheures',
    intro:'Règle ta façon d’utiliser l’IA. Le résultat est une estimation grossière avec une large fourchette.',
    sizes:[['Petit modèle',.25],['Modèle moyen',1],['Grand modèle',5]],
    words:'Mots par réponse', reqs:'Requêtes par jour', think:'Mode réflexion',
@@ -1380,7 +1528,7 @@ stations:[
        'S’y ajoute un nouveau danger : les textes que l’agent lit en chemin peuvent contenir des instructions cachées destinées à le détourner.'],
  lab:{type:'agent',title:'À essayer : où ton accord est-il nécessaire ?',
    intro:'Un agent doit préparer ton déplacement professionnel à Hambourg. Décide pour chaque étape : peut-il le faire seul, ou seulement avec ton accord ?',
-   how:{title:'Comment t’assurer que l’IA demande d’abord',items:['<b>Dans les paramètres :</b> beaucoup d’assistants avec un mode agent ou action ont des options comme « demander avant d’agir », « toujours confirmer » ou des autorisations par outil. Règle l’achat, l’envoi et la suppression sur « demander ».','<b>Dans les accès :</b> n’accorde que le nécessaire : agenda en lecture seule, aucun moyen de paiement enregistré, e-mails seulement en brouillon.','<b>Dans le prompt :</b> écris la règle explicitement, par exemple avec ce modèle :'],prompt:'Avant d’acheter, de payer, d’envoyer, de publier ou de supprimer quoi que ce soit : arrête-toi, montre-moi exactement ce que tu veux faire et attends mon « oui » explicite. Tu peux lire, chercher et rédiger des brouillons sans demander.',caveat:'Important : une consigne dans le prompt est une demande, pas un verrou. Des instructions cachées dans des pages web (injection de prompt) peuvent la contourner. Des accès absents et des options de confirmation dans le programme sont plus fiables. Le plus sûr, c’est les deux ensemble.'},
+   how:{title:'Comment t’assurer que l’IA demande d’abord',items:['<b>Dans les paramètres :</b> beaucoup d’assistants avec un mode agent ou action ont des options comme « demander avant d’agir », « toujours confirmer » ou des autorisations par outil. Règle l’achat, l’envoi et la suppression sur « demander ».','<b>Dans les accès :</b> n’accorde que le nécessaire : agenda en lecture seule, aucun moyen de paiement enregistré, e-mails seulement en brouillon.','<b>Dans le prompt :</b> écris la règle explicitement, par exemple avec ce modèle :'],prompt:'Avant d’acheter, de payer, d’envoyer, de publier ou de supprimer quoi que ce soit : arrête-toi, montre-moi exactement ce que tu veux faire et attends mon « oui » explicite. Tu peux lire, chercher et rédiger des brouillons sans demander.',caveat:'<b>Une consigne dans le prompt n’est pas un verrou.</b> Ce n’est que du texte dans la fenêtre de contexte, que le modèle suit généralement, sans garantie. Lors de longues tâches, elle peut sortir de la fenêtre de contexte (voir <a href="#kontext">étape 5 : fenêtre de contexte</a>), elle peut être ignorée, et des instructions cachées dans des pages web ou des mails (injection de prompt) peuvent la contourner. Seul le logiciel pose un vrai verrou : des accès absents et des boutons de confirmation. Utilise donc le prompt en plus, jamais seul.'},
    keys:['ok','ask'],
    names:{ok:'Peut agir seul',ask:'Seulement avec accord'},
    btn:{ok:'Peut agir seul',ask:'Seulement avec accord'},
@@ -1467,7 +1615,9 @@ stations:[
  q:'Come impara un modello linguistico dai testi?',
  text:['Un modello linguistico impara un solo compito: prevedere il prossimo pezzo di parola. Legge enormi quantità di testo, ogni volta copre il pezzo successivo, indovina e confronta. Se sbaglia, i suoi miliardi di <b>pesi</b> vengono spostati di pochissimo nella direzione giusta.',
        'Da questo semplice esercizio nasce una quantità sorprendente di cose: grammatica, conoscenze, stile. Poi arriva una <b>rifinitura</b> con persone che valutano le risposte. Solo così il completatore di testi diventa un assistente disponibile.'],
- lab:{type:'train',title:'Prova: addestra un mini-modello',
+ lab:{type:'train',probeLbl:'Inizio della frase:',
+   only:l=>`Viene contata solo la parola subito dopo «${l}». Nelle frasi già lette è evidenziata. Quello che viene dopo, come «limpido» in «blu e limpido», il modello lo impara per un altro inizio («… e»).`,
+   title:'Prova: addestra un mini-modello',
    intro:'Il mini-modello conta solo quale parola segue due parole. Fagli leggere delle frasi e guarda come una distribuzione uniforme diventa un’aspettativa.',
    corpus:['Il cielo è blu.','Il caffè è caldo.','Il cielo è grigio oggi.','La riunione è rimandata.','Il caffè è finito.','Il cielo è blu e limpido.','Il caffè è caldo e forte.','La riunione è annullata.','Il cielo è sereno.','La riunione è rimandata, dice la capa.'],
    probes:[{label:'Il cielo è …',ctx:['cielo','è']},{label:'Il caffè è …',ctx:['caffè','è']},{label:'La riunione è …',ctx:['riunione','è']}],
@@ -1487,7 +1637,8 @@ stations:[
  q:'Perché l’IA conta in token, e perché l’italiano costa di più?',
  text:['Un modello linguistico non legge né lettere né parole. Divide il testo in <b>token</b>: le parole comuni restano intere, quelle rare e lunghe vengono tagliate a pezzi. Ogni pezzo riceve un numero, e il modello calcola solo con questi numeri.',
        'I token sono la valuta dell’IA. Si paga a token, la memoria di una conversazione è limitata in token, e anche il tempo di risposta dipende da essi.'],
- lab:{type:'tokens',title:'Prova: il tuo testo in token',
+ lab:{type:'tokens',pairLbl:'Coppia di frasi:',
+   title:'Prova: il tuo testo in token',
    label:'Scrivi o incolla un testo. I pezzi compaiono subito.',
    sample:'L’internazionalizzazione del nostro servizio clienti è rimandata a giovedì prossimo.',
    stats:['Caratteri','Parole','Token'],
@@ -1509,7 +1660,7 @@ stations:[
    ownMore:p=>`Qui la versione italiana richiede circa il ${p} % di token in più.`,
    otherMore:p=>`Qui, eccezionalmente, la versione inglese richiede circa il ${p} % in più.`,
    equal:'Qui le due sono più o meno pari.',
-   more:'Altra coppia di frasi', pos:(i,n)=>`Coppia ${i} di ${n}`, again:'Nuova coppia: prima indovina di nuovo.'},
+   more:'Stima la prossima coppia', pos:(i,n)=>`Coppia ${i} di ${n}`, again:'Nuova coppia: prima indovina di nuovo.'},
  hood:[['Tokenizer','Il programma che divide il testo in token. Molti modelli usano un metodo chiamato <i>byte-pair encoding</i>: durante la sua creazione unisce continuamente le coppie di caratteri più frequenti in nuovi mattoncini.'],
    ['Vocabolario','La scorta fissa di token, all’incirca da 50.000 a 250.000 nei modelli attuali. Ciò che non c’è per intero viene composto da pezzi.'],
    ['Finestra di contesto','Quanti token il modello può considerare in una volta: la tua domanda, la conversazione fin qui, i documenti allegati e la risposta insieme.'],
@@ -1542,7 +1693,10 @@ stations:[
  q:'Come fa il modello a sapere a che cosa si riferisce una parola?',
  text:['Una parola da sola è spesso ambigua. Per questo ogni token, prima di essere elaborato oltre, guarda tutti i token che lo precedono e li pesa: quali contano per me adesso? Questo meccanismo si chiama <b>attenzione</b>.',
        'Succede in molti strati uno dopo l’altro e con molte «teste» in parallelo, attente a cose diverse: grammatica, riferimenti, argomenti.'],
- lab:{type:'attention',title:'Prova: che cosa guarda una parola?',
+ lab:{type:'attention',varLbl:'Frase:',
+   barsTitle:w=>`I pesi più forti per «${w}» (tutti i pesi insieme fanno 100 %)`,
+   how:{title:'Come lo elabora l’IA',items:['<b>Confrontare:</b> per «lei» il modello confronta la sua lista di numeri (l’embedding della tappa 3) con quella di ogni parola precedente. Una parola che si adatta bene riceve un peso alto. Tutti i pesi insieme fanno 100 %.','<b>Mescolare:</b> poi mescola i significati di quelle parole in «lei» secondo i pesi. Dopo, «lei» è per così dire al 58 % «dottoressa».','<b>Perché conta:</b> se poi chiedi «Chi voleva discutere gli esami?», il modello trova la risposta solo grazie a questo legame. Cambia una parola nella frase (versione 2) e cambiano i pesi, e con loro la risposta.']},
+   title:'Prova: che cosa guarda una parola?',
    intro:'Tocca una parola. Più intenso è il colore delle altre parole, più attenzione ricevono. Il modello guarda solo a sinistra, a ciò che c’è già.',
    pick:'Tocca una parola.',
    first:'La prima parola non ha ancora niente da guardare.',
@@ -1566,7 +1720,7 @@ stations:[
  text:['Un modello linguistico non ha una memoria come una persona. A ogni risposta gli viene ripresentata tutta la conversazione fin qui. Quanto ci sta dentro lo stabilisce la <b>finestra di contesto</b>, misurata in token.',
        'Ciò che non ci sta più non esiste per il modello. Nel caso peggiore inventa una risposta plausibile invece di dire che non vede più l’informazione.'],
  lab:{type:'window',title:'Prova: rimpicciolisci la finestra di contesto',
-   intro:'Una chat su un progetto. Sposta il cursore a sinistra: i messaggi più vecchi escono dalla finestra, i più recenti restano.',
+   intro:'Una chat su un progetto. Sposta il cursore a sinistra: i messaggi più vecchi escono dalla finestra uno dopo l’altro. Osserva come cambia il riassunto in basso a ogni messaggio dimenticato.',
    slider:'Finestra di contesto',
    msgs:[{who:'du',t:'Oggi avviamo il progetto «Faro»: nuovo sito web entro fine maggio, budget 40.000 euro.',n:120},
      {who:'ki',t:'Capito. Per il sito entro fine maggio propongo quattro fasi: pianificazione, grafica, sviluppo, test.',n:160},
@@ -1574,9 +1728,15 @@ stations:[
      {who:'ki',t:'Volentieri: referenze, tempistiche, cicli di revisione, diritti d’uso delle immagini, accessibilità, manutenzione dopo il lancio…',n:220},
      {who:'du',t:'Grazie. Ora una bozza di e-mail per tutto il team, per favore.',n:90},
      {who:'ki',t:'Ecco una bozza: «Caro team, avviamo un nuovo progetto…»',n:190}],
-   question:{t:'Come si chiamava il progetto, e quant’era il budget?',n:40},
-   answerIn:'Il progetto si chiama «Faro», il budget è di 40.000 euro.',
-   answerOut:'Il progetto si chiama «Rinnovo sito 2026», il budget è di 25.000 euro.',
+   question:{t:'Riassumi a che punto siamo: progetto, scadenza, budget, fasi, grafica e cosa è già fatto.',n:40},
+   facts:[{t:'Progetto «Faro»: nuovo sito web entro fine maggio, budget 40.000 euro.',fake:'Progetto «Restyling web 2026»: nuovo sito entro fine anno, budget 25.000 euro.'},
+     {t:'Quattro fasi: pianificazione, grafica, sviluppo, test.',fake:'Tre fasi: concept, sviluppo, lancio.'},
+     {t:'La grafica la fa un’agenzia.',fake:'La grafica la fa il nostro team.'},
+     {t:'Le domande per il primo incontro con l’agenzia sono pronte.',fake:'Non c’è ancora una lista di domande.'},
+     null,
+     {t:'Una bozza di e-mail per il team è pronta.',fake:'L’e-mail al team è ancora da scrivere.'}],
+   allIn:'È ancora tutto nella finestra di contesto: il riassunto è corretto.',
+   someOut:(k,n)=>`${k} informazioni su ${n} non sono più nella finestra. L’IA riempie comunque i vuoti, con invenzioni plausibili.`,
    lost:'inventato', outside:'fuori',
    tok:n=>`${n} token`, used:(n,m)=>`${n} di ${m} token occupati`},
  hood:[['Finestra di contesto','Il numero massimo di token che un modello elabora in una volta. I modelli attuali ne gestiscono spesso da 100.000 a oltre un milione, libri interi.'],
@@ -1590,7 +1750,10 @@ stations:[
  q:'Perché la stessa domanda riceve due risposte diverse?',
  text:['Per ogni token successivo il modello calcola una probabilità per ogni parola del suo vocabolario. Poi tira i dadi, pesati secondo queste probabilità.',
        'L’impostazione <b>temperatura</b> decide quanto audace sia il tiro: bassa significa quasi sempre la parola più probabile, alta significa più sorprese.'],
- lab:{type:'temperature',title:'Prova: gira la manopola della temperatura',
+ lab:{type:'temperature',rollsTitle:'Dieci tiri: ecco come l’IA potrebbe continuare l’oggetto',
+   rare:'raro', empty:'Nessun tiro finora. Tocca «Genera 10 risposte».',
+   legend:{common:'probabile',rare:'raro o strano'},
+   title:'Prova: gira la manopola della temperatura',
    prompt:'Oggetto: La nostra riunione di team di giovedì', gap:'spazio vuoto',
    next:[['è rimandata',3.2],['è annullata',2.5],['si fa online',2.1],['inizia più tardi',1.5],['ha bisogno delle vostre idee',.6],['salta, pizza per tutti',-.6,1],['esplode',-2.2,1]],
    slider:'Temperatura',
@@ -1614,9 +1777,12 @@ stations:[
  q:'Perché l’IA a volte inventa le cose, e con tanta sicurezza?',
  text:['Il modello produce il seguito più plausibile, non quello vero. Se non è sicuro su una domanda, la probabilità si distribuisce su più risposte. Tira comunque i dadi, e la frase intorno suona sempre ugualmente convinta.',
        'Queste risposte inventate si chiamano <b>allucinazioni</b>. Sono particolarmente a rischio conoscenze di nicchia, cifre precise, citazioni, fonti, articoli di legge e sentenze.'],
- lab:{type:'confidence',title:'Prova: sembrare sicuri, essere incerti',
-   intro:'Scegli una domanda e fai rispondere l’IA più volte. Con «Mostra le probabilità» vedi che cosa succede dentro.',
-   go:'Genera una risposta', show:'Mostra le probabilità',
+ lab:{type:'confidence',barsTitle:'Che cosa calcola il modello al suo interno (in chat non lo vedi mai):',
+   why:'La frase suona sempre ugualmente sicura, sia che la risposta avesse il 97 % di probabilità sia solo il 20 %. Per questo il tono non dice nulla sull’affidabilità.',
+   qLbl:'Domanda:',
+   title:'Prova: sembrare sicuri, essere incerti',
+   intro:'Scegli una domanda e fai rispondere l’IA più volte. Le barre mostrano quanto il modello ritiene probabile ogni possibile risposta.',
+   go:'Genera una risposta',
    ok:p=>`Giusto. Il modello qui ne era sicuro al ${p}.`,
    bad:(p,t)=>`Sbagliato, ma formulato con la stessa sicurezza. Questa risposta aveva solo il ${p} di probabilità. La risposta giusta sarebbe: ${t}`,
    prompts:[
@@ -1633,7 +1799,8 @@ stations:[
  q:'Come diventa più affidabile un’IA?',
  text:['Da solo, un modello linguistico indovina a memoria. Diventa più affidabile con degli strumenti: può <b>cercare</b> in Internet o nei documenti aziendali, usare una <b>calcolatrice</b> o prendersi il tempo di <b>ragionare</b> prima di rispondere.',
        'Gli assistenti moderni decidono spesso da soli quando serve uno strumento. Lo riconosci da avvisi come «ricerca in corso» o dalle fonti sotto la risposta.'],
- lab:{type:'lookup',title:'Prova: indovinare o verificare?',
+ lab:{type:'lookup',warnLbl:'Attenzione', infoLbl:'Nota',
+   title:'Prova: indovinare o verificare?',
    guessed:'indovinato',
    items:[{title:'Cercare',p:'Una domanda su regole interne che non sono in Internet.',q:'Da quando vale da noi la nuova politica sui rimborsi di trasferta?',
        bad:{btn:'Rispondere a memoria',answer:'La nuova politica sui rimborsi di trasferta vale dal 1° gennaio.',note:'Sembra sicuro, ma è indovinato. La politica interna non è mai stata nei dati di addestramento.'},
@@ -1654,8 +1821,18 @@ stations:[
  q:'Come si chiede per ottenere una risposta utile?',
  text:['Quello che non dici, l’IA deve indovinarlo. Una domanda breve senza contesto riceve una risposta generica con segnaposto. Più contesto, obiettivo e formato desiderato indichi, meno c’è da indovinare.',
        'Una buona richiesta è come un buon briefing per un nuovo collega, molto diligente ma che non sa nulla del tuo progetto.'],
- lab:{type:'prompt',title:'Prova: costruisci un prompt',
-   intro:'Il compito: un’e-mail per dire che una riunione è rimandata. Aggiungi i mattoncini e guarda come migliora la risposta.',
+ lab:{type:'prompt',changed:'Che cosa hanno cambiato i tuoi elementi:',
+   effects:['Ruolo: un mittente chiaro, che scrive per conto della responsabile','Contesto: orari veri e il motivo invece di formule vaghe','Destinatari: rivolta al team, con la richiesta di segnare l’orario','Formato: oggetto e testo breve','Tono: niente scuse di rito'],
+   compose:on=>{const R=on.has(0),K=on.has(1),E=on.has(2),F=on.has(3),T=on.has(4),s=[];
+     if(R)s.push('vi scrivo per conto della responsabile del team.');
+     s.push(K?'la riunione di giovedì alle 10 si terrà invece venerdì alle 14, perché il cliente ha disdetto.':'purtroppo dobbiamo rinviare la riunione. Vi comunicheremo la nuova data appena possibile.');
+     if(E&&K)s.push('Segnatevi il nuovo orario in agenda.');
+     if(K)s.push(F?'Se non potete, fatemelo sapere entro mercoledì.':'Se venerdì non potete, fatemelo sapere e troveremo insieme una soluzione.');
+     if(!T)s.push('Ci scusiamo per l’eventuale disagio e vi ringraziamo per la comprensione.');
+     const body=s.map((x,i)=>i?x[0].toUpperCase()+x.slice(1):x).join(' ');
+     return [...(F?['Oggetto: '+(K?'Riunione del team spostata a venerdì alle 14':'Riunione rinviata'),'']:[]),E?'Ciao a tutti,':T?'Buongiorno,':'Gentili Signore e Signori,',body,R?'Cordiali saluti\n[Nome]\nAssistente della responsabile del team':E||T?'A presto\n[Il tuo nome]':'Distinti saluti\n[Nome]'].join('\n')},
+   title:'Prova: costruisci un prompt',
+   intro:'Il compito: un’e-mail per dire che una riunione è rinviata. Attiva e disattiva gli elementi in qualsiasi ordine e osserva che cosa cambia nella risposta.',
    base:'Scrivi un’e-mail per dire che la riunione è rimandata.',
    parts:[{btn:'Ruolo',pos:'pre',text:'Sei l’assistente della responsabile del team.'},
      {btn:'Contesto',text:'La riunione di giovedì alle 10 viene spostata a venerdì alle 14 perché il cliente ha disdetto.'},
@@ -1663,10 +1840,7 @@ stations:[
      {btn:'Formato',text:'Al massimo cinque frasi, prima l’oggetto.'},
      {btn:'Tono',text:'Cordiale e concreto, senza formule di scusa di rito.'}],
    meter:'Quanto sa l’IA?',
-   tiers:['Risposta con poco contesto','Risposta con un po’ di contesto','Risposta con tutto il contesto'],
-   answers:['Gentili Signore e Signori,\npurtroppo dobbiamo rimandare la riunione. Vi comunicheremo la nuova data il prima possibile. Vi ringraziamo per la comprensione e ci scusiamo per l’eventuale disagio.\nCordiali saluti\n[Il tuo nome]',
-     'Ciao a tutti,\nla nostra riunione di giovedì alle 10 è spostata a venerdì alle 14, perché il cliente ha disdetto all’ultimo momento. Segnatevi il nuovo orario. Se venerdì non vi va bene, fatemelo sapere e troveremo insieme una soluzione. Grazie a tutti per la flessibilità e la comprensione!\nUn saluto',
-     'Oggetto: Riunione di team spostata a venerdì, ore 14\n\nCiao a tutti,\nla riunione di giovedì alle 10 si terrà invece venerdì alle 14, perché il cliente ha disdetto. Sala e ordine del giorno restano gli stessi. Fatemi sapere entro mercoledì se non potete esserci.\nUn saluto']},
+   tiers:['Risposta con poco contesto','Risposta con un po’ di contesto','Risposta con tutto il contesto']},
  hood:[['Prompt','L’input dato al modello. Tutto ciò che contiene entra nella finestra di contesto e orienta le probabilità.'],
    ['Ruolo','«Sei…» sposta lessico e punto di vista. Non rende il modello più intelligente, ma più adatto.'],
    ['Esempi (few-shot)','Uno o due esempi del risultato desiderato funzionano spesso meglio di lunghe descrizioni.'],
@@ -1677,8 +1851,11 @@ stations:[
 {id:'vorurteile',part:'b',short:'Pregiudizi',
  q:'Un’IA ha pregiudizi?',
  text:['Un modello linguistico impara da testi scritti da persone, con i loro squilibri. Ciò che compare spesso insieme nei dati gli sembra probabile. Così nascono le <b>distorsioni</b> (bias), per esempio legate a genere, origine o età.',
-       'I fornitori cercano di correggerle nella rifinitura. Ma gli schemi scompaiono di rado del tutto, e a volte la correzione va oltre il segno.'],
- lab:{type:'bias',title:'Prova: chi immagina il modello?',
+       'I fornitori cercano di correggerle nella rifinitura. Ma gli schemi scompaiono di rado del tutto, e a volte la correzione va oltre il segno.',
+       'L’insidia: una distorsione si nota appena in una singola risposta. Agisce quando molte persone si affidano alla stessa IA, per esempio per preselezionare candidature o scrivere annunci di lavoro.'],
+ lab:{type:'bias',probLbl:'Frase:', modeLbl:'Dati:',
+   why:{title:'Perché è un problema reale',items:['<b>Invisibile nel singolo caso:</b> una risposta isolata sembra neutrale. Lo schema emerge solo su molte richieste, cioè proprio quando un’IA scrive testi o preseleziona candidature su larga scala.','<b>Non solo il genere:</b> distorsioni simili esistono per origine, età, disabilità o accento. I nomi che suonano stranieri, per esempio, vengono associati meno spesso a ruoli di guida.','<b>Conseguenze concrete:</b> annunci di lavoro che senza volerlo si rivolgono a un solo gruppo, immagini dell’IA in cui gli esperti sembrano quasi sempre uguali, oppure la medicina: se studi e manuali descrivono soprattutto uomini, un’IA può riconoscere peggio i segni tipici dell’infarto nelle donne.','<b>Si rafforza da sola:</b> i testi dell’IA finiscono di nuovo su Internet e quindi nei futuri dati di addestramento. Ciò che oggi è distorto domani può esserlo ancora di più.','<b>Che cosa aiuta:</b> dare criteri chiari, chiedere esplicitamente altri esempi, controllare i risultati a campione e lasciare sempre alle persone le decisioni sulle persone.']},
+   title:'Prova: chi immagina il modello?',
    intro:'Il modello deve completare una frase. Le barre mostrano quali nomi considera probabili. In blu i nomi femminili.',
    modes:{web:'Dati come in Internet',fair:'Dopo la correzione'},
    noteWeb:p=>`Nomi femminili in tutto: ${p}. Il modello riflette chi compare spesso in questo ruolo nei testi.`,
@@ -1696,7 +1873,8 @@ stations:[
  q:'Quanta energia costa una risposta?',
  text:['Ogni token è calcolo in un data center. Una singola risposta consuma poca elettricità, ma miliardi di richieste al giorno si sommano. Modelli più grandi, risposte più lunghe e il «ragionamento» costano di più.',
        'I valori esatti sono discussi e cambiano in fretta, perché chip e modelli diventano più efficienti. Per questo qui calcoliamo solo con ordini di grandezza.'],
- lab:{type:'cost',title:'Prova: la tua giornata con l’IA in wattora',
+ lab:{type:'cost',sizeLbl:'Modello:',
+   title:'Prova: la tua giornata con l’IA in wattora',
    intro:'Imposta come usi un’IA. Il risultato è una stima grossolana con un ampio intervallo.',
    sizes:[['Modello piccolo',.25],['Modello medio',1],['Modello grande',5]],
    words:'Parole per risposta', reqs:'Richieste al giorno', think:'Modalità ragionamento',
@@ -1745,7 +1923,7 @@ stations:[
        'C’è poi un nuovo pericolo: i testi che l’agente legge strada facendo possono contenere istruzioni nascoste pensate per deviarlo.'],
  lab:{type:'agent',title:'Prova: dove serve la tua approvazione?',
    intro:'Un agente deve preparare la tua trasferta di lavoro ad Amburgo. Decidi per ogni passaggio: può farlo da solo o solo con la tua approvazione?',
-   how:{title:'Come assicurarti che l’IA chieda prima',items:['<b>Nelle impostazioni:</b> molti assistenti con modalità agente o azioni hanno opzioni come «chiedi prima di agire», «conferma sempre» o permessi per singolo strumento. Imposta su «chiedi» acquisti, invii e cancellazioni.','<b>Negli accessi:</b> concedi solo il necessario: agenda in sola lettura, nessun metodo di pagamento salvato, e-mail solo come bozza.','<b>Nel prompt:</b> scrivi la regola in modo esplicito, per esempio con questo modello:'],prompt:'Prima di comprare, pagare, inviare, pubblicare o cancellare qualcosa: fermati, mostrami esattamente che cosa vuoi fare e aspetta il mio «sì» esplicito. Leggere, cercare e scrivere bozze puoi farlo senza chiedere.',caveat:'Importante: un’istruzione nel prompt è una richiesta, non un blocco. Istruzioni nascoste nelle pagine web (prompt injection) possono aggirarla. Più affidabili sono gli accessi mancanti e le opzioni di conferma nel programma. La cosa più sicura è usare entrambi.'},
+   how:{title:'Come assicurarti che l’IA chieda prima',items:['<b>Nelle impostazioni:</b> molti assistenti con modalità agente o azioni hanno opzioni come «chiedi prima di agire», «conferma sempre» o permessi per singolo strumento. Imposta su «chiedi» acquisti, invii e cancellazioni.','<b>Negli accessi:</b> concedi solo il necessario: agenda in sola lettura, nessun metodo di pagamento salvato, e-mail solo come bozza.','<b>Nel prompt:</b> scrivi la regola in modo esplicito, per esempio con questo modello:'],prompt:'Prima di comprare, pagare, inviare, pubblicare o cancellare qualcosa: fermati, mostrami esattamente che cosa vuoi fare e aspetta il mio «sì» esplicito. Leggere, cercare e scrivere bozze puoi farlo senza chiedere.',caveat:'<b>Un’istruzione nel prompt non è un blocco.</b> È solo testo nella finestra di contesto, che il modello di solito segue, ma senza garanzia. Nei compiti lunghi può uscire dalla finestra di contesto (vedi <a href="#kontext">tappa 5: finestra di contesto</a>), può essere ignorata, e istruzioni nascoste in pagine web o e-mail (prompt injection) possono aggirarla. Un vero blocco lo mette solo il programma: accessi mancanti e interruttori di conferma. Usa quindi il prompt in aggiunta, mai da solo.'},
    keys:['ok','ask'],
    names:{ok:'Può da solo',ask:'Solo con approvazione'},
    btn:{ok:'Può da solo',ask:'Solo con approvazione'},
@@ -1832,7 +2010,9 @@ stations:[
  q:'¿Cómo aprende un modelo de lenguaje a partir de textos?',
  text:['Un modelo de lenguaje aprende una sola tarea: predecir el siguiente trozo de palabra. Lee cantidades enormes de texto, tapa cada vez el trozo siguiente, adivina y compara. Si falla, sus miles de millones de <b>pesos</b> se mueven un poquito en la dirección correcta.',
        'De este ejercicio tan sencillo surge muchísimo: gramática, conocimientos, estilo. Después llega un <b>ajuste fino</b> con personas que valoran las respuestas. Solo así el completador de textos se convierte en un asistente servicial.'],
- lab:{type:'train',title:'Pruébalo: entrena un minimodelo',
+ lab:{type:'train',probeLbl:'Inicio de frase:',
+   only:l=>`Solo se cuenta la palabra que va justo después de «${l}». En las frases ya leídas está marcada. Lo que viene después, como «despejado» en «azul y despejado», el modelo lo aprende para otro inicio («… y»).`,
+   title:'Pruébalo: entrena un minimodelo',
    intro:'El minimodelo solo cuenta qué palabra sigue a dos palabras. Hazle leer frases y observa cómo una distribución igualada se convierte en una expectativa.',
    corpus:['El cielo está azul.','El café está caliente.','El cielo está gris hoy.','La reunión está aplazada.','El café está frío.','El cielo está azul y despejado.','El café está caliente y fuerte.','La reunión está cancelada.','El cielo está nublado.','La reunión está aplazada, dice la jefa.'],
    probes:[{label:'El cielo está …',ctx:['cielo','está']},{label:'El café está …',ctx:['café','está']},{label:'La reunión está …',ctx:['reunión','está']}],
@@ -1852,7 +2032,8 @@ stations:[
  q:'¿Por qué la IA cuenta en tokens, y por qué el español cuesta más?',
  text:['Un modelo de lenguaje no lee ni letras ni palabras. Divide el texto en <b>tokens</b>: las palabras frecuentes quedan enteras, las raras y largas se cortan en trozos. Cada trozo recibe un número, y el modelo solo calcula con esos números.',
        'Los tokens son la moneda de la IA. Se paga por token, la memoria de una conversación está limitada en tokens y también el tiempo de respuesta depende de ellos.'],
- lab:{type:'tokens',title:'Pruébalo: tu texto en tokens',
+ lab:{type:'tokens',pairLbl:'Par de frases:',
+   title:'Pruébalo: tu texto en tokens',
    label:'Escribe o pega un texto. Los trozos aparecen al momento.',
    sample:'La internacionalización de nuestro servicio de atención al cliente se aplaza al próximo jueves.',
    stats:['Caracteres','Palabras','Tokens'],
@@ -1874,7 +2055,7 @@ stations:[
    ownMore:p=>`Aquí la versión en español necesita un ${p} % más de tokens, aproximadamente.`,
    otherMore:p=>`Aquí, excepcionalmente, la versión en inglés necesita un ${p} % más, aproximadamente.`,
    equal:'Aquí las dos están más o menos igualadas.',
-   more:'Otro par de frases', pos:(i,n)=>`Par ${i} de ${n}`, again:'Nuevo par: primero adivina otra vez.'},
+   more:'Estimar el siguiente par', pos:(i,n)=>`Par ${i} de ${n}`, again:'Nuevo par: primero adivina otra vez.'},
  hood:[['Tokenizador','El programa que divide el texto en tokens. Muchos modelos usan un método llamado <i>byte-pair encoding</i>: al crearse, va uniendo los pares de caracteres más frecuentes en nuevas piezas.'],
    ['Vocabulario','La reserva fija de tokens, más o menos entre 50.000 y 250.000 en los modelos actuales. Lo que no está entero se compone a partir de trozos.'],
    ['Ventana de contexto','Cuántos tokens puede tener en cuenta el modelo a la vez: tu pregunta, la conversación hasta ahora, los documentos adjuntos y la respuesta juntos.'],
@@ -1907,7 +2088,10 @@ stations:[
  q:'¿Cómo sabe el modelo a qué se refiere una palabra?',
  text:['Una palabra sola suele ser ambigua. Por eso cada token, antes de seguir procesándose, mira todos los tokens anteriores y los pondera: ¿cuáles me importan ahora? Este mecanismo se llama <b>atención</b>.',
        'Ocurre en muchas capas seguidas y con muchas «cabezas» a la vez, atentas a cosas distintas: gramática, referencias, temas.'],
- lab:{type:'attention',title:'Pruébalo: ¿a qué mira una palabra?',
+ lab:{type:'attention',varLbl:'Frase:',
+   barsTitle:w=>`Los pesos más fuertes para «${w}» (todos los pesos juntos suman 100 %)`,
+   how:{title:'Cómo lo procesa la IA',items:['<b>Comparar:</b> para «ella», el modelo compara su lista de números (el embedding de la estación 3) con la de cada palabra anterior. Una palabra que encaja bien recibe un peso alto. Todos los pesos juntos suman 100 %.','<b>Mezclar:</b> después mezcla en «ella» los significados de esas palabras según sus pesos. Luego «ella» es, por así decirlo, un 58 % «doctora».','<b>Por qué importa:</b> si después preguntas «¿Quién quería hablar de los resultados?», el modelo solo encuentra la respuesta gracias a este vínculo. Cambia una palabra de la frase (versión 2) y cambian los pesos, y con ellos la respuesta.']},
+   title:'Pruébalo: ¿a qué mira una palabra?',
    intro:'Toca una palabra. Cuanto más intenso es el color de las demás palabras, más atención reciben. El modelo solo mira hacia la izquierda, a lo que ya está.',
    pick:'Toca una palabra.',
    first:'La primera palabra todavía no tiene nada que mirar.',
@@ -1931,7 +2115,7 @@ stations:[
  text:['Un modelo de lenguaje no tiene memoria como una persona. En cada respuesta se le vuelve a presentar toda la conversación. Cuánto cabe lo decide la <b>ventana de contexto</b>, medida en tokens.',
        'Lo que ya no cabe no existe para el modelo. En el peor caso inventa entonces una respuesta plausible en lugar de decir que ya no ve la información.'],
  lab:{type:'window',title:'Pruébalo: achica la ventana de contexto',
-   intro:'Un chat sobre un proyecto. Mueve el control hacia la izquierda: los mensajes antiguos salen de la ventana, los más recientes se quedan.',
+   intro:'Un chat sobre un proyecto. Mueve el control a la izquierda: los mensajes antiguos salen de la ventana uno tras otro. Fíjate en cómo cambia el resumen de abajo con cada mensaje olvidado.',
    slider:'Ventana de contexto',
    msgs:[{who:'du',t:'Hoy arrancamos el proyecto «Faro»: web nueva para finales de mayo, presupuesto de 40.000 euros.',n:120},
      {who:'ki',t:'Entendido. Para la web de finales de mayo propongo cuatro fases: planificación, diseño, desarrollo, pruebas.',n:160},
@@ -1939,9 +2123,15 @@ stations:[
      {who:'ki',t:'Claro: referencias, plazos, rondas de revisión, derechos de uso de las imágenes, accesibilidad, mantenimiento tras el lanzamiento…',n:220},
      {who:'du',t:'Gracias. Ahora, por favor, un borrador de correo para todo el equipo.',n:90},
      {who:'ki',t:'Aquí tienes un borrador: «Querido equipo, empezamos un proyecto nuevo…»',n:190}],
-   question:{t:'¿Cómo se llamaba el proyecto y de cuánto era el presupuesto?',n:40},
-   answerIn:'El proyecto se llama «Faro» y el presupuesto es de 40.000 euros.',
-   answerOut:'El proyecto se llama «Renovación web 2026» y el presupuesto es de 25.000 euros.',
+   question:{t:'Resume cómo vamos: proyecto, plazo, presupuesto, fases, diseño y lo que ya está hecho.',n:40},
+   facts:[{t:'Proyecto «Faro»: web nueva para finales de mayo, presupuesto de 40.000 euros.',fake:'Proyecto «Rediseño web 2026»: web nueva para final de año, presupuesto de 25.000 euros.'},
+     {t:'Cuatro fases: planificación, diseño, desarrollo, pruebas.',fake:'Tres fases: concepto, desarrollo, lanzamiento.'},
+     {t:'El diseño lo hace una agencia.',fake:'El diseño lo hace nuestro equipo.'},
+     {t:'Las preguntas para la primera reunión con la agencia están listas.',fake:'Todavía no hay una lista de preguntas.'},
+     null,
+     {t:'Hay un borrador de correo para el equipo.',fake:'El correo al equipo está pendiente.'}],
+   allIn:'Todo sigue dentro de la ventana de contexto: el resumen es correcto.',
+   someOut:(k,n)=>`${k} de ${n} datos ya no están en la ventana. La IA rellena igualmente los huecos, con invenciones que suenan plausibles.`,
    lost:'inventado', outside:'fuera',
    tok:n=>`${n} tokens`, used:(n,m)=>`${n} de ${m} tokens ocupados`},
  hood:[['Ventana de contexto','El número máximo de tokens que un modelo procesa a la vez. Los modelos actuales manejan a menudo de 100.000 a más de un millón, libros enteros.'],
@@ -1955,7 +2145,10 @@ stations:[
  q:'¿Por qué la misma pregunta recibe dos respuestas distintas?',
  text:['Para cada token siguiente, el modelo calcula una probabilidad para cada palabra de su vocabulario. Luego tira los dados, ponderados según esas probabilidades.',
        'El ajuste <b>temperatura</b> decide lo atrevida que es la tirada: baja significa casi siempre la palabra más probable; alta, más sorpresas.'],
- lab:{type:'temperature',title:'Pruébalo: gira el mando de la temperatura',
+ lab:{type:'temperature',rollsTitle:'Diez tiradas: así podría continuar la IA el asunto',
+   rare:'rara', empty:'Todavía no hay tiradas. Toca «Generar 10 respuestas».',
+   legend:{common:'probable',rare:'rara o extraña'},
+   title:'Pruébalo: gira el mando de la temperatura',
    prompt:'Asunto: Nuestra reunión de equipo del jueves', gap:'hueco',
    next:[['se aplaza',3.2],['se cancela',2.5],['pasa a ser online',2.1],['empieza más tarde',1.5],['necesita vuestras ideas',.6],['se suspende, pizza para todos',-.6,1],['explota',-2.2,1]],
    slider:'Temperatura',
@@ -1979,9 +2172,12 @@ stations:[
  q:'¿Por qué la IA a veces se inventa cosas, y con tanta seguridad?',
  text:['El modelo produce la continuación más plausible, no la verdadera. Si no está seguro con una pregunta, la probabilidad se reparte entre varias respuestas. Aun así tira los dados, y la frase de alrededor suena siempre igual de convencida.',
        'Estas respuestas inventadas se llaman <b>alucinaciones</b>. Son especialmente propensos el conocimiento de nicho, las cifras exactas, las citas, las fuentes, los artículos de ley y las sentencias.'],
- lab:{type:'confidence',title:'Pruébalo: sonar seguro, estar inseguro',
-   intro:'Elige una pregunta y deja que la IA responda varias veces. Con «Mostrar probabilidades» ves lo que pasa dentro.',
-   go:'Generar respuesta', show:'Mostrar probabilidades',
+ lab:{type:'confidence',barsTitle:'Lo que el modelo calcula por dentro (en un chat nunca lo ves):',
+   why:'La frase suena siempre igual de segura, tanto si la respuesta tenía un 97 % de probabilidad como si solo tenía un 20 %. Por eso el tono no dice nada sobre la fiabilidad.',
+   qLbl:'Pregunta:',
+   title:'Pruébalo: sonar seguro, estar inseguro',
+   intro:'Elige una pregunta y deja que la IA responda varias veces. Las barras muestran qué probabilidad da el modelo a cada respuesta posible.',
+   go:'Generar respuesta',
    ok:p=>`Correcto. Aquí el modelo estaba seguro al ${p}.`,
    bad:(p,t)=>`Falso, pero formulado con la misma seguridad. Esta respuesta solo tenía un ${p} de probabilidad. Lo correcto sería: ${t}`,
    prompts:[
@@ -1998,7 +2194,8 @@ stations:[
  q:'¿Cómo se vuelve más fiable una IA?',
  text:['Por sí solo, un modelo de lenguaje adivina de memoria. Se vuelve más fiable con herramientas: puede <b>buscar</b> en internet o en documentos de la empresa, usar una <b>calculadora</b> o tomarse tiempo para <b>pensar</b> antes de responder.',
        'Los asistentes modernos deciden a menudo solos cuándo necesitan una herramienta. Lo reconoces por avisos como «buscando» o por las fuentes bajo la respuesta.'],
- lab:{type:'lookup',title:'Pruébalo: ¿adivinar o consultar?',
+ lab:{type:'lookup',warnLbl:'Atención', infoLbl:'Nota',
+   title:'Pruébalo: ¿adivinar o consultar?',
    guessed:'adivinado',
    items:[{title:'Buscar',p:'Una pregunta sobre normas internas que no están en internet.',q:'¿Desde cuándo se aplica nuestra nueva política de gastos de viaje?',
        bad:{btn:'Responder de memoria',answer:'La nueva política de gastos de viaje se aplica desde el 1 de enero.',note:'Suena seguro, pero es adivinado. La política interna nunca estuvo en los datos de entrenamiento.'},
@@ -2019,8 +2216,17 @@ stations:[
  q:'¿Cómo se pregunta para obtener una respuesta útil?',
  text:['Lo que no dices, la IA tiene que adivinarlo. Una pregunta corta sin contexto recibe una respuesta genérica con huecos por rellenar. Cuanto más contexto, objetivo y formato deseado indiques, menos hay que adivinar.',
        'Una buena petición es como un buen briefing para un compañero nuevo muy trabajador que no sabe nada de tu proyecto.'],
- lab:{type:'prompt',title:'Pruébalo: monta un prompt',
-   intro:'La tarea: un correo para decir que una reunión se aplaza. Añade piezas y observa cómo mejora la respuesta.',
+ lab:{type:'prompt',changed:'Lo que han cambiado tus piezas:',
+   effects:['Rol: un remitente claro, que escribe en nombre de la jefa de equipo','Contexto: horas reales y el motivo en vez de huecos','Destinatarios: dirigido al equipo, con la petición de apuntar la hora','Formato: asunto y texto breve','Tono: sin disculpas de manual'],
+   compose:on=>{const R=on.has(0),K=on.has(1),E=on.has(2),F=on.has(3),T=on.has(4),du=E||T,s=[];
+     if(R)s.push(du?'Os escribo en nombre de la jefa del equipo.':'Les escribo en nombre de la jefa del equipo.');
+     s.push(K?'La reunión del jueves a las 10:00 se celebrará el viernes a las 14:00, porque el cliente ha cancelado.':(du?'Por desgracia, tenemos que aplazar la reunión. Os comunicaremos la nueva fecha lo antes posible.':'Por desgracia, tenemos que aplazar la reunión. Les comunicaremos la nueva fecha lo antes posible.'));
+     if(E&&K)s.push('Por favor, apuntad la nueva hora en el calendario.');
+     if(K)s.push(F?(du?'Si no podéis, avisadme antes del miércoles.':'Si no pueden, avísenme antes del miércoles.'):(du?'Si el viernes no podéis, decídmelo y buscamos juntos una solución.':'Si el viernes no pueden, díganmelo y buscaremos juntos una solución.'));
+     if(!T)s.push(du?'Perdonad las molestias y gracias por vuestra comprensión.':'Disculpen las molestias y gracias por su comprensión.');
+     return [...(F?['Asunto: '+(K?'Reunión del equipo trasladada al viernes a las 14:00':'Reunión aplazada'),'']:[]),E?'Hola a todos:':T?'Hola:':'Estimados señores:',s.join(' '),R?'Un saludo,\n[Nombre]\nAsistente de la jefa del equipo':du?'Un saludo,\n[Tu nombre]':'Atentamente,\n[Su nombre]'].join('\n')},
+   title:'Pruébalo: monta un prompt',
+   intro:'La tarea: un correo para avisar de que se aplaza una reunión. Activa y desactiva las piezas en cualquier orden y observa qué cambia en la respuesta.',
    base:'Escribe un correo para decir que la reunión se aplaza.',
    parts:[{btn:'Rol',pos:'pre',text:'Eres el asistente de la jefa de equipo.'},
      {btn:'Contexto',text:'La reunión del jueves a las 10 se traslada al viernes a las 14, porque el cliente la ha cancelado.'},
@@ -2028,10 +2234,7 @@ stations:[
      {btn:'Formato',text:'Como mucho cinco frases, primero el asunto.'},
      {btn:'Tono',text:'Amable y concreto, sin disculpas de manual.'}],
    meter:'¿Cuánto sabe la IA?',
-   tiers:['Respuesta con poco contexto','Respuesta con algo de contexto','Respuesta con todo el contexto'],
-   answers:['Estimados señores:\nlamentablemente tenemos que aplazar la reunión. Les comunicaremos la nueva fecha lo antes posible. Agradecemos su comprensión y les pedimos disculpas por las molestias.\nAtentamente,\n[Su nombre]',
-     'Hola a todos:\nnuestra reunión del jueves a las 10 se traslada al viernes a las 14, porque el cliente la ha cancelado a última hora. Por favor, apuntad la nueva hora. Si el viernes no os va bien, decídmelo y buscaremos juntos una solución. ¡Gracias a todos por vuestra flexibilidad y comprensión!\nUn saludo',
-     'Asunto: Reunión de equipo trasladada al viernes, 14:00\n\nHola a todos:\nla reunión del jueves a las 10 será el viernes a las 14, porque el cliente la ha cancelado. Sala y orden del día no cambian. Avisadme antes del miércoles si no podéis venir.\nUn saludo']},
+   tiers:['Respuesta con poco contexto','Respuesta con algo de contexto','Respuesta con todo el contexto']},
  hood:[['Prompt','La entrada que recibe el modelo. Todo lo que contiene pasa a la ventana de contexto y orienta las probabilidades.'],
    ['Rol','«Eres…» cambia el vocabulario y el punto de vista. No hace al modelo más listo, pero sí más adecuado.'],
    ['Ejemplos (few-shot)','Uno o dos ejemplos del resultado deseado suelen funcionar mejor que descripciones largas.'],
@@ -2042,8 +2245,11 @@ stations:[
 {id:'vorurteile',part:'b',short:'Prejuicios',
  q:'¿Tiene prejuicios una IA?',
  text:['Un modelo de lenguaje aprende de textos escritos por personas, con sus desequilibrios. Lo que aparece a menudo junto en los datos le parece probable. Así surgen los <b>sesgos</b>, por ejemplo de género, origen o edad.',
-       'Los proveedores intentan corregirlo en el ajuste fino. Pero los patrones rara vez desaparecen del todo, y a veces la corrección se pasa de la raya.'],
- lab:{type:'bias',title:'Pruébalo: ¿a quién se imagina el modelo?',
+       'Los proveedores intentan corregirlo en el ajuste fino. Pero los patrones rara vez desaparecen del todo, y a veces la corrección se pasa de la raya.',
+       'Lo traicionero: un sesgo apenas se nota en una respuesta aislada. Actúa cuando muchas personas confían en la misma IA, por ejemplo al preseleccionar candidaturas o redactar ofertas de empleo.'],
+ lab:{type:'bias',probLbl:'Frase:', modeLbl:'Datos:',
+   why:{title:'Por qué es un problema real',items:['<b>Invisible en el caso concreto:</b> una respuesta aislada parece neutral. El patrón solo aparece en muchas peticiones, justo cuando una IA escribe textos o preselecciona candidaturas a gran escala.','<b>No solo el género:</b> hay sesgos parecidos por origen, edad, discapacidad o acento. Los nombres que suenan extranjeros, por ejemplo, se asocian menos a puestos de dirección.','<b>Consecuencias reales:</b> ofertas de empleo que sin querer solo se dirigen a un grupo, imágenes de IA en las que los expertos casi siempre parecen iguales, o la medicina: si los estudios y los manuales describen sobre todo a hombres, una IA puede reconocer peor los signos típicos del infarto en mujeres.','<b>Se refuerza solo:</b> los textos de IA vuelven a Internet y, con ello, a los futuros datos de entrenamiento. Lo que hoy está sesgado mañana puede estarlo aún más.','<b>Qué ayuda:</b> dar criterios claros, pedir expresamente otros ejemplos, revisar los resultados por muestreo y dejar siempre que las decisiones sobre personas las tomen personas.']},
+   title:'Pruébalo: ¿a quién se imagina el modelo?',
    intro:'El modelo debe completar una frase. Las barras muestran qué nombres considera probables. En azul, los nombres femeninos.',
    modes:{web:'Datos como en internet',fair:'Después de corregir'},
    noteWeb:p=>`Nombres femeninos en total: ${p}. El modelo refleja quién aparece a menudo en ese papel en los textos.`,
@@ -2061,7 +2267,8 @@ stations:[
  q:'¿Cuánta energía cuesta una respuesta?',
  text:['Cada token es cálculo en un centro de datos. Una sola respuesta gasta poca electricidad, pero miles de millones de peticiones al día se acumulan. Los modelos más grandes, las respuestas más largas y el «razonamiento» cuestan más.',
        'Las cifras exactas son discutidas y cambian rápido, porque chips y modelos son cada vez más eficientes. Por eso aquí solo calculamos con órdenes de magnitud.'],
- lab:{type:'cost',title:'Pruébalo: tu día con IA en vatios-hora',
+ lab:{type:'cost',sizeLbl:'Modelo:',
+   title:'Pruébalo: tu día con IA en vatios-hora',
    intro:'Ajusta cómo usas una IA. El resultado es una estimación aproximada con un margen amplio.',
    sizes:[['Modelo pequeño',.25],['Modelo mediano',1],['Modelo grande',5]],
    words:'Palabras por respuesta', reqs:'Peticiones al día', think:'Modo razonamiento',
@@ -2110,7 +2317,7 @@ stations:[
        'Además hay un peligro nuevo: los textos que el agente lee por el camino pueden contener instrucciones ocultas pensadas para desviarlo.'],
  lab:{type:'agent',title:'Pruébalo: ¿dónde hace falta tu aprobación?',
    intro:'Un agente debe preparar tu viaje de trabajo a Hamburgo. Decide en cada paso: ¿puede hacerlo solo o solo con tu aprobación?',
-   how:{title:'Cómo asegurarte de que la IA pregunte antes',items:['<b>En los ajustes:</b> muchos asistentes con modo agente o de acciones tienen opciones como «preguntar antes de actuar», «confirmar siempre» o permisos por herramienta. Pon en «preguntar» las compras, los envíos y los borrados.','<b>En los accesos:</b> concede solo lo necesario: agenda solo de lectura, ningún medio de pago guardado, correos solo como borrador.','<b>En el prompt:</b> escribe la regla de forma explícita, por ejemplo con esta plantilla:'],prompt:'Antes de comprar, pagar, enviar, publicar o borrar nada: detente, muéstrame exactamente lo que vas a hacer y espera mi «sí» expreso. Puedes leer, buscar y escribir borradores sin preguntar.',caveat:'Importante: una instrucción en el prompt es una petición, no un candado. Las instrucciones ocultas en páginas web (inyección de prompt) pueden saltársela. Son más fiables los accesos que no existen y las opciones de confirmación del programa. Lo más seguro es combinar ambas cosas.'},
+   how:{title:'Cómo asegurarte de que la IA pregunte antes',items:['<b>En los ajustes:</b> muchos asistentes con modo agente o de acciones tienen opciones como «preguntar antes de actuar», «confirmar siempre» o permisos por herramienta. Pon en «preguntar» las compras, los envíos y los borrados.','<b>En los accesos:</b> concede solo lo necesario: agenda solo de lectura, ningún medio de pago guardado, correos solo como borrador.','<b>En el prompt:</b> escribe la regla de forma explícita, por ejemplo con esta plantilla:'],prompt:'Antes de comprar, pagar, enviar, publicar o borrar nada: detente, muéstrame exactamente lo que vas a hacer y espera mi «sí» expreso. Puedes leer, buscar y escribir borradores sin preguntar.',caveat:'<b>Una instrucción en el prompt no es un bloqueo.</b> Es solo texto en la ventana de contexto, que el modelo suele seguir, pero sin garantía. En tareas largas puede salirse de la ventana de contexto (ver <a href="#kontext">estación 5: ventana de contexto</a>), puede pasarse por alto, y las instrucciones ocultas en webs o correos (inyección de prompt) pueden anularla. Un bloqueo de verdad solo lo pone el programa: accesos que no existen e interruptores de confirmación. Usa el prompt como complemento, nunca solo.'},
    keys:['ok','ask'],
    names:{ok:'Puede solo',ask:'Solo con aprobación'},
    btn:{ok:'Puede solo',ask:'Solo con aprobación'},
@@ -2197,7 +2404,9 @@ stations:[
  q:'Hoe leert een taalmodel van tekst?',
  text:['Een taalmodel leert één enkele taak: het volgende woorddeel voorspellen. Het leest enorme hoeveelheden tekst, dekt telkens het volgende stuk af, raadt en vergelijkt. Zit het ernaast, dan worden zijn miljarden <b>gewichten</b> een heel klein beetje in de goede richting verschoven.',
        'Uit deze eenvoudige oefening ontstaat verrassend veel: grammatica, feitenkennis, stijl. Daarna volgt een <b>fijnafstemming</b> met mensen die antwoorden beoordelen. Pas daardoor wordt de tekstaanvuller een behulpzame assistent.'],
- lab:{type:'train',title:'Probeer het: train een minimodel',
+ lab:{type:'train',probeLbl:'Begin van de zin:',
+   only:l=>`Alleen het woord direct na „${l}” telt. In de gelezen zinnen is het gemarkeerd. Wat daarna komt, zoals „helder” in „blauw en helder”, leert het model voor een ander begin („… en”).`,
+   title:'Probeer het: train een minimodel',
    intro:'Het minimodel telt alleen welk woord op twee woorden volgt. Laat het zinnen lezen en kijk hoe een gelijke verdeling een verwachting wordt.',
    corpus:['De lucht is blauw.','De koffie is heet.','De lucht is vandaag grijs.','De vergadering is uitgesteld.','De koffie is op.','De lucht is blauw en helder.','De koffie is heet en sterk.','De vergadering is afgelast.','De lucht is onbewolkt.','De vergadering is uitgesteld, zegt de baas.'],
    probes:[{label:'De lucht is …',ctx:['lucht','is']},{label:'De koffie is …',ctx:['koffie','is']},{label:'De vergadering is …',ctx:['vergadering','is']}],
@@ -2217,7 +2426,8 @@ stations:[
  q:'Waarom telt AI in tokens, en waarom kost Nederlands meer?',
  text:['Een taalmodel leest geen letters en geen woorden. Het knipt tekst in <b>tokens</b>: veelgebruikte woorden blijven heel, zeldzame en lange worden in stukken geknipt. Elk stuk krijgt een nummer, en het model rekent alleen met die nummers.',
        'Tokens zijn de munteenheid van AI. Er wordt per token afgerekend, het geheugen van een gesprek is beperkt in tokens, en ook de antwoordtijd hangt ervan af.'],
- lab:{type:'tokens',title:'Probeer het: jouw tekst in tokens',
+ lab:{type:'tokens',pairLbl:'Zinspaar:',
+   title:'Probeer het: jouw tekst in tokens',
    label:'Typ of plak een tekst. De stukjes verschijnen meteen.',
    sample:'De internationalisering van onze klantenservice wordt uitgesteld tot volgende donderdag.',
    stats:['Tekens','Woorden','Tokens'],
@@ -2239,7 +2449,7 @@ stations:[
    ownMore:p=>`De Nederlandse versie heeft hier ongeveer ${p} % meer tokens nodig.`,
    otherMore:p=>`Hier heeft uitzonderlijk de Engelse versie ongeveer ${p} % meer nodig.`,
    equal:'Hier liggen beide ongeveer gelijk.',
-   more:'Ander zinnenpaar', pos:(i,n)=>`Zinnenpaar ${i} van ${n}`, again:'Nieuw zinnenpaar: raad eerst opnieuw.'},
+   more:'Schat het volgende zinspaar', pos:(i,n)=>`Zinnenpaar ${i} van ${n}`, again:'Nieuw zinnenpaar: raad eerst opnieuw.'},
  hood:[['Tokenizer','Het programma dat tekst in tokens knipt. Veel modellen gebruiken een methode die <i>byte-pair encoding</i> heet: bij het maken voegt die steeds de vaakst voorkomende tekenparen samen tot nieuwe bouwstenen.'],
    ['Vocabulaire','De vaste voorraad tokens, bij huidige modellen grofweg 50.000 tot 250.000. Wat er niet als geheel in staat, wordt uit delen samengesteld.'],
    ['Contextvenster','Hoeveel tokens het model tegelijk kan meenemen: je vraag, het gesprek tot nu toe, bijgevoegde documenten en het antwoord samen.'],
@@ -2272,7 +2482,10 @@ stations:[
  q:'Hoe weet het model waar een woord naar verwijst?',
  text:['Een woord op zich is vaak dubbelzinnig. Daarom kijkt elk token, voordat het verder wordt verwerkt, naar alle tokens ervoor en weegt ze: welke zijn nu belangrijk voor mij? Dit mechanisme heet <b>aandacht</b> (attention).',
        'Dat gebeurt in veel lagen na elkaar en met veel „koppen” tegelijk, die op verschillende dingen letten: grammatica, verwijzingen, onderwerpen.'],
- lab:{type:'attention',title:'Probeer het: waar kijkt een woord naar?',
+ lab:{type:'attention',varLbl:'Zin:',
+   barsTitle:w=>`De sterkste gewichten voor „${w}” (alle gewichten samen zijn 100 %)`,
+   how:{title:'Zo verwerkt de AI dit',items:['<b>Vergelijken:</b> voor „zij” vergelijkt het model zijn lijst getallen (de embedding uit station 3) met die van elk woord ervoor. Een woord dat goed past, krijgt een hoog gewicht. Alle gewichten samen zijn 100 %.','<b>Mengen:</b> daarna mengt het de betekenissen van die woorden volgens de gewichten in „zij”. Daarna is „zij” als het ware voor 58 % „arts”.','<b>Waarom dat telt:</b> vraag je daarna „Wie wilde de uitslag bespreken?”, dan vindt het model het antwoord alleen via deze verbinding. Verander één woord in de zin (versie 2) en de gewichten veranderen, en daarmee het antwoord.']},
+   title:'Probeer het: waar kijkt een woord naar?',
    intro:'Tik op een woord. Hoe sterker de kleur van de andere woorden, hoe meer aandacht ze krijgen. Het model kijkt alleen naar links, naar wat er al is.',
    pick:'Tik op een woord.',
    first:'Het eerste woord heeft nog niets om naar te kijken.',
@@ -2296,7 +2509,7 @@ stations:[
  text:['Een taalmodel heeft geen geheugen zoals een mens. Bij elk antwoord krijgt het de hele chat tot nu toe opnieuw voorgelegd. Hoeveel daarvan erin past, bepaalt het <b>contextvenster</b>, gemeten in tokens.',
        'Wat er niet meer in past, bestaat voor het model niet. In het ergste geval verzint het dan een aannemelijk antwoord in plaats van te zeggen dat het de informatie niet meer ziet.'],
  lab:{type:'window',title:'Probeer het: het contextvenster verkleinen',
-   intro:'Een chat over een project. Schuif de regelaar naar links: oudere berichten vallen uit het venster, de nieuwste blijven.',
+   intro:'Een chat over een project. Schuif de regelaar naar links: oudere berichten vallen een voor een uit het venster. Let erop hoe de samenvatting onderaan met elk vergeten bericht verandert.',
    slider:'Contextvenster',
    msgs:[{who:'du',t:'Vandaag starten we project „Vuurtoren”: nieuwe website voor eind mei, budget 40.000 euro.',n:120},
      {who:'ki',t:'Begrepen. Voor de website voor eind mei stel ik vier fasen voor: planning, ontwerp, bouw, test.',n:160},
@@ -2304,9 +2517,15 @@ stations:[
      {who:'ki',t:'Graag: referenties, planning, feedbackrondes, gebruiksrechten voor afbeeldingen, toegankelijkheid, onderhoud na de lancering …',n:220},
      {who:'du',t:'Bedankt. Nu graag nog een concept voor een mail aan het team.',n:90},
      {who:'ki',t:'Hier is een concept: „Beste team, we beginnen een nieuw project …”',n:190}],
-   question:{t:'Hoe heette het project ook alweer, en hoe hoog was het budget?',n:40},
-   answerIn:'Het project heet „Vuurtoren”, het budget is 40.000 euro.',
-   answerOut:'Het project heet „Website-vernieuwing 2026”, het budget is 25.000 euro.',
+   question:{t:'Vat de stand even samen: project, deadline, budget, fasen, ontwerp en wat al klaar is.',n:40},
+   facts:[{t:'Project „Vuurtoren”: nieuwe website voor eind mei, budget 40.000 euro.',fake:'Project „Website-relaunch 2026”: nieuwe website voor het eind van het jaar, budget 25.000 euro.'},
+     {t:'Vier fasen: planning, ontwerp, bouw, test.',fake:'Drie fasen: concept, bouw, lancering.'},
+     {t:'Een bureau doet het ontwerp.',fake:'Ons eigen team doet het ontwerp.'},
+     {t:'De vragen voor het eerste gesprek met het bureau zijn verzameld.',fake:'Er is nog geen lijst met vragen.'},
+     null,
+     {t:'Er ligt een concept voor de mail aan het team.',fake:'De mail aan het team moet nog geschreven worden.'}],
+   allIn:'Alles staat nog in het contextvenster: de samenvatting klopt.',
+   someOut:(k,n)=>`${k} van de ${n} gegevens staan niet meer in het venster. De AI vult de gaten toch, met geloofwaardig klinkende verzinsels.`,
    lost:'verzonnen', outside:'buiten venster',
    tok:n=>`${n} tokens`, used:(n,m)=>`${n} van ${m} tokens bezet`},
  hood:[['Contextvenster','Het maximale aantal tokens dat een model tegelijk verwerkt. Huidige modellen kunnen vaak 100.000 tot meer dan een miljoen tokens aan, hele boeken.'],
@@ -2320,7 +2539,10 @@ stations:[
  q:'Waarom krijgt dezelfde vraag twee verschillende antwoorden?',
  text:['Voor elk volgend token berekent het model een kans voor elk woord in zijn vocabulaire. Dan wordt er gedobbeld, gewogen naar die kansen.',
        'De instelling <b>temperatuur</b> bepaalt hoe gewaagd er wordt gedobbeld: laag betekent bijna altijd het waarschijnlijkste woord, hoog betekent meer verrassingen.'],
- lab:{type:'temperature',title:'Probeer het: draai aan de temperatuurknop',
+ lab:{type:'temperature',rollsTitle:'Tien keer gedobbeld: zo zou de AI de onderwerpregel kunnen afmaken',
+   rare:'zeldzaam', empty:'Nog niet gedobbeld. Tik op „10 antwoorden maken”.',
+   legend:{common:'voor de hand liggend',rare:'zeldzaam of vreemd'},
+   title:'Probeer het: draai aan de temperatuurknop',
    prompt:'Onderwerp: Ons teamoverleg op donderdag', gap:'gat',
    next:[['wordt uitgesteld',3.2],['gaat niet door',2.5],['wordt online',2.1],['begint later',1.5],['heeft jullie ideeën nodig',.6],['vervalt, pizza voor iedereen',-.6,1],['ontploft',-2.2,1]],
    slider:'Temperatuur',
@@ -2344,9 +2566,12 @@ stations:[
  q:'Waarom verzint AI soms dingen, en klinkt het daarbij zo zeker?',
  text:['Het model maakt het meest aannemelijke vervolg, niet het ware. Is het bij een vraag onzeker, dan verdeelt de kans zich over meerdere antwoorden. Er wordt toch gedobbeld, en de zin eromheen klinkt altijd even overtuigd.',
        'Zulke verzonnen antwoorden heten <b>hallucinaties</b>. Vooral gevoelig zijn nichekennis, exacte getallen, citaten, bronnen, wetsartikelen en uitspraken van rechters.'],
- lab:{type:'confidence',title:'Probeer het: zeker klinken, onzeker zijn',
-   intro:'Kies een vraag en laat de AI een paar keer antwoorden. Met „Kansen tonen” zie je wat er binnenin gebeurt.',
-   go:'Antwoord maken', show:'Kansen tonen',
+ lab:{type:'confidence',barsTitle:'Wat het model intern berekent (in een chat zie je dit nooit):',
+   why:'De zin klinkt altijd even zeker, of het antwoord nu een kans van 97 % had of maar van 20 %. Daarom zegt de toon niets over de betrouwbaarheid.',
+   qLbl:'Vraag:',
+   title:'Probeer het: zeker klinken, onzeker zijn',
+   intro:'Kies een vraag en laat de AI een paar keer antwoorden. De balken laten zien hoe waarschijnlijk het model elk mogelijk antwoord vindt.',
+   go:'Antwoord maken',
    ok:p=>`Klopt. Het model was hier voor ${p} zeker.`,
    bad:(p,t)=>`Fout, maar net zo overtuigd geformuleerd. Dit antwoord had maar ${p} kans. Juist zou zijn: ${t}`,
    prompts:[
@@ -2363,7 +2588,8 @@ stations:[
  q:'Hoe wordt een AI betrouwbaarder?',
  text:['Een taalmodel alleen gokt uit zijn geheugen. Betrouwbaarder wordt het met hulpmiddelen: het kan op internet of in bedrijfsdocumenten <b>opzoeken</b>, een <b>rekenmachine</b> gebruiken of de tijd nemen om <b>na te denken</b> voordat het antwoordt.',
        'Moderne assistenten beslissen vaak zelf wanneer ze een hulpmiddel nodig hebben. Je herkent het aan meldingen als „zoeken …” of aan bronnen onder het antwoord.'],
- lab:{type:'lookup',title:'Probeer het: gokken of opzoeken?',
+ lab:{type:'lookup',warnLbl:'Let op', infoLbl:'Opmerking',
+   title:'Probeer het: gokken of opzoeken?',
    guessed:'gegokt',
    items:[{title:'Opzoeken',p:'Een vraag over interne regels die niet op internet staan.',q:'Vanaf wanneer geldt bij ons het nieuwe reiskostenbeleid?',
        bad:{btn:'Uit het geheugen antwoorden',answer:'Het nieuwe reiskostenbeleid geldt sinds 1 januari.',note:'Klinkt zeker, maar is gegokt. Het interne beleid stond nooit in de trainingsgegevens.'},
@@ -2384,8 +2610,17 @@ stations:[
  q:'Hoe vraag je zo dat er een bruikbaar antwoord uitkomt?',
  text:['Wat je niet zegt, moet de AI raden. Een korte vraag zonder samenhang krijgt een algemeen antwoord met invulplekken. Hoe meer context, doel en gewenste vorm je noemt, hoe minder er geraden hoeft te worden.',
        'Een goede vraag is als een goede briefing voor een nieuwe collega die heel ijverig is, maar niets van je project weet.'],
- lab:{type:'prompt',title:'Probeer het: een prompt opbouwen',
-   intro:'De opdracht: een mail dat een overleg wordt uitgesteld. Voeg bouwstenen toe en kijk hoe het antwoord beter wordt.',
+ lab:{type:'prompt',changed:'Wat je bouwstenen hebben veranderd:',
+   effects:['Rol: een duidelijke afzender, die namens de teamleider schrijft','Context: echte tijden en de reden in plaats van open plekken','Ontvangers: gericht aan het team, met het verzoek de tijd in de agenda te zetten','Opmaak: een onderwerpregel en een korte tekst','Toon: geen standaardexcuses'],
+   compose:on=>{const R=on.has(0),K=on.has(1),E=on.has(2),F=on.has(3),T=on.has(4),du=E||T,s=[];
+     if(R)s.push(du?'Ik schrijf jullie namens de teamleider.':'Ik schrijf u namens de teamleider.');
+     s.push(K?'Het overleg van donderdag 10.00 uur vindt in plaats daarvan plaats op vrijdag om 14.00 uur, omdat de klant heeft afgezegd.':(du?'Helaas moeten we het overleg uitstellen. We laten jullie zo snel mogelijk de nieuwe datum weten.':'Helaas moeten wij het overleg uitstellen. Wij laten u zo spoedig mogelijk de nieuwe datum weten.'));
+     if(E&&K)s.push('Willen jullie de nieuwe tijd in je agenda zetten?');
+     if(K)s.push(F?(du?'Laat het me vóór woensdag weten als je niet kunt.':'Laat u het mij vóór woensdag weten als u niet kunt?'):(du?'Kunnen jullie vrijdag niet, laat het me dan weten, dan zoeken we samen een oplossing.':'Kunt u vrijdag niet, laat het mij dan weten, dan zoeken wij samen een oplossing.'));
+     if(!T)s.push(du?'Sorry voor het ongemak en bedankt voor jullie begrip.':'Excuses voor het eventuele ongemak en dank voor uw begrip.');
+     return [...(F?['Onderwerp: '+(K?'Teamoverleg verplaatst naar vrijdag 14.00 uur':'Overleg uitgesteld'),'']:[]),E?'Hoi allemaal,':T?'Hallo,':'Geachte heer, mevrouw,',s.join(' '),R?'Met vriendelijke groet,\n[Naam]\nAssistent van de teamleider':du?'Groetjes,\n[Je naam]':'Met vriendelijke groet,\n[Uw naam]'].join('\n')},
+   title:'Probeer het: een prompt opbouwen',
+   intro:'De opdracht: een mail dat een overleg wordt uitgesteld. Zet bouwstenen in willekeurige volgorde aan en uit en kijk wat er aan het antwoord verandert.',
    base:'Schrijf een mail dat het overleg is uitgesteld.',
    parts:[{btn:'Rol',pos:'pre',text:'Je bent de assistent van de teamleider.'},
      {btn:'Context',text:'Het overleg van donderdag 10 uur wordt verplaatst naar vrijdag 14 uur, omdat de klant heeft afgezegd.'},
@@ -2393,10 +2628,7 @@ stations:[
      {btn:'Vorm',text:'Hooguit vijf zinnen, eerst een onderwerpregel.'},
      {btn:'Toon',text:'Vriendelijk en zakelijk, zonder standaardexcuses.'}],
    meter:'Hoeveel weet de AI?',
-   tiers:['Antwoord met weinig context','Antwoord met wat context','Antwoord met volledige context'],
-   answers:['Geachte heer, mevrouw,\nhelaas moeten wij het overleg uitstellen. De nieuwe datum laten wij u zo spoedig mogelijk weten. Wij danken u voor uw begrip en bieden onze excuses aan voor het eventuele ongemak.\nMet vriendelijke groet,\n[Uw naam]',
-     'Hallo allemaal,\nons overleg van donderdag 10 uur wordt verplaatst naar vrijdag 14 uur, omdat de klant op het laatste moment heeft afgezegd. Zet de nieuwe tijd alsjeblieft in je agenda. Kun je vrijdag niet, laat het me dan weten, dan zoeken we samen een oplossing. Bedankt allemaal voor jullie flexibiliteit en begrip!\nGroeten',
-     'Onderwerp: Teamoverleg verplaatst naar vrijdag 14 uur\n\nHallo allemaal,\nhet overleg van donderdag 10 uur vindt in plaats daarvan plaats op vrijdag om 14 uur, omdat de klant heeft afgezegd. Ruimte en agenda blijven hetzelfde. Laat het me voor woensdag weten als je niet kunt.\nGroeten']},
+   tiers:['Antwoord met weinig context','Antwoord met wat context','Antwoord met volledige context']},
  hood:[['Prompt','De invoer voor het model. Alles wat erin staat, wordt deel van het contextvenster en stuurt de kansen.'],
    ['Rol','„Je bent …” verschuift woordkeus en blik. Het maakt het model niet slimmer, wel passender.'],
    ['Voorbeelden (few-shot)','Een of twee voorbeelden van het gewenste resultaat werken vaak beter dan lange beschrijvingen.'],
@@ -2407,8 +2639,11 @@ stations:[
 {id:'vorurteile',part:'b',short:'Vooroordelen',
  q:'Heeft een AI vooroordelen?',
  text:['Een taalmodel leert van teksten die mensen hebben geschreven, inclusief hun scheefgroei. Wat in de gegevens vaak samen voorkomt, vindt het waarschijnlijk. Zo ontstaan <b>vertekeningen</b> (bias), bijvoorbeeld rond geslacht, afkomst of leeftijd.',
-       'Aanbieders proberen dat bij de fijnafstemming te corrigeren. Maar de patronen verdwijnen zelden helemaal, en soms schiet de correctie door.'],
- lab:{type:'bias',title:'Probeer het: wie stelt het model zich voor?',
+       'Aanbieders proberen dat bij de fijnafstemming te corrigeren. Maar de patronen verdwijnen zelden helemaal, en soms schiet de correctie door.',
+       'Het verraderlijke: in één antwoord valt een vertekening nauwelijks op. Ze werkt pas wanneer veel mensen op dezelfde AI vertrouwen, bijvoorbeeld bij het voorsorteren van sollicitaties of het schrijven van vacatures.'],
+ lab:{type:'bias',probLbl:'Zin:', modeLbl:'Gegevens:',
+   why:{title:'Waarom dit een echt probleem is',items:['<b>Onzichtbaar in één geval:</b> één antwoord lijkt neutraal. Het patroon zie je pas bij veel vragen, precies wanneer een AI op grote schaal teksten schrijft of sollicitaties voorsorteert.','<b>Niet alleen geslacht:</b> vergelijkbare scheefheid bestaat bij afkomst, leeftijd, beperking of dialect. Namen die buitenlands klinken, worden bijvoorbeeld minder vaak met leidinggevende rollen verbonden.','<b>Echte gevolgen:</b> vacatures die onbedoeld maar één groep aanspreken, AI-beelden waarop experts er bijna altijd hetzelfde uitzien, of geneeskunde: als studies en leerboeken vooral mannen beschrijven, kan een AI typische tekenen van een hartaanval bij vrouwen slechter herkennen.','<b>Het versterkt zichzelf:</b> AI-teksten komen weer op internet en zo in toekomstige trainingsdata. Wat vandaag scheef is, kan morgen nog schever worden.','<b>Wat helpt:</b> duidelijke criteria geven, uitdrukkelijk om andere voorbeelden vragen, resultaten steekproefsgewijs controleren en beslissingen over mensen altijd door mensen laten nemen.']},
+   title:'Probeer het: wie stelt het model zich voor?',
    intro:'Het model moet een zin afmaken. De balken laten zien welke voornamen het waarschijnlijk vindt. Blauw zijn vrouwelijke voornamen.',
    modes:{web:'Gegevens zoals op internet',fair:'Na correctie'},
    noteWeb:p=>`Vrouwelijke voornamen samen: ${p}. Het model weerspiegelt wie in de teksten vaak in deze rol voorkomt.`,
@@ -2426,7 +2661,8 @@ stations:[
  q:'Hoeveel energie kost een antwoord?',
  text:['Elk token is rekenwerk in een datacenter. Eén antwoord kost weinig stroom, maar miljarden vragen per dag tellen op. Grotere modellen, langere antwoorden en „nadenken” kosten meer.',
        'De precieze waarden zijn omstreden en veranderen snel, omdat chips en modellen efficiënter worden. Daarom rekenen we hier alleen met grove ordes van grootte.'],
- lab:{type:'cost',title:'Probeer het: jouw AI-dag in wattuur',
+ lab:{type:'cost',sizeLbl:'Model:',
+   title:'Probeer het: jouw AI-dag in wattuur',
    intro:'Stel in hoe je een AI gebruikt. De uitkomst is een grove schatting met een grote marge.',
    sizes:[['Klein model',.25],['Middelgroot model',1],['Groot model',5]],
    words:'Woorden per antwoord', reqs:'Vragen per dag', think:'Denkmodus',
@@ -2475,7 +2711,7 @@ stations:[
        'Daar komt een nieuw gevaar bij: teksten die de agent onderweg leest, kunnen verborgen opdrachten bevatten die hem moeten ompraten.'],
  lab:{type:'agent',title:'Probeer het: waar is jouw akkoord nodig?',
    intro:'Een agent moet je zakenreis naar Hamburg voorbereiden. Beslis bij elke stap: mag hij dat zelf, of alleen met jouw akkoord?',
-   how:{title:'Zo zorg je ervoor dat de AI eerst vraagt',items:['<b>In de instellingen:</b> veel assistenten met een agent- of actiemodus hebben schakelaars als „vragen voor acties”, „altijd bevestigen” of rechten per hulpmiddel. Zet kopen, versturen en verwijderen op „vragen”.','<b>Bij de toegang:</b> geef alleen wat nodig is: agenda alleen lezen, geen betaalmiddel opgeslagen, e-mail alleen als concept.','<b>In de prompt:</b> schrijf de regel er uitdrukkelijk bij, bijvoorbeeld met dit sjabloon:'],prompt:'Voordat je iets koopt, betaalt, verstuurt, publiceert of verwijdert: stop, laat me precies zien wat je wilt doen en wacht op mijn uitdrukkelijke „ja”. Lezen, zoeken en concepten schrijven mag zonder te vragen.',caveat:'Belangrijk: een opdracht in de prompt is een verzoek, geen slot. Verborgen opdrachten in webpagina’s (promptinjectie) kunnen die omzeilen. Betrouwbaarder zijn ontbrekende toegang en bevestigingsschakelaars in het programma. Het veiligst is beide samen.'},
+   how:{title:'Zo zorg je ervoor dat de AI eerst vraagt',items:['<b>In de instellingen:</b> veel assistenten met een agent- of actiemodus hebben schakelaars als „vragen voor acties”, „altijd bevestigen” of rechten per hulpmiddel. Zet kopen, versturen en verwijderen op „vragen”.','<b>Bij de toegang:</b> geef alleen wat nodig is: agenda alleen lezen, geen betaalmiddel opgeslagen, e-mail alleen als concept.','<b>In de prompt:</b> schrijf de regel er uitdrukkelijk bij, bijvoorbeeld met dit sjabloon:'],prompt:'Voordat je iets koopt, betaalt, verstuurt, publiceert of verwijdert: stop, laat me precies zien wat je wilt doen en wacht op mijn uitdrukkelijke „ja”. Lezen, zoeken en concepten schrijven mag zonder te vragen.',caveat:'<b>Een instructie in de prompt is geen slot.</b> Het is alleen tekst in het contextvenster, die het model meestal opvolgt, maar zonder garantie. Bij lange taken kan ze uit het contextvenster schuiven (zie <a href="#kontext">station 5: contextvenster</a>), ze kan over het hoofd worden gezien, en verborgen instructies in webpagina’s of mails (promptinjectie) kunnen haar omzeilen. Een echt slot zet alleen het programma: ontbrekende toegang en bevestigingsschakelaars. Gebruik de prompt dus als aanvulling, nooit alleen.'},
    keys:['ok','ask'],
    names:{ok:'Mag zelf',ask:'Alleen met akkoord'},
    btn:{ok:'Mag zelf',ask:'Alleen met akkoord'},
@@ -2612,25 +2848,41 @@ const chips=(toks,anim)=>toks.map((o,i)=>`<span class="tok c${i%6}${o.sp?' sp':'
 /* ---------- Labore ---------- */
 const LAB={};
 
+/* Bedienelemente: drei Arten, damit man sieht, was ein Knopf tut.
+   seg(): Auswahl, die nur die Ansicht wechselt (flache Pillen, die gewählte ist gefüllt und hat ein Häkchen).
+   tgl(): Schalter für an/aus (mit Schiebeschalter).
+   .btn: Aktion, die etwas auslöst (Taste mit Schatten; .primary für die Hauptaktion, .ghost.undo für Zurücksetzen). */
+const seg=(lbl,items,attr,sel)=>`<div class="seg" role="group"${lbl?` aria-label="${esc(lbl.replace(/:\s*$/,''))}"`:''}>${lbl?`<span class="seglbl" aria-hidden="true">${lbl}</span>`:''}${items.map((t,i)=>`<button class="opt" ${attr}="${i}" aria-pressed="${i===sel}">${esc(t)}</button>`).join('')}</div>`;
+const tgl=(id,t,on)=>`<button class="btn tgl" id="${id}" aria-pressed="${!!on}">${t}</button>`;
+const callout=(kind,lbl,html)=>`<div class="call ${kind}"><p>${lbl?`<b class="sr">${lbl}: </b>`:''}${html}</p></div>`;
+
 /* Training: ein Mini-Modell zählt, welches Wort nach zwei Wörtern folgt */
 LAB.train={
   html:(d,id)=>`<p class="small">${d.intro}</p>
-    <div class="row" role="group">${d.probes.map((p,i)=>`<button class="btn" data-probe="${i}" id="${id}-p${i}" aria-pressed="${i===0}">${esc(p.label)}</button>`).join('')}</div>
+    ${seg(d.probeLbl,d.probes.map(p=>p.label),'data-probe',0)}
     <div class="bars" id="${id}-bars"></div><p class="small" id="${id}-note" aria-live="polite"></p>
-    <div class="row"><button class="btn primary" id="${id}-one">${d.one}</button><button class="btn" id="${id}-all">${d.all}</button><button class="btn" id="${id}-reset">${d.reset}</button><span class="small mono" id="${id}-read"></span></div>
+    <p class="small only" id="${id}-only"></p>
+    <div class="row"><button class="btn primary go" id="${id}-one">${d.one}</button><button class="btn" id="${id}-all">${d.all}</button><button class="btn ghost undo" id="${id}-reset">${d.reset}</button><span class="small mono" id="${id}-read"></span></div>
     <div class="corpus" id="${id}-corpus">${d.corpus.map((c,i)=>`<span data-i="${i}">${esc(c)}</span>`).join('')}</div>`,
   bind(d,id){let read=0,probe=0;
     const cands=pi=>{const ctx=d.probes[pi].ctx,last=ctx[ctx.length-1],m=new Map();
       d.corpus.forEach(c=>{const w=words(c);for(let k=1;k<w.length;k++)if(w[k-1]===last)m.set(w[k],(m.get(w[k])||0)+1)});
       return [...m.keys()].sort((a,b)=>m.get(b)-m.get(a))};
+    /* Im gelesenen Satz den Anfang unterstreichen und das gezählte Wort danach markieren */
+    const mark=(c,ctx)=>{const ws=[...c.matchAll(/[\p{L}\p{N}]+/gu)],lw=ws.map(m=>m[0].toLowerCase());
+      for(let k=ctx.length;k<lw.length;k++)if(ctx.every((x,j)=>lw[k-ctx.length+j]===x)){const a=ws[k-ctx.length].index,b=ws[k-1].index+ws[k-1][0].length,h=ws[k];
+        return {hit:true,html:esc(c.slice(0,a))+`<span class="ctx">${esc(c.slice(a,b))}</span>`+esc(c.slice(b,h.index))+`<mark>${esc(h[0])}</mark>`+esc(c.slice(h.index+h[0].length))}}
+      return {hit:false,html:esc(c)}};
     const upd=()=>{const ctx=d.probes[probe].ctx,cs=cands(probe),cnt=new Map();
       d.corpus.slice(0,read).forEach(c=>{const w=words(c);for(let k=ctx.length;k<w.length;k++)if(ctx.every((x,j)=>w[k-ctx.length+j]===x))cnt.set(w[k],(cnt.get(w[k])||0)+1)});
       const a=.3,tot=cs.reduce((s,w)=>s+(cnt.get(w)||0)+a,0);
       $(`#${id}-bars`).innerHTML=bars(cs.map(w=>({w,p:((cnt.get(w)||0)+a)/tot})));
       const seen=cs.some(w=>cnt.get(w));
       $(`#${id}-note`).textContent=!read?d.noteNone:seen?d.noteSome:d.noteUnseen;
+      $(`#${id}-only`).innerHTML=d.only(esc(d.probes[probe].label.replace(/\s*…\s*$/,'')));
       $(`#${id}-read`).textContent=d.read(read,d.corpus.length);
-      $$(`#${id}-corpus span`).forEach(s=>s.classList.toggle('read',+s.dataset.i<read));
+      $$(`#${id}-corpus span[data-i]`).forEach(s=>{const i=+s.dataset.i,r=i<read,m=r?mark(d.corpus[i],ctx):{hit:false,html:esc(d.corpus[i])};
+        s.classList.toggle('read',r);s.classList.toggle('other',r&&!m.hit);s.innerHTML=m.html});
       $(`#${id}-one`).disabled=$(`#${id}-all`).disabled=read>=d.corpus.length;
       const cur=$(`#${id}-corpus span[data-i="${Math.max(read-1,0)}"]`),box=$(`#${id}-corpus`);
       if(cur){const a2=box.getBoundingClientRect(),b2=cur.getBoundingClientRect();if(b2.bottom>a2.bottom||b2.top<a2.top)box.scrollTop+=b2.top-a2.top-a2.height/2}};
@@ -2647,50 +2899,63 @@ LAB.tokens={
     <div class="toks" id="${id}-out" aria-live="polite"></div>
     <div class="stats"><div class="stat"><b id="${id}-c">0</b><span>${d.stats[0]}</span></div><div class="stat"><b id="${id}-w">0</b><span>${d.stats[1]}</span></div><div class="stat"><b id="${id}-t">0</b><span>${d.stats[2]}</span></div></div>
     <p class="small">${d.note}</p>
-    <h3>${d.cmpTitle}</h3><p>${d.cmpIntro}</p>
-    <div class="row" id="${id}-guess" role="group">${d.guess.map((g,i)=>`<button class="btn" data-g="${['own','other','eq'][i]}" aria-pressed="false">${g}</button>`).join('')}</div>
-    <div class="pair" id="${id}-pair" hidden><div class="side"><h3>${d.own} <span class="mono" id="${id}-co"></span></h3><div class="toks" id="${id}-po"></div></div>
-      <div class="side"><h3>${d.other} <span class="mono" id="${id}-cx"></span></h3><div class="toks" id="${id}-px"></div></div></div>
+    <h3 id="${id}-cmp">${d.cmpTitle}</h3><p>${d.cmpIntro}</p>
+    ${seg(d.pairLbl,d.pairs.map((_,i)=>String(i+1)),'data-pair',0)}
+    <p class="small mono" id="${id}-pos"></p>
+    <div class="pair" id="${id}-pair"><div class="side"><h3>${d.own} <span class="mono" id="${id}-co"></span></h3><div class="toks plain" id="${id}-po"></div></div>
+      <div class="side"><h3>${d.other} <span class="mono" id="${id}-cx"></span></h3><div class="toks plain" id="${id}-px"></div></div></div>
+    ${seg('',d.guess,'data-g',-1).replace('class="seg"',`class="seg" id="${id}-guess"`)}
     <p class="verdict" id="${id}-v" aria-live="polite"></p>
-    <div class="row" id="${id}-next" hidden><button class="btn" id="${id}-more">${d.more}</button><span class="small" id="${id}-pos"></span></div>`,
+    <div class="row" id="${id}-next"><button class="btn primary go" id="${id}-more" data-free>${d.more}</button></div>`,
   bind(d,id){
     const upd=()=>{const v=$(`#${id}-in`).value,t=tokenize(v,d.rules);$(`#${id}-out`).innerHTML=chips(t,false);
       $(`#${id}-c`).textContent=v.length;$(`#${id}-w`).textContent=words(v).length;$(`#${id}-t`).textContent=t.length};
     $(`#${id}-in`).addEventListener('input',upd);upd();
-    let pi=0,guess=null;
-    const show=()=>{const [o,x]=d.pairs[pi],a=tokenize(o,d.rules),b=tokenize(x,d.rulesOther);
+    const keys=['own','other','eq'];let pi=0,guess=null;
+    /* Vor dem Schätzen stehen die Sätze als Text da, danach als Tokens. Der Platz bleibt gleich, nichts springt. */
+    const show=()=>{const [o,x]=d.pairs[pi];press(`#${id} [data-pair]`,b=>+b.dataset.pair===pi);$(`#${id}-pos`).textContent=d.pos(pi+1,d.pairs.length);
+      press(`#${id}-guess .opt`,b=>keys[+b.dataset.g]===guess);
+      if(guess===null){$(`#${id}-po`).textContent=o;$(`#${id}-px`).textContent=x;$(`#${id}-co`).textContent=$(`#${id}-cx`).textContent='';
+        $$(`#${id}-po,#${id}-px`).forEach(e=>e.classList.add('plain'));$(`#${id}-v`).textContent='';$(`#${id}-next`).classList.add('wait');return}
+      const a=tokenize(o,d.rules),b=tokenize(x,d.rulesOther);
+      $$(`#${id}-po,#${id}-px`).forEach(e=>e.classList.remove('plain'));
       $(`#${id}-po`).innerHTML=chips(a,true);$(`#${id}-px`).innerHTML=chips(b,true);
       $(`#${id}-co`).textContent=d.count(a.length);$(`#${id}-cx`).textContent=d.count(b.length);
       const diff=Math.round((a.length/b.length-1)*100),truth=diff>10?'own':diff<-10?'other':'eq';
       $(`#${id}-v`).textContent=(guess===truth?d.right:d.wrong)+' '+(truth==='own'?d.ownMore(diff):truth==='other'?d.otherMore(Math.round((b.length/a.length-1)*100)):d.equal);
-      $(`#${id}-pos`).textContent=d.pos(pi+1,d.pairs.length);$(`#${id}-pair`).hidden=false;$(`#${id}-next`).hidden=false};
-    $$(`#${id}-guess .btn`).forEach(b=>b.onclick=()=>{guess=b.dataset.g;press(`#${id}-guess .btn`,x=>x===b);show()});
-    $(`#${id}-more`).onclick=()=>{pi=(pi+1)%d.pairs.length;guess=null;press(`#${id}-guess .btn`,()=>false);
-      $(`#${id}-pair`).hidden=true;$(`#${id}-next`).hidden=true;$(`#${id}-v`).textContent=d.again;$(`#${id}-guess .btn`).focus()}}};
+      $(`#${id}-next`).classList.remove('wait')};
+    $$(`#${id}-guess .opt`).forEach(b=>b.onclick=()=>{guess=keys[+b.dataset.g];show()});
+    $$(`#${id} [data-pair]`).forEach(b=>b.onclick=()=>{pi=+b.dataset.pair;guess=null;show()});
+    $(`#${id}-more`).onclick=()=>{pi=(pi+1)%d.pairs.length;guess=null;show();$(`#${id}-cmp`).scrollIntoView({block:'start',behavior:reduce?'auto':'smooth'})};
+    show()}};
 
-/* Wortkarte: Nachbarn und Vektorrechnung */
+/* Wortkarte: Nachbarn, Koordinaten und Rätsel */
 LAB.map={
   html:(d,id)=>`<p class="small">${d.intro}</p>
     <div class="map" id="${id}-map"><svg class="arrows" id="${id}-svg" aria-hidden="true"></svg>${d.words.map(([w,x,y],i)=>`<button class="mw" data-i="${i}" style="left:${x}%;top:${100-y}%">${esc(w)}</button>`).join('')}<span class="mark" id="${id}-mark" hidden></span></div>
     <p id="${id}-out" aria-live="polite">${d.pick}</p>
     <div class="row" id="${id}-rid" role="group">${d.riddles.map((r,k)=>`<button class="btn teal" data-r="${k}" aria-pressed="false">${esc(r.btn)}</button>`).join('')}</div>
-    <div class="row"><button class="btn" id="${id}-steps" aria-pressed="false" hidden>${esc(d.stepsBtn)}</button></div>
+    <div class="row">${tgl(`${id}-steps`,esc(d.stepsBtn),false).replace('<button','<button hidden')}</div>
     <ol class="calcsteps" id="${id}-list" hidden></ol>`,
-  bind(d,id){const W=d.words,dist=(a,b)=>Math.hypot(a[0]-b[0],a[1]-b[1]),fmt=n=>Math.round(n);let last=null;
+  bind(d,id){const W=d.words,dist=(a,b)=>Math.hypot(a[0]-b[0],a[1]-b[1]),fmt=n=>Math.round(n);let last=null,guide=null;
     const svg=$(`#${id}-svg`),mapEl=$(`#${id}-map`);
-    const clear=()=>{$$(`#${id}-map .mw`).forEach(b=>b.classList.remove('sel','near','res'));$(`#${id}-mark`).hidden=true;svg.innerHTML='';last=null;
+    const clear=()=>{$$(`#${id}-map .mw`).forEach(b=>b.classList.remove('sel','near','res'));$(`#${id}-mark`).hidden=true;last=null;guide=null;paint();
       $(`#${id}-steps`).hidden=true;$(`#${id}-list`).hidden=true;$(`#${id}-steps`).setAttribute('aria-pressed','false');press(`#${id}-rid .btn`,()=>false)};
-    /* Pfeile in Bildschirm-Pixeln, damit die Spitzen nicht verzerrt werden */
-    const arrows=()=>{if(!last||!mapEl.isConnected)return;const r=mapEl.getBoundingClientRect(),X=x=>x/100*r.width,Y=y=>(100-y)/100*r.height;
-      svg.setAttribute('viewBox',`0 0 ${r.width} ${r.height}`);
-      const line=(x1,y1,x2,y2,cls)=>{const dx=X(x2)-X(x1),dy=Y(y2)-Y(y1),l=Math.hypot(dx,dy)||1,k=Math.min(26,l/3);
-        return `<line class="${cls}" x1="${X(x1)+dx/l*k}" y1="${Y(y1)+dy/l*k}" x2="${X(x2)-dx/l*k}" y2="${Y(y2)-dy/l*k}" marker-end="url(#${id}-${cls})"/>`};
-      const [a,b,c,p]=last;
-      svg.innerHTML=`<defs>${['dir','go'].map(m=>`<marker id="${id}-${m}" class="${m}" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z"/></marker>`).join('')}</defs>`
-        +line(b[1],b[2],c[1],c[2],'dir')+line(a[1],a[2],p[0],p[1],'go')};
+    /* Zeichnen in Bildschirm-Pixeln: Pfeile der Rätsel und Hilfslinien zu den Achsen (wie in „Turi erklärt KI“) */
+    const paint=()=>{if(!mapEl.isConnected)return;const r=mapEl.getBoundingClientRect(),X=x=>x/100*r.width,Y=y=>(100-y)/100*r.height;
+      svg.setAttribute('viewBox',`0 0 ${r.width} ${r.height}`);let s='';
+      if(guide){const [gx,gy]=guide;
+        s+=`<line class="guide" x1="0" y1="${Y(gy)}" x2="${X(gx)}" y2="${Y(gy)}"/><line class="guide" x1="${X(gx)}" y1="${r.height}" x2="${X(gx)}" y2="${Y(gy)}"/>`
+          +`<text class="gl" x="4" y="${Y(gy)-5}">${gy}</text><text class="gl" x="${X(gx)+5}" y="${r.height-6}">${gx}</text>`}
+      if(last){const line=(x1,y1,x2,y2,cls)=>{const dx=X(x2)-X(x1),dy=Y(y2)-Y(y1),l=Math.hypot(dx,dy)||1,k=Math.min(26,l/3);
+          return `<line class="${cls}" x1="${X(x1)+dx/l*k}" y1="${Y(y1)+dy/l*k}" x2="${X(x2)-dx/l*k}" y2="${Y(y2)-dy/l*k}" marker-end="url(#${id}-${cls})"/>`};
+        const [a,b,c,p]=last;
+        s+=`<defs>${['dir','go'].map(m=>`<marker id="${id}-${m}" class="${m}" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z"/></marker>`).join('')}</defs>`
+          +line(b[1],b[2],c[1],c[2],'dir')+line(a[1],a[2],p[0],p[1],'go')}
+      svg.innerHTML=s};
     /* Bei geänderter Größe neu zeichnen; nach einem Seitenwechsel beendet sich der Beobachter selbst */
-    const ro=new ResizeObserver(()=>{if(!mapEl.isConnected){ro.disconnect();return}arrows()});ro.observe(mapEl);
-    $$(`#${id}-map .mw`).forEach(b=>b.onclick=()=>{clear();const i=+b.dataset.i,p=[W[i][1],W[i][2]];b.classList.add('sel');
+    const ro=new ResizeObserver(()=>{if(!mapEl.isConnected){ro.disconnect();return}paint()});ro.observe(mapEl);
+    $$(`#${id}-map .mw`).forEach(b=>b.onclick=()=>{clear();const i=+b.dataset.i,p=[W[i][1],W[i][2]];b.classList.add('sel');guide=p;paint();
       const nn=W.map((w,j)=>[j,dist(p,[w[1],w[2]])]).filter(([j])=>j!==i).sort((a,b)=>a[1]-b[1]).slice(0,3);
       nn.forEach(([j])=>$(`#${id}-map .mw[data-i="${j}"]`).classList.add('near'));
       $(`#${id}-out`).innerHTML=d.near(esc(W[i][0]),`(${W[i][1]}${u.coordSep}${W[i][2]})`,nn.map(([j,dd])=>`<b>${esc(W[j][0])}</b> (${fmt(dd)})`).join(', '))});
@@ -2701,7 +2966,7 @@ LAB.map={
       const m=$(`#${id}-mark`);m.style.left=p[0]+'%';m.style.top=(100-p[1])+'%';m.hidden=false;
       r.calc.forEach(n=>$(`#${id}-map .mw[data-i="${W.indexOf(g(n))}"]`).classList.add('near'));
       $(`#${id}-map .mw[data-i="${W.indexOf(best)}"]`).classList.add('res');
-      last=[a,b,c,p];arrows();
+      last=[a,b,c,p];guide=p;paint();
       $(`#${id}-list`).innerHTML=d.steps(a,b,c,best[0],c[1]-b[1],c[2]-b[2],r.dir).map(x=>`<li>${x}</li>`).join('');
       $(`#${id}-steps`).hidden=false;
       $(`#${id}-out`).innerHTML=d.calcOut(esc(a[0]),esc(b[0]),esc(c[0]),esc(best[0]),r.dir)});
@@ -2710,8 +2975,9 @@ LAB.map={
 /* Aufmerksamkeit: worauf ein Wort schaut */
 LAB.attention={
   html:(d,id)=>`<p class="small">${d.intro}</p>
-    <div class="row" role="group">${d.variants.map((v,i)=>`<button class="btn" data-v="${i}" aria-pressed="${i===0}">${esc(v.label)}</button>`).join('')}</div>
-    <div class="atts" id="${id}-toks"></div><div class="bars" id="${id}-bars"></div><p class="small" id="${id}-out" aria-live="polite"></p>`,
+    ${seg(d.varLbl,d.variants.map(v=>v.label),'data-v',0)}
+    <div class="atts" id="${id}-toks"></div><p class="subhead" id="${id}-bt"></p><div class="bars" id="${id}-bars"></div><p class="small" id="${id}-out" aria-live="polite"></p>
+    <div class="how"><h3>${d.how.title}</h3><ol>${d.how.items.map(x=>`<li>${x}</li>`).join('')}</ol></div>`,
   bind(d,id){let vi=0,sel=null;
     const upd=()=>{const v=d.variants[vi],T=v.toks;
       let w=T.map(()=>0);
@@ -2720,14 +2986,15 @@ LAB.attention={
       const mx=Math.max(...w,0.0001);
       $(`#${id}-toks`).innerHTML=T.map((t,j)=>`<button class="att${j===sel?' me':''}${sel!==null&&j>sel?' later':''}" data-j="${j}" style="--w:${sel===null||j===sel?0:(w[j]/mx*.85).toFixed(2)}">${esc(t)}</button>`).join('');
       $$(`#${id}-toks .att`).forEach(b=>b.onclick=()=>{sel=+b.dataset.j;upd()});
-      if(sel===null){$(`#${id}-bars`).innerHTML='';$(`#${id}-out`).textContent=d.pick;return}
+      if(sel===null||sel===0){$(`#${id}-bars`).innerHTML='';$(`#${id}-bt`).textContent='';$(`#${id}-out`).textContent=sel===0?d.first:d.pick;return}
       const top=w.map((x,j)=>[j,x]).filter(([j,x])=>j<sel&&x>0).sort((a,b)=>b[1]-a[1]).slice(0,4);
+      $(`#${id}-bt`).textContent=d.barsTitle(T[sel]);
       $(`#${id}-bars`).innerHTML=bars(top.map(([j,x])=>({w:T[j],p:x})));
-      $(`#${id}-out`).innerHTML=v.focus[sel]&&v.note&&v.note[sel]?v.note[sel]:(sel===0?d.first:d.generic(esc(T[sel])))};
+      $(`#${id}-out`).innerHTML=v.focus[sel]&&v.note&&v.note[sel]?v.note[sel]:d.generic(esc(T[sel]))};
     $$(`#${id} [data-v]`).forEach(b=>b.onclick=()=>{vi=+b.dataset.v;sel=d.variants[vi].start;press(`#${id} [data-v]`,x=>x===b);upd()});
     sel=d.variants[0].start;upd()}};
 
-/* Kontextfenster: was nicht mehr hineinpasst, fällt heraus */
+/* Kontextfenster: was nicht mehr hineinpasst, fällt heraus, und die Antwort wird Stück für Stück erfunden */
 LAB.window={
   html:(d,id)=>`<p class="small">${d.intro}</p>
     <div class="slider"><label for="${id}-r">${d.slider}</label><input type="range" id="${id}-r" min="150" max="1000" step="50" value="1000"><span class="tval" id="${id}-v"></span></div>
@@ -2735,48 +3002,52 @@ LAB.window={
   bind(d,id){const upd=()=>{const max=+$(`#${id}-r`).value;$(`#${id}-v`).textContent=max;
       let used=d.question.n;const inside=d.msgs.map(()=>false);
       for(let i=d.msgs.length-1;i>=0;i--){if(used+d.msgs[i].n<=max){used+=d.msgs[i].n;inside[i]=true}else break}
-      const who=w=>w==='du'?u.you:u.ai;
+      const who=w=>w==='du'?u.you:u.ai,fs=d.facts.map((f,i)=>f&&{f,ok:inside[i]}).filter(Boolean),lost=fs.filter(x=>!x.ok).length;
       $(`#${id}-log`).innerHTML=d.msgs.map((m,i)=>`<div class="msg ${m.who}${inside[i]?'':' out'}"><span class="who"><span>${who(m.who)}</span><span class="mono">${inside[i]?d.tok(m.n):d.outside}</span></span>${esc(m.t)}</div>`).join('')
         +`<div class="msg du"><span class="who"><span>${u.you}</span><span class="mono">${d.tok(d.question.n)}</span></span>${esc(d.question.t)}</div>`
-        +`<div class="msg ki ans"><span class="who"><span>${u.ai}${inside[0]?'':` <span class="stamp">${d.lost}</span>`}</span><span class="mono">${d.used(used,max)}</span></span>${esc(inside[0]?d.answerIn:d.answerOut)}</div>`};
+        +`<div class="msg ki ans"><span class="who"><span>${u.ai}</span><span class="mono">${d.used(used,max)}</span></span><ul class="facts">${fs.map(x=>`<li class="${x.ok?'ok':'no'}">${x.ok?esc(x.f.t):`${esc(x.f.fake)} <span class="stamp">${d.lost}</span>`}</li>`).join('')}</ul></div>`
+        +`<p class="fb${lost?' no':''}" aria-live="polite">${lost?d.someOut(lost,fs.length):d.allIn}</p>`};
     $(`#${id}-r`).addEventListener('input',upd);upd()}};
 
 /* Temperatur */
 LAB.temperature={
   html:(d,id)=>`<div class="prompt">${esc(d.prompt)} <span class="gap" aria-label="${esc(d.gap)}"></span> …</div>
     <div class="bars" id="${id}-bars"></div>
+    <p class="legend2 small"><span class="sw"></span>${d.legend.common} <span class="sw odd"></span>${d.legend.rare}</p>
     <div class="slider"><label for="${id}-t">${d.slider}</label><input type="range" id="${id}-t" min="0.1" max="2" step="0.1" value="1"><span class="tval" id="${id}-tv"></span></div>
     <p class="small" id="${id}-note" aria-live="polite" style="min-height:3.2em"></p>
-    <div class="row"><button class="btn primary" id="${id}-roll">${d.roll}</button><button class="btn" id="${id}-clear">${d.clear}</button></div>
-    <div class="samples" id="${id}-s" aria-live="polite"></div>
+    <div class="rolls"><div class="row"><button class="btn primary go" id="${id}-roll">${d.roll}</button><button class="btn ghost undo" id="${id}-clear">${d.clear}</button></div>
+      <p class="subhead">${d.rollsTitle}</p><ol class="samples" id="${id}-s" aria-live="polite"></ol></div>
     <h3>${d.quizTitle}</h3><p class="small">${d.quizIntro}</p>
-    <div class="qlist">${d.quiz.map((q,i)=>`<div class="q"><b>${esc(q.q)}</b><div class="row" role="group">${['n','m','h'].map(k=>`<button class="btn" data-q="${i}" data-k="${k}" aria-pressed="false">${d.levels[k]}</button>`).join('')}</div><p class="fb" id="${id}-f${i}" hidden></p></div>`).join('')}</div>
-    ${d.how?`<div class="how"><h3>${d.how.title}</h3><ul>${d.how.items.map(x=>`<li>${x}</li>`).join('')}</ul><div class="prompt">${esc(d.how.prompt)}</div><p class="small">${d.how.caveat}</p></div>`:''}`,
+    <div class="qlist">${d.quiz.map((q,i)=>`<div class="q"><b>${esc(q.q)}</b>${seg('',['n','m','h'].map(k=>d.levels[k]),'data-l',-1).replace(/data-l="(\d)"/g,(m,k)=>`data-q="${i}" data-k="${'nmh'[k]}"`)}<p class="fb" id="${id}-f${i}" hidden></p></div>`).join('')}</div>`,
   bind(d,id){const ps=()=>softmax(d.next.map(n=>n[1]),+$(`#${id}-t`).value);
     const upd=()=>{const T=+$(`#${id}-t`).value,p=ps();$(`#${id}-tv`).textContent=T.toFixed(1).replace('.',u.dec);
       $(`#${id}-bars`).innerHTML=bars(d.next.map((n,i)=>({w:n[0],p:p[i],cls:n[2]?'odd':''})));
       $(`#${id}-note`).textContent=T<=.3?d.notes.low:T<=1.1?d.notes.mid:d.notes.high};
     $(`#${id}-t`).addEventListener('input',upd);upd();
-    $(`#${id}-roll`).onclick=()=>{const p=ps();$(`#${id}-s`).innerHTML=Array.from({length:10},()=>{const n=d.next[draw(p)];return `<span class="s${n[2]?' odd':''}">${esc(n[0])}</span>`}).join('')};
-    $(`#${id}-clear`).onclick=()=>{$(`#${id}-s`).innerHTML=''};
+    /* Platz für zehn Zeilen ist immer reserviert: Würfeln und Leeren verschieben nichts auf der Seite */
+    const empty=()=>{$(`#${id}-s`).innerHTML=`<li class="empty">${d.empty}</li>`};empty();
+    $(`#${id}-roll`).onclick=()=>{const p=ps();$(`#${id}-s`).innerHTML=Array.from({length:10},()=>{const n=d.next[draw(p)];
+      return `<li class="${n[2]?'odd':''}"><span class="pre">${esc(d.prompt)}</span> <b>${esc(n[0])}</b>${n[2]?` <span class="tag">${d.rare}</span>`:''}</li>`}).join('')};
+    $(`#${id}-clear`).onclick=empty;
     $$(`#${id} [data-q]`).forEach(b=>b.onclick=()=>{const i=+b.dataset.q,k=b.dataset.k,q=d.quiz[i],f=$(`#${id}-f${i}`);
       press(`#${id} [data-q="${i}"]`,x=>x===b);f.hidden=false;f.className='fb'+(k===q.a?'':' no');f.textContent=q.why[k]})}};
 
 /* Erfundene Antworten: sicher klingend, aber gewürfelt */
 LAB.confidence={
   html:(d,id)=>`<p class="small">${d.intro}</p>
-    <div class="row" role="group">${d.prompts.map((p,i)=>`<button class="btn" data-p="${i}" aria-pressed="${i===0}">${esc(p.label)}</button>`).join('')}</div>
+    ${seg(d.qLbl,d.prompts.map(p=>p.label),'data-p',0)}
     <div class="prompt" id="${id}-q"></div>
-    <div class="row"><button class="btn primary" id="${id}-go">${d.go}</button><button class="btn" id="${id}-show" aria-pressed="false">${d.show}</button></div>
-    <div class="chatlog" id="${id}-a" aria-live="polite"></div>
-    <div class="bars" id="${id}-bars" hidden></div>`,
+    <p class="subhead">${d.barsTitle}</p><div class="bars" id="${id}-bars"></div>
+    <div class="row"><button class="btn primary go" id="${id}-go">${d.go}</button></div>
+    <div class="chatlog conf" id="${id}-a" aria-live="polite"></div>
+    <p class="small">${d.why}</p>`,
   bind(d,id){let pi=0;
     const upd=()=>{const p=d.prompts[pi];$(`#${id}-q`).textContent=p.q;$(`#${id}-a`).innerHTML='';
       $(`#${id}-bars`).innerHTML=bars(p.opts.map(o=>({w:o[0],p:o[1],cls:o[2]?'':'odd'})))};
     $$(`#${id} [data-p]`).forEach(b=>b.onclick=()=>{pi=+b.dataset.p;press(`#${id} [data-p]`,x=>x===b);upd()});
     $(`#${id}-go`).onclick=()=>{const p=d.prompts[pi],o=p.opts[draw(p.opts.map(x=>x[1]))];
       $(`#${id}-a`).innerHTML=`<div class="msg ki"><span class="who"><span>${u.ai}</span></span>${esc(p.say(o[0]))}</div><p class="fb${o[2]?'':' no'}">${o[2]?d.ok(pct(o[1])):d.bad(pct(o[1]),esc(p.truth))}</p>`};
-    $(`#${id}-show`).onclick=e=>{const b=$(`#${id}-bars`);b.hidden=!b.hidden;e.currentTarget.setAttribute('aria-pressed',String(!b.hidden))};
     upd()}};
 
 /* Nachschlagen, rechnen, nachdenken: jeder Knopf ändert nur seine eigene Aufgabe */
@@ -2785,51 +3056,54 @@ LAB.lookup={
     <div class="row" role="group"><button class="btn" data-i="${i}" data-k="bad" aria-pressed="false">${it.bad.btn}</button><button class="btn teal" data-i="${i}" data-k="good" aria-pressed="false">${it.good.btn}</button></div>
     <div class="lkout" id="${id}-o${i}"></div></div>`).join(''),
   bind(d,id){$$(`#${id} .lab [data-k]`).forEach(b=>b.onclick=()=>{const i=+b.dataset.i,k=b.dataset.k,it=d.items[i],o=$(`#${id}-o${i}`);
-    press(`#${id} .lab [data-i="${i}"]`,x=>x===b);o.className='lkout '+(k==='good'?'good':'bad');
+    press(`#${id} .lab [data-i="${i}"]`,x=>x===b);
     const from=`<div class="lkfrom">↳ ${esc(b.textContent.trim())}</div>`;
-    o.innerHTML=from+(k==='good'?it.good.steps.map((s,j)=>`<div class="lkstep${reduce?'':' pop'}" style="animation-delay:${j*350}ms">${s}</div>`).join('')+`<p class="fb">${it.good.note}</p>`
-      :`<div class="msg ki"><span class="who"><span>${u.ai} <span class="stamp">${d.guessed}</span></span></span>${esc(it.bad.answer)}</div><p class="fb no">${it.bad.note}</p>`)})}};
+    o.innerHTML=from+(k==='good'?it.good.steps.map((s,j)=>`<div class="lkstep${reduce?'':' pop'}" style="animation-delay:${j*350}ms">${s}</div>`).join('')+callout('info',d.infoLbl,it.good.note)
+      :`<div class="msg ki"><span class="who"><span>${u.ai} <span class="stamp">${d.guessed}</span></span></span>${esc(it.bad.answer)}</div>`+callout('warn',d.warnLbl,it.bad.note))})}};
 
-/* Gut fragen: Bausteine eines guten Prompts */
+/* Gut fragen: Bausteine eines guten Prompts, jeder wirkt für sich, egal in welcher Reihenfolge */
 LAB.prompt={
   html:(d,id)=>`<p class="small">${d.intro}</p>
-    <div class="parts" role="group">${d.parts.map((p,i)=>`<button class="btn" data-part="${i}" aria-pressed="false">+ ${esc(p.btn)}</button>`).join('')}</div>
+    <div class="parts" role="group">${d.parts.map((p,i)=>tgl(`${id}-b${i}`,esc(p.btn),false).replace('<button',`<button data-part="${i}"`)).join('')}</div>
     <div class="prompt" id="${id}-p"></div>
     <div class="row"><span class="small">${d.meter}</span><span class="meter" id="${id}-m" aria-hidden="true"></span><span class="small mono" id="${id}-mv"></span></div>
-    <div class="answer" id="${id}-a" aria-live="polite"></div>`,
+    <div class="answer" id="${id}-a" aria-live="polite"></div>
+    <div class="effects" id="${id}-e"></div>`,
   bind(d,id){const on=new Set();
     const upd=()=>{const ps=d.parts.filter((_,i)=>on.has(i));
       $(`#${id}-p`).textContent=[...ps.filter(p=>p.pos==='pre').map(p=>p.text),d.base,...ps.filter(p=>p.pos!=='pre').map(p=>p.text)].join(' ');
       $(`#${id}-m`).innerHTML=d.parts.map((_,i)=>`<i class="${i<on.size?'on':''}"></i>`).join('');
       $(`#${id}-mv`).textContent=`${on.size}/${d.parts.length}`;
       const tier=on.size<=1?0:on.size<=3?1:2;
-      $(`#${id}-a`).innerHTML=`<span class="lkfrom">${d.tiers[tier]}</span>${esc(d.answers[tier])}`};
+      $(`#${id}-a`).innerHTML=`<span class="lkfrom">${d.tiers[tier]}</span>${esc(d.compose(on))}`;
+      $(`#${id}-e`).innerHTML=on.size?`<p class="subhead">${d.changed}</p><ul>${d.effects.map((e,i)=>on.has(i)?`<li>${e}</li>`:'').join('')}</ul>`:''};
     $$(`#${id} [data-part]`).forEach(b=>b.onclick=()=>{const i=+b.dataset.part;on.has(i)?on.delete(i):on.add(i);b.setAttribute('aria-pressed',String(on.has(i)));upd()});
     upd()}};
 
 /* Vorurteile: was die Trainingsdaten nahelegen */
 LAB.bias={
   html:(d,id)=>`<p class="small">${d.intro}</p>
-    <div class="row" role="group">${d.prompts.map((p,i)=>`<button class="btn" data-p="${i}" aria-pressed="${i===0}">${esc(p.label)}</button>`).join('')}</div>
+    ${seg(d.probLbl,d.prompts.map(p=>p.label),'data-p',0)}
     <div class="prompt" id="${id}-q"></div><div class="bars" id="${id}-bars"></div>
-    <div class="row" role="group"><button class="btn" data-m="web" aria-pressed="true">${d.modes.web}</button><button class="btn" data-m="fair" aria-pressed="false">${d.modes.fair}</button></div>
-    <p class="fb" id="${id}-n" aria-live="polite"></p>`,
+    ${seg(d.modeLbl,[d.modes.web,d.modes.fair],'data-m',0)}
+    <p class="fb" id="${id}-n" aria-live="polite"></p>
+    <div class="how"><h3>${d.why.title}</h3><ul>${d.why.items.map(x=>`<li>${x}</li>`).join('')}</ul></div>`,
   bind(d,id){let pi=0,mode='web';
     const upd=()=>{const p=d.prompts[pi];$(`#${id}-q`).textContent=p.q;
       $(`#${id}-bars`).innerHTML=bars(p.names.map(n=>({w:n[0],p:mode==='web'?n[1]:n[2],cls:n[3]==='f'?'alt':''})));
       const sh=p.names.filter(n=>n[3]==='f').reduce((a,n)=>a+(mode==='web'?n[1]:n[2]),0);
       $(`#${id}-n`).textContent=(mode==='web'?d.noteWeb:d.noteFair)(pct(sh))};
     $$(`#${id} [data-p]`).forEach(b=>b.onclick=()=>{pi=+b.dataset.p;press(`#${id} [data-p]`,x=>x===b);upd()});
-    $$(`#${id} [data-m]`).forEach(b=>b.onclick=()=>{mode=b.dataset.m;press(`#${id} [data-m]`,x=>x===b);upd()});
+    $$(`#${id} [data-m]`).forEach(b=>b.onclick=()=>{mode=['web','fair'][+b.dataset.m];press(`#${id} [data-m]`,x=>x===b);upd()});
     upd()}};
 
 /* Energie: Größenordnungen statt falscher Genauigkeit */
 LAB.cost={
   html:(d,id)=>`<p class="small">${d.intro}</p>
-    <div class="row" role="group">${d.sizes.map((s,i)=>`<button class="btn" data-s="${i}" aria-pressed="${i===1}">${esc(s[0])}</button>`).join('')}</div>
+    ${seg(d.sizeLbl,d.sizes.map(s=>s[0]),'data-s',1)}
     <div class="slider"><label for="${id}-w">${d.words}</label><input type="range" id="${id}-w" min="50" max="2000" step="50" value="400"><span class="tval" id="${id}-wv"></span></div>
     <div class="slider"><label for="${id}-n">${d.reqs}</label><input type="range" id="${id}-n" min="1" max="200" step="1" value="20"><span class="tval" id="${id}-nv"></span></div>
-    <div class="row"><button class="btn" id="${id}-think" aria-pressed="false">${d.think}</button></div>
+    <div class="row">${tgl(`${id}-think`,d.think,false)}</div>
     <p class="subhead">${d.measured}</p><div class="result" id="${id}-r"></div>
     <p class="subhead">${d.compare}</p><div class="result" id="${id}-c"></div><p id="${id}-y"></p>
     <p class="small">${d.note}</p><p class="small">${d.waterNote}</p>`,
@@ -2854,18 +3128,25 @@ LAB.cost={
 function choiceLab(kind){return{
   html:(d,id)=>`<p class="small">${d.intro}</p>
     ${d.legend?`<ul class="legend">${d.keys.map(k=>`<li><span class="light ${k}"><b>${d.names[k]}</b></span> ${d.legend[k]}</li>`).join('')}</ul>`:''}
-    <div class="cases">${d.cases.map((c,i)=>`<div class="case"><p class="what">${esc(c.s)}</p><div class="row" role="group">${d.keys.map(k=>`<button class="btn${kind==='ampel'?' light '+k:''}" data-c="${i}" data-k="${k}" aria-pressed="false">${d.btn[k]}</button>`).join('')}</div><p class="fb" id="${id}-f${i}" hidden></p></div>`).join('')}</div>
-    ${d.how?`<div class="how"><h3>${d.how.title}</h3><ul>${d.how.items.map(x=>`<li>${x}</li>`).join('')}</ul><div class="prompt">${esc(d.how.prompt)}</div><p class="small">${d.how.caveat}</p></div>`:''}`,
+    <div class="cases">${d.cases.map((c,i)=>`<div class="case"><p class="what">${esc(c.s)}</p><div class="seg" role="group">${d.keys.map(k=>`<button class="opt${kind==='ampel'?' light '+k:''}" data-c="${i}" data-k="${k}" aria-pressed="false">${d.btn[k]}</button>`).join('')}</div><p class="fb" id="${id}-f${i}" hidden></p></div>`).join('')}</div>
+    ${d.how?`<div class="how"><h3>${d.how.title}</h3><ul>${d.how.items.map(x=>`<li>${x}</li>`).join('')}</ul><div class="prompt">${esc(d.how.prompt)}</div>${callout('warn','',d.how.caveat)}</div>`:''}`,
   bind(d,id){const pick={};
-    const score=()=>{const n=Object.keys(pick).length,ok=Object.entries(pick).filter(([i,k])=>d.cases[i].a===k).length;$(`#${id}-score`).textContent=n?' · '+d.score(ok,n):''};
+    const score=()=>{const n=Object.keys(pick).length,ok=Object.entries(pick).filter(([i,k])=>d.cases[i].a===k).length;const s=$(`#${id}-score`);if(s)s.textContent=n?' · '+d.score(ok,n):''};
     $$(`#${id} [data-c]`).forEach(b=>b.onclick=()=>{const i=+b.dataset.c,k=b.dataset.k,c=d.cases[i],f=$(`#${id}-f${i}`);pick[i]=k;
       press(`#${id} [data-c="${i}"]`,x=>x===b);f.hidden=false;f.className='fb'+(k===c.a?'':' no');f.textContent=(k===c.a?d.agree:d.rule(d.names[c.a]))+' '+c.why;score()});
     score()}}}
 LAB.ampel=choiceLab('ampel');LAB.agent=choiceLab('agent');
 
+/* Bildschirm ruhig halten: Das angetippte Element bleibt an seiner Stelle, auch wenn darüber oder darunter
+   Inhalt erscheint, wegfällt oder seine Höhe ändert. Knöpfe mit data-free scrollen absichtlich selbst. */
+function hold(el){const chain=[el,el.parentElement,el.closest('.row,.seg,.q,.case,.lab')].filter(Boolean),tops=chain.map(x=>x.getBoundingClientRect().top);
+  requestAnimationFrame(()=>{const i=chain.findIndex(x=>x.isConnected);if(i<0)return;const dy=chain[i].getBoundingClientRect().top-tops[i];if(Math.abs(dy)>1)window.scrollBy({top:dy,behavior:'instant'})})}
+document.addEventListener('click',e=>{const b=e.target.closest('.lab button,.quiz button');if(b&&!b.hasAttribute('data-free'))hold(b)},true);
+document.addEventListener('input',e=>{if(e.target.closest('.lab'))hold(e.target)},true);
+
 /* ---------- Quiz ---------- */
 function quizHtml(){return `<section class="station quiz" id="quiz" aria-labelledby="h-quiz"><header><h2 id="h-quiz">${u.quizTitle}</h2><p>${u.quizIntro}</p></header>
-  <div class="qlist">${L.quiz.map((q,i)=>`<div class="q"><b>${i+1}. ${esc(q.q)}</b><div class="row" role="group">${q.opts.map((o,k)=>`<button class="btn" data-qz="${i}" data-o="${k}" aria-pressed="false">${esc(o)}</button>`).join('')}</div><p class="fb" id="qz-f${i}" hidden></p></div>`).join('')}</div>
+  <div class="qlist">${L.quiz.map((q,i)=>`<div class="q"><b>${i+1}. ${esc(q.q)}</b><div class="row" role="group">${q.opts.map((o,k)=>`<button class="opt" data-qz="${i}" data-o="${k}" aria-pressed="false">${esc(o)}</button>`).join('')}</div><p class="fb" id="qz-f${i}" hidden></p></div>`).join('')}</div>
   <p class="verdict" id="qz-score" aria-live="polite"></p></section>`}
 function bindQuiz(){const ans={};
   $$('[data-qz]').forEach(b=>b.onclick=()=>{const i=+b.dataset.qz,o=+b.dataset.o,q=L.quiz[i],f=$('#qz-f'+i);ans[i]=o;
