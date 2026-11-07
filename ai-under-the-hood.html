@@ -475,7 +475,7 @@ stations:[
    ownMore:p=>`Die deutsche Fassung braucht hier etwa ${p} % mehr Tokens.`,
    otherMore:p=>`Hier braucht ausnahmsweise die englische Fassung etwa ${p} % mehr.`,
    equal:'Hier liegen beide etwa gleichauf.',
-   more:'Nächstes Satzpaar schätzen', pos:(i,n)=>`Satzpaar ${i} von ${n}`, again:'Neues Satzpaar: Schätze wieder zuerst.'},
+   allDone:'Geschafft: Du hast alle Satzpaare geschätzt. Oben kannst du jedes Paar noch einmal ansehen.', more:'Nächstes Satzpaar schätzen', pos:(i,n)=>`Satzpaar ${i} von ${n}`, again:'Neues Satzpaar: Schätze wieder zuerst.'},
  hood:[['Tokenizer','Das Programm, das Text in Tokens zerlegt. Viele Modelle nutzen ein Verfahren namens <i>Byte-Pair-Encoding</i>: Es fügt beim Erstellen die häufigsten Zeichenpaare immer wieder zu neuen Bausteinen zusammen.'],
    ['Vokabular','Der feste Vorrat an Tokens, bei aktuellen Modellen grob 50.000 bis 250.000. Was nicht als Ganzes darin steht, wird aus Teilen zusammengesetzt.'],
    ['Kontextfenster','Wie viele Tokens das Modell auf einmal berücksichtigen kann: deine Frage, der bisherige Verlauf, angehängte Dokumente und die Antwort zusammen.'],
@@ -510,7 +510,8 @@ stations:[
        'Das passiert in vielen Schichten hintereinander und mit vielen „Köpfen“ gleichzeitig, die auf unterschiedliche Dinge achten: Grammatik, Bezüge, Themen.'],
  lab:{type:'attention',varLbl:'Satz:',
    barsTitle:w=>`Die stärksten Gewichte für „${w}“ (alle Gewichte zusammen ergeben 100 %)`,
-   how:{title:'So verarbeitet die KI das',items:['<b>Vergleichen:</b> Für „sie“ vergleicht das Modell seine Zahlenliste (das Embedding aus Station 3) mit der jedes Worts davor. Passt ein Wort gut, bekommt es ein hohes Gewicht. Alle Gewichte ergeben zusammen 100 %.','<b>Mischen:</b> Dann mischt es die Bedeutungen der Wörter nach diesen Gewichten in „sie“ hinein. Danach steht in „sie“ gewissermaßen zu 58 % „Ärztin“.','<b>Warum das zählt:</b> Fragst du danach „Wer wollte den Befund besprechen?“, findet das Modell die Antwort nur über diese Verbindung. Ändert sich ein Wort im Satz (Variante 2), ändern sich die Gewichte und damit die Antwort.']},
+   how:{title:w=>w?`So verarbeitet die KI „${w}“`:'So verarbeitet die KI das',none:'Tippe oben ein Wort an. Dann zeigt dieser Kasten Schritt für Schritt, wie die KI genau dieses Wort verarbeitet.',
+     items:(w,t,p)=>[`<b>Vergleichen:</b> Für „${w}“ vergleicht das Modell seine Zahlenliste (das Embedding aus Station 3) mit der jedes Worts davor. Passt ein Wort gut, bekommt es ein hohes Gewicht. Alle Gewichte zusammen ergeben 100 %.`,`<b>Mischen:</b> Dann mischt es die Bedeutungen dieser Wörter nach ihren Gewichten in „${w}“ hinein. Am stärksten zählt „${t}“: Danach steckt in „${w}“ gewissermaßen zu ${p} „${t}“.`,`<b>Warum das zählt:</b> Erst durch diese Mischung „weiß“ das Modell, wozu „${w}“ in diesem Satz gehört, und kann passend weiterschreiben oder Fragen dazu beantworten. Wähle die andere Variante: Ein einziges geändertes Wort verschiebt die Gewichte und damit die Bedeutung.`]},
    title:'Ausprobieren: Worauf schaut ein Wort?',
    intro:'Tippe ein Wort an. Je kräftiger die Farbe der anderen Wörter, desto mehr Aufmerksamkeit bekommen sie. Das Modell schaut dabei nur nach links, auf das, was schon da ist.',
    pick:'Tippe ein Wort an.',
@@ -872,7 +873,7 @@ stations:[
    ownMore:p=>`Here, unusually, the English version needs about ${p} % more.`,
    otherMore:p=>`The German version needs about ${p} % more tokens here. Long compound words get cut into many pieces.`,
    equal:'Here both are about level.',
-   more:'Guess the next sentence pair', pos:(i,n)=>`Sentence pair ${i} of ${n}`, again:'New sentence pair: guess first again.'},
+   allDone:'Done: you have guessed all sentence pairs. You can look at any pair again above.', more:'Guess the next sentence pair', pos:(i,n)=>`Sentence pair ${i} of ${n}`, again:'New sentence pair: guess first again.'},
  hood:[['Tokeniser','The program that splits text into tokens. Many models use a method called <i>byte-pair encoding</i>: while it is built, it keeps merging the most frequent pairs of characters into new building blocks.'],
    ['Vocabulary','The fixed set of tokens, roughly 50,000 to 250,000 in current models. Anything not in it as a whole is assembled from parts.'],
    ['Context window','How many tokens the model can take into account at once: your question, the conversation so far, attached documents and the answer together.'],
@@ -907,7 +908,8 @@ stations:[
        'It happens in many layers one after another and with many “heads” at once, each paying attention to different things: grammar, references, topics.'],
  lab:{type:'attention',varLbl:'Sentence:',
    barsTitle:w=>`The strongest weights for “${w}” (all weights together add up to 100 %)`,
-   how:{title:'How the AI processes this',items:['<b>Compare:</b> For “she” the model compares its list of numbers (the embedding from station 3) with that of every word before it. A word that fits well gets a high weight. All weights add up to 100 %.','<b>Mix:</b> It then mixes the meanings of those words into “she” according to the weights. Afterwards “she” is, so to speak, 58 % “doctor”.','<b>Why it matters:</b> If you then ask “Who wanted to discuss the results?”, the model can only find the answer through this link. Change one word in the sentence (version 2) and the weights, and with them the answer, change too.']},
+   how:{title:w=>w?`How the AI processes “${w}”`:'How the AI processes this',none:'Tap a word above. This box then shows step by step how the AI processes exactly that word.',
+     items:(w,t,p)=>[`<b>Compare:</b> For “${w}” the model compares its list of numbers (the embedding from station 3) with that of every word before it. A word that fits well gets a high weight. All weights together add up to 100 %.`,`<b>Mix:</b> It then mixes the meanings of those words into “${w}” according to their weights. “${t}” counts most: afterwards “${w}” is, so to speak, ${p} “${t}”.`,`<b>Why it matters:</b> Only through this mix does the model “know” what “${w}” belongs to in this sentence, so it can continue sensibly or answer questions about it. Pick the other version: a single changed word shifts the weights and with them the meaning.`]},
    title:'Try it: what does a word look at?',
    intro:'Tap a word. The stronger the colour of the other words, the more attention they get. The model only looks to the left, at what is already there.',
    pick:'Tap a word.',
@@ -1266,7 +1268,7 @@ stations:[
    ownMore:p=>`La version française demande ici environ ${p} % de jetons en plus.`,
    otherMore:p=>`Ici, exceptionnellement, la version anglaise demande environ ${p} % de plus.`,
    equal:'Ici, les deux sont à peu près à égalité.',
-   more:'Estimer la paire suivante', pos:(i,n)=>`Paire ${i} sur ${n}`, again:'Nouvelle paire : devine d’abord à nouveau.'},
+   allDone:'Bravo : tu as estimé toutes les paires de phrases. Tu peux revoir chaque paire ci-dessus.', more:'Estimer la paire suivante', pos:(i,n)=>`Paire ${i} sur ${n}`, again:'Nouvelle paire : devine d’abord à nouveau.'},
  hood:[['Découpeur (tokenizer)','Le programme qui découpe le texte en jetons. Beaucoup de modèles utilisent une méthode appelée <i>byte-pair encoding</i> : lors de sa création, elle fusionne sans cesse les paires de caractères les plus fréquentes en nouvelles briques.'],
    ['Vocabulaire','La réserve fixe de jetons, en gros 50 000 à 250 000 pour les modèles actuels. Ce qui n’y figure pas en entier est assemblé à partir de morceaux.'],
    ['Fenêtre de contexte','Le nombre de jetons que le modèle peut prendre en compte à la fois : ta question, la conversation jusque-là, les documents joints et la réponse ensemble.'],
@@ -1301,7 +1303,8 @@ stations:[
        'Cela se produit dans de nombreuses couches successives et avec de nombreuses « têtes » en parallèle, attentives à des choses différentes : grammaire, références, thèmes.'],
  lab:{type:'attention',varLbl:'Phrase :',
    barsTitle:w=>`Les poids les plus forts pour « ${w} » (tous les poids réunis font 100 %)`,
-   how:{title:'Comment l’IA traite cela',items:['<b>Comparer :</b> pour « elle », le modèle compare sa liste de nombres (l’embedding de l’étape 3) avec celle de chaque mot précédent. Un mot qui correspond bien reçoit un poids élevé. Tous les poids réunis font 100 %.','<b>Mélanger :</b> il mélange ensuite le sens de ces mots dans « elle » selon leurs poids. Ensuite, « elle » contient pour ainsi dire 58 % de « médecin ».','<b>Pourquoi c’est important :</b> si tu demandes ensuite « Qui voulait discuter des résultats ? », le modèle ne trouve la réponse que grâce à ce lien. Change un mot de la phrase (version 2) et les poids changent, donc la réponse aussi.']},
+   how:{title:w=>w?`Comment l’IA traite « ${w} »`:'Comment l’IA traite cela',none:'Touche un mot ci-dessus. Ce cadre montre alors étape par étape comment l’IA traite précisément ce mot.',
+     items:(w,t,p)=>[`<b>Comparer :</b> pour « ${w} », le modèle compare sa liste de nombres (l’embedding de l’étape 3) avec celle de chaque mot précédent. Un mot qui correspond bien reçoit un poids élevé. Tous les poids réunis font 100 %.`,`<b>Mélanger :</b> il mélange ensuite le sens de ces mots dans « ${w} » selon leurs poids. « ${t} » compte le plus : ensuite, « ${w} » contient pour ainsi dire ${p} de « ${t} ».`,`<b>Pourquoi c’est important :</b> c’est seulement grâce à ce mélange que le modèle « sait » à quoi se rattache « ${w} » dans cette phrase, et peut continuer correctement ou répondre à des questions. Choisis l’autre version : un seul mot changé déplace les poids, et donc le sens.`]},
    title:'À essayer : que regarde un mot ?',
    intro:'Touche un mot. Plus la couleur des autres mots est intense, plus ils reçoivent d’attention. Le modèle ne regarde que vers la gauche, ce qui est déjà là.',
    pick:'Touche un mot.',
@@ -1660,7 +1663,7 @@ stations:[
    ownMore:p=>`Qui la versione italiana richiede circa il ${p} % di token in più.`,
    otherMore:p=>`Qui, eccezionalmente, la versione inglese richiede circa il ${p} % in più.`,
    equal:'Qui le due sono più o meno pari.',
-   more:'Stima la prossima coppia', pos:(i,n)=>`Coppia ${i} di ${n}`, again:'Nuova coppia: prima indovina di nuovo.'},
+   allDone:'Fatto: hai stimato tutte le coppie di frasi. Sopra puoi rivedere ogni coppia.', more:'Stima la prossima coppia', pos:(i,n)=>`Coppia ${i} di ${n}`, again:'Nuova coppia: prima indovina di nuovo.'},
  hood:[['Tokenizer','Il programma che divide il testo in token. Molti modelli usano un metodo chiamato <i>byte-pair encoding</i>: durante la sua creazione unisce continuamente le coppie di caratteri più frequenti in nuovi mattoncini.'],
    ['Vocabolario','La scorta fissa di token, all’incirca da 50.000 a 250.000 nei modelli attuali. Ciò che non c’è per intero viene composto da pezzi.'],
    ['Finestra di contesto','Quanti token il modello può considerare in una volta: la tua domanda, la conversazione fin qui, i documenti allegati e la risposta insieme.'],
@@ -1695,7 +1698,8 @@ stations:[
        'Succede in molti strati uno dopo l’altro e con molte «teste» in parallelo, attente a cose diverse: grammatica, riferimenti, argomenti.'],
  lab:{type:'attention',varLbl:'Frase:',
    barsTitle:w=>`I pesi più forti per «${w}» (tutti i pesi insieme fanno 100 %)`,
-   how:{title:'Come lo elabora l’IA',items:['<b>Confrontare:</b> per «lei» il modello confronta la sua lista di numeri (l’embedding della tappa 3) con quella di ogni parola precedente. Una parola che si adatta bene riceve un peso alto. Tutti i pesi insieme fanno 100 %.','<b>Mescolare:</b> poi mescola i significati di quelle parole in «lei» secondo i pesi. Dopo, «lei» è per così dire al 58 % «dottoressa».','<b>Perché conta:</b> se poi chiedi «Chi voleva discutere gli esami?», il modello trova la risposta solo grazie a questo legame. Cambia una parola nella frase (versione 2) e cambiano i pesi, e con loro la risposta.']},
+   how:{title:w=>w?`Come l’IA elabora «${w}»`:'Come lo elabora l’IA',none:'Tocca una parola qui sopra. Questo riquadro mostra poi passo dopo passo come l’IA elabora proprio quella parola.',
+     items:(w,t,p)=>[`<b>Confrontare:</b> per «${w}» il modello confronta la sua lista di numeri (l’embedding della tappa 3) con quella di ogni parola precedente. Una parola che si adatta bene riceve un peso alto. Tutti i pesi insieme fanno 100 %.`,`<b>Mescolare:</b> poi mescola i significati di quelle parole in «${w}» secondo i loro pesi. Conta di più «${t}»: dopo, «${w}» è per così dire al ${p} «${t}».`,`<b>Perché conta:</b> solo grazie a questa miscela il modello «sa» a che cosa si riferisce «${w}» in questa frase, e può continuare in modo sensato o rispondere a domande. Scegli l’altra versione: una sola parola cambiata sposta i pesi e quindi il significato.`]},
    title:'Prova: che cosa guarda una parola?',
    intro:'Tocca una parola. Più intenso è il colore delle altre parole, più attenzione ricevono. Il modello guarda solo a sinistra, a ciò che c’è già.',
    pick:'Tocca una parola.',
@@ -2055,7 +2059,7 @@ stations:[
    ownMore:p=>`Aquí la versión en español necesita un ${p} % más de tokens, aproximadamente.`,
    otherMore:p=>`Aquí, excepcionalmente, la versión en inglés necesita un ${p} % más, aproximadamente.`,
    equal:'Aquí las dos están más o menos igualadas.',
-   more:'Estimar el siguiente par', pos:(i,n)=>`Par ${i} de ${n}`, again:'Nuevo par: primero adivina otra vez.'},
+   allDone:'Hecho: has estimado todos los pares de frases. Arriba puedes volver a ver cada par.', more:'Estimar el siguiente par', pos:(i,n)=>`Par ${i} de ${n}`, again:'Nuevo par: primero adivina otra vez.'},
  hood:[['Tokenizador','El programa que divide el texto en tokens. Muchos modelos usan un método llamado <i>byte-pair encoding</i>: al crearse, va uniendo los pares de caracteres más frecuentes en nuevas piezas.'],
    ['Vocabulario','La reserva fija de tokens, más o menos entre 50.000 y 250.000 en los modelos actuales. Lo que no está entero se compone a partir de trozos.'],
    ['Ventana de contexto','Cuántos tokens puede tener en cuenta el modelo a la vez: tu pregunta, la conversación hasta ahora, los documentos adjuntos y la respuesta juntos.'],
@@ -2090,7 +2094,8 @@ stations:[
        'Ocurre en muchas capas seguidas y con muchas «cabezas» a la vez, atentas a cosas distintas: gramática, referencias, temas.'],
  lab:{type:'attention',varLbl:'Frase:',
    barsTitle:w=>`Los pesos más fuertes para «${w}» (todos los pesos juntos suman 100 %)`,
-   how:{title:'Cómo lo procesa la IA',items:['<b>Comparar:</b> para «ella», el modelo compara su lista de números (el embedding de la estación 3) con la de cada palabra anterior. Una palabra que encaja bien recibe un peso alto. Todos los pesos juntos suman 100 %.','<b>Mezclar:</b> después mezcla en «ella» los significados de esas palabras según sus pesos. Luego «ella» es, por así decirlo, un 58 % «doctora».','<b>Por qué importa:</b> si después preguntas «¿Quién quería hablar de los resultados?», el modelo solo encuentra la respuesta gracias a este vínculo. Cambia una palabra de la frase (versión 2) y cambian los pesos, y con ellos la respuesta.']},
+   how:{title:w=>w?`Cómo procesa la IA «${w}»`:'Cómo lo procesa la IA',none:'Toca una palabra de arriba. Este recuadro te mostrará paso a paso cómo procesa la IA justo esa palabra.',
+     items:(w,t,p)=>[`<b>Comparar:</b> para «${w}», el modelo compara su lista de números (el embedding de la estación 3) con la de cada palabra anterior. Una palabra que encaja bien recibe un peso alto. Todos los pesos juntos suman 100 %.`,`<b>Mezclar:</b> después mezcla en «${w}» los significados de esas palabras según sus pesos. La que más cuenta es «${t}»: luego «${w}» es, por así decirlo, un ${p} «${t}».`,`<b>Por qué importa:</b> solo con esta mezcla el modelo «sabe» a qué se refiere «${w}» en esta frase, y puede seguir escribiendo con sentido o responder preguntas. Elige la otra versión: una sola palabra cambiada desplaza los pesos y, con ellos, el significado.`]},
    title:'Pruébalo: ¿a qué mira una palabra?',
    intro:'Toca una palabra. Cuanto más intenso es el color de las demás palabras, más atención reciben. El modelo solo mira hacia la izquierda, a lo que ya está.',
    pick:'Toca una palabra.',
@@ -2449,7 +2454,7 @@ stations:[
    ownMore:p=>`De Nederlandse versie heeft hier ongeveer ${p} % meer tokens nodig.`,
    otherMore:p=>`Hier heeft uitzonderlijk de Engelse versie ongeveer ${p} % meer nodig.`,
    equal:'Hier liggen beide ongeveer gelijk.',
-   more:'Schat het volgende zinspaar', pos:(i,n)=>`Zinnenpaar ${i} van ${n}`, again:'Nieuw zinnenpaar: raad eerst opnieuw.'},
+   allDone:'Klaar: je hebt alle zinsparen geschat. Bovenaan kun je elk paar nog eens bekijken.', more:'Schat het volgende zinspaar', pos:(i,n)=>`Zinnenpaar ${i} van ${n}`, again:'Nieuw zinnenpaar: raad eerst opnieuw.'},
  hood:[['Tokenizer','Het programma dat tekst in tokens knipt. Veel modellen gebruiken een methode die <i>byte-pair encoding</i> heet: bij het maken voegt die steeds de vaakst voorkomende tekenparen samen tot nieuwe bouwstenen.'],
    ['Vocabulaire','De vaste voorraad tokens, bij huidige modellen grofweg 50.000 tot 250.000. Wat er niet als geheel in staat, wordt uit delen samengesteld.'],
    ['Contextvenster','Hoeveel tokens het model tegelijk kan meenemen: je vraag, het gesprek tot nu toe, bijgevoegde documenten en het antwoord samen.'],
@@ -2484,7 +2489,8 @@ stations:[
        'Dat gebeurt in veel lagen na elkaar en met veel „koppen” tegelijk, die op verschillende dingen letten: grammatica, verwijzingen, onderwerpen.'],
  lab:{type:'attention',varLbl:'Zin:',
    barsTitle:w=>`De sterkste gewichten voor „${w}” (alle gewichten samen zijn 100 %)`,
-   how:{title:'Zo verwerkt de AI dit',items:['<b>Vergelijken:</b> voor „zij” vergelijkt het model zijn lijst getallen (de embedding uit station 3) met die van elk woord ervoor. Een woord dat goed past, krijgt een hoog gewicht. Alle gewichten samen zijn 100 %.','<b>Mengen:</b> daarna mengt het de betekenissen van die woorden volgens de gewichten in „zij”. Daarna is „zij” als het ware voor 58 % „arts”.','<b>Waarom dat telt:</b> vraag je daarna „Wie wilde de uitslag bespreken?”, dan vindt het model het antwoord alleen via deze verbinding. Verander één woord in de zin (versie 2) en de gewichten veranderen, en daarmee het antwoord.']},
+   how:{title:w=>w?`Zo verwerkt de AI „${w}”`:'Zo verwerkt de AI dit',none:'Tik hierboven op een woord. Dit kader laat dan stap voor stap zien hoe de AI precies dat woord verwerkt.',
+     items:(w,t,p)=>[`<b>Vergelijken:</b> voor „${w}” vergelijkt het model zijn lijst getallen (de embedding uit station 3) met die van elk woord ervoor. Een woord dat goed past, krijgt een hoog gewicht. Alle gewichten samen zijn 100 %.`,`<b>Mengen:</b> daarna mengt het de betekenissen van die woorden volgens hun gewichten in „${w}”. „${t}” telt het zwaarst: daarna is „${w}” als het ware voor ${p} „${t}”.`,`<b>Waarom dat telt:</b> pas door deze menging „weet” het model waar „${w}” in deze zin bij hoort, en kan het zinnig verder schrijven of vragen erover beantwoorden. Kies de andere versie: één veranderd woord verschuift de gewichten en daarmee de betekenis.`]},
    title:'Probeer het: waar kijkt een woord naar?',
    intro:'Tik op een woord. Hoe sterker de kleur van de andere woorden, hoe meer aandacht ze krijgen. Het model kijkt alleen naar links, naar wat er al is.',
    pick:'Tik op een woord.',
@@ -2906,12 +2912,13 @@ LAB.tokens={
       <div class="side"><h3>${d.other} <span class="mono" id="${id}-cx"></span></h3><div class="toks plain" id="${id}-px"></div></div></div>
     ${seg('',d.guess,'data-g',-1).replace('class="seg"',`class="seg" id="${id}-guess"`)}
     <p class="verdict" id="${id}-v" aria-live="polite"></p>
-    <div class="row" id="${id}-next"><button class="btn primary go" id="${id}-more" data-free>${d.more}</button></div>`,
+    <div class="row" id="${id}-next"><button class="btn primary go" id="${id}-more" data-free>${d.more}</button><p class="fb" id="${id}-fin" hidden>${d.allDone}</p></div>`,
   bind(d,id){
     const upd=()=>{const v=$(`#${id}-in`).value,t=tokenize(v,d.rules);$(`#${id}-out`).innerHTML=chips(t,false);
       $(`#${id}-c`).textContent=v.length;$(`#${id}-w`).textContent=words(v).length;$(`#${id}-t`).textContent=t.length};
     $(`#${id}-in`).addEventListener('input',upd);upd();
-    const keys=['own','other','eq'];let pi=0,guess=null;
+    const keys=['own','other','eq'],done=new Set();let pi=0,guess=null;
+    const nextOpen=()=>{for(let k=1;k<=d.pairs.length;k++){const j=(pi+k)%d.pairs.length;if(!done.has(j))return j}return -1};
     /* Vor dem Schätzen stehen die Sätze als Text da, danach als Tokens. Der Platz bleibt gleich, nichts springt. */
     const show=()=>{const [o,x]=d.pairs[pi];press(`#${id} [data-pair]`,b=>+b.dataset.pair===pi);$(`#${id}-pos`).textContent=d.pos(pi+1,d.pairs.length);
       press(`#${id}-guess .opt`,b=>keys[+b.dataset.g]===guess);
@@ -2923,10 +2930,13 @@ LAB.tokens={
       $(`#${id}-co`).textContent=d.count(a.length);$(`#${id}-cx`).textContent=d.count(b.length);
       const diff=Math.round((a.length/b.length-1)*100),truth=diff>10?'own':diff<-10?'other':'eq';
       $(`#${id}-v`).textContent=(guess===truth?d.right:d.wrong)+' '+(truth==='own'?d.ownMore(diff):truth==='other'?d.otherMore(Math.round((b.length/a.length-1)*100)):d.equal);
+      done.add(pi);const nx=nextOpen();
+      $(`#${id}-more`).hidden=nx<0;$(`#${id}-fin`).hidden=nx>=0;
       $(`#${id}-next`).classList.remove('wait')};
-    $$(`#${id}-guess .opt`).forEach(b=>b.onclick=()=>{guess=keys[+b.dataset.g];show()});
-    $$(`#${id} [data-pair]`).forEach(b=>b.onclick=()=>{pi=+b.dataset.pair;guess=null;show()});
-    $(`#${id}-more`).onclick=()=>{pi=(pi+1)%d.pairs.length;guess=null;show();$(`#${id}-cmp`).scrollIntoView({block:'start',behavior:reduce?'auto':'smooth'})};
+    $$(`#${id}-guess .opt`).forEach(b=>b.onclick=()=>{guess=keys[+b.dataset.g];guesses[pi]=guess;show()});
+    const guesses={};
+    $$(`#${id} [data-pair]`).forEach(b=>b.onclick=()=>{guesses[pi]=guess;pi=+b.dataset.pair;guess=guesses[pi]??null;show()});
+    $(`#${id}-more`).onclick=()=>{const nx=nextOpen();if(nx<0)return;pi=nx;guess=null;show();$(`#${id}-cmp`).scrollIntoView({block:'start',behavior:reduce?'auto':'smooth'})};
     show()}};
 
 /* Wortkarte: Nachbarn, Koordinaten und Rätsel */
@@ -2977,7 +2987,7 @@ LAB.attention={
   html:(d,id)=>`<p class="small">${d.intro}</p>
     ${seg(d.varLbl,d.variants.map(v=>v.label),'data-v',0)}
     <div class="atts" id="${id}-toks"></div><p class="subhead" id="${id}-bt"></p><div class="bars" id="${id}-bars"></div><p class="small" id="${id}-out" aria-live="polite"></p>
-    <div class="how"><h3>${d.how.title}</h3><ol>${d.how.items.map(x=>`<li>${x}</li>`).join('')}</ol></div>`,
+    <div class="how" aria-live="polite"><h3 id="${id}-ht"></h3><ol id="${id}-hl"></ol><p class="small" id="${id}-hn"></p></div>`,
   bind(d,id){let vi=0,sel=null;
     const upd=()=>{const v=d.variants[vi],T=v.toks;
       let w=T.map(()=>0);
@@ -2986,10 +2996,13 @@ LAB.attention={
       const mx=Math.max(...w,0.0001);
       $(`#${id}-toks`).innerHTML=T.map((t,j)=>`<button class="att${j===sel?' me':''}${sel!==null&&j>sel?' later':''}" data-j="${j}" style="--w:${sel===null||j===sel?0:(w[j]/mx*.85).toFixed(2)}">${esc(t)}</button>`).join('');
       $$(`#${id}-toks .att`).forEach(b=>b.onclick=()=>{sel=+b.dataset.j;upd()});
-      if(sel===null||sel===0){$(`#${id}-bars`).innerHTML='';$(`#${id}-bt`).textContent='';$(`#${id}-out`).textContent=sel===0?d.first:d.pick;return}
+      /* Erklärkasten: Schritte mit dem gewählten Wort und seinem stärksten Bezug */
+      const how=(w,t,p)=>{$(`#${id}-ht`).textContent=d.how.title(w);$(`#${id}-hl`).innerHTML=w?d.how.items(esc(w),esc(t),p).map(x=>`<li>${x}</li>`).join(''):'';$(`#${id}-hn`).textContent=w?'':sel===0?d.first:d.how.none};
+      if(sel===null||sel===0){$(`#${id}-bars`).innerHTML='';$(`#${id}-bt`).textContent='';$(`#${id}-out`).textContent=sel===0?d.first:d.pick;how(null);return}
       const top=w.map((x,j)=>[j,x]).filter(([j,x])=>j<sel&&x>0).sort((a,b)=>b[1]-a[1]).slice(0,4);
       $(`#${id}-bt`).textContent=d.barsTitle(T[sel]);
       $(`#${id}-bars`).innerHTML=bars(top.map(([j,x])=>({w:T[j],p:x})));
+      how(T[sel],T[top[0][0]],pct(top[0][1]));
       $(`#${id}-out`).innerHTML=v.focus[sel]&&v.note&&v.note[sel]?v.note[sel]:d.generic(esc(T[sel]))};
     $$(`#${id} [data-v]`).forEach(b=>b.onclick=()=>{vi=+b.dataset.v;sel=d.variants[vi].start;press(`#${id} [data-v]`,x=>x===b);upd()});
     sel=d.variants[0].start;upd()}};
