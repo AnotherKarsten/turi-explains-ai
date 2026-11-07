@@ -566,7 +566,13 @@ stations:[
  q:'Warum bekommt dieselbe Frage zwei verschiedene Antworten?',
  text:['Für jedes nächste Token berechnet das Modell eine Wahrscheinlichkeit für jedes Wort in seinem Vokabular. Dann wird gewürfelt, gewichtet nach diesen Wahrscheinlichkeiten.',
        'Der Regler <b>Temperatur</b> bestimmt, wie mutig gewürfelt wird: Niedrig heißt fast immer das wahrscheinlichste Wort, hoch heißt mehr Überraschungen.'],
- lab:{type:'temperature',rollsTitle:'Zehnmal gewürfelt: So könnte die KI den Betreff fortsetzen',
+ lab:{type:'temperature',tempHow:{title:'Kannst du die Temperatur selbst einstellen?',items:[
+     '<b>In Chat-Apps meist nicht direkt:</b> Die üblichen Apps und Webseiten der großen Anbieter haben in der Regel keinen Temperaturregler. Der Anbieter legt sie fest, oft passend zum Modell. Manche Apps bieten stattdessen Stile oder Modi wie „präzise“ oder „kreativ“, hinter denen auch eine andere Temperatur stecken kann.',
+     '<b>In Entwickler-Oberflächen und Schnittstellen schon:</b> In Test-Oberflächen der Anbieter (oft „Playground“ oder „Studio“ genannt), über die Programmierschnittstelle (API) und in Programmen für KI auf dem eigenen Rechner gibt es meist einen Wert „Temperature“, etwa von 0 bis 1 oder 0 bis 2. Bei manchen Nachdenk-Modellen ist er allerdings fest eingestellt.',
+     '<b>Im Prompt nur indirekt:</b> „Setz die Temperatur auf 0“ im Chat ändert die Einstellung nicht. Das Modell kann seine eigene Würfel-Einstellung nicht verstellen. Was wirkt, ist die Bitte selbst: „Antworte knapp und sachlich, ohne Ausschmückung“ oder „Sammle ungewöhnliche, auch verrückte Ideen“ verschiebt die Wahrscheinlichkeiten in eine ähnliche Richtung.',
+     '<b>Mehrfach würfeln lassen:</b> Mit „Neu generieren“ oder derselben Frage in einem neuen Chat siehst du die Bandbreite. Weichen die Antworten bei einer Faktenfrage stark ab, ist Vorsicht angesagt.'],
+   caveat:'Auch Temperatur 0 macht eine Antwort nicht richtiger, nur wiederholbarer. Fakten prüfst du trotzdem selbst.'},
+   rollsTitle:'Zehnmal gewürfelt: So könnte die KI den Betreff fortsetzen',
    rare:'selten', empty:'Noch nicht gewürfelt. Tippe auf „10 Antworten erzeugen“.',
    legend:{common:'naheliegend',rare:'selten oder unpassend'},
    title:'Ausprobieren: Am Temperaturregler drehen',
@@ -964,7 +970,13 @@ stations:[
  q:'Why does the same question get two different answers?',
  text:['For every next token the model calculates a probability for every word in its vocabulary. Then it rolls the dice, weighted by these probabilities.',
        'The <b>temperature</b> setting decides how boldly it rolls: low means almost always the most likely word, high means more surprises.'],
- lab:{type:'temperature',rollsTitle:'Ten rolls: this is how the AI might continue the subject line',
+ lab:{type:'temperature',tempHow:{title:'Can you set the temperature yourself?',items:[
+     '<b>Usually not directly in chat apps:</b> the regular apps and websites of the big providers normally have no temperature slider. The provider sets it, often to suit the model. Some apps offer styles or modes such as “precise” or “creative” instead, which may also use a different temperature.',
+     '<b>Yes in developer tools and interfaces:</b> in the providers’ test interfaces (often called “Playground” or “Studio”), through the programming interface (API) and in programs that run AI on your own computer there is usually a “temperature” value, for example from 0 to 1 or 0 to 2. For some reasoning models, however, it is fixed.',
+     '<b>Only indirectly in the prompt:</b> writing “set the temperature to 0” in a chat does not change the setting. The model cannot adjust its own dice setting. What works is the request itself: “Answer briefly and factually, without embellishment” or “Collect unusual, even crazy ideas” shifts the probabilities in a similar direction.',
+     '<b>Roll several times:</b> with “Regenerate” or the same question in a new chat you can see the range. If the answers to a factual question differ a lot, be careful.'],
+   caveat:'Even temperature 0 does not make an answer more correct, only more repeatable. You still need to check facts yourself.'},
+   rollsTitle:'Ten rolls: this is how the AI might continue the subject line',
    rare:'rare', empty:'No rolls yet. Tap “Generate 10 answers”.',
    legend:{common:'likely',rare:'rare or odd'},
    title:'Try it: turn the temperature dial',
@@ -1359,7 +1371,13 @@ stations:[
  q:'Pourquoi la même question reçoit-elle deux réponses différentes ?',
  text:['Pour chaque jeton suivant, le modèle calcule une probabilité pour chaque mot de son vocabulaire. Puis il tire au sort, en pondérant selon ces probabilités.',
        'Le réglage <b>température</b> décide de l’audace du tirage : basse, c’est presque toujours le mot le plus probable ; haute, il y a plus de surprises.'],
- lab:{type:'temperature',rollsTitle:'Dix tirages : voici comment l’IA pourrait compléter l’objet',
+ lab:{type:'temperature',tempHow:{title:'Peux-tu régler la température toi-même ?',items:[
+     '<b>Dans les applis de chat, en général pas directement :</b> les applis et sites habituels des grands fournisseurs n’ont normalement pas de curseur de température. C’est le fournisseur qui la fixe, souvent selon le modèle. Certaines applis proposent à la place des styles ou des modes comme « précis » ou « créatif », derrière lesquels peut aussi se cacher une autre température.',
+     '<b>Oui dans les outils pour développeurs :</b> dans les interfaces de test des fournisseurs (souvent appelées « Playground » ou « Studio »), via l’interface de programmation (API) et dans les programmes qui font tourner une IA sur ton propre ordinateur, il y a généralement une valeur « température », par exemple de 0 à 1 ou de 0 à 2. Pour certains modèles de raisonnement, elle est toutefois fixe.',
+     '<b>Dans le prompt, seulement indirectement :</b> écrire « mets la température à 0 » dans un chat ne change pas le réglage. Le modèle ne peut pas modifier son propre réglage de dé. Ce qui agit, c’est la demande elle-même : « Réponds brièvement et factuellement, sans fioritures » ou « Rassemble des idées inhabituelles, même folles » déplace les probabilités dans un sens semblable.',
+     '<b>Faire plusieurs tirages :</b> avec « Régénérer » ou la même question dans un nouveau chat, tu vois l’éventail des réponses. Si elles divergent beaucoup sur une question factuelle, méfie-toi.'],
+   caveat:'Même une température de 0 ne rend pas une réponse plus juste, seulement plus reproductible. Les faits, tu dois quand même les vérifier toi-même.'},
+   rollsTitle:'Dix tirages : voici comment l’IA pourrait compléter l’objet',
    rare:'rare', empty:'Pas encore de tirage. Touche « Générer 10 réponses ».',
    legend:{common:'probable',rare:'rare ou bizarre'},
    title:'À essayer : tourner le bouton de température',
@@ -1754,7 +1772,13 @@ stations:[
  q:'Perché la stessa domanda riceve due risposte diverse?',
  text:['Per ogni token successivo il modello calcola una probabilità per ogni parola del suo vocabolario. Poi tira i dadi, pesati secondo queste probabilità.',
        'L’impostazione <b>temperatura</b> decide quanto audace sia il tiro: bassa significa quasi sempre la parola più probabile, alta significa più sorprese.'],
- lab:{type:'temperature',rollsTitle:'Dieci tiri: ecco come l’IA potrebbe continuare l’oggetto',
+ lab:{type:'temperature',tempHow:{title:'Puoi impostare tu la temperatura?',items:[
+     '<b>Nelle app di chat di solito no:</b> le normali app e i siti dei grandi fornitori in genere non hanno un cursore della temperatura. La stabilisce il fornitore, spesso in base al modello. Alcune app offrono invece stili o modalità come «preciso» o «creativo», dietro cui può esserci anche una temperatura diversa.',
+     '<b>Sì negli strumenti per sviluppatori:</b> nelle interfacce di prova dei fornitori (spesso chiamate «Playground» o «Studio»), tramite l’interfaccia di programmazione (API) e nei programmi che fanno girare un’IA sul tuo computer c’è di solito un valore «temperature», per esempio da 0 a 1 o da 0 a 2. In alcuni modelli di ragionamento però è fisso.',
+     '<b>Nel prompt solo indirettamente:</b> scrivere «imposta la temperatura a 0» in una chat non cambia l’impostazione. Il modello non può regolare il proprio dado. Funziona invece la richiesta stessa: «Rispondi in modo breve e concreto, senza abbellimenti» oppure «Raccogli idee insolite, anche pazze» sposta le probabilità in una direzione simile.',
+     '<b>Tirare più volte:</b> con «Rigenera» o la stessa domanda in una nuova chat vedi la gamma delle risposte. Se per una domanda sui fatti le risposte variano molto, fai attenzione.'],
+   caveat:'Anche una temperatura di 0 non rende una risposta più giusta, solo più ripetibile. I fatti li devi comunque verificare tu.'},
+   rollsTitle:'Dieci tiri: ecco come l’IA potrebbe continuare l’oggetto',
    rare:'raro', empty:'Nessun tiro finora. Tocca «Genera 10 risposte».',
    legend:{common:'probabile',rare:'raro o strano'},
    title:'Prova: gira la manopola della temperatura',
@@ -2150,7 +2174,13 @@ stations:[
  q:'¿Por qué la misma pregunta recibe dos respuestas distintas?',
  text:['Para cada token siguiente, el modelo calcula una probabilidad para cada palabra de su vocabulario. Luego tira los dados, ponderados según esas probabilidades.',
        'El ajuste <b>temperatura</b> decide lo atrevida que es la tirada: baja significa casi siempre la palabra más probable; alta, más sorpresas.'],
- lab:{type:'temperature',rollsTitle:'Diez tiradas: así podría continuar la IA el asunto',
+ lab:{type:'temperature',tempHow:{title:'¿Puedes ajustar tú la temperatura?',items:[
+     '<b>En las apps de chat, normalmente no directamente:</b> las apps y webs habituales de los grandes proveedores no suelen tener un control de temperatura. La fija el proveedor, a menudo según el modelo. Algunas apps ofrecen en su lugar estilos o modos como «preciso» o «creativo», detrás de los cuales también puede haber otra temperatura.',
+     '<b>Sí en las herramientas para desarrolladores:</b> en las interfaces de prueba de los proveedores (a menudo llamadas «Playground» o «Studio»), a través de la interfaz de programación (API) y en programas que ejecutan IA en tu propio ordenador suele haber un valor «temperature», por ejemplo de 0 a 1 o de 0 a 2. En algunos modelos de razonamiento, sin embargo, es fijo.',
+     '<b>En el prompt, solo de forma indirecta:</b> escribir «pon la temperatura a 0» en un chat no cambia el ajuste. El modelo no puede modificar su propio dado. Lo que funciona es la petición en sí: «Responde breve y objetivamente, sin adornos» o «Reúne ideas poco habituales, incluso locas» desplaza las probabilidades en una dirección parecida.',
+     '<b>Tirar varias veces:</b> con «Regenerar» o la misma pregunta en un chat nuevo ves el abanico de respuestas. Si en una pregunta sobre hechos las respuestas difieren mucho, ten cuidado.'],
+   caveat:'Ni siquiera una temperatura de 0 hace que una respuesta sea más correcta, solo más repetible. Los hechos los tienes que comprobar tú.'},
+   rollsTitle:'Diez tiradas: así podría continuar la IA el asunto',
    rare:'rara', empty:'Todavía no hay tiradas. Toca «Generar 10 respuestas».',
    legend:{common:'probable',rare:'rara o extraña'},
    title:'Pruébalo: gira el mando de la temperatura',
@@ -2545,7 +2575,13 @@ stations:[
  q:'Waarom krijgt dezelfde vraag twee verschillende antwoorden?',
  text:['Voor elk volgend token berekent het model een kans voor elk woord in zijn vocabulaire. Dan wordt er gedobbeld, gewogen naar die kansen.',
        'De instelling <b>temperatuur</b> bepaalt hoe gewaagd er wordt gedobbeld: laag betekent bijna altijd het waarschijnlijkste woord, hoog betekent meer verrassingen.'],
- lab:{type:'temperature',rollsTitle:'Tien keer gedobbeld: zo zou de AI de onderwerpregel kunnen afmaken',
+ lab:{type:'temperature',tempHow:{title:'Kun je de temperatuur zelf instellen?',items:[
+     '<b>In chat-apps meestal niet direct:</b> de gewone apps en websites van de grote aanbieders hebben meestal geen temperatuurregelaar. De aanbieder stelt die in, vaak passend bij het model. Sommige apps bieden in plaats daarvan stijlen of modi zoals „precies” of „creatief”, waarachter ook een andere temperatuur kan zitten.',
+     '<b>Wel in tools voor ontwikkelaars:</b> in de testomgevingen van aanbieders (vaak „Playground” of „Studio” genoemd), via de programmeerinterface (API) en in programma’s die AI op je eigen computer draaien, is er meestal een waarde „temperature”, bijvoorbeeld van 0 tot 1 of van 0 tot 2. Bij sommige denkmodellen staat die echter vast.',
+     '<b>In de prompt alleen indirect:</b> „zet de temperatuur op 0” in een chat verandert de instelling niet. Het model kan zijn eigen dobbelsteen niet bijstellen. Wat wel werkt, is het verzoek zelf: „Antwoord kort en zakelijk, zonder franje” of „Verzamel ongewone, zelfs gekke ideeën” verschuift de kansen in een vergelijkbare richting.',
+     '<b>Meerdere keren laten dobbelen:</b> met „Opnieuw genereren” of dezelfde vraag in een nieuwe chat zie je de spreiding. Lopen de antwoorden op een feitenvraag sterk uiteen, wees dan voorzichtig.'],
+   caveat:'Ook temperatuur 0 maakt een antwoord niet juister, alleen herhaalbaarder. Feiten controleer je dus nog steeds zelf.'},
+   rollsTitle:'Tien keer gedobbeld: zo zou de AI de onderwerpregel kunnen afmaken',
    rare:'zeldzaam', empty:'Nog niet gedobbeld. Tik op „10 antwoorden maken”.',
    legend:{common:'voor de hand liggend',rare:'zeldzaam of vreemd'},
    title:'Probeer het: draai aan de temperatuurknop',
@@ -3032,7 +3068,8 @@ LAB.temperature={
     <div class="rolls"><div class="row"><button class="btn primary go" id="${id}-roll">${d.roll}</button><button class="btn ghost undo" id="${id}-clear">${d.clear}</button></div>
       <p class="subhead">${d.rollsTitle}</p><ol class="samples" id="${id}-s" aria-live="polite"></ol></div>
     <h3>${d.quizTitle}</h3><p class="small">${d.quizIntro}</p>
-    <div class="qlist">${d.quiz.map((q,i)=>`<div class="q"><b>${esc(q.q)}</b>${seg('',['n','m','h'].map(k=>d.levels[k]),'data-l',-1).replace(/data-l="(\d)"/g,(m,k)=>`data-q="${i}" data-k="${'nmh'[k]}"`)}<p class="fb" id="${id}-f${i}" hidden></p></div>`).join('')}</div>`,
+    <div class="qlist">${d.quiz.map((q,i)=>`<div class="q"><b>${esc(q.q)}</b>${seg('',['n','m','h'].map(k=>d.levels[k]),'data-l',-1).replace(/data-l="(\d)"/g,(m,k)=>`data-q="${i}" data-k="${'nmh'[k]}"`)}<p class="fb" id="${id}-f${i}" hidden></p></div>`).join('')}</div>
+    <div class="how"><h3>${d.tempHow.title}</h3><ul>${d.tempHow.items.map(x=>`<li>${x}</li>`).join('')}</ul>${callout('info','',d.tempHow.caveat)}</div>`,
   bind(d,id){const ps=()=>softmax(d.next.map(n=>n[1]),+$(`#${id}-t`).value);
     const upd=()=>{const T=+$(`#${id}-t`).value,p=ps();$(`#${id}-tv`).textContent=T.toFixed(1).replace('.',u.dec);
       $(`#${id}-bars`).innerHTML=bars(d.next.map((n,i)=>({w:n[0],p:p[i],cls:n[2]?'odd':''})));
