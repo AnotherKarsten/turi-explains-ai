@@ -23,6 +23,11 @@ Sprache der Seite, der Commits und der Pull Requests: Deutsch.
   `#<Stations-id>` (eine Station je Ansicht, mit Nummernleiste und Zurück/Weiter) und `#abschluss` (Quiz und
   Spickzettel; `#quiz` und `#spickzettel` führen dorthin). Stations-ids sind sprachunabhängig und bleiben stabil, damit
   Links funktionieren. `pruefen.js` geht alle Ansichten durch.
+- KI unter der Haube unterscheidet drei Arten von Bedienelementen: Aktionen (`.btn`, Taste mit Schatten; `.primary` mit ▶
+  für die Hauptaktion, `.ghost.undo` mit ↺ zum Zurücksetzen), Auswahlen, die nur die Ansicht wechseln (`seg()` mit `.opt`,
+  flache Pillen mit Häkchen, mit Beschriftung wie „Frage:“), und Schalter für an/aus (`tgl()`). Hinweise und Warnungen
+  stehen in Kästen (`callout()`). Beim Tippen bleibt das angetippte Element an seiner Stelle (`hold()`), Ergebnisflächen
+  haben reservierten Platz, damit nichts springt.
 - Startseite `index.html`: deutscher Text steht fest im HTML (funktioniert ohne JavaScript), die anderen Sprachen in
   `INDEX_LANG` (gleiche Schlüssel wie `.de`; Elemente mit `data-k` werden ersetzt). Die Knöpfe führen mit `?lang=` zur
   gewählten Sprache. Neue oder umbenannte Seiten dort mit aufnehmen. Die Seiten verlinken sich gegenseitig über die

@@ -99,20 +99,20 @@ will, klappt bei jeder Station „Unter der Haube“ auf.
 | Station | Leitfrage | Zum Ausprobieren |
 |---|---|---|
 | **Teil 1: So funktioniert ein Sprachmodell** | | |
-| 1. Training | Wie lernt ein Sprachmodell aus Text? | Ein Mini-Modell liest Sätze und lernt, welches Wort folgt. |
-| 2. Tokens | Warum zählt die KI in Tokens, und warum kostet Deutsch mehr? | Eigenen Text zerlegen; schätzen, welche Sprache mehr Tokens braucht. |
+| 1. Training | Wie lernt ein Sprachmodell aus Text? | Ein Mini-Modell liest Sätze und lernt, welches Wort folgt; das gezählte Wort ist in jedem gelesenen Satz markiert. |
+| 2. Tokens | Warum zählt die KI in Tokens, und warum kostet Deutsch mehr? | Eigenen Text zerlegen; bei vier Satzpaaren schätzen, welche Sprache mehr Tokens braucht. |
 | 3. Wortkarte | Wie kann eine Maschine mit Bedeutung rechnen? | Nachbarn auf einer Bedeutungskarte und zwei Analogie-Rätsel („Mann verhält sich zu Frau wie König zu …?“, „Hund verhält sich zu Welpe wie Katze zu …?“), gelöst mit Pfeilen auf der Karte; der Rechenweg lässt sich Schritt für Schritt aufklappen. |
-| 4. Aufmerksamkeit | Woher weiß das Modell, worauf sich ein Wort bezieht? | Sehen, worauf „sie“ oder „er“ im Satz schaut. |
-| 5. Kontextfenster | Warum vergisst die KI, was am Anfang stand? | Das Fenster verkleinern, bis die KI etwas erfindet. |
-| 6. Zufall | Warum bekommt dieselbe Frage zwei Antworten? | Temperaturregler, Antworten würfeln, passende Einstellung wählen. |
-| 7. Erfundene Antworten | Warum erfindet die KI Dinge und klingt dabei so sicher? | Bekannte, knifflige und Nischenfragen mit Wahrscheinlichkeiten. |
+| 4. Aufmerksamkeit | Woher weiß das Modell, worauf sich ein Wort bezieht? | Sehen, worauf „sie“ oder „er“ im Satz schaut, mit Gewichten in Prozent und einer Erklärung, wie das Modell sie verrechnet. |
+| 5. Kontextfenster | Warum vergisst die KI, was am Anfang stand? | Das Fenster Schritt für Schritt verkleinern und zusehen, wie die Zusammenfassung des Chats immer mehr Erfundenes enthält. |
+| 6. Zufall | Warum bekommt dieselbe Frage zwei Antworten? | Temperaturregler, zehn Fortsetzungen eines Betreffs würfeln, passende Einstellung wählen. |
+| 7. Erfundene Antworten | Warum erfindet die KI Dinge und klingt dabei so sicher? | Bekannte, knifflige und Nischenfragen; die Wahrscheinlichkeiten im Inneren sind immer sichtbar. |
 | 8. Nachschlagen | Wie wird eine KI verlässlicher? | Raten oder nachschlagen, rechnen, Schritt für Schritt denken. |
 | **Teil 2: Klug damit arbeiten** | | |
-| 9. Gut fragen | Wie fragt man so, dass etwas Brauchbares herauskommt? | Einen Prompt aus Bausteinen zusammensetzen und die Antwort vergleichen. |
-| 10. Vorurteile | Hat eine KI Vorurteile? | Welche Vornamen das Modell für einen Beruf erwartet, vor und nach dem Ausgleich. |
+| 9. Gut fragen | Wie fragt man so, dass etwas Brauchbares herauskommt? | Bausteine in beliebiger Reihenfolge ein- und ausschalten; jeder ändert die Antwort auf seine Weise. |
+| 10. Vorurteile | Hat eine KI Vorurteile? | Welche Vornamen das Modell für einen Beruf erwartet, vor und nach dem Ausgleich, und warum Verzerrungen in der Praxis schaden. |
 | 11. Energie | Wie viel Energie kostet eine Antwort? | Den eigenen KI-Alltag abschätzen: zuerst Wattstunden und Milliliter Wasser, danach Vergleiche mit Handy-Ladungen, LED-Lampe, Esslöffeln Wasser und Haushaltsstrom. |
 | 12. Was in den Chat darf | Was darf in den Chat, und was nicht? | Ampel-Spiel mit acht Situationen aus dem Berufsalltag. |
-| 13. KI-Agenten | Was ändert sich, wenn die KI handelt? | Entscheiden, welche Schritte ein Agent nur mit Freigabe tun darf; dazu Tipps und eine Prompt-Vorlage, damit die KI vorher fragt. |
+| 13. KI-Agenten | Was ändert sich, wenn die KI handelt? | Entscheiden, welche Schritte ein Agent nur mit Freigabe tun darf; dazu Tipps und eine Prompt-Vorlage, damit die KI vorher fragt, und warum eine Anweisung im Prompt keine echte Sperre ist. |
 
 Zum Schluss gibt es ein Quiz mit acht Fragen und einen **Spickzettel als PDF** (eine A4-Seite mit den wichtigsten
 Regeln und einer Vorlage für gute Anfragen), den die Seite selbst erzeugt.
