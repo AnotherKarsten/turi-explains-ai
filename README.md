@@ -104,7 +104,7 @@ will, klappt bei jeder Station „Unter der Haube“ auf.
 | 3. Wortkarte | Wie kann eine Maschine mit Bedeutung rechnen? | Nachbarn auf einer Bedeutungskarte und zwei Analogie-Rätsel („Mann verhält sich zu Frau wie König zu …?“, „Hund verhält sich zu Welpe wie Katze zu …?“), gelöst mit Pfeilen auf der Karte; der Rechenweg lässt sich Schritt für Schritt aufklappen. |
 | 4. Aufmerksamkeit | Woher weiß das Modell, worauf sich ein Wort bezieht? | Sehen, worauf „sie“ oder „er“ im Satz schaut, mit Gewichten in Prozent und einer Erklärung, wie das Modell sie verrechnet. |
 | 5. Kontextfenster | Warum vergisst die KI, was am Anfang stand? | Das Fenster Schritt für Schritt verkleinern und zusehen, wie die Zusammenfassung des Chats immer mehr Erfundenes enthält. |
-| 6. Zufall | Warum bekommt dieselbe Frage zwei Antworten? | Temperaturregler, zehn Fortsetzungen eines Betreffs würfeln, passende Einstellung wählen. |
+| 6. Zufall | Warum bekommt dieselbe Frage zwei Antworten? | Temperaturregler, zehn Fortsetzungen eines Betreffs würfeln, passende Einstellung wählen; dazu, wo du die Temperatur selbst beeinflussen kannst und wo nicht. |
 | 7. Erfundene Antworten | Warum erfindet die KI Dinge und klingt dabei so sicher? | Bekannte, knifflige und Nischenfragen; die Wahrscheinlichkeiten im Inneren sind immer sichtbar. |
 | 8. Nachschlagen | Wie wird eine KI verlässlicher? | Raten oder nachschlagen, rechnen, Schritt für Schritt denken. |
 | **Teil 2: Klug damit arbeiten** | | |
