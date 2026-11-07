@@ -1,13 +1,21 @@
-**Version 1.1: Rätsel auf der Wortkarte und ein klarerer Energie-Rechner in „KI unter der Haube“.**
+**Version 1.2: „KI unter der Haube“ ist übersichtlicher zu bedienen und erklärt mehr.**
 
 | Datei | Für wen |
 |---|---|
 | `turi-explains-ai.html` | **Turi erklärt KI**: für Kinder ab etwa 9 Jahren, spielerisch mit dem Roboter Turi |
 | `ai-under-the-hood.html` | **KI unter der Haube**: für Jugendliche ab etwa 14 Jahren und Erwachsene |
 
-- **Wortkarte als Rätsel:** Statt der Formel „König − Mann + Frau“ gibt es zwei Analogie-Rätsel: „Mann verhält sich zu Frau wie König zu …?“ und neu „Hund verhält sich zu Welpe wie Katze zu …?“. Pfeile auf der Karte zeigen, wie die KI die Lösung findet; der Rechenweg mit Zahlen lässt sich aufklappen. Ein neuer Absatz erklärt, wozu das im Alltag gut ist.
-- **Energie verständlicher:** Der Rechner „Dein KI-Tag“ nennt zuerst den geschätzten Verbrauch in Wattstunden und Millilitern Wasser und erst danach Vergleiche mit Bekanntem: Smartphone-Ladungen, Minuten LED-Lampe, Esslöffel Wasser und den Jahresverbrauch eines Haushalts.
-- **Besser auf kleinen Handys:** Die Wortkarte ist neu angeordnet, damit sich auch auf dem iPhone SE keine Wörter überlappen.
+- **Klarere Bedienung:** Aktionen, Auswahlen und Schalter sehen jetzt verschieden aus. Hauptaktionen sind rot mit ▶, Zurücksetzen hat ↺, Auswahlen sind beschriftete Pillen mit Häkchen. Beim Antippen springt die Seite nicht mehr. Hinweise und Warnungen stehen in eigenen Kästen.
+- **Training:** Das gezählte Wort ist in jedem gelesenen Satz markiert.
+- **Tokens:** Die vier Satzpaare lassen sich oben wählen. Die Sätze sind schon vor dem Schätzen lesbar, und nach dem letzten Paar endet die Runde.
+- **Wortkarte:** Hilfslinien zeigen die Koordinaten des gewählten Worts an den Achsen.
+- **Aufmerksamkeit:** Die Gewichte stehen in Prozent da, und ein Kasten erklärt Schritt für Schritt, wie die KI das angetippte Wort verarbeitet.
+- **Kontextfenster:** Die Zusammenfassung des Chats wird mit jeder vergessenen Nachricht schrittweise falscher.
+- **Zufall:** Zehn gewürfelte Fortsetzungen stehen direkt unter dem Knopf. Neu ist ein Kasten, der erklärt, wo du die Temperatur selbst einstellen kannst und wo nicht.
+- **Erfundene Antworten:** Die Wahrscheinlichkeiten im Inneren sind immer sichtbar.
+- **Gut fragen:** Jeder Baustein verändert die Antwort für sich, in beliebiger Reihenfolge.
+- **Vorurteile:** Neu ist ein Kasten, warum Verzerrungen in der Praxis schaden und was hilft.
+- **KI-Agenten:** Eine deutliche Warnung erklärt, dass eine Anweisung im Prompt keine echte Sperre ist.
 - **Turi erklärt KI** ist unverändert.
 - **Online ausprobieren:** https://anotherkarsten.github.io/turi-explains-ai/
 
@@ -15,16 +23,24 @@
 
 ---
 
-**Version 1.1: riddles on the word map and a clearer energy calculator in “AI under the hood”.**
+**Version 1.2: “AI under the hood” is easier to use and explains more.**
 
 | File | For whom |
 |---|---|
 | `turi-explains-ai.html` | **Turi explains AI**: for children aged about 9 and up, playful with the robot Turi |
 | `ai-under-the-hood.html` | **AI under the hood**: for teenagers aged about 14 and up and adults |
 
-- **Word map as riddles:** instead of the formula “King − Man + Woman” there are two analogy riddles: “Man is to Woman as King is to …?” and the new “Dog is to Puppy as Cat is to …?”. Arrows on the map show how the AI finds the answer; the calculation with numbers can be folded out. A new paragraph explains why this matters in everyday life.
-- **Energy made clearer:** the “Your AI day” calculator first shows the estimated use in watt-hours and millilitres of water, and only then comparisons with familiar things: phone charges, minutes of an LED lamp, tablespoons of water and a household’s yearly electricity use.
-- **Better on small phones:** the word map has been rearranged so that no words overlap, even on an iPhone SE.
+- **Clearer controls:** actions, choices and switches now look different. Main actions are red with ▶, reset has ↺, and choices are labelled pills with a tick. The page no longer jumps when you tap something. Notes and warnings have their own boxes.
+- **Training:** the counted word is marked in every sentence that has been read.
+- **Tokens:** the four sentence pairs can be selected at the top. The sentences can be read before you guess, and the round ends after the last pair.
+- **Word map:** guide lines show the coordinates of the selected word on the axes.
+- **Attention:** the weights are shown in per cent, and a box explains step by step how the AI processes the tapped word.
+- **Context window:** the chat summary gets more and more wrong with every forgotten message.
+- **Randomness:** ten rolled continuations appear right below the button. A new box explains where you can set the temperature yourself and where you cannot.
+- **Made-up answers:** the internal probabilities are always visible.
+- **Asking well:** each building block changes the answer on its own, in any order.
+- **Bias:** a new box explains why biases cause harm in practice and what helps.
+- **AI agents:** a clear warning explains that an instruction in the prompt is not a real lock.
 - **Turi explains AI** is unchanged.
 - **Try it online:** https://anotherkarsten.github.io/turi-explains-ai/
 
