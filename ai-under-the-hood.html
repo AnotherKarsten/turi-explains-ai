@@ -547,11 +547,12 @@ stations:[
  q:'Wie lernt ein Sprachmodell aus Text?',
  text:['Ein Sprachmodell lernt eine einzige Aufgabe: das nächste Wortstück vorherzusagen. Es liest riesige Mengen Text, deckt jeweils das nächste Stück ab, rät und vergleicht. Liegt es daneben, werden seine Milliarden <b>Gewichte</b> ein winziges Stück in die richtige Richtung verschoben.',
        'Aus dieser schlichten Übung entsteht erstaunlich viel: Grammatik, Faktenwissen, Stil. Danach folgt ein <b>Feinschliff</b> mit Menschen, die Antworten bewerten. Erst dadurch wird aus dem Textvervollständiger ein hilfsbereiter Assistent.'],
- lab:{type:'train',land:{title:'Die Fehler-Landschaft',how:['Stell dir ein winziges Modell mit nur zwei Gewichten vor, also zwei Knöpfen. Jede Stelle der Landschaft ist eine Einstellung dieser beiden Knöpfe. Echte Modelle haben Milliarden Knöpfe; ihre Landschaft kann niemand zeichnen, das Prinzip ist aber dasselbe.','Die Höhe zeigt den Fehler: wie oft das Modell mit dieser Einstellung beim Lesen der Trainingssätze das nächste Wort falsch rät.','Ein Trainingsschritt heißt: Sätze lesen, Fehler messen und beide Knöpfe ein Stück in die Richtung drehen, in der es am steilsten bergab geht. Unter der Landschaft siehst du, wie sich dabei die Vorhersage verbessert.'],
+ lab:{type:'train',land:{title:'Die Fehler-Landschaft',bridge:'Das Mini-Modell oben zählt nur. Echte Sprachmodelle lernen anders: Sie haben Gewichte, also Knöpfe, die beim Training nach und nach verstellt werden. Die Landschaft zeigt das für ein Modell mit nur zwei Knöpfen.',how:['Jeder Punkt der Landschaft ist eine Stellung der beiden Knöpfe. Die Kugel zeigt die Stellung, die das Modell gerade hat.','Die Höhe zeigt, wie oft das Modell mit dieser Stellung falsch rät. Unten im Tal rät es am besten.','Ein Trainingsschritt: Das Modell rät bei den Trainingssätzen, sieht seine Fehler und dreht beide Knöpfe ein kleines Stück so, dass es beim nächsten Mal weniger falsch liegt. Dadurch rollt die Kugel ein Stück bergab.'],
+     stepMsg:(k,a,b)=>`Trainingsschritt ${k}: geraten, Fehler gemessen, Knöpfe gedreht. Fehler vorher ${a}, jetzt ${b}.`,
      drag:'Ziehe die Landschaft, um sie zu drehen.',probe:'Der Himmel ist …',words:['blau','grau','heiß'],pred:p=>`So setzt das Modell mit dieser Einstellung „${p}“ fort:`,
-     rateLbl:'Schrittweite:',rates:['klein','mittel','groß'],step:'Ein Schritt',run:'Abrollen lassen',reset:'Neuer Startpunkt',
+     rateLbl:'Schrittweite:',rates:['klein','mittel','groß'],step:'Ein Trainingsschritt',run:'Training laufen lassen',reset:'Neuer Startpunkt',
      note:(e,k,a,b)=>`Knopf 1: ${a} · Knopf 2: ${b} · Fehler ${e} · ${k} Schritte`,
-     hints:{roll:'Die Kugel rollt bergab: Mit jedem Schritt wird der Fehler kleiner und die Vorhersage besser.',go:'Wähle eine Schrittweite und lass die Kugel rollen.',local:'Die Kugel steckt in einer kleinen Mulde fest, obwohl es woanders tiefer geht. Das passiert auch beim echten Training; dann helfen andere Startpunkte oder Einstellungen.',jump:'Bei großer Schrittweite springt die Kugel über das Tal hinweg. Zu große Schritte machen das Training unruhig.',best:'Die Kugel hat das tiefste Tal erreicht: Hier ist der Fehler am kleinsten.'},
+     hints:{done:'Weitere Schritte ändern nichts mehr, das Training ist hier fertig. Probiere einen neuen Startpunkt oder eine andere Schrittweite.',roll:'Die Kugel rollt bergab: Mit jedem Schritt wird der Fehler kleiner und die Vorhersage besser.',go:'Wähle eine Schrittweite und lass die Kugel rollen.',local:'Die Kugel steckt in einer kleinen Mulde fest, obwohl es woanders tiefer geht. Das passiert auch beim echten Training; dann helfen andere Startpunkte oder Einstellungen.',jump:'Bei großer Schrittweite springt die Kugel über das Tal hinweg. Zu große Schritte machen das Training unruhig.',best:'Die Kugel hat das tiefste Tal erreicht: Hier ist der Fehler am kleinsten.'},
      alt:'Drehbare Fehler-Landschaft mit einer rollenden Kugel'},
    probeLbl:'Satzanfang:',
    only:l=>`Gezählt wird nur das Wort direkt nach „${l}“. In den gelesenen Sätzen ist es markiert. Was danach kommt, etwa „klar“ in „blau und klar“, lernt das Modell für einen anderen Anfang („… und“).`,
@@ -1049,11 +1050,12 @@ stations:[
  q:'How does a language model learn from text?',
  text:['A language model learns one single task: predicting the next piece of a word. It reads huge amounts of text, covers up the next piece each time, guesses and compares. When it is wrong, its billions of <b>weights</b> are nudged a tiny bit in the right direction.',
        'A surprising amount comes out of this simple exercise: grammar, factual knowledge, style. Then comes <b>fine-tuning</b> with people who rate answers. Only that turns the text completer into a helpful assistant.'],
- lab:{type:'train',land:{title:'The error landscape',how:['Imagine a tiny model with only two weights, that is two knobs. Every point of the landscape is one setting of these two knobs. Real models have billions of knobs; nobody can draw their landscape, but the principle is the same.','The height shows the error: how often the model, with this setting, guesses the next word wrong while reading the training sentences.','A training step means: read sentences, measure the error and turn both knobs a little in the direction that goes downhill most steeply. Below the landscape you can see how the prediction improves.'],
+ lab:{type:'train',land:{title:'The error landscape',bridge:'The mini-model above only counts. Real language models learn differently: they have weights, that is knobs, which are adjusted bit by bit during training. The landscape shows this for a model with only two knobs.',how:['Every point of the landscape is one position of the two knobs. The ball shows the position the model has right now.','The height shows how often the model guesses wrong with this position. Down in the valley it guesses best.','A training step: the model guesses on the training sentences, sees its mistakes and turns both knobs a little so that it is less wrong next time. That makes the ball roll a little downhill.'],
+     stepMsg:(k,a,b)=>`Training step ${k}: guessed, measured the error, turned the knobs. Error before ${a}, now ${b}.`,
      drag:'Drag the landscape to turn it.',probe:'The sky is …',words:['blue','grey','hot'],pred:p=>`How the model continues “${p}” with this setting:`,
-     rateLbl:'Step size:',rates:['small','medium','large'],step:'One step',run:'Let it roll',reset:'New starting point',
+     rateLbl:'Step size:',rates:['small','medium','large'],step:'One training step',run:'Run the training',reset:'New starting point',
      note:(e,k,a,b)=>`Knob 1: ${a} · Knob 2: ${b} · error ${e} · ${k} steps`,
-     hints:{roll:'The ball is rolling downhill: with every step the error gets smaller and the prediction better.',go:'Pick a step size and let the ball roll.',local:'The ball is stuck in a small hollow, although it goes deeper elsewhere. This happens in real training too; other starting points or settings help.',jump:'With a large step size the ball jumps over the valley. Steps that are too big make training unstable.',best:'The ball has reached the deepest valley: the error is smallest here.'},
+     hints:{done:'More steps no longer change anything; training is finished here. Try a new starting point or a different step size.',roll:'The ball is rolling downhill: with every step the error gets smaller and the prediction better.',go:'Pick a step size and let the ball roll.',local:'The ball is stuck in a small hollow, although it goes deeper elsewhere. This happens in real training too; other starting points or settings help.',jump:'With a large step size the ball jumps over the valley. Steps that are too big make training unstable.',best:'The ball has reached the deepest valley: the error is smallest here.'},
      alt:'Rotatable error landscape with a rolling ball'},
    probeLbl:'Sentence start:',
    only:l=>`Only the word directly after “${l}” is counted. It is marked in the sentences read so far. Anything after it, such as “clear” in “blue and clear”, is learned for a different start (“… and”).`,
@@ -1549,11 +1551,12 @@ stations:[
  q:'Comment un modèle de langage apprend-il à partir de textes ?',
  text:['Un modèle de langage apprend une seule tâche : prédire le prochain morceau de mot. Il lit d’énormes quantités de texte, cache à chaque fois le morceau suivant, devine et compare. S’il se trompe, ses milliards de <b>poids</b> sont légèrement ajustés dans la bonne direction.',
        'De cet exercice tout simple naît une quantité étonnante de choses : grammaire, connaissances, style. Vient ensuite un <b>réglage fin</b> avec des personnes qui évaluent les réponses. C’est seulement ainsi que le compléteur de texte devient un assistant serviable.'],
- lab:{type:'train',land:{title:'Le paysage de l’erreur',how:['Imagine un tout petit modèle avec seulement deux poids, donc deux boutons. Chaque point du paysage est un réglage de ces deux boutons. Les vrais modèles ont des milliards de boutons ; personne ne peut dessiner leur paysage, mais le principe est le même.','La hauteur montre l’erreur : à quelle fréquence le modèle, avec ce réglage, se trompe sur le mot suivant en lisant les phrases d’entraînement.','Un pas d’entraînement, c’est : lire des phrases, mesurer l’erreur et tourner les deux boutons un peu dans la direction qui descend le plus fort. Sous le paysage, tu vois comment la prédiction s’améliore.'],
+ lab:{type:'train',land:{title:'Le paysage de l’erreur',bridge:'Le mini-modèle plus haut ne fait que compter. Les vrais modèles de langage apprennent autrement : ils ont des poids, donc des boutons, que l’entraînement ajuste petit à petit. Le paysage le montre pour un modèle à deux boutons seulement.',how:['Chaque point du paysage est une position des deux boutons. La bille montre la position actuelle du modèle.','La hauteur montre à quelle fréquence le modèle se trompe avec cette position. Au fond de la vallée, il devine le mieux.','Un pas d’entraînement : le modèle devine sur les phrases d’entraînement, voit ses erreurs et tourne les deux boutons un tout petit peu pour se tromper moins la fois suivante. La bille descend alors un peu.'],
+     stepMsg:(k,a,b)=>`Pas d’entraînement ${k} : deviné, erreur mesurée, boutons tournés. Erreur avant ${a}, maintenant ${b}.`,
      drag:'Fais glisser le paysage pour le tourner.',probe:'Le ciel est …',words:['bleu','gris','chaud'],pred:p=>`Comment le modèle continue « ${p} » avec ce réglage :`,
-     rateLbl:'Taille du pas :',rates:['petit','moyen','grand'],step:'Un pas',run:'Laisser rouler',reset:'Nouveau point de départ',
+     rateLbl:'Taille du pas :',rates:['petit','moyen','grand'],step:'Un pas d’entraînement',run:'Lancer l’entraînement',reset:'Nouveau point de départ',
      note:(e,k,a,b)=>`Bouton 1 : ${a} · bouton 2 : ${b} · erreur ${e} · ${k} pas`,
-     hints:{roll:'La bille descend : à chaque pas, l’erreur diminue et la prédiction s’améliore.',go:'Choisis une taille de pas et laisse rouler la bille.',local:'La bille est coincée dans un petit creux, alors qu’ailleurs c’est plus profond. Cela arrive aussi dans un vrai entraînement ; d’autres points de départ ou réglages aident alors.',jump:'Avec un grand pas, la bille saute par-dessus la vallée. Des pas trop grands rendent l’entraînement instable.',best:'La bille a atteint la vallée la plus profonde : l’erreur y est la plus petite.'},
+     hints:{done:'D’autres pas ne changent plus rien : l’entraînement est terminé ici. Essaie un nouveau point de départ ou une autre taille de pas.',roll:'La bille descend : à chaque pas, l’erreur diminue et la prédiction s’améliore.',go:'Choisis une taille de pas et laisse rouler la bille.',local:'La bille est coincée dans un petit creux, alors qu’ailleurs c’est plus profond. Cela arrive aussi dans un vrai entraînement ; d’autres points de départ ou réglages aident alors.',jump:'Avec un grand pas, la bille saute par-dessus la vallée. Des pas trop grands rendent l’entraînement instable.',best:'La bille a atteint la vallée la plus profonde : l’erreur y est la plus petite.'},
      alt:'Paysage de l’erreur que l’on peut faire tourner, avec une bille qui roule'},
    probeLbl:'Début de phrase :',
    only:l=>`Seul le mot qui suit directement « ${l} » est compté. Il est marqué dans les phrases déjà lues. Ce qui vient après, comme « clair » dans « bleu et clair », est appris pour un autre début (« … et »).`,
@@ -2047,11 +2050,12 @@ stations:[
  q:'Come impara un modello linguistico dai testi?',
  text:['Un modello linguistico impara un solo compito: prevedere il prossimo pezzo di parola. Legge enormi quantità di testo, ogni volta copre il pezzo successivo, indovina e confronta. Se sbaglia, i suoi miliardi di <b>pesi</b> vengono spostati di pochissimo nella direzione giusta.',
        'Da questo semplice esercizio nasce una quantità sorprendente di cose: grammatica, conoscenze, stile. Poi arriva una <b>rifinitura</b> con persone che valutano le risposte. Solo così il completatore di testi diventa un assistente disponibile.'],
- lab:{type:'train',land:{title:'Il paesaggio dell’errore',how:['Immagina un modello minuscolo con solo due pesi, cioè due manopole. Ogni punto del paesaggio è un’impostazione di queste due manopole. I modelli veri hanno miliardi di manopole; nessuno può disegnare il loro paesaggio, ma il principio è lo stesso.','L’altezza mostra l’errore: quanto spesso il modello, con questa impostazione, sbaglia la parola successiva leggendo le frasi di addestramento.','Un passo di addestramento significa: leggere frasi, misurare l’errore e girare entrambe le manopole un po’ nella direzione che scende più ripida. Sotto il paesaggio vedi come migliora la previsione.'],
+ lab:{type:'train',land:{title:'Il paesaggio dell’errore',bridge:'Il mini-modello qui sopra si limita a contare. I veri modelli linguistici imparano in un altro modo: hanno dei pesi, cioè manopole, che l’addestramento regola poco a poco. Il paesaggio lo mostra per un modello con due sole manopole.',how:['Ogni punto del paesaggio è una posizione delle due manopole. La pallina mostra la posizione attuale del modello.','L’altezza mostra quanto spesso il modello sbaglia con questa posizione. In fondo alla valle indovina meglio.','Un passo di addestramento: il modello prova a indovinare sulle frasi di addestramento, vede i suoi errori e gira un po’ entrambe le manopole per sbagliare meno la volta dopo. Così la pallina scende un po’.'],
+     stepMsg:(k,a,b)=>`Passo di addestramento ${k}: indovinato, errore misurato, manopole girate. Errore prima ${a}, ora ${b}.`,
      drag:'Trascina il paesaggio per ruotarlo.',probe:'Il cielo è …',words:['blu','grigio','caldo'],pred:p=>`Come il modello continua «${p}» con questa impostazione:`,
-     rateLbl:'Ampiezza del passo:',rates:['piccola','media','grande'],step:'Un passo',run:'Fai rotolare',reset:'Nuovo punto di partenza',
+     rateLbl:'Ampiezza del passo:',rates:['piccola','media','grande'],step:'Un passo di addestramento',run:'Avvia l’addestramento',reset:'Nuovo punto di partenza',
      note:(e,k,a,b)=>`Manopola 1: ${a} · manopola 2: ${b} · errore ${e} · ${k} passi`,
-     hints:{roll:'La pallina rotola in discesa: a ogni passo l’errore diminuisce e la previsione migliora.',go:'Scegli un’ampiezza del passo e fai rotolare la pallina.',local:'La pallina è bloccata in una piccola conca, anche se altrove si scende di più. Succede anche nell’addestramento vero; allora aiutano altri punti di partenza o altre impostazioni.',jump:'Con un passo grande la pallina salta oltre la valle. Passi troppo grandi rendono l’addestramento instabile.',best:'La pallina ha raggiunto la valle più profonda: qui l’errore è minimo.'},
+     hints:{done:'Altri passi non cambiano più nulla: qui l’addestramento è finito. Prova un nuovo punto di partenza o un’altra ampiezza del passo.',roll:'La pallina rotola in discesa: a ogni passo l’errore diminuisce e la previsione migliora.',go:'Scegli un’ampiezza del passo e fai rotolare la pallina.',local:'La pallina è bloccata in una piccola conca, anche se altrove si scende di più. Succede anche nell’addestramento vero; allora aiutano altri punti di partenza o altre impostazioni.',jump:'Con un passo grande la pallina salta oltre la valle. Passi troppo grandi rendono l’addestramento instabile.',best:'La pallina ha raggiunto la valle più profonda: qui l’errore è minimo.'},
      alt:'Paesaggio dell’errore ruotabile con una pallina che rotola'},
    probeLbl:'Inizio della frase:',
    only:l=>`Viene contata solo la parola subito dopo «${l}». Nelle frasi già lette è evidenziata. Quello che viene dopo, come «limpido» in «blu e limpido», il modello lo impara per un altro inizio («… e»).`,
@@ -2546,11 +2550,12 @@ stations:[
  q:'¿Cómo aprende un modelo de lenguaje a partir de textos?',
  text:['Un modelo de lenguaje aprende una sola tarea: predecir el siguiente trozo de palabra. Lee cantidades enormes de texto, tapa cada vez el trozo siguiente, adivina y compara. Si falla, sus miles de millones de <b>pesos</b> se mueven un poquito en la dirección correcta.',
        'De este ejercicio tan sencillo surge muchísimo: gramática, conocimientos, estilo. Después llega un <b>ajuste fino</b> con personas que valoran las respuestas. Solo así el completador de textos se convierte en un asistente servicial.'],
- lab:{type:'train',land:{title:'El paisaje del error',how:['Imagina un modelo diminuto con solo dos pesos, es decir, dos perillas. Cada punto del paisaje es un ajuste de esas dos perillas. Los modelos reales tienen miles de millones de perillas; nadie puede dibujar su paisaje, pero el principio es el mismo.','La altura muestra el error: con qué frecuencia el modelo, con este ajuste, falla la palabra siguiente al leer las frases de entrenamiento.','Un paso de entrenamiento significa: leer frases, medir el error y girar las dos perillas un poco en la dirección que baja más empinada. Debajo del paisaje ves cómo mejora la predicción.'],
+ lab:{type:'train',land:{title:'El paisaje del error',bridge:'El minimodelo de arriba solo cuenta. Los modelos de lenguaje reales aprenden de otra forma: tienen pesos, es decir, perillas, que el entrenamiento ajusta poco a poco. El paisaje lo muestra para un modelo con solo dos perillas.',how:['Cada punto del paisaje es una posición de las dos perillas. La bola muestra la posición que tiene ahora el modelo.','La altura muestra con qué frecuencia el modelo se equivoca con esa posición. Abajo en el valle es donde mejor acierta.','Un paso de entrenamiento: el modelo adivina con las frases de entrenamiento, ve sus errores y gira un poco las dos perillas para equivocarse menos la próxima vez. Así la bola rueda un poco cuesta abajo.'],
+     stepMsg:(k,a,b)=>`Paso de entrenamiento ${k}: adivinado, error medido, perillas giradas. Error antes ${a}, ahora ${b}.`,
      drag:'Arrastra el paisaje para girarlo.',probe:'El cielo está …',words:['azul','gris','caliente'],pred:p=>`Cómo continúa el modelo «${p}» con este ajuste:`,
-     rateLbl:'Tamaño del paso:',rates:['pequeño','mediano','grande'],step:'Un paso',run:'Dejar rodar',reset:'Nuevo punto de partida',
+     rateLbl:'Tamaño del paso:',rates:['pequeño','mediano','grande'],step:'Un paso de entrenamiento',run:'Iniciar el entrenamiento',reset:'Nuevo punto de partida',
      note:(e,k,a,b)=>`Perilla 1: ${a} · perilla 2: ${b} · error ${e} · ${k} pasos`,
-     hints:{roll:'La bola rueda cuesta abajo: con cada paso el error baja y la predicción mejora.',go:'Elige un tamaño de paso y deja rodar la bola.',local:'La bola se ha quedado atascada en un pequeño hoyo, aunque en otro sitio se baja más. Esto también pasa en el entrenamiento real; entonces ayudan otros puntos de partida u otros ajustes.',jump:'Con un paso grande, la bola salta por encima del valle. Los pasos demasiado grandes hacen el entrenamiento inestable.',best:'La bola ha llegado al valle más profundo: aquí el error es el menor.'},
+     hints:{done:'Más pasos ya no cambian nada: aquí el entrenamiento ha terminado. Prueba otro punto de partida u otro tamaño de paso.',roll:'La bola rueda cuesta abajo: con cada paso el error baja y la predicción mejora.',go:'Elige un tamaño de paso y deja rodar la bola.',local:'La bola se ha quedado atascada en un pequeño hoyo, aunque en otro sitio se baja más. Esto también pasa en el entrenamiento real; entonces ayudan otros puntos de partida u otros ajustes.',jump:'Con un paso grande, la bola salta por encima del valle. Los pasos demasiado grandes hacen el entrenamiento inestable.',best:'La bola ha llegado al valle más profundo: aquí el error es el menor.'},
      alt:'Paisaje del error que se puede girar, con una bola que rueda'},
    probeLbl:'Inicio de frase:',
    only:l=>`Solo se cuenta la palabra que va justo después de «${l}». En las frases ya leídas está marcada. Lo que viene después, como «despejado» en «azul y despejado», el modelo lo aprende para otro inicio («… y»).`,
@@ -3044,11 +3049,12 @@ stations:[
  q:'Hoe leert een taalmodel van tekst?',
  text:['Een taalmodel leert één enkele taak: het volgende woorddeel voorspellen. Het leest enorme hoeveelheden tekst, dekt telkens het volgende stuk af, raadt en vergelijkt. Zit het ernaast, dan worden zijn miljarden <b>gewichten</b> een heel klein beetje in de goede richting verschoven.',
        'Uit deze eenvoudige oefening ontstaat verrassend veel: grammatica, feitenkennis, stijl. Daarna volgt een <b>fijnafstemming</b> met mensen die antwoorden beoordelen. Pas daardoor wordt de tekstaanvuller een behulpzame assistent.'],
- lab:{type:'train',land:{title:'Het foutenlandschap',how:['Stel je een piepklein model voor met maar twee gewichten, dus twee knoppen. Elke plek in het landschap is een instelling van deze twee knoppen. Echte modellen hebben miljarden knoppen; hun landschap kan niemand tekenen, maar het principe is hetzelfde.','De hoogte toont de fout: hoe vaak het model met deze instelling het volgende woord verkeerd raadt bij het lezen van de trainingszinnen.','Een trainingsstap betekent: zinnen lezen, de fout meten en beide knoppen een stukje draaien in de richting waar het het steilst bergaf gaat. Onder het landschap zie je hoe de voorspelling beter wordt.'],
+ lab:{type:'train',land:{title:'Het foutenlandschap',bridge:'Het minimodel hierboven telt alleen. Echte taalmodellen leren anders: ze hebben gewichten, dus knoppen, die tijdens de training beetje bij beetje worden bijgesteld. Het landschap laat dat zien voor een model met maar twee knoppen.',how:['Elk punt van het landschap is een stand van de twee knoppen. De bal toont de stand die het model nu heeft.','De hoogte toont hoe vaak het model met deze stand verkeerd raadt. Beneden in het dal raadt het het best.','Een trainingsstap: het model raadt bij de trainingszinnen, ziet zijn fouten en draait beide knoppen een klein stukje, zodat het de volgende keer minder fout zit. Daardoor rolt de bal een stukje bergaf.'],
+     stepMsg:(k,a,b)=>`Trainingsstap ${k}: geraden, fout gemeten, knoppen gedraaid. Fout eerst ${a}, nu ${b}.`,
      drag:'Sleep het landschap om het te draaien.',probe:'De lucht is …',words:['blauw','grijs','heet'],pred:p=>`Zo vult het model „${p}” aan met deze instelling:`,
-     rateLbl:'Stapgrootte:',rates:['klein','middel','groot'],step:'Eén stap',run:'Laten rollen',reset:'Nieuw startpunt',
+     rateLbl:'Stapgrootte:',rates:['klein','middel','groot'],step:'Eén trainingsstap',run:'Training laten lopen',reset:'Nieuw startpunt',
      note:(e,k,a,b)=>`Knop 1: ${a} · knop 2: ${b} · fout ${e} · ${k} stappen`,
-     hints:{roll:'De bal rolt bergaf: met elke stap wordt de fout kleiner en de voorspelling beter.',go:'Kies een stapgrootte en laat de bal rollen.',local:'De bal zit vast in een kleine kuil, terwijl het elders dieper gaat. Dat gebeurt ook bij echte training; dan helpen andere startpunten of instellingen.',jump:'Bij een grote stap springt de bal over het dal heen. Te grote stappen maken de training onrustig.',best:'De bal heeft het diepste dal bereikt: hier is de fout het kleinst.'},
+     hints:{done:'Meer stappen veranderen niets meer; de training is hier klaar. Probeer een nieuw startpunt of een andere stapgrootte.',roll:'De bal rolt bergaf: met elke stap wordt de fout kleiner en de voorspelling beter.',go:'Kies een stapgrootte en laat de bal rollen.',local:'De bal zit vast in een kleine kuil, terwijl het elders dieper gaat. Dat gebeurt ook bij echte training; dan helpen andere startpunten of instellingen.',jump:'Bij een grote stap springt de bal over het dal heen. Te grote stappen maken de training onrustig.',best:'De bal heeft het diepste dal bereikt: hier is de fout het kleinst.'},
      alt:'Draaibaar foutenlandschap met een rollende bal'},
    probeLbl:'Begin van de zin:',
    only:l=>`Alleen het woord direct na „${l}” telt. In de gelezen zinnen is het gemarkeerd. Wat daarna komt, zoals „helder” in „blauw en helder”, leert het model voor een ander begin („… en”).`,
@@ -3558,6 +3564,7 @@ LAB.sort={
       <p class="fb" id="${id}-fb" aria-live="polite"></p>
       <div class="row wait" id="${id}-nx"><button class="btn primary go" id="${id}-next">${d.next}</button></div></div>
     <div class="rings">${ring('ki',ring('ml',ring('dl',ring('gen'))))}${ring('none')}</div>
+    <div class="row wait" id="${id}-ag"><button class="btn ghost undo" id="${id}-again">${d.again}</button></div>
     ${callout('info','',`<b>${d.moreTitle}:</b> ${d.more}`)}
     <h3>${d.timeTitle}</h3><ol class="timeline">${d.time.map(([y,t])=>`<li><b>${y}</b><span>${t}</span></li>`).join('')}</ol>`},
   bind(d,id){const K=['none','ki','ml','dl','gen'];let i=0,ok=0,done=false;
@@ -3570,8 +3577,9 @@ LAB.sort={
       $$(`#${id} .chip.new`).forEach(c=>c.classList.remove('new'));$(`#${id}-c-${home}`).insertAdjacentHTML('beforeend',`<span class="chip new${hit?'':' miss'}">${esc(it.t.replace(/[.!?。]\s*$/,''))}</span>`);
       const last=i===d.items.length-1,f=$(`#${id}-fb`);f.className='fb'+(hit?'':' no');
       f.textContent=(hit?d.right:d.wrong(d.rings[ans[0]]))+' '+it.why+' '+d.placed(d.rings[home])+(last?' '+d.done(ok,d.items.length):'');
-      $(`#${id}-next`).textContent=last?d.again:d.next;$(`#${id}-nx`).classList.remove('wait')});
-    $(`#${id}-next`).onclick=()=>{if(i===d.items.length-1){i=0;ok=0;$$(`#${id} .rc`).forEach(c=>c.innerHTML='')}else i++;show()};
+      if(last)$(`#${id}-ag`).classList.remove('wait');else $(`#${id}-nx`).classList.remove('wait')});
+    $(`#${id}-next`).onclick=()=>{if(i<d.items.length-1){i++;show()}};
+    $(`#${id}-again`).onclick=()=>{i=0;ok=0;$$(`#${id} .rc`).forEach(c=>c.innerHTML='');$(`#${id}-ag`).classList.add('wait');show()};
     show()}};
 
 /* Bilder aus Rauschen: ein Bild entsteht schrittweise aus zufälligen Farbpunkten (vereinfachtes Diffusionsmodell).
@@ -3627,15 +3635,15 @@ LAB.diffusion={
 
 /* Fehler-Landschaft: Gradientenabstieg als Kugel, die bergab rollt (zwei Täler: ein tiefes, eine kleine Mulde) */
 const lossAt=(u,v)=>.25*(u*u+v*v)+1-.9*Math.exp(-((u-.45)**2+(v-.35)**2)/.08)-.55*Math.exp(-((u+.5)**2+(v+.45)**2)/.06);
-const landHtml=(d,id)=>{const L=d.land;return `<div class="land"><h3>${L.title}</h3><ol class="how small">${L.how.map(t=>`<li>${t}</li>`).join('')}</ol><p class="small">${L.drag}</p>
+const landHtml=(d,id)=>{const L=d.land;return `<div class="land"><h3>${L.title}</h3><p class="small">${L.bridge}</p><ol class="how small">${L.how.map(t=>`<li>${t}</li>`).join('')}</ol><p class="small">${L.drag}</p>
   <canvas class="c3" id="${id}-lc" tabindex="0" role="img" aria-label="${esc(L.alt)}"></canvas>
   ${seg(L.rateLbl,L.rates,'data-lr',0)}
   <div class="row"><button class="btn primary go" id="${id}-lrun">${L.run}</button><button class="btn" id="${id}-lstep">${L.step}</button><button class="btn ghost undo" id="${id}-lnew">${L.reset}</button></div>
-  <p class="small mono" id="${id}-lnote"></p>
+  <p class="small mono" id="${id}-lnote"></p><p class="small" id="${id}-lmsg" style="min-height:1.5em"></p>
   <p class="small"><b>${L.pred(esc(L.probe))}</b></p><div class="bars" id="${id}-lpred"></div>
   <p class="small" id="${id}-lhint" aria-live="polite" style="min-height:3em"></p></div>`};
-function landBind(d,id){const L=d.land,rates=[.02,.06,.25],starts=[[-.9,-.85],[.9,-.8],[-.85,.85],[.85,.9],[-.2,-.95],[.1,.95]];
-  let moved=1,lr=rates[0],si=0,pos=starts[0].slice(),trail=[pos.slice()],k=0,rose=false,timer=null;
+function landBind(d,id){const L=d.land,rates=[.03,.08,.25],starts=[[-.9,-.85],[.9,-.8],[-.85,.85],[.85,.9],[-.2,-.95],[.1,.95]];
+  let moved=1,eb=0,lr=rates[0],si=0,pos=starts[0].slice(),trail=[pos.slice()],k=0,rose=false,timer=null;
   const H=(u,v)=>lossAt(u,v)*.75-.55;
   const draw=(c,P)=>{const N=24,col=cssv('--teal');c.lineWidth=1;
     for(let i=0;i<=N;i++)for(const dir of [0,1]){c.beginPath();for(let j=0;j<=N;j++){const u=-1+2*(dir?i:j)/N,v=-1+2*(dir?j:i)/N,[x,y]=P(u,H(u,v),v);j?c.lineTo(x,y):c.moveTo(x,y)}
@@ -3648,14 +3656,19 @@ function landBind(d,id){const L=d.land,rates=[.02,.06,.25],starts=[[-.9,-.85],[.
   const pred=e=>{const g=Math.max(0,Math.min(1,(1.4-e)/1.2)),p=1/3+(.86-1/3)*g,r=1-p;return [p,r*.6,r*.4].map((x,i)=>({w:L.words[i],p:x,cls:i?'':'top'}))};
   const info=()=>{const e=lossAt(...pos);$(`#${id}-lnote`).textContent=L.note(e.toFixed(2).replace('.',u.dec),k,num(pos[0]),num(pos[1]));
     $(`#${id}-lpred`).innerHTML=bars(pred(e));
-    $(`#${id}-lhint`).textContent=!k?L.hints.go:rose?L.hints.jump:e<.25?L.hints.best:moved>4e-3?L.hints.roll:L.hints.local;v.redraw()};
-  const step=()=>{const [a,b]=pos,h=1e-3,gu=(lossAt(a+h,b)-lossAt(a-h,b))/(2*h),gv=(lossAt(a,b+h)-lossAt(a,b-h))/(2*h),before=lossAt(a,b);
+    const conv=k>0&&moved<1e-3,f=x=>x.toFixed(2).replace('.',u.dec);
+    $(`#${id}-lmsg`).textContent=k?L.stepMsg(k,f(eb),f(e)):'';
+    $(`#${id}-lstep`).disabled=$(`#${id}-lrun`).disabled=conv;
+    $(`#${id}-lhint`).textContent=!k?L.hints.go:rose?L.hints.jump:conv?(e<.25?L.hints.best:L.hints.local)+' '+L.hints.done:L.hints.roll;v.redraw()};
+  const step=()=>{const [a,b]=pos,h=1e-3;eb=lossAt(a,b);const gu=(lossAt(a+h,b)-lossAt(a-h,b))/(2*h),gv=(lossAt(a,b+h)-lossAt(a,b-h))/(2*h),before=eb;
     pos=[Math.max(-1,Math.min(1,a-lr*gu)),Math.max(-1,Math.min(1,b-lr*gv))];moved=Math.hypot(pos[0]-a,pos[1]-b);if(lossAt(...pos)>before+1e-4)rose=true;trail.push(pos.slice());k++};
   const stop=()=>{clearInterval(timer);timer=null};
-  $$(`#${id} [data-lr]`).forEach(b=>b.onclick=()=>{lr=rates[+b.dataset.lr];press(`#${id} [data-lr]`,x=>x===b)});
+  $$(`#${id} [data-lr]`).forEach(b=>b.onclick=()=>{lr=rates[+b.dataset.lr];press(`#${id} [data-lr]`,x=>x===b);moved=1;rose=false;info()});
   $(`#${id}-lstep`).onclick=()=>{stop();step();info()};
-  $(`#${id}-lrun`).onclick=()=>{stop();if(reduce){for(let i=0;i<40;i++)step();info();return}let n=0;
-    timer=setInterval(()=>{if(!$(`#${id}-lc`)){stop();return}step();info();if(++n>=40)stop()},90)};
+  /* Training laufen lassen, bis die Kugel liegen bleibt (höchstens 600 Schritte, falls sie hin und her springt) */
+  const done=()=>moved<1e-3;
+  $(`#${id}-lrun`).onclick=()=>{stop();if(reduce){for(let i=0;i<600&&!done();i++)step();info();return}let n=0;
+    timer=setInterval(()=>{if(!$(`#${id}-lc`)){stop();return}step();info();if(++n>=600||done()||rose&&n>=60)stop()},40)};
   $(`#${id}-lnew`).onclick=()=>{stop();si=(si+1)%starts.length;pos=starts[si].slice();trail=[pos.slice()];k=0;rose=false;moved=1;info()};
   info()}
 
