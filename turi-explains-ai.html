@@ -710,6 +710,17 @@ ui:{
  genTop3:n=>`Runde ${n}: die drei besten Kandidaten`, genDone:'Fertig!',
  genDoneP:l=>`Das Modell hat <b>[ENDE]</b> gewählt und hört auf zu schreiben. Für diese Antwort hat es ${l}-mal geraten.`,
 
+ kiTitle:'Wo steckt überall KI drin?',
+ kiP:'KI ist viel mehr als Chatbots! Manche KI <b>erkennt</b> Dinge, weil sie aus vielen Beispielen gelernt hat. Andere KI <b>macht Neues</b>, zum Beispiel Texte oder Bilder. Dazu gehört auch ein Sprachmodell wie das, das du hier kennengelernt hast. Und manches wirkt schlau, ist aber gar keine KI. Sortiere mal!',
+ kiKinds:{none:'Keine KI',lern:'KI, die erkennt',neu:'KI, die Neues macht'},
+ kiItems:[{t:'Ein Taschenrechner rechnet 25 × 4.',a:'none',why:'Er rechnet nach festen Regeln und lernt nie etwas dazu.'},
+  {t:'Ein Wecker klingelt um 7 Uhr.',a:'none',why:'Er macht genau, was eingestellt ist. Mit Lernen hat das nichts zu tun.'},
+  {t:'Das Handy findet auf deinen Fotos deinen Hund.',a:'lern',why:'Die KI hat aus ganz vielen Hundefotos gelernt, wie Hunde aussehen.'},
+  {t:'Ein Sprachassistent versteht, was du sagst.',a:'lern',why:'Er hat aus sehr vielen Aufnahmen gelernt, wie Wörter klingen.'},
+  {t:'Eine App schlägt dir Videos vor, die dir gefallen könnten.',a:'lern',why:'Sie hat gelernt, was Menschen mit ähnlichem Geschmack gern anschauen.'},
+  {t:'Ein Chatbot schreibt dir eine Geschichte.',a:'neu',why:'Das ist ein Sprachmodell: Es macht neuen Text, Schnipsel für Schnipsel. Genau das hast du bei Turi kennengelernt.'},
+  {t:'Ein Programm malt ein Bild von einem Drachen.',a:'neu',why:'Auch das ist KI, die Neues macht. Sie arbeitet aber anders als ein Chatbot.'}],
+ kiGood:'Richtig!', kiRather:k=>`Hmm, eher „${k}“.`, kiScore:(ok,n)=>`${ok} von ${n} richtig sortiert.`,
  sfTitle:'Clever und sicher mit KI',
  sfSay:'Jetzt weißt du, wie ein Sprachmodell funktioniert. Das hilft dir, es <b>klug zu benutzen</b>. KI kann toll helfen, sie hat aber auch Schwächen. Und manche Menschen benutzen sie, um anderen zu schaden. <b>Schau dir an, worauf du achten solltest, und spiel das Ampel-Spiel!</b>',
  sfGood:'Das kann KI gut',
@@ -1008,6 +1019,17 @@ ui:{
  genTop3:n=>`Round ${n}: the three best candidates`, genDone:'Finished!',
  genDoneP:l=>`The model picked <b>[END]</b> and stops writing. For this answer it guessed ${l} times.`,
 
+ kiTitle:'Where is AI hiding?',
+ kiP:'AI is much more than chatbots! Some AI <b>recognises</b> things because it has learned from lots of examples. Other AI <b>makes new things</b>, such as texts or pictures. That includes language models like the one you got to know here. And some things look clever but are not AI at all. Try sorting them!',
+ kiKinds:{none:'Not AI',lern:'AI that recognises',neu:'AI that makes new things'},
+ kiItems:[{t:'A calculator works out 25 × 4.',a:'none',why:'It follows fixed rules and never learns anything new.'},
+  {t:'An alarm clock rings at 7 o’clock.',a:'none',why:'It does exactly what it is set to do. That has nothing to do with learning.'},
+  {t:'Your phone finds your dog in your photos.',a:'lern',why:'The AI learned from lots and lots of dog photos what dogs look like.'},
+  {t:'A voice assistant understands what you say.',a:'lern',why:'It learned from huge numbers of recordings how words sound.'},
+  {t:'An app suggests videos you might like.',a:'lern',why:'It learned what people with similar taste like to watch.'},
+  {t:'A chatbot writes you a story.',a:'neu',why:'That is a language model: it makes new text, snippet by snippet. Exactly what you got to know with Turi.'},
+  {t:'A program paints a picture of a dragon.',a:'neu',why:'That is AI that makes new things too. But it works differently from a chatbot.'}],
+ kiGood:'Correct!', kiRather:k=>`Hmm, more like “${k}”.`, kiScore:(ok,n)=>`${ok} of ${n} sorted correctly.`,
  sfTitle:'Smart and safe with AI',
  sfSay:'Now you know how a language model works. That helps you <b>use it wisely</b>. AI can be a great help, but it also has weaknesses. And some people use it to harm others. <b>Look at what to watch out for and play the traffic-light game!</b>',
  sfGood:'What AI is good at',
@@ -1305,6 +1327,17 @@ ui:{
  genTop3:n=>`Tour ${n} : les trois meilleurs candidats`, genDone:'Terminé !',
  genDoneP:l=>`Le modèle a choisi <b>[FIN]</b> et arrête d’écrire. Pour cette réponse, il a deviné ${l} fois.`,
 
+ kiTitle:'Où se cache l’IA ?',
+ kiP:'L’IA, c’est bien plus que les chatbots ! Certaines IA <b>reconnaissent</b> des choses parce qu’elles ont appris à partir de plein d’exemples. D’autres IA <b>créent du nouveau</b>, comme des textes ou des images. Les modèles de langage comme celui que tu as découvert ici en font partie. Et certaines choses ont l’air malignes, mais ne sont pas de l’IA du tout. À toi de trier !',
+ kiKinds:{none:'Pas d’IA',lern:'IA qui reconnaît',neu:'IA qui crée du nouveau'},
+ kiItems:[{t:'Une calculatrice calcule 25 × 4.',a:'none',why:'Elle suit des règles fixes et n’apprend jamais rien de nouveau.'},
+  {t:'Un réveil sonne à 7 heures.',a:'none',why:'Il fait exactement ce qu’on a réglé. Ça n’a rien à voir avec apprendre.'},
+  {t:'Le téléphone retrouve ton chien sur tes photos.',a:'lern',why:'L’IA a appris avec plein de photos de chiens à quoi ressemble un chien.'},
+  {t:'Un assistant vocal comprend ce que tu dis.',a:'lern',why:'Il a appris avec énormément d’enregistrements comment sonnent les mots.'},
+  {t:'Une appli te propose des vidéos qui pourraient te plaire.',a:'lern',why:'Elle a appris ce que regardent les gens qui ont des goûts proches des tiens.'},
+  {t:'Un chatbot t’écrit une histoire.',a:'neu',why:'C’est un modèle de langage : il crée du nouveau texte, morceau par morceau. Exactement ce que tu as découvert avec Turi.'},
+  {t:'Un programme peint l’image d’un dragon.',a:'neu',why:'C’est aussi une IA qui crée du nouveau. Mais elle fonctionne autrement qu’un chatbot.'}],
+ kiGood:'Juste !', kiRather:k=>`Hum, plutôt « ${k} ».`, kiScore:(ok,n)=>`${ok} sur ${n} bien triés.`,
  sfTitle:'Malin et prudent avec l’IA',
  sfSay:'Maintenant, tu sais comment fonctionne un modèle de langage. Ça t’aide à <b>bien l’utiliser</b>. L’IA peut beaucoup aider, mais elle a aussi des faiblesses. Et certaines personnes l’utilisent pour faire du mal aux autres. <b>Regarde à quoi faire attention et joue au jeu du feu tricolore !</b>',
  sfGood:'Ce que l’IA fait bien',
@@ -1602,6 +1635,17 @@ ui:{
  genTop3:n=>`Turno ${n}: i tre migliori candidati`, genDone:'Finito!',
  genDoneP:l=>`Il modello ha scelto <b>[FINE]</b> e smette di scrivere. Per questa risposta ha indovinato ${l} volte.`,
 
+ kiTitle:'Dove si nasconde l’IA?',
+ kiP:'L’IA è molto più dei chatbot! Alcune IA <b>riconoscono</b> le cose, perché hanno imparato da tantissimi esempi. Altre IA <b>creano cose nuove</b>, per esempio testi o immagini. Ne fanno parte anche i modelli linguistici come quello che hai conosciuto qui. E certe cose sembrano intelligenti, ma non sono affatto IA. Prova a metterle in ordine!',
+ kiKinds:{none:'Non è IA',lern:'IA che riconosce',neu:'IA che crea cose nuove'},
+ kiItems:[{t:'Una calcolatrice calcola 25 × 4.',a:'none',why:'Segue regole fisse e non impara mai niente di nuovo.'},
+  {t:'Una sveglia suona alle 7.',a:'none',why:'Fa esattamente quello che hai impostato. Non c’entra niente con l’imparare.'},
+  {t:'Il telefono trova il tuo cane nelle tue foto.',a:'lern',why:'L’IA ha imparato da tantissime foto di cani com’è fatto un cane.'},
+  {t:'Un assistente vocale capisce quello che dici.',a:'lern',why:'Ha imparato da moltissime registrazioni come suonano le parole.'},
+  {t:'Un’app ti propone video che potrebbero piacerti.',a:'lern',why:'Ha imparato che cosa guardano le persone con gusti simili ai tuoi.'},
+  {t:'Un chatbot ti scrive una storia.',a:'neu',why:'È un modello linguistico: crea testo nuovo, pezzetto dopo pezzetto. Proprio quello che hai conosciuto con Turi.'},
+  {t:'Un programma dipinge un drago.',a:'neu',why:'Anche questa è un’IA che crea cose nuove. Però funziona in modo diverso da un chatbot.'}],
+ kiGood:'Giusto!', kiRather:k=>`Mmm, piuttosto «${k}».`, kiScore:(ok,n)=>`${ok} su ${n} sistemati bene.`,
  sfTitle:'Furbi e sicuri con l’IA',
  sfSay:'Ora sai come funziona un modello linguistico. Questo ti aiuta a <b>usarlo bene</b>. L’IA può aiutare tantissimo, ma ha anche dei punti deboli. E alcune persone la usano per fare del male agli altri. <b>Guarda a cosa fare attenzione e gioca al gioco del semaforo!</b>',
  sfGood:'Cosa sa fare bene l’IA',
@@ -1900,6 +1944,17 @@ ui:{
  genTop3:n=>`Ronda ${n}: los tres mejores candidatos`, genDone:'¡Terminado!',
  genDoneP:l=>`El modelo ha elegido <b>[FIN]</b> y deja de escribir. Para esta respuesta ha adivinado ${l} veces.`,
 
+ kiTitle:'¿Dónde se esconde la IA?',
+ kiP:'¡La IA es mucho más que los chatbots! Algunas IA <b>reconocen</b> cosas porque han aprendido de muchísimos ejemplos. Otras IA <b>crean cosas nuevas</b>, como textos o imágenes. Entre ellas están los modelos de lenguaje como el que has conocido aquí. Y algunas cosas parecen listas, pero no son IA. ¡Prueba a ordenarlas!',
+ kiKinds:{none:'No es IA',lern:'IA que reconoce',neu:'IA que crea cosas nuevas'},
+ kiItems:[{t:'Una calculadora calcula 25 × 4.',a:'none',why:'Sigue reglas fijas y nunca aprende nada nuevo.'},
+  {t:'Un despertador suena a las 7.',a:'none',why:'Hace justo lo que le has programado. Eso no tiene nada que ver con aprender.'},
+  {t:'El móvil encuentra a tu perro en tus fotos.',a:'lern',why:'La IA aprendió con muchísimas fotos de perros cómo son los perros.'},
+  {t:'Un asistente de voz entiende lo que dices.',a:'lern',why:'Aprendió con muchísimas grabaciones cómo suenan las palabras.'},
+  {t:'Una app te propone vídeos que te podrían gustar.',a:'lern',why:'Aprendió lo que ve la gente con gustos parecidos a los tuyos.'},
+  {t:'Un chatbot te escribe un cuento.',a:'neu',why:'Es un modelo de lenguaje: crea texto nuevo, trocito a trocito. Justo lo que has conocido con Turi.'},
+  {t:'Un programa pinta un dragón.',a:'neu',why:'También es IA que crea cosas nuevas. Pero funciona de otra manera que un chatbot.'}],
+ kiGood:'¡Correcto!', kiRather:k=>`Mmm, más bien «${k}».`, kiScore:(ok,n)=>`${ok} de ${n} bien ordenados.`,
  sfTitle:'Listos y seguros con la IA',
  sfSay:'Ahora sabes cómo funciona un modelo de lenguaje. Eso te ayuda a <b>usarlo con cabeza</b>. La IA puede ayudar muchísimo, pero también tiene puntos débiles. Y algunas personas la usan para hacer daño a otros. <b>¡Mira a qué debes prestar atención y juega al juego del semáforo!</b>',
  sfGood:'Lo que la IA hace bien',
@@ -2198,6 +2253,17 @@ ui:{
  genTop3:n=>`Ronde ${n}: de drie beste kandidaten`, genDone:'Klaar!',
  genDoneP:l=>`Het model koos <b>[EINDE]</b> en stopt met schrijven. Voor dit antwoord heeft het ${l} keer geraden.`,
 
+ kiTitle:'Waar zit overal AI in?',
+ kiP:'AI is veel meer dan chatbots! Sommige AI <b>herkent</b> dingen, omdat ze van heel veel voorbeelden heeft geleerd. Andere AI <b>maakt iets nieuws</b>, zoals teksten of plaatjes. Daar horen ook taalmodellen bij, zoals het taalmodel dat je hier hebt leren kennen. En sommige dingen lijken slim, maar zijn helemaal geen AI. Sorteer maar!',
+ kiKinds:{none:'Geen AI',lern:'AI die herkent',neu:'AI die iets nieuws maakt'},
+ kiItems:[{t:'Een rekenmachine rekent 25 × 4 uit.',a:'none',why:'Hij volgt vaste regels en leert nooit iets nieuws.'},
+  {t:'Een wekker gaat om 7 uur af.',a:'none',why:'Hij doet precies wat is ingesteld. Met leren heeft dat niets te maken.'},
+  {t:'Je telefoon vindt je hond op je foto’s.',a:'lern',why:'De AI heeft van heel veel hondenfoto’s geleerd hoe honden eruitzien.'},
+  {t:'Een spraakassistent begrijpt wat je zegt.',a:'lern',why:'Hij heeft van heel veel opnames geleerd hoe woorden klinken.'},
+  {t:'Een app raadt je video’s aan die je leuk zou kunnen vinden.',a:'lern',why:'Ze heeft geleerd wat mensen met een vergelijkbare smaak graag kijken.'},
+  {t:'Een chatbot schrijft een verhaal voor je.',a:'neu',why:'Dat is een taalmodel: het maakt nieuwe tekst, stukje voor stukje. Precies wat je bij Turi hebt leren kennen.'},
+  {t:'Een programma tekent een draak.',a:'neu',why:'Ook dat is AI die iets nieuws maakt. Maar ze werkt anders dan een chatbot.'}],
+ kiGood:'Goed zo!', kiRather:k=>`Hmm, eerder „${k}”.`, kiScore:(ok,n)=>`${ok} van de ${n} goed gesorteerd.`,
  sfTitle:'Slim en veilig met AI',
  sfSay:'Nu weet je hoe een taalmodel werkt. Dat helpt je om het <b>slim te gebruiken</b>. AI kan je super goed helpen, maar heeft ook zwakke kanten. En sommige mensen gebruiken het om anderen kwaad te doen. <b>Kijk waar je op moet letten en speel het stoplichtspel!</b>',
  sfGood:'Hier is AI goed in',
@@ -2931,11 +2997,17 @@ function stLook(){
 }
 
 /* ---------- Station 10: Clever mit KI ---------- */
-S.safe={pick:{},checked:false,cheese:false};
+S.safe={pick:{},ki:{},checked:false,cheese:false};
 const TIP_IC=['🔍','🔒','🧠','🎭','🤝','💬','🚦','👨‍👩‍👧'];
 function stSafe(){
   return {title:u.sfTitle,say:u.sfSay,
-   html:`<div class="trgrid">
+   html:`<div class="panel">
+      <div class="panel-title">${u.kiTitle}</div>
+      <p>${u.kiP}</p>
+      <div class="cases" id="kiCases"></div>
+      <div class="score" id="kiScore"></div>
+    </div>
+    <div class="trgrid">
       <div class="panel pc-good"><div class="panel-title">${u.sfGood}</div>
         <ul class="pc">${u.sfGoodL.map(x=>`<li>${x}</li>`).join('')}</ul></div>
       <div class="panel pc-bad"><div class="panel-title">${u.sfBad}</div>
@@ -2983,6 +3055,14 @@ function stSafe(){
      const drawCheese=anim=>{let h='';CHEESE.forEach((w,i)=>{const cls=i<3?'':i===3?'gw odd':'gw';
          h+=(/^[.,]$/.test(w)||!i?'':' ')+(cls?`<span class="${cls}" ${anim?`style="animation:pop .45s cubic-bezier(.3,1.6,.5,1) ${(i-3)*220}ms both"`:''}>${esc(w)}${i===3?`<span class="pc1">${pc(1)}</span>`:''}</span>`:esc(w))});
        $('#cheese').innerHTML=h;};
+     /* Wo steckt KI drin? Beispiele einsortieren */
+     const KK=['none','lern','neu'],drawKi=()=>{$('#kiCases').innerHTML=u.kiItems.map((c,i)=>{const a=S.safe.ki[i];
+         return `<div class="case"><div>${esc(c.t)}</div><div class="amp">${KK.map(k=>`<button class="btn" data-ki="${i}" data-k="${k}" aria-pressed="${a===k}">${esc(u.kiKinds[k])}</button>`).join('')}</div>
+         ${a===undefined?'':`<div class="fb ${a===c.a?'':'no'}">${a===c.a?`<span class="v-ok">${u.kiGood}</span> `:`<span class="v-no">${u.kiRather(u.kiKinds[c.a])}</span> `}${esc(c.why)}</div>`}</div>`}).join('');
+       document.querySelectorAll('#kiCases [data-ki]').forEach(b=>b.onclick=()=>{S.safe.ki[+b.dataset.ki]=b.dataset.k;drawKi()});
+       const n=Object.keys(S.safe.ki).length,ok=u.kiItems.filter((c,i)=>S.safe.ki[i]===c.a).length;
+       $('#kiScore').textContent=n===u.kiItems.length?u.kiScore(ok,n):''};
+     drawKi();
      if(S.safe.cheese)drawCheese(false);
      $('#cheeseBtn').onclick=()=>{S.safe.cheese=true;drawCheese(!reduce);$('#cheeseNote').hidden=false};
      $('#verify').onclick=()=>{S.safe.checked=true;$('#verifyOut').hidden=false};

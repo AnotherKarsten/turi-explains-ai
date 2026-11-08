@@ -53,7 +53,7 @@ Die Kinder verfolgen eine Anfrage durch elf Stationen, so wie sie auch durch ein
 | 7. Raten | Das nächste Wort wird gewürfelt; ein Kreativitäts-Regler (Temperatur) macht die KI vorsichtig oder wild. |
 | 8. Wort für Wort | Die Antwort entsteht Schritt für Schritt bis zum [ENDE]. |
 | 9. Nachschlagen | Werkzeuge: Suchen statt raten, Taschenrechner statt Kopfrechnen, erst nachdenken, dann antworten. |
-| 10. Clever mit KI | Stärken und Schwächen, Halluzinieren, Missbrauch wie Deepfakes, ein Ampel-Spiel mit Alltagssituationen und Turis Regeln. |
+| 10. Clever mit KI | Wo überall KI drinsteckt (Sortierspiel: keine KI, KI, die erkennt, KI, die Neues macht), Stärken und Schwächen, Halluzinieren, Missbrauch wie Deepfakes, ein Ampel-Spiel mit Alltagssituationen und Turis Regeln. |
 | 11. Geschafft! | Zusammenfassung, Quiz und eine Abschluss-Urkunde. |
 
 Drei Beispiel-Anfragen („Der Himmel ist …“, „Was ist die Hauptstadt von Frankreich?“, „Hunde sind die besten …“)
