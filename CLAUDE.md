@@ -2,7 +2,8 @@
 
 Zwei eigenständige HTML-Lernseiten, die erklären, wie ein Sprachmodell funktioniert:
 „Turi erklärt KI“ (`turi-explains-ai.html`, für Kinder ab etwa 9) und „KI unter der Haube“ (`ai-under-the-hood.html`, für
-Jugendliche und Erwachsene, Du-Form), dazu die Startseite `index.html`, die beide vorstellt. Veröffentlicht wird mit
+Jugendliche und Erwachsene, Du-Form), dazu die Startseite `index.html`, die beide vorstellt, und
+`teachers.html` (Seite für Lehrkräfte mit Stundenverläufen und Arbeitsblättern). Veröffentlicht wird mit
 GitHub Pages aus `main` (https://anotherkarsten.github.io/turi-explains-ai/). Das Maskottchen heißt Turi (nach Alan
 Turing). Die Regeln unten gelten für alle Seiten, sofern nicht anders angegeben.
 Kein Build, keine Abhängigkeiten. CSS, JavaScript und die Schriften (Base64, SIL OFL 1.1) stehen inline in der Datei.
@@ -12,11 +13,13 @@ Sprache der Seite, der Commits und der Pull Requests: Deutsch.
 ## Aufbau
 
 - Im Repository liegen nur die aktuell nötigen Dateien: `turi-explains-ai.html` (Turi), `ai-under-the-hood.html` (KI unter der Haube),
-  `index.html` (Startseite für GitHub Pages), `.nojekyll`, `README.md`, `CLAUDE.md`, `LICENSE`, `LICENSES/` und `.github/` (Prüf- und Release-Ablauf). Keine Kopien alter
+  `index.html` (Startseite für GitHub Pages), `teachers.html` (für Lehrkräfte), `.nojekyll`, `README.md`, `CLAUDE.md`, `LICENSE`, `LICENSES/` und `.github/` (Prüf- und Release-Ablauf). Keine Kopien alter
   Versionen ablegen; die Historie steht in Git.
-- „KI unter der Haube“: 13 Stationen in zwei Teilen (`parts`), je Station Text, ein Labor (`lab.type`: train, tokens,
-  map, attention, window, temperature, confidence, lookup, prompt, bias, cost, ampel, agent), die Klappe „Unter der
-  Haube“ (`hood`, Fachbegriffe) und „Im Alltag heißt das“ (`everyday`). Am Ende Quiz und Spickzettel; das PDF erzeugt die
+- „KI unter der Haube“: 16 Stationen in drei Teilen (`parts`: z „Das große Bild“, a „So funktioniert ein Sprachmodell“
+  mit der Übersicht `flow` „Der Weg deiner Frage“, b „Klug damit arbeiten“), je Station Text, ein Labor (`lab.type`: sort,
+  diffusion, train, tokens, map, attention, window, temperature, confidence, lookup, prompt, bias, cost, ampel, recht, agent), die Klappe „Unter der
+  Haube“ (`hood`, Fachbegriffe) und „Im Alltag heißt das“ (`everyday`). Wortkarte (`map`, Wörter als `[w,x,y,z]`) und Fehler-Landschaft
+  (`train.land`) lassen sich in 3D drehen (Ziehen, Pfeiltasten). Am Ende Quiz (zehn Fragen) und Spickzettel; das PDF erzeugt die
   Seite selbst (A4, Helvetica, WinAnsi-Zeichensatz: nur Zeichen verwenden, die es dort gibt). Gleiche Farben, Schriften
   und Tasten wie Turi, aber ohne Maskottchen.
 - KI unter der Haube ist in Ansichten derselben Datei aufgeteilt (Hash-Adressen): `#uebersicht` (Startseite mit Karten),
@@ -30,7 +33,8 @@ Sprache der Seite, der Commits und der Pull Requests: Deutsch.
   haben reservierten Platz, damit nichts springt.
 - Startseite `index.html`: deutscher Text steht fest im HTML (funktioniert ohne JavaScript), die anderen Sprachen in
   `INDEX_LANG` (gleiche Schlüssel wie `.de`; Elemente mit `data-k` werden ersetzt). Die Knöpfe führen mit `?lang=` zur
-  gewählten Sprache. Neue oder umbenannte Seiten dort mit aufnehmen. Die Seiten verlinken sich gegenseitig über die
+  gewählten Sprache. Neue oder umbenannte Seiten dort mit aufnehmen. Von dort führt ein Link zu `teachers.html`;
+  deren Texte stehen je Sprache in `TEACH_LANG`, die Arbeitsblätter lassen sich einzeln drucken (`data-print`). Die Seiten verlinken sich gegenseitig über die
   Pages-Adresse.
 - `README.md` beschreibt Zielgruppe, Inhalte und Benutzung beider Seiten, keine Versionshistorie. Bei neuen oder
   geänderten Stationen die Beschreibung dort anpassen.
@@ -50,7 +54,8 @@ Sprache der Seite, der Commits und der Pull Requests: Deutsch.
   den Blöcken `TURI_LANG.de`, `.en`, `.fr`, `.it`, `.es`, `.nl` (Turi) bzw. `HAUBE_LANG.de` usw. (KI unter der Haube).
   Der Programmcode im letzten `<script>` enthält keine Texte.
 - KI unter der Haube: Wortkarten-Koordinaten so wählen, dass sich die Wörter auch auf dem iPhone SE nicht überlappen
-  (prüft `pruefen.js`), und jedes Rätsel in `riddles` (`calc`: A − B + C) muss genau auf ein Wort der Karte führen. Wahrscheinlichkeiten in den Laboren
+  (prüft `pruefen.js`), und jedes Rätsel in `riddles` (`calc`: A − B + C) muss genau auf ein Wort der Karte führen, auch
+  mit der dritten Koordinate z. Wahrscheinlichkeiten in den Laboren
   `confidence` und `bias` ergeben je 100 %. Im Labor `tokens` vergleicht jede Sprache mit einer anderen (`other`).
 - Jede Text- oder Inhaltsänderung in allen sechs Sprachen machen. Alle Pakete haben dieselben Schlüssel und gleich
   lange Listen (Fortschritt wird über Listenpositionen gespeichert und bleibt beim Sprachwechsel erhalten).
@@ -80,8 +85,8 @@ Alle Sprachen prüfen: die Seite mit `?lang=de`, `?lang=en`, `?lang=fr`, `?lang=
 Fehler, Überlauf und deutsche Textreste prüfen. Außerdem einmal mit `javaScriptEnabled:false` öffnen: Dann muss der
 Hinweis `#nojs` sichtbar und die eigentliche Seite ausgeblendet sein.
 
-Diese Prüfungen macht das Skript `.github/pruefung/pruefen.js` für alle Seiten einschließlich der Startseite (`node .github/pruefung/pruefen.js`,
-Exit-Code 1 bei Problemen; `TURI_SPRACHEN=de,fr` und `TURI_SEITEN=turi`, `haube` oder `start` für schnelle Proben). Bei KI unter
+Diese Prüfungen macht das Skript `.github/pruefung/pruefen.js` für alle Seiten einschließlich der Startseite und der Seite für Lehrkräfte (`node .github/pruefung/pruefen.js`,
+Exit-Code 1 bei Problemen; `TURI_SPRACHEN=de,fr` und `TURI_SEITEN=turi`, `haube` oder `start` (Startseite und Lehrkräfte) für schnelle Proben). Bei KI unter
 der Haube prüft es zusätzlich den PDF-Spickzettel und die Wortkarte. Die Prüfungen laufen gleichzeitig in so vielen Browser-Fenstern,
 wie der Rechner Prozessorkerne hat (`TURI_PARALLEL=1` prüft nacheinander). Es prüft außerdem die Sprachpakete gegeneinander (Schlüssel,
 Listenlängen, Gewichte, `amb`). Vor jedem Push ausführen; auf GitHub läuft es bei jedem Pull Request als Check
