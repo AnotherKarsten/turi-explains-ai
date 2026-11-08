@@ -404,6 +404,13 @@ ol.samples li.empty{list-style:none;margin-left:-1.6em;color:var(--ink-soft)}
 
 /* Bilder aus Rauschen */
 canvas.diff{width:100%;max-width:560px;aspect-ratio:3/2;height:auto;border:2px solid var(--edge);border-radius:14px;display:block}
+
+/* 3D-Ansichten */
+.v3{display:flex;flex-direction:column;gap:6px}
+canvas.c3{width:100%;aspect-ratio:4/3;max-height:70vh;border:2px solid var(--edge);border-radius:14px;background:var(--soft);touch-action:none;cursor:grab;display:block}
+canvas.c3:active{cursor:grabbing}
+.land{display:flex;flex-direction:column;gap:10px;border-top:2px dashed var(--track);padding-top:14px;margin-top:6px}
+.map[hidden],.v3[hidden]{display:none!important}
 </style>
 <!-- Hinweis für Vorschaufenster ohne JavaScript (z. B. Mailprogramm, Dateien-App). Wird beim Programmstart entfernt. -->
 <div id="nojs">
@@ -523,7 +530,12 @@ stations:[
  q:'Wie lernt ein Sprachmodell aus Text?',
  text:['Ein Sprachmodell lernt eine einzige Aufgabe: das nächste Wortstück vorherzusagen. Es liest riesige Mengen Text, deckt jeweils das nächste Stück ab, rät und vergleicht. Liegt es daneben, werden seine Milliarden <b>Gewichte</b> ein winziges Stück in die richtige Richtung verschoben.',
        'Aus dieser schlichten Übung entsteht erstaunlich viel: Grammatik, Faktenwissen, Stil. Danach folgt ein <b>Feinschliff</b> mit Menschen, die Antworten bewerten. Erst dadurch wird aus dem Textvervollständiger ein hilfsbereiter Assistent.'],
- lab:{type:'train',probeLbl:'Satzanfang:',
+ lab:{type:'train',land:{title:'Die Fehler-Landschaft',intro:'So verstellt das Training die Gewichte: Stell dir alle möglichen Einstellungen als Landschaft vor, die Höhe ist der Fehler. Das Training lässt die Kugel Schritt für Schritt bergab rollen, immer in die steilste Richtung. Ziehe zum Drehen.',
+     rateLbl:'Schrittweite:',rates:['klein','mittel','groß'],step:'Ein Schritt',run:'Abrollen lassen',reset:'Neuer Startpunkt',
+     note:(e,k)=>`Fehler ${e} nach ${k} Schritten.`,
+     hints:{go:'Wähle eine Schrittweite und lass die Kugel rollen.',local:'Die Kugel steckt in einer kleinen Mulde fest, obwohl es woanders tiefer geht. Das passiert auch beim echten Training; dann helfen andere Startpunkte oder Einstellungen.',jump:'Bei großer Schrittweite springt die Kugel über das Tal hinweg. Zu große Schritte machen das Training unruhig.',best:'Die Kugel hat das tiefste Tal erreicht: Hier ist der Fehler am kleinsten.'},
+     alt:'Drehbare Fehler-Landschaft mit einer rollenden Kugel'},
+   probeLbl:'Satzanfang:',
    only:l=>`Gezählt wird nur das Wort direkt nach „${l}“. In den gelesenen Sätzen ist es markiert. Was danach kommt, etwa „klar“ in „blau und klar“, lernt das Modell für einen anderen Anfang („… und“).`,
    title:'Ausprobieren: Ein Mini-Modell trainieren',
    intro:'Das Mini-Modell zählt nur, welches Wort auf zwei Wörter folgt. Lies Sätze ein und beobachte, wie aus Gleichverteilung eine Erwartung wird.',
@@ -584,9 +596,10 @@ stations:[
  text:['Jedes Token wird in eine lange Liste von Zahlen übersetzt, ein <b>Embedding</b>. Man kann sich das als Adresse auf einer Landkarte der Bedeutungen vorstellen. Wörter, die in ähnlichen Zusammenhängen vorkommen, landen nah beieinander.',
        'Echte Modelle verwenden nicht zwei, sondern Tausende Koordinaten pro Token. Dadurch tragen sogar Richtungen Bedeutung, zum Beispiel „männlich nach weiblich“ oder „Land nach Hauptstadt“.',
        '<b>Wozu das gut ist:</b> Im Alltag rechnet niemand „König − Mann + Frau“. Das Beispiel zeigt aber, dass ein Modell Beziehungen zwischen Wörtern als Richtungen lernt, ohne dass ihm jemand eine Liste gibt. Darauf beruht zum Beispiel, dass eine Suche bei „PKW“ auch Treffer zu „Auto“ findet und dass eine KI ein Muster wie „Land → Hauptstadt“ auf neue Fälle überträgt.'],
- lab:{type:'map',title:'Ausprobieren: Die Bedeutungs-Landkarte',
+ lab:{type:'map',view3d:'3D-Ansicht', hint3d:'Ziehe mit dem Finger oder der Maus, um die Karte zu drehen, und tippe Wörter an. Schon eine dritte Richtung reicht, damit manche Wörter weiter auseinanderliegen, als es von vorn aussah. Echte Modelle haben Tausende solcher Richtungen.', alt3d:'Drehbare dreidimensionale Wortkarte',
+   title:'Ausprobieren: Die Bedeutungs-Landkarte',
    intro:'Tippe ein Wort an, um seine nächsten Nachbarn zu sehen. Die Zahlen in Klammern sind die Abstände. Oder löse ein Rätsel so, wie die KI es tut.',
-   words:[['Hund',14,92],['Welpe',14,78],['Katze',44,92],['Kätzchen',44,78],['Pferd',29,64],['Pizza',76,92],['Nudeln',86,78],['Salat',66,64],['Brot',88,64],['Meeting',76,49],['E-Mail',76,35],['Kalender',76,21],['Bericht',76,8],['König',14,36],['Königin',42,36],['Mann',14,12],['Frau',42,12]],
+   words:[['Hund',14,92,72],['Welpe',14,78,64],['Katze',44,92,78],['Kätzchen',44,78,70],['Pferd',29,64,60],['Pizza',76,92,20],['Nudeln',86,78,26],['Salat',66,64,14],['Brot',88,64,30],['Meeting',76,49,48],['E-Mail',76,35,56],['Kalender',76,21,44],['Bericht',76,8,52],['König',14,36,34],['Königin',42,36,28],['Mann',14,12,30],['Frau',42,12,24]],
    pick:'Tippe ein Wort auf der Karte an.',
    near:(w,c,list)=>`<b>${w}</b> ${c}: nächste Nachbarn sind ${list}.`,
    riddles:[{calc:['König','Mann','Frau'],btn:'Rätsel: Mann verhält sich zu Frau wie König zu …?',dir:'männlich → weiblich'},{calc:['Katze','Hund','Welpe'],btn:'Rätsel: Hund verhält sich zu Welpe wie Katze zu …?',dir:'Tier → Tierkind'}],
@@ -1015,7 +1028,12 @@ stations:[
  q:'How does a language model learn from text?',
  text:['A language model learns one single task: predicting the next piece of a word. It reads huge amounts of text, covers up the next piece each time, guesses and compares. When it is wrong, its billions of <b>weights</b> are nudged a tiny bit in the right direction.',
        'A surprising amount comes out of this simple exercise: grammar, factual knowledge, style. Then comes <b>fine-tuning</b> with people who rate answers. Only that turns the text completer into a helpful assistant.'],
- lab:{type:'train',probeLbl:'Sentence start:',
+ lab:{type:'train',land:{title:'The error landscape',intro:'This is how training adjusts the weights: imagine all possible settings as a landscape where the height is the error. Training lets the ball roll downhill step by step, always in the steepest direction. Drag to turn it.',
+     rateLbl:'Step size:',rates:['small','medium','large'],step:'One step',run:'Let it roll',reset:'New starting point',
+     note:(e,k)=>`Error ${e} after ${k} steps.`,
+     hints:{go:'Pick a step size and let the ball roll.',local:'The ball is stuck in a small hollow, although it goes deeper elsewhere. This happens in real training too; other starting points or settings help.',jump:'With a large step size the ball jumps over the valley. Steps that are too big make training unstable.',best:'The ball has reached the deepest valley: the error is smallest here.'},
+     alt:'Rotatable error landscape with a rolling ball'},
+   probeLbl:'Sentence start:',
    only:l=>`Only the word directly after “${l}” is counted. It is marked in the sentences read so far. Anything after it, such as “clear” in “blue and clear”, is learned for a different start (“… and”).`,
    title:'Try it: train a mini model',
    intro:'The mini model only counts which word follows two words. Feed it sentences and watch an even spread turn into an expectation.',
@@ -1075,9 +1093,10 @@ stations:[
  text:['Every token is translated into a long list of numbers, an <b>embedding</b>. Think of it as an address on a map of meanings. Words that appear in similar contexts end up close together.',
        'Real models use not two but thousands of coordinates per token. That way even directions carry meaning, for example “male to female” or “country to capital”.',
        '<b>Why this matters:</b> Nobody calculates “King − Man + Woman” in everyday life. But the example shows that a model learns relationships between words as directions, without anyone giving it a list. That is why, for example, a search for “car” also finds results about “automobile”, and why an AI can apply a pattern like “country → capital” to new cases.'],
- lab:{type:'map',title:'Try it: the map of meanings',
+ lab:{type:'map',view3d:'3D view', hint3d:'Drag with your finger or mouse to turn the map, and tap words. Even a third direction is enough for some words to be further apart than they looked from the front. Real models have thousands of such directions.', alt3d:'Rotatable three-dimensional word map',
+   title:'Try it: the map of meanings',
    intro:'Tap a word to see its nearest neighbours. The numbers in brackets are the distances. Or solve a riddle the way the AI does.',
-   words:[['Dog',14,92],['Puppy',14,78],['Cat',44,92],['Kitten',44,78],['Horse',29,64],['Pizza',76,92],['Pasta',86,78],['Salad',66,64],['Bread',88,64],['Meeting',76,49],['Email',76,35],['Calendar',76,21],['Report',76,8],['King',14,36],['Queen',42,36],['Man',14,12],['Woman',42,12]],
+   words:[['Dog',14,92,72],['Puppy',14,78,64],['Cat',44,92,78],['Kitten',44,78,70],['Horse',29,64,60],['Pizza',76,92,20],['Pasta',86,78,26],['Salad',66,64,14],['Bread',88,64,30],['Meeting',76,49,48],['Email',76,35,56],['Calendar',76,21,44],['Report',76,8,52],['King',14,36,34],['Queen',42,36,28],['Man',14,12,30],['Woman',42,12,24]],
    pick:'Tap a word on the map.',
    near:(w,c,list)=>`<b>${w}</b> ${c}: the nearest neighbours are ${list}.`,
    riddles:[{calc:['King','Man','Woman'],btn:'Riddle: Man is to Woman as King is to …?',dir:'male → female'},{calc:['Cat','Dog','Puppy'],btn:'Riddle: Dog is to Puppy as Cat is to …?',dir:'animal → young animal'}],
@@ -1505,7 +1524,12 @@ stations:[
  q:'Comment un modèle de langage apprend-il à partir de textes ?',
  text:['Un modèle de langage apprend une seule tâche : prédire le prochain morceau de mot. Il lit d’énormes quantités de texte, cache à chaque fois le morceau suivant, devine et compare. S’il se trompe, ses milliards de <b>poids</b> sont légèrement ajustés dans la bonne direction.',
        'De cet exercice tout simple naît une quantité étonnante de choses : grammaire, connaissances, style. Vient ensuite un <b>réglage fin</b> avec des personnes qui évaluent les réponses. C’est seulement ainsi que le compléteur de texte devient un assistant serviable.'],
- lab:{type:'train',probeLbl:'Début de phrase :',
+ lab:{type:'train',land:{title:'Le paysage de l’erreur',intro:'Voici comment l’entraînement ajuste les poids : imagine tous les réglages possibles comme un paysage dont la hauteur est l’erreur. L’entraînement fait rouler la bille vers le bas, pas à pas, toujours dans la direction la plus raide. Fais glisser pour tourner.',
+     rateLbl:'Taille du pas :',rates:['petit','moyen','grand'],step:'Un pas',run:'Laisser rouler',reset:'Nouveau point de départ',
+     note:(e,k)=>`Erreur ${e} après ${k} pas.`,
+     hints:{go:'Choisis une taille de pas et laisse rouler la bille.',local:'La bille est coincée dans un petit creux, alors qu’ailleurs c’est plus profond. Cela arrive aussi dans un vrai entraînement ; d’autres points de départ ou réglages aident alors.',jump:'Avec un grand pas, la bille saute par-dessus la vallée. Des pas trop grands rendent l’entraînement instable.',best:'La bille a atteint la vallée la plus profonde : l’erreur y est la plus petite.'},
+     alt:'Paysage de l’erreur que l’on peut faire tourner, avec une bille qui roule'},
+   probeLbl:'Début de phrase :',
    only:l=>`Seul le mot qui suit directement « ${l} » est compté. Il est marqué dans les phrases déjà lues. Ce qui vient après, comme « clair » dans « bleu et clair », est appris pour un autre début (« … et »).`,
    title:'À essayer : entraîner un mini-modèle',
    intro:'Le mini-modèle compte seulement quel mot suit deux mots. Fais-lui lire des phrases et observe comment une répartition égale devient une attente.',
@@ -1563,9 +1587,10 @@ stations:[
  text:['Chaque jeton est traduit en une longue liste de nombres, un <b>embedding</b> (plongement). On peut l’imaginer comme une adresse sur une carte des significations. Les mots qui apparaissent dans des contextes semblables se retrouvent proches.',
        'Les vrais modèles n’utilisent pas deux coordonnées mais des milliers par jeton. Ainsi, même des directions portent un sens, par exemple « masculin vers féminin » ou « pays vers capitale ».',
        '<b>À quoi ça sert :</b> personne ne calcule « Roi − Homme + Femme » au quotidien. Mais l’exemple montre qu’un modèle apprend les relations entre les mots sous forme de directions, sans que personne lui donne de liste. C’est pour cela, par exemple, qu’une recherche sur « voiture » trouve aussi des résultats sur « automobile » et qu’une IA applique un schéma comme « pays → capitale » à de nouveaux cas.'],
- lab:{type:'map',title:'À essayer : la carte des significations',
+ lab:{type:'map',view3d:'Vue 3D', hint3d:'Fais glisser avec le doigt ou la souris pour faire tourner la carte, et touche des mots. Une troisième direction suffit déjà pour que certains mots soient plus éloignés qu’il n’y paraissait de face. Les vrais modèles ont des milliers de directions de ce genre.', alt3d:'Carte des mots en trois dimensions, que l’on peut faire tourner',
+   title:'À essayer : la carte des significations',
    intro:'Touche un mot pour voir ses plus proches voisins. Les nombres entre parenthèses sont les distances. Ou résous une énigme comme le fait l’IA.',
-   words:[['Chien',14,92],['Chiot',14,78],['Chat',44,92],['Chaton',44,78],['Cheval',29,64],['Pizza',76,92],['Pâtes',86,78],['Salade',66,64],['Pain',88,64],['Réunion',76,49],['E-mail',76,35],['Agenda',76,21],['Rapport',76,8],['Roi',14,36],['Reine',42,36],['Homme',14,12],['Femme',42,12]],
+   words:[['Chien',14,92,72],['Chiot',14,78,64],['Chat',44,92,78],['Chaton',44,78,70],['Cheval',29,64,60],['Pizza',76,92,20],['Pâtes',86,78,26],['Salade',66,64,14],['Pain',88,64,30],['Réunion',76,49,48],['E-mail',76,35,56],['Agenda',76,21,44],['Rapport',76,8,52],['Roi',14,36,34],['Reine',42,36,28],['Homme',14,12,30],['Femme',42,12,24]],
    pick:'Touche un mot sur la carte.',
    near:(w,c,list)=>`<b>${w}</b> ${c} : les plus proches voisins sont ${list}.`,
    riddles:[{calc:['Roi','Homme','Femme'],btn:'Énigme : Homme est à Femme ce que Roi est à … ?',dir:'masculin → féminin'},{calc:['Chat','Chien','Chiot'],btn:'Énigme : Chien est à Chiot ce que Chat est à … ?',dir:'animal → petit'}],
@@ -1993,7 +2018,12 @@ stations:[
  q:'Come impara un modello linguistico dai testi?',
  text:['Un modello linguistico impara un solo compito: prevedere il prossimo pezzo di parola. Legge enormi quantità di testo, ogni volta copre il pezzo successivo, indovina e confronta. Se sbaglia, i suoi miliardi di <b>pesi</b> vengono spostati di pochissimo nella direzione giusta.',
        'Da questo semplice esercizio nasce una quantità sorprendente di cose: grammatica, conoscenze, stile. Poi arriva una <b>rifinitura</b> con persone che valutano le risposte. Solo così il completatore di testi diventa un assistente disponibile.'],
- lab:{type:'train',probeLbl:'Inizio della frase:',
+ lab:{type:'train',land:{title:'Il paesaggio dell’errore',intro:'Così l’addestramento regola i pesi: immagina tutte le impostazioni possibili come un paesaggio in cui l’altezza è l’errore. L’addestramento fa rotolare la pallina in discesa passo dopo passo, sempre nella direzione più ripida. Trascina per ruotare.',
+     rateLbl:'Ampiezza del passo:',rates:['piccola','media','grande'],step:'Un passo',run:'Fai rotolare',reset:'Nuovo punto di partenza',
+     note:(e,k)=>`Errore ${e} dopo ${k} passi.`,
+     hints:{go:'Scegli un’ampiezza del passo e fai rotolare la pallina.',local:'La pallina è bloccata in una piccola conca, anche se altrove si scende di più. Succede anche nell’addestramento vero; allora aiutano altri punti di partenza o altre impostazioni.',jump:'Con un passo grande la pallina salta oltre la valle. Passi troppo grandi rendono l’addestramento instabile.',best:'La pallina ha raggiunto la valle più profonda: qui l’errore è minimo.'},
+     alt:'Paesaggio dell’errore ruotabile con una pallina che rotola'},
+   probeLbl:'Inizio della frase:',
    only:l=>`Viene contata solo la parola subito dopo «${l}». Nelle frasi già lette è evidenziata. Quello che viene dopo, come «limpido» in «blu e limpido», il modello lo impara per un altro inizio («… e»).`,
    title:'Prova: addestra un mini-modello',
    intro:'Il mini-modello conta solo quale parola segue due parole. Fagli leggere delle frasi e guarda come una distribuzione uniforme diventa un’aspettativa.',
@@ -2051,9 +2081,10 @@ stations:[
  text:['Ogni token viene tradotto in una lunga lista di numeri, un <b>embedding</b>. Puoi immaginarlo come un indirizzo su una mappa dei significati. Le parole che compaiono in contesti simili finiscono vicine.',
        'I modelli veri non usano due coordinate, ma migliaia per token. Così anche le direzioni hanno un significato, per esempio «da maschile a femminile» o «da paese a capitale».',
        '<b>A che cosa serve:</b> nessuno calcola «Re − Uomo + Donna» nella vita di tutti i giorni. L’esempio però mostra che un modello impara le relazioni tra le parole come direzioni, senza che nessuno gli dia un elenco. Per questo, per esempio, una ricerca su «macchina» trova anche risultati su «automobile» e un’IA applica uno schema come «paese → capitale» a casi nuovi.'],
- lab:{type:'map',title:'Prova: la mappa dei significati',
+ lab:{type:'map',view3d:'Vista 3D', hint3d:'Trascina con il dito o il mouse per ruotare la mappa, e tocca le parole. Basta già una terza direzione perché alcune parole siano più lontane di quanto sembrava di fronte. I modelli veri hanno migliaia di direzioni così.', alt3d:'Mappa delle parole tridimensionale, ruotabile',
+   title:'Prova: la mappa dei significati',
    intro:'Tocca una parola per vedere i suoi vicini più prossimi. I numeri tra parentesi sono le distanze. Oppure risolvi un indovinello come fa l’IA.',
-   words:[['Cane',14,92],['Cucciolo',14,78],['Gatto',44,92],['Gattino',44,78],['Cavallo',29,64],['Pizza',76,92],['Pasta',86,78],['Insalata',66,64],['Pane',88,64],['Riunione',76,49],['E-mail',76,35],['Agenda',76,21],['Rapporto',76,8],['Re',14,36],['Regina',42,36],['Uomo',14,12],['Donna',42,12]],
+   words:[['Cane',14,92,72],['Cucciolo',14,78,64],['Gatto',44,92,78],['Gattino',44,78,70],['Cavallo',29,64,60],['Pizza',76,92,20],['Pasta',86,78,26],['Insalata',66,64,14],['Pane',88,64,30],['Riunione',76,49,48],['E-mail',76,35,56],['Agenda',76,21,44],['Rapporto',76,8,52],['Re',14,36,34],['Regina',42,36,28],['Uomo',14,12,30],['Donna',42,12,24]],
    pick:'Tocca una parola sulla mappa.',
    near:(w,c,list)=>`<b>${w}</b> ${c}: i vicini più prossimi sono ${list}.`,
    riddles:[{calc:['Re','Uomo','Donna'],btn:'Indovinello: Uomo sta a Donna come Re sta a …?',dir:'maschile → femminile'},{calc:['Gatto','Cane','Cucciolo'],btn:'Indovinello: Cane sta a Cucciolo come Gatto sta a …?',dir:'animale → cucciolo'}],
@@ -2482,7 +2513,12 @@ stations:[
  q:'¿Cómo aprende un modelo de lenguaje a partir de textos?',
  text:['Un modelo de lenguaje aprende una sola tarea: predecir el siguiente trozo de palabra. Lee cantidades enormes de texto, tapa cada vez el trozo siguiente, adivina y compara. Si falla, sus miles de millones de <b>pesos</b> se mueven un poquito en la dirección correcta.',
        'De este ejercicio tan sencillo surge muchísimo: gramática, conocimientos, estilo. Después llega un <b>ajuste fino</b> con personas que valoran las respuestas. Solo así el completador de textos se convierte en un asistente servicial.'],
- lab:{type:'train',probeLbl:'Inicio de frase:',
+ lab:{type:'train',land:{title:'El paisaje del error',intro:'Así ajusta el entrenamiento los pesos: imagina todos los ajustes posibles como un paisaje cuya altura es el error. El entrenamiento hace rodar la bola cuesta abajo paso a paso, siempre en la dirección más empinada. Arrastra para girar.',
+     rateLbl:'Tamaño del paso:',rates:['pequeño','mediano','grande'],step:'Un paso',run:'Dejar rodar',reset:'Nuevo punto de partida',
+     note:(e,k)=>`Error ${e} tras ${k} pasos.`,
+     hints:{go:'Elige un tamaño de paso y deja rodar la bola.',local:'La bola se ha quedado atascada en un pequeño hoyo, aunque en otro sitio se baja más. Esto también pasa en el entrenamiento real; entonces ayudan otros puntos de partida u otros ajustes.',jump:'Con un paso grande, la bola salta por encima del valle. Los pasos demasiado grandes hacen el entrenamiento inestable.',best:'La bola ha llegado al valle más profundo: aquí el error es el menor.'},
+     alt:'Paisaje del error que se puede girar, con una bola que rueda'},
+   probeLbl:'Inicio de frase:',
    only:l=>`Solo se cuenta la palabra que va justo después de «${l}». En las frases ya leídas está marcada. Lo que viene después, como «despejado» en «azul y despejado», el modelo lo aprende para otro inicio («… y»).`,
    title:'Pruébalo: entrena un minimodelo',
    intro:'El minimodelo solo cuenta qué palabra sigue a dos palabras. Hazle leer frases y observa cómo una distribución igualada se convierte en una expectativa.',
@@ -2540,9 +2576,10 @@ stations:[
  text:['Cada token se traduce en una larga lista de números, un <b>embedding</b>. Puedes imaginarlo como una dirección en un mapa de significados. Las palabras que aparecen en contextos parecidos acaban cerca unas de otras.',
        'Los modelos reales no usan dos coordenadas, sino miles por token. Así, hasta las direcciones tienen significado, por ejemplo «de masculino a femenino» o «de país a capital».',
        '<b>Para qué sirve:</b> nadie calcula «Rey − Hombre + Mujer» en el día a día. Pero el ejemplo muestra que un modelo aprende las relaciones entre palabras como direcciones, sin que nadie le dé una lista. Por eso, por ejemplo, una búsqueda de «coche» también encuentra resultados sobre «automóvil» y una IA aplica un patrón como «país → capital» a casos nuevos.'],
- lab:{type:'map',title:'Pruébalo: el mapa de significados',
+ lab:{type:'map',view3d:'Vista 3D', hint3d:'Arrastra con el dedo o el ratón para girar el mapa, y toca las palabras. Basta una tercera dirección para que algunas palabras estén más lejos de lo que parecía de frente. Los modelos reales tienen miles de direcciones así.', alt3d:'Mapa de palabras tridimensional que se puede girar',
+   title:'Pruébalo: el mapa de significados',
    intro:'Toca una palabra para ver sus vecinas más cercanas. Los números entre paréntesis son las distancias. O resuelve un acertijo como lo hace la IA.',
-   words:[['Perro',14,92],['Cachorro',14,78],['Gato',44,92],['Gatito',44,78],['Caballo',29,64],['Pizza',76,92],['Pasta',86,78],['Ensalada',66,64],['Pan',88,64],['Reunión',76,49],['Correo',76,35],['Agenda',76,21],['Informe',76,8],['Rey',14,36],['Reina',42,36],['Hombre',14,12],['Mujer',42,12]],
+   words:[['Perro',14,92,72],['Cachorro',14,78,64],['Gato',44,92,78],['Gatito',44,78,70],['Caballo',29,64,60],['Pizza',76,92,20],['Pasta',86,78,26],['Ensalada',66,64,14],['Pan',88,64,30],['Reunión',76,49,48],['Correo',76,35,56],['Agenda',76,21,44],['Informe',76,8,52],['Rey',14,36,34],['Reina',42,36,28],['Hombre',14,12,30],['Mujer',42,12,24]],
    pick:'Toca una palabra del mapa.',
    near:(w,c,list)=>`<b>${w}</b> ${c}: las vecinas más cercanas son ${list}.`,
    riddles:[{calc:['Rey','Hombre','Mujer'],btn:'Acertijo: Hombre es a Mujer lo que Rey es a …?',dir:'masculino → femenino'},{calc:['Gato','Perro','Cachorro'],btn:'Acertijo: Perro es a Cachorro lo que Gato es a …?',dir:'animal → cría'}],
@@ -2970,7 +3007,12 @@ stations:[
  q:'Hoe leert een taalmodel van tekst?',
  text:['Een taalmodel leert één enkele taak: het volgende woorddeel voorspellen. Het leest enorme hoeveelheden tekst, dekt telkens het volgende stuk af, raadt en vergelijkt. Zit het ernaast, dan worden zijn miljarden <b>gewichten</b> een heel klein beetje in de goede richting verschoven.',
        'Uit deze eenvoudige oefening ontstaat verrassend veel: grammatica, feitenkennis, stijl. Daarna volgt een <b>fijnafstemming</b> met mensen die antwoorden beoordelen. Pas daardoor wordt de tekstaanvuller een behulpzame assistent.'],
- lab:{type:'train',probeLbl:'Begin van de zin:',
+ lab:{type:'train',land:{title:'Het foutenlandschap',intro:'Zo stelt de training de gewichten bij: stel je alle mogelijke instellingen voor als een landschap waarin de hoogte de fout is. De training laat de bal stap voor stap bergaf rollen, steeds in de steilste richting. Sleep om te draaien.',
+     rateLbl:'Stapgrootte:',rates:['klein','middel','groot'],step:'Eén stap',run:'Laten rollen',reset:'Nieuw startpunt',
+     note:(e,k)=>`Fout ${e} na ${k} stappen.`,
+     hints:{go:'Kies een stapgrootte en laat de bal rollen.',local:'De bal zit vast in een kleine kuil, terwijl het elders dieper gaat. Dat gebeurt ook bij echte training; dan helpen andere startpunten of instellingen.',jump:'Bij een grote stap springt de bal over het dal heen. Te grote stappen maken de training onrustig.',best:'De bal heeft het diepste dal bereikt: hier is de fout het kleinst.'},
+     alt:'Draaibaar foutenlandschap met een rollende bal'},
+   probeLbl:'Begin van de zin:',
    only:l=>`Alleen het woord direct na „${l}” telt. In de gelezen zinnen is het gemarkeerd. Wat daarna komt, zoals „helder” in „blauw en helder”, leert het model voor een ander begin („… en”).`,
    title:'Probeer het: train een minimodel',
    intro:'Het minimodel telt alleen welk woord op twee woorden volgt. Laat het zinnen lezen en kijk hoe een gelijke verdeling een verwachting wordt.',
@@ -3028,9 +3070,10 @@ stations:[
  text:['Elk token wordt vertaald in een lange lijst getallen, een <b>embedding</b>. Je kunt het zien als een adres op een kaart van betekenissen. Woorden die in vergelijkbare samenhang voorkomen, komen dicht bij elkaar terecht.',
        'Echte modellen gebruiken niet twee maar duizenden coördinaten per token. Daardoor dragen zelfs richtingen betekenis, bijvoorbeeld „mannelijk naar vrouwelijk” of „land naar hoofdstad”.',
        '<b>Waar is dit goed voor?</b> Niemand rekent in het dagelijks leven „Koning − Man + Vrouw”. Het voorbeeld laat wel zien dat een model verbanden tussen woorden als richtingen leert, zonder dat iemand het een lijst geeft. Daardoor vindt een zoekopdracht naar „wagen” bijvoorbeeld ook resultaten over „auto”, en past een AI een patroon als „land → hoofdstad” toe op nieuwe gevallen.'],
- lab:{type:'map',title:'Probeer het: de betekeniskaart',
+ lab:{type:'map',view3d:'3D-weergave', hint3d:'Sleep met je vinger of de muis om de kaart te draaien, en tik op woorden. Een derde richting is al genoeg om sommige woorden verder uit elkaar te laten liggen dan het van voren leek. Echte modellen hebben duizenden van zulke richtingen.', alt3d:'Draaibare driedimensionale woordkaart',
+   title:'Probeer het: de betekeniskaart',
    intro:'Tik op een woord om zijn naaste buren te zien. De getallen tussen haakjes zijn de afstanden. Of los een raadsel op zoals de AI dat doet.',
-   words:[['Hond',14,92],['Puppy',14,78],['Kat',44,92],['Kitten',44,78],['Paard',29,64],['Pizza',76,92],['Pasta',86,78],['Salade',66,64],['Brood',88,64],['Overleg',76,49],['E-mail',76,35],['Agenda',76,21],['Verslag',76,8],['Koning',14,36],['Koningin',42,36],['Man',14,12],['Vrouw',42,12]],
+   words:[['Hond',14,92,72],['Puppy',14,78,64],['Kat',44,92,78],['Kitten',44,78,70],['Paard',29,64,60],['Pizza',76,92,20],['Pasta',86,78,26],['Salade',66,64,14],['Brood',88,64,30],['Overleg',76,49,48],['E-mail',76,35,56],['Agenda',76,21,44],['Verslag',76,8,52],['Koning',14,36,34],['Koningin',42,36,28],['Man',14,12,30],['Vrouw',42,12,24]],
    pick:'Tik op een woord op de kaart.',
    near:(w,c,list)=>`<b>${w}</b> ${c}: de naaste buren zijn ${list}.`,
    riddles:[{calc:['Koning','Man','Vrouw'],btn:'Raadsel: Man staat tot Vrouw als Koning tot …?',dir:'mannelijk → vrouwelijk'},{calc:['Kat','Hond','Puppy'],btn:'Raadsel: Hond staat tot Puppy als Kat tot …?',dir:'dier → jong dier'}],
@@ -3539,6 +3582,34 @@ LAB.diffusion={
       timer=setInterval(()=>{if(!cv.isConnected){stop();return}sl.value=+sl.value+1;paint();if(+sl.value>=N)stop()},90)};
     mkNoise();paint()}};
 
+/* Fehler-Landschaft: Gradientenabstieg als Kugel, die bergab rollt (zwei Täler: ein tiefes, eine kleine Mulde) */
+const lossAt=(u,v)=>.25*(u*u+v*v)+1-.9*Math.exp(-((u-.45)**2+(v-.35)**2)/.08)-.55*Math.exp(-((u+.5)**2+(v+.45)**2)/.06);
+const landHtml=(d,id)=>{const L=d.land;return `<div class="land"><h3>${L.title}</h3><p class="small">${L.intro}</p>
+  <canvas class="c3" id="${id}-lc" tabindex="0" role="img" aria-label="${esc(L.alt)}"></canvas>
+  ${seg(L.rateLbl,L.rates,'data-lr',0)}
+  <div class="row"><button class="btn primary go" id="${id}-lrun">${L.run}</button><button class="btn" id="${id}-lstep">${L.step}</button><button class="btn ghost undo" id="${id}-lnew">${L.reset}</button></div>
+  <p class="small mono" id="${id}-lnote"></p><p class="small" id="${id}-lhint" aria-live="polite" style="min-height:3em"></p></div>`};
+function landBind(d,id){const L=d.land,rates=[.02,.06,.25],starts=[[-.9,-.85],[.9,-.8],[-.85,.85],[.85,.9],[-.2,-.95],[.1,.95]];
+  let lr=rates[0],si=0,pos=starts[0].slice(),trail=[pos.slice()],k=0,rose=false,timer=null;
+  const H=(u,v)=>lossAt(u,v)*.75-.55;
+  const draw=(c,P)=>{const N=24,col=cssv('--teal');c.lineWidth=1;
+    for(let i=0;i<=N;i++)for(const dir of [0,1]){c.beginPath();for(let j=0;j<=N;j++){const u=-1+2*(dir?i:j)/N,v=-1+2*(dir?j:i)/N,[x,y]=P(u,H(u,v),v);j?c.lineTo(x,y):c.moveTo(x,y)}
+      c.strokeStyle=col;c.globalAlpha=.55;c.stroke()}
+    c.globalAlpha=1;c.strokeStyle=cssv('--coral');c.lineWidth=2.5;c.beginPath();trail.forEach(([u,v],j)=>{const [x,y]=P(u,H(u,v)+.03,v);j?c.lineTo(x,y):c.moveTo(x,y)});c.stroke();
+    const [bx,by,,f]=P(pos[0],H(pos[0],pos[1])+.05,pos[1]);c.fillStyle=cssv('--coral');c.strokeStyle=cssv('--edge');c.lineWidth=2;c.beginPath();c.arc(bx,by,9*f,0,7);c.fill();c.stroke();};
+  const v=make3d($(`#${id}-lc`),draw,.3,.56);
+  const info=()=>{const e=lossAt(...pos);$(`#${id}-lnote`).textContent=L.note(e.toFixed(2).replace('.',u.dec),k);
+    $(`#${id}-lhint`).textContent=!k?L.hints.go:rose?L.hints.jump:e<.25?L.hints.best:L.hints.local;v.redraw()};
+  const step=()=>{const [a,b]=pos,h=1e-3,gu=(lossAt(a+h,b)-lossAt(a-h,b))/(2*h),gv=(lossAt(a,b+h)-lossAt(a,b-h))/(2*h),before=lossAt(a,b);
+    pos=[Math.max(-1,Math.min(1,a-lr*gu)),Math.max(-1,Math.min(1,b-lr*gv))];if(lossAt(...pos)>before+1e-4)rose=true;trail.push(pos.slice());k++};
+  const stop=()=>{clearInterval(timer);timer=null};
+  $$(`#${id} [data-lr]`).forEach(b=>b.onclick=()=>{lr=rates[+b.dataset.lr];press(`#${id} [data-lr]`,x=>x===b)});
+  $(`#${id}-lstep`).onclick=()=>{stop();step();info()};
+  $(`#${id}-lrun`).onclick=()=>{stop();if(reduce){for(let i=0;i<40;i++)step();info();return}let n=0;
+    timer=setInterval(()=>{if(!$(`#${id}-lc`)){stop();return}step();info();if(++n>=40)stop()},90)};
+  $(`#${id}-lnew`).onclick=()=>{stop();si=(si+1)%starts.length;pos=starts[si].slice();trail=[pos.slice()];k=0;rose=false;info()};
+  info()}
+
 /* Training: ein Mini-Modell zählt, welches Wort nach zwei Wörtern folgt */
 LAB.train={
   html:(d,id)=>`<p class="small">${d.intro}</p>
@@ -3546,7 +3617,8 @@ LAB.train={
     <div class="bars" id="${id}-bars"></div><p class="small" id="${id}-note" aria-live="polite"></p>
     <p class="small only" id="${id}-only"></p>
     <div class="row"><button class="btn primary go" id="${id}-one">${d.one}</button><button class="btn" id="${id}-all">${d.all}</button><button class="btn ghost undo" id="${id}-reset">${d.reset}</button><span class="small mono" id="${id}-read"></span></div>
-    <div class="corpus" id="${id}-corpus">${d.corpus.map((c,i)=>`<span data-i="${i}">${esc(c)}</span>`).join('')}</div>`,
+    <div class="corpus" id="${id}-corpus">${d.corpus.map((c,i)=>`<span data-i="${i}">${esc(c)}</span>`).join('')}</div>
+    ${landHtml(d,id)}`,
   bind(d,id){let read=0,probe=0;
     const cands=pi=>{const ctx=d.probes[pi].ctx,last=ctx[ctx.length-1],m=new Map();
       d.corpus.forEach(c=>{const w=words(c);for(let k=1;k<w.length;k++)if(w[k-1]===last)m.set(w[k],(m.get(w[k])||0)+1)});
@@ -3573,7 +3645,7 @@ LAB.train={
     $(`#${id}-one`).onclick=()=>{read=Math.min(read+1,d.corpus.length);upd()};
     $(`#${id}-all`).onclick=()=>{read=d.corpus.length;upd()};
     $(`#${id}-reset`).onclick=()=>{read=0;upd()};
-    upd()}};
+    upd();landBind(d,id)}};
 
 /* Tokens: eigener Text und Sprachvergleich */
 LAB.tokens={
@@ -3616,20 +3688,41 @@ LAB.tokens={
     $(`#${id}-more`).onclick=()=>{const nx=nextOpen();if(nx<0)return;pi=nx;guess=null;show();$(`#${id}-cmp`).scrollIntoView({block:'start',behavior:reduce?'auto':'smooth'})};
     show()}};
 
-/* Wortkarte: Nachbarn, Koordinaten und Rätsel */
+/* Kleine 3D-Hilfe ohne Bibliothek: dreht mit Finger, Maus oder Pfeiltasten und projiziert Punkte perspektivisch */
+const cssv=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+function make3d(cv,draw,scale=.22,cy=.5){const st={yaw:-.55,pitch:.32,drag:null,w:1,h:1,dpr:1};
+  const size=()=>{const r=cv.getBoundingClientRect(),dpr=window.devicePixelRatio||1;st.w=Math.max(1,r.width);st.h=Math.max(1,r.height);st.dpr=dpr;cv.width=Math.round(st.w*dpr);cv.height=Math.round(st.h*dpr)};
+  const P=(x,y,z)=>{const a=st.yaw,b=st.pitch,x1=x*Math.cos(a)+z*Math.sin(a),z1=-x*Math.sin(a)+z*Math.cos(a),y2=y*Math.cos(b)-z1*Math.sin(b),z2=y*Math.sin(b)+z1*Math.cos(b),f=3.2/(3.2+z2),S=Math.min(st.w,st.h*1.25)*scale;
+    return [st.w/2+x1*f*S,st.h*cy-y2*f*S,z2,f]};
+  const redraw=()=>{if(!cv.isConnected)return;const c=cv.getContext('2d');c.setTransform(st.dpr,0,0,st.dpr,0,0);c.clearRect(0,0,st.w,st.h);draw(c,P,st)};
+  const turn=(dx,dy)=>{st.yaw+=dx;st.pitch=Math.max(-1.25,Math.min(1.25,st.pitch+dy));redraw()};
+  cv.addEventListener('pointerdown',e=>{st.drag=[e.clientX,e.clientY,e.clientX,e.clientY];cv.setPointerCapture(e.pointerId)});
+  cv.addEventListener('pointermove',e=>{if(!st.drag)return;turn((e.clientX-st.drag[0])*.01,(e.clientY-st.drag[1])*.01);st.drag[0]=e.clientX;st.drag[1]=e.clientY});
+  cv.addEventListener('pointerup',e=>{const d=st.drag;st.drag=null;if(d&&st.tap&&Math.hypot(e.clientX-d[2],e.clientY-d[3])<6){const r=cv.getBoundingClientRect();st.tap(e.clientX-r.left,e.clientY-r.top)}});
+  cv.addEventListener('pointercancel',()=>{st.drag=null});
+  cv.addEventListener('keydown',e=>{const k={ArrowLeft:[-.15,0],ArrowRight:[.15,0],ArrowUp:[0,-.12],ArrowDown:[0,.12]}[e.key];if(k){e.preventDefault();turn(k[0],k[1])}});
+  const ro=new ResizeObserver(()=>{if(!cv.isConnected){ro.disconnect();return}size();redraw()});ro.observe(cv);
+  size();return {st,redraw,P}}
+const arrowHead=(c,x1,y1,x2,y2,col)=>{const a=Math.atan2(y2-y1,x2-x1),s=9;c.fillStyle=col;c.beginPath();c.moveTo(x2,y2);c.lineTo(x2-s*Math.cos(a-.4),y2-s*Math.sin(a-.4));c.lineTo(x2-s*Math.cos(a+.4),y2-s*Math.sin(a+.4));c.fill()};
+
+/* Wortkarte: Nachbarn, Koordinaten und Rätsel, wahlweise als drehbare 3D-Karte */
 LAB.map={
   html:(d,id)=>`<p class="small">${d.intro}</p>
     <div class="map" id="${id}-map"><svg class="arrows" id="${id}-svg" aria-hidden="true"></svg>${d.words.map(([w,x,y],i)=>`<button class="mw" data-i="${i}" style="left:${x}%;top:${100-y}%">${esc(w)}</button>`).join('')}<span class="mark" id="${id}-mark" hidden></span></div>
+    <div class="v3" id="${id}-v3" hidden><canvas class="c3" id="${id}-c3" tabindex="0" role="img" aria-label="${esc(d.alt3d)}"></canvas><p class="small">${d.hint3d}</p></div>
+    <div class="row">${tgl(`${id}-3d`,esc(d.view3d),false)}</div>
     <p id="${id}-out" aria-live="polite">${d.pick}</p>
     <div class="row" id="${id}-rid" role="group">${d.riddles.map((r,k)=>`<button class="btn teal" data-r="${k}" aria-pressed="false">${esc(r.btn)}</button>`).join('')}</div>
     <div class="row">${tgl(`${id}-steps`,esc(d.stepsBtn),false).replace('<button','<button hidden')}</div>
     <ol class="calcsteps" id="${id}-list" hidden></ol>`,
-  bind(d,id){const W=d.words,dist=(a,b)=>Math.hypot(a[0]-b[0],a[1]-b[1]),fmt=n=>Math.round(n);let last=null,guide=null;
+  bind(d,id){const W=d.words,fmt=n=>Math.round(n);let last=null,guide=null,three=false,st={sel:-1,near:[],res:-1,calc:[],p3:null};
+    /* Abstände: in 2D über x und y, in der 3D-Ansicht zusätzlich über z */
+    const pt=w=>three?[w[1],w[2],w[3]]:[w[1],w[2]],dist=(a,b)=>Math.hypot(...a.map((v,i)=>v-b[i]));
     const svg=$(`#${id}-svg`),mapEl=$(`#${id}-map`);
-    const clear=()=>{$$(`#${id}-map .mw`).forEach(b=>b.classList.remove('sel','near','res'));$(`#${id}-mark`).hidden=true;last=null;guide=null;paint();
+    const clear=()=>{$$(`#${id}-map .mw`).forEach(b=>b.classList.remove('sel','near','res'));$(`#${id}-mark`).hidden=true;last=null;guide=null;st={sel:-1,near:[],res:-1,calc:[],p3:null};paint();
       $(`#${id}-steps`).hidden=true;$(`#${id}-list`).hidden=true;$(`#${id}-steps`).setAttribute('aria-pressed','false');press(`#${id}-rid .btn`,()=>false)};
-    /* Zeichnen in Bildschirm-Pixeln: Pfeile der Rätsel und Hilfslinien zu den Achsen (wie in „Turi erklärt KI“) */
-    const paint=()=>{if(!mapEl.isConnected)return;const r=mapEl.getBoundingClientRect(),X=x=>x/100*r.width,Y=y=>(100-y)/100*r.height;
+    /* 2D: Pfeile der Rätsel und Hilfslinien zu den Achsen in Bildschirm-Pixeln */
+    const paint=()=>{if(three&&v3)v3.redraw();if(!mapEl.isConnected)return;const r=mapEl.getBoundingClientRect(),X=x=>x/100*r.width,Y=y=>(100-y)/100*r.height;
       svg.setAttribute('viewBox',`0 0 ${r.width} ${r.height}`);let s='';
       if(guide){const [gx,gy]=guide;
         s+=`<line class="guide" x1="0" y1="${Y(gy)}" x2="${X(gx)}" y2="${Y(gy)}"/><line class="guide" x1="${X(gx)}" y1="${r.height}" x2="${X(gx)}" y2="${Y(gy)}"/>`
@@ -3640,24 +3733,44 @@ LAB.map={
         s+=`<defs>${['dir','go'].map(m=>`<marker id="${id}-${m}" class="${m}" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z"/></marker>`).join('')}</defs>`
           +line(b[1],b[2],c[1],c[2],'dir')+line(a[1],a[2],p[0],p[1],'go')}
       svg.innerHTML=s};
-    /* Bei geänderter Größe neu zeichnen; nach einem Seitenwechsel beendet sich der Beobachter selbst */
     const ro=new ResizeObserver(()=>{if(!mapEl.isConnected){ro.disconnect();return}paint()});ro.observe(mapEl);
-    $$(`#${id}-map .mw`).forEach(b=>b.onclick=()=>{clear();const i=+b.dataset.i,p=[W[i][1],W[i][2]];b.classList.add('sel');guide=p;paint();
-      const nn=W.map((w,j)=>[j,dist(p,[w[1],w[2]])]).filter(([j])=>j!==i).sort((a,b)=>a[1]-b[1]).slice(0,3);
-      nn.forEach(([j])=>$(`#${id}-map .mw[data-i="${j}"]`).classList.add('near'));
-      $(`#${id}-out`).innerHTML=d.near(esc(W[i][0]),`(${W[i][1]}${u.coordSep}${W[i][2]})`,nn.map(([j,dd])=>`<b>${esc(W[j][0])}</b> (${fmt(dd)})`).join(', '))});
+    /* 3D: Würfel als Raum, Wörter als Schilder, nach Tiefe sortiert; Antippen wählt ein Wort */
+    let v3=null,hits=[];
+    const draw3=(c,P)=>{const Q=w=>P((w[1]-50)/50,(w[2]-50)/50,(w[3]-50)/50),ink=cssv('--ink'),edge=cssv('--edge');
+      c.strokeStyle=cssv('--ink-soft');c.globalAlpha=.35;c.lineWidth=1;c.setLineDash([3,4]);
+      const C=[-1,1];for(const a of C)for(const b of C){[[[-1,a,b],[1,a,b]],[[a,-1,b],[a,1,b]],[[a,b,-1],[a,b,1]]].forEach(([p,q])=>{const A=P(...p),B=P(...q);c.beginPath();c.moveTo(A[0],A[1]);c.lineTo(B[0],B[1]);c.stroke()})}
+      c.setLineDash([]);c.globalAlpha=1;
+      const line3=(p,q,col,dash)=>{const A=P(...p),B=P(...q);c.strokeStyle=col;c.lineWidth=3;c.setLineDash(dash?[7,5]:[]);c.beginPath();c.moveTo(A[0],A[1]);c.lineTo(B[0],B[1]);c.stroke();c.setLineDash([]);arrowHead(c,A[0],A[1],B[0],B[1],col)};
+      const n3=w=>[(w[1]-50)/50,(w[2]-50)/50,(w[3]-50)/50];
+      if(st.calc.length===3){const [a,b,cc]=st.calc.map(i=>W[i]);line3(n3(b),n3(cc),cssv('--blue'),true);line3(n3(a),[(st.p3[0]-50)/50,(st.p3[1]-50)/50,(st.p3[2]-50)/50],cssv('--coral'))}
+      const order=W.map((w,i)=>[i,Q(w)]).sort((x,y)=>y[1][2]-x[1][2]);hits=[];
+      for(const [i,[x,y,,f]] of order){const w=W[i],fs=Math.max(10,13*f),cls=i===st.sel?'sel':i===st.res?'res':st.near.includes(i)||st.calc.includes(i)?'near':'';
+        c.font=`600 ${fs}px Fredoka, system-ui, sans-serif`;const tw=c.measureText(w[0]).width+fs*1.1,th=fs*1.7;
+        c.fillStyle=cls==='sel'?cssv('--coral'):cls==='res'?cssv('--hi'):cls==='near'?cssv('--t1'):cssv('--card');
+        c.strokeStyle=edge;c.lineWidth=cls==='res'?3:1.5;c.beginPath();if(c.roundRect)c.roundRect(x-tw/2,y-th/2,tw,th,th/2);else c.rect(x-tw/2,y-th/2,tw,th);c.fill();c.stroke();
+        c.fillStyle=cls==='sel'?cssv('--on-color'):cls==='res'?cssv('--on-hi'):ink;c.textAlign='center';c.textBaseline='middle';c.fillText(w[0],x,y+1);
+        hits.push([i,x,y,tw/2+6,th/2+6])}};
+    const tap3=(x,y)=>{const h=hits.slice().reverse().find(([,hx,hy,rx,ry])=>Math.abs(x-hx)<=rx&&Math.abs(y-hy)<=ry);if(h)select(h[0])};
+    const select=i=>{clear();const p=pt(W[i]);st.sel=i;$(`#${id}-map .mw[data-i="${i}"]`).classList.add('sel');guide=[W[i][1],W[i][2]];
+      const nn=W.map((w,j)=>[j,dist(p,pt(w))]).filter(([j])=>j!==i).sort((a,b)=>a[1]-b[1]).slice(0,3);st.near=nn.map(([j])=>j);
+      nn.forEach(([j])=>$(`#${id}-map .mw[data-i="${j}"]`).classList.add('near'));paint();
+      $(`#${id}-out`).innerHTML=d.near(esc(W[i][0]),`(${(three?[W[i][1],W[i][2],W[i][3]]:[W[i][1],W[i][2]]).join(u.coordSep)})`,nn.map(([j,dd])=>`<b>${esc(W[j][0])}</b> (${fmt(dd)})`).join(', '))};
+    $$(`#${id}-map .mw`).forEach(b=>b.onclick=()=>select(+b.dataset.i));
     /* Rätsel „B verhält sich zu C wie A zu …?“: von A denselben Weg gehen wie von B nach C (A − B + C) */
     $$(`#${id}-rid .btn`).forEach(btn=>btn.onclick=()=>{clear();const r=d.riddles[+btn.dataset.r];press(`#${id}-rid .btn`,x=>x===btn);
       const g=n=>W.find(w=>w[0]===n),[a,b,c]=r.calc.map(g);
-      const p=[a[1]-b[1]+c[1],a[2]-b[2]+c[2]],best=W.filter(w=>!r.calc.includes(w[0])).sort((x,y)=>dist(p,[x[1],x[2]])-dist(p,[y[1],y[2]]))[0];
+      const p=[a[1]-b[1]+c[1],a[2]-b[2]+c[2]],p3=[...p,a[3]-b[3]+c[3]],tgt=three?p3:p;
+      const best=W.filter(w=>!r.calc.includes(w[0])).sort((x,y)=>dist(tgt,pt(x))-dist(tgt,pt(y)))[0];
       const m=$(`#${id}-mark`);m.style.left=p[0]+'%';m.style.top=(100-p[1])+'%';m.hidden=false;
       r.calc.forEach(n=>$(`#${id}-map .mw[data-i="${W.indexOf(g(n))}"]`).classList.add('near'));
       $(`#${id}-map .mw[data-i="${W.indexOf(best)}"]`).classList.add('res');
-      last=[a,b,c,p];guide=p;paint();
+      st.calc=r.calc.map(n=>W.indexOf(g(n)));st.res=W.indexOf(best);st.p3=p3;last=[a,b,c,p];guide=p;paint();
       $(`#${id}-list`).innerHTML=d.steps(a,b,c,best[0],c[1]-b[1],c[2]-b[2],r.dir).map(x=>`<li>${x}</li>`).join('');
       $(`#${id}-steps`).hidden=false;
       $(`#${id}-out`).innerHTML=d.calcOut(esc(a[0]),esc(b[0]),esc(c[0]),esc(best[0]),r.dir)});
-    $(`#${id}-steps`).onclick=e=>{const l=$(`#${id}-list`);l.hidden=!l.hidden;e.currentTarget.setAttribute('aria-pressed',String(!l.hidden))}}};
+    $(`#${id}-steps`).onclick=e=>{const l=$(`#${id}-list`);l.hidden=!l.hidden;e.currentTarget.setAttribute('aria-pressed',String(!l.hidden))};
+    $(`#${id}-3d`).onclick=e=>{three=!three;e.currentTarget.setAttribute('aria-pressed',String(three));mapEl.hidden=three;$(`#${id}-v3`).hidden=!three;
+      if(three&&!v3){v3=make3d($(`#${id}-c3`),draw3);v3.st.tap=tap3}clear();$(`#${id}-out`).innerHTML=d.pick;if(three)v3.redraw()}}};
 
 /* Aufmerksamkeit: worauf ein Wort schaut */
 LAB.attention={

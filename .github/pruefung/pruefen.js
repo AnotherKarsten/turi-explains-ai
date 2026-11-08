@@ -244,8 +244,10 @@ function pruefeHaubePakete() {
       if (s.lab.type === 'map') for (const r of s.lab.riddles || []) {
         const g = w => s.lab.words.find(x => x[0] === w), [A, B, C] = r.calc.map(g);
         if (!A || !B || !C) { errs.push(`${l}: Wortkarte: ${r.calc.filter(w => !g(w)).join(', ')} fehlt auf der Karte`); continue; }
-        const x = A[1] - B[1] + C[1], y = A[2] - B[2] + C[2];
+        const x = A[1] - B[1] + C[1], y = A[2] - B[2] + C[2], z = A[3] - B[3] + C[3];
         if (!s.lab.words.some(w => w[1] === x && w[2] === y && !r.calc.includes(w[0]))) errs.push(`${l}: Wortkarte: Rätsel ${r.calc.join(', ')} führt auf (${x} | ${y}), dort liegt kein Wort`);
+        // auch in der 3D-Ansicht (dritte Koordinate z) muss das Rätsel genau aufgehen
+        if (!s.lab.words.some(w => w[1] === x && w[2] === y && w[3] === z && !r.calc.includes(w[0]))) errs.push(`${l}: Wortkarte 3D: Rätsel ${r.calc.join(', ')} führt auf (${x} | ${y} | ${z}), dort liegt kein Wort`);
       }
       if (s.lab.type === 'attention') s.lab.variants.forEach((v, k) => { if (!(v.start in v.focus)) errs.push(`${l}: Aufmerksamkeit Variante ${k + 1}: Startwort ohne Gewichte`); });
     });
@@ -299,7 +301,8 @@ async function pruefeHaube(browser, lang, geraet, opt, melde) {
         .map(e => [e, e.getBoundingClientRect()]).filter(([, r]) => r.width > 0 && r.height < 44)
         .map(([e, r]) => `${e.tagName.toLowerCase()}${e.id ? '#' + e.id : ''}.${String(e.className).trim().split(/\s+/).join('.')} (${Math.round(r.height)} px)`));
       [...new Set(klein)].forEach(k => melde(wo2, 'Tippfläche niedriger als 44 px: ' + k));
-      // Wörter auf der Wortkarte dürfen sich nicht überlappen und nicht über den Rand ragen
+      // Wörter auf der Wortkarte dürfen sich nicht überlappen und nicht über den Rand ragen (dafür die 2D-Ansicht zeigen)
+      await p.evaluate(() => { const t = document.querySelector('.lab [id$="-3d"][aria-pressed="true"]'); if (t) t.click(); });
       const lap = await p.$$eval('.map .mw', bs => { if (!bs.length) return []; const M = bs[0].closest('.map').getBoundingClientRect(), r = bs.map(b => [b.textContent, b.getBoundingClientRect()]), o = [];
         r.forEach(([w, a], i) => { if (a.left < M.left || a.right > M.right) o.push('Rand ' + w); r.slice(i + 1).forEach(([v, c]) => { if (a.left < c.right - 2 && c.left < a.right - 2 && a.top < c.bottom - 2 && c.top < a.bottom - 2) o.push(w + '/' + v); }); }); return o; });
       lap.forEach(x => melde(wo2, 'Wortkarte überlappt: ' + x));
