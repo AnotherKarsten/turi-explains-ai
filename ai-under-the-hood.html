@@ -367,6 +367,40 @@ ol.samples li.empty{list-style:none;margin-left:-1.6em;color:var(--ink-soft)}
 /* Gut fragen: was die Bausteine geändert haben */
 .effects ul{margin:4px 0 0;padding-left:1.2em}
 .call p{margin:0}
+
+/* Was ist KI? Ineinanderliegende Kreise */
+.rings{display:grid;grid-template-columns:minmax(0,1fr);gap:10px}
+.ring{border:2px solid var(--edge);border-radius:22px;padding:10px 12px;display:flex;flex-direction:column;gap:8px;transition:box-shadow .2s,background .2s}
+.ring .rl{display:flex;flex-wrap:wrap;gap:2px 10px;align-items:baseline}
+.ring .rl b{font-family:var(--f-display);font-weight:600}
+.ring .rl span{font-size:.85rem;color:var(--ink-soft)}
+.ring .rc{display:flex;flex-wrap:wrap;gap:6px}
+.ring .rc:empty{display:none}
+.r-ki{background:var(--soft)}
+.r-ml{background:var(--card)}
+.r-dl{background:var(--soft)}
+.r-gen{background:var(--card);border-color:var(--teal);border-width:3px}
+.r-none{border-style:dashed;background:transparent}
+.ring.hl{box-shadow:0 0 0 4px var(--hi)}
+.chip{font-size:.85rem;border:1.5px solid var(--edge);border-radius:999px;padding:2px 10px;background:var(--t1);color:var(--tok-ink)}
+.chip.miss{background:var(--t2)}
+.sortq{border:2px solid var(--edge);border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:10px;background:var(--card)}
+.sitem{font-family:var(--f-display);font-weight:600;font-size:1.15rem;margin:0;min-height:2.6em}
+.fb.wait{visibility:hidden;min-height:3em}
+.timeline{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px;border-left:3px solid var(--teal);padding-left:14px}
+.timeline li{display:flex;gap:12px}
+.timeline b{font-family:var(--f-mono);min-width:3.2em}
+/* Der Weg deiner Frage */
+.flow{border:2px solid var(--edge);border-radius:16px;padding:14px 16px;background:var(--card);display:flex;flex-direction:column;gap:12px;margin:6px 0 14px}
+.flow-t{font-family:var(--f-display);font-weight:600;font-size:1.1rem;flex:1}
+.flow-steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,150px),1fr));gap:10px;counter-reset:f}
+.flow-steps a{display:flex;flex-direction:column;gap:4px;height:100%;min-height:44px;text-decoration:none;color:var(--ink);border:2px solid var(--track);border-radius:12px;padding:10px;background:var(--soft);transition:transform .3s,border-color .3s,background .3s}
+.flow-steps .fn{font-family:var(--f-mono);font-size:.8rem;color:var(--ink-soft)}
+.flow-steps .ex{font-family:var(--f-mono);font-size:.82rem;color:var(--ink-soft);overflow-wrap:anywhere}
+.flow-steps a.on{border-color:var(--coral);background:var(--card);transform:translateY(-4px) scale(1.03);box-shadow:0 6px 0 var(--edge)}
+.flow-steps a.done{border-color:var(--teal)}
+@media (hover:hover){.flow-steps a:hover{border-color:var(--edge)}}
+.flow-steps b{hyphens:auto;overflow-wrap:break-word}
 </style>
 <!-- Hinweis für Vorschaufenster ohne JavaScript (z. B. Mailprogramm, Dateien-App). Wird beim Programmstart entfernt. -->
 <div id="nojs">
@@ -419,10 +453,51 @@ ui:{
   credits:'© 2026 Karsten Leick · Inhalte: <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.de">CC BY-SA 4.0</a> · Programmcode: MIT · Schriften: Fredoka, Atkinson Hyperlegible, JetBrains Mono (SIL Open Font License 1.1) · Erstellt mit Unterstützung von KI (Claude). Diese Seite lädt nichts aus dem Internet und speichert nur deine Spracheinstellung in deinem Browser.'
 },
 parts:[
-  {id:'a',title:'So funktioniert ein Sprachmodell',intro:'Vom Training bis zur fertigen Antwort: acht Stationen, die zeigen, was zwischen deiner Frage und der Antwort passiert.'},
+  {id:'z',title:'Das große Bild',intro:'Bevor es um Chatbots geht: Was KI überhaupt ist, welche Arten es gibt und wo Sprachmodelle hineingehören.'},
+  {id:'a',title:'So funktioniert ein Sprachmodell',intro:'Vom Training bis zur fertigen Antwort: acht Stationen, die zeigen, was zwischen deiner Frage und der Antwort passiert.',flow:{title:'Der Weg deiner Frage durch das Modell',play:'Ablauf zeigen',q:'Wie heißt die Hauptstadt von Frankreich?',
+    note:'All das hat das Modell vorher im Training gelernt. Tippe einen Schritt an, um zur passenden Station zu springen.',
+    steps:[{id:'tokens',t:'Zerlegen',ex:'Wie · heißt · die · Haupt · stadt · …'},{id:'wortkarte',t:'In Zahlen übersetzen',ex:'[0,12 · −0,81 · 1,40 · …]'},{id:'aufmerksamkeit',t:'Bezüge herstellen',ex:'„Hauptstadt“ ↔ „Frankreich“'},{id:'erfunden',t:'Wahrscheinlichkeiten',ex:'Paris 97 % · Lyon 2 % · …'},{id:'zufall',t:'Würfeln',ex:'→ „Paris“'},{id:'kontext',t:'Anhängen, von vorn',ex:'… Frankreich? Paris → nächstes Stück'}]}},
   {id:'b',title:'Klug damit arbeiten',intro:'Gut fragen, Fallen erkennen, Daten schützen: fünf Stationen für den Alltag in Beruf und Privatleben.'}
 ],
 stations:[
+{id:'ki',part:'z',short:'Was ist KI?',
+ q:'Was ist KI überhaupt, und wo gehört ein Chatbot hin?',
+ text:['<b>Künstliche Intelligenz</b> ist ein Sammelbegriff, kein einzelnes Programm. Gemeint sind Computerverfahren für Aufgaben, für die man früher menschliches Denken brauchte: erkennen, entscheiden, planen, übersetzen, schreiben. Das Fachgebiet gibt es seit 1956.',
+       'Lange schrieben Menschen die Regeln selbst. Beim <b>maschinellen Lernen</b> findet der Computer die Regeln aus Beispielen. <b>Deep Learning</b> nutzt dafür neuronale Netze mit vielen Schichten, und <b>generative KI</b> erzeugt damit Neues: Texte, Bilder, Musik. Sprachmodelle wie ChatGPT oder Claude sind also nur ein Teil von KI, wenn auch gerade der bekannteste.',
+       'Alle heutigen Systeme sind Spezialisten für bestimmte Aufgaben: Ein Schachprogramm schreibt keine Mail, ein Sprachmodell steuert kein Auto. Eine allgemeine KI, die wie ein Mensch alles lernen und können soll, gibt es bisher nicht. Und auch wenn ein Chatbot so klingt: Kein heutiges System hat nachweislich ein Bewusstsein oder Gefühle.'],
+ lab:{type:'sort',title:'Ausprobieren: Was ist welche Art von KI?',
+   intro:'Sortiere zehn Beispiele aus dem Alltag in die Kreise ein. Jeder innere Kreis gehört auch zu allen äußeren.',
+   rings:{ki:'Künstliche Intelligenz',ml:'Maschinelles Lernen',dl:'Deep Learning',gen:'Generative KI',none:'Keine KI'},
+   notes:{ki:'Regeln und Suchverfahren, von Menschen ausgedacht',ml:'lernt aus Beispielen statt aus Regeln',dl:'neuronale Netze mit vielen Schichten',gen:'erzeugt Neues: Sprachmodelle, Bildgeneratoren',none:'feste Rechenwege, nichts wird gelernt'},
+   ask:'Wohin gehört das?', pos:(i,n)=>`Beispiel ${i} von ${n}`,
+   right:'Richtig.', wrong:n=>`Nicht ganz: Das gehört zu „${n}“.`,
+   next:'Nächstes Beispiel', again:'Noch einmal sortieren',
+   done:(ok,n)=>`Fertig: ${ok} von ${n} richtig einsortiert. Die Beispiele stehen jetzt in ihren Kreisen.`,
+   items:[{t:'Ein Taschenrechner rechnet 4.837 × 29.',a:'none',why:'Er folgt festen Rechenregeln und lernt nichts dazu. Praktische Technik, aber keine KI.'},
+     {t:'Der Schachcomputer Deep Blue schlägt 1997 den Weltmeister.',a:'ki',why:'Klassische KI: Er durchsuchte Millionen Züge und bewertete sie mit Regeln, die Menschen vorgegeben hatten. Gelernt hat er nicht.'},
+     {t:'Das Navi sucht die kürzeste Route.',a:'ki',why:'Die Routensuche ist ein klassisches Suchverfahren der KI mit festen Regeln. Für Stauprognosen nutzen manche Dienste zusätzlich maschinelles Lernen.'},
+     {t:'Der Spamfilter sortiert Werbemails aus.',a:'ml',why:'Er hat aus vielen Mails gelernt, die Menschen als Spam markiert haben. Niemand hat ihm jede Regel einzeln vorgeschrieben.'},
+     {t:'Ein Streamingdienst schlägt dir Filme vor.',a:'ml',why:'Empfehlungssysteme lernen aus dem, was du und Menschen mit ähnlichem Geschmack angesehen haben.'},
+     {t:'Das Handy entsperrt sich mit deinem Gesicht.',a:'dl',why:'Gesichtserkennung nutzt neuronale Netze mit vielen Schichten. Sie erkennt etwas, erzeugt aber nichts Neues.'},
+     {t:'Die Diktierfunktion schreibt mit, was du sagst.',a:'dl',why:'Spracherkennung ist Deep Learning: Ein neuronales Netz übersetzt Schallwellen in Text.'},
+     {t:'Ein Übersetzungsprogramm übersetzt eine Webseite.',a:['dl','gen'],why:'Moderne Übersetzer sind neuronale Netze, also Deep Learning. Viele nutzen inzwischen dieselbe Technik wie Sprachmodelle, deshalb passt auch „Generative KI“.'},
+     {t:'Ein Chatbot schreibt dir einen Brief.',a:'gen',why:'Ein Sprachmodell: generative KI, die Text Wortstück für Wortstück erzeugt. Darum geht es im Rest dieser Seite.'},
+     {t:'Ein Programm malt ein Bild nach deiner Beschreibung.',a:'gen',why:'Ein Bildgenerator ist ebenfalls generative KI, arbeitet aber anders als ein Sprachmodell. Mehr dazu in der Station „Bilder aus Rauschen“.'}],
+   timeTitle:'Kurze Geschichte der KI',
+   time:[['1956','Auf einer Konferenz in Dartmouth (USA) bekommt das Fachgebiet seinen Namen: „Künstliche Intelligenz“.'],
+     ['1966','ELIZA, ein Chatprogramm mit einfachen festen Regeln, verblüfft viele Menschen.'],
+     ['1997','Der Schachcomputer Deep Blue besiegt den Weltmeister Garri Kasparow.'],
+     ['2012','Neuronale Netze erkennen Bilder plötzlich viel besser als alle anderen Verfahren: der Durchbruch des Deep Learning.'],
+     ['2016','AlphaGo besiegt einen der weltbesten Spieler im Brettspiel Go.'],
+     ['2017','Die Transformer-Bauart wird vorgestellt, die Grundlage heutiger Sprachmodelle.'],
+     ['2022','ChatGPT erscheint und macht Sprachmodelle für alle zugänglich.']]},
+ hood:[['Künstliche Intelligenz (KI)','Oberbegriff für Computerverfahren, die Aufgaben lösen, für die man bisher menschliche Intelligenz brauchte. Dazu gehören auch Verfahren ohne Lernen, etwa Suchen und Regelsysteme.'],
+   ['Maschinelles Lernen','Das Programm lernt Muster aus Beispieldaten, statt jede Regel vorgeschrieben zu bekommen. Wie gut es wird, hängt stark von Menge und Qualität der Daten ab.'],
+   ['Neuronales Netz und Deep Learning','Ein Rechenmodell aus vielen einfachen, verknüpften Recheneinheiten in Schichten. „Deep“ heißt: viele Schichten hintereinander.'],
+   ['Generative KI','KI, die neue Inhalte erzeugt: Sprachmodelle für Text, Bildgeneratoren, Musik- und Videogeneratoren.'],
+   ['Allgemeine KI (AGI)','Die Idee einer KI, die wie ein Mensch beliebige Aufgaben lernen und lösen kann. Ob und wann es sie geben wird, ist umstritten.']],
+ everyday:['Wenn ein Produkt mit „KI“ wirbt, frag nach: Was genau lernt es, und woraus? Nicht alles, was „KI“ heißt, ist ein Sprachmodell, und manches ist gar keine KI.','Was du hier über Sprachmodelle lernst, gilt nicht für jede KI. Ein Spamfilter erfindet keine Antworten, kann aber trotzdem danebenliegen.']},
+
 {id:'training',part:'a',short:'Training',
  q:'Wie lernt ein Sprachmodell aus Text?',
  text:['Ein Sprachmodell lernt eine einzige Aufgabe: das nächste Wortstück vorherzusagen. Es liest riesige Mengen Text, deckt jeweils das nächste Stück ab, rät und vergleicht. Liegt es daneben, werden seine Milliarden <b>Gewichte</b> ein winziges Stück in die richtige Richtung verschoben.',
@@ -511,7 +586,7 @@ stations:[
  lab:{type:'attention',varLbl:'Satz:',
    barsTitle:w=>`Die stärksten Gewichte für „${w}“ (alle Gewichte zusammen ergeben 100 %)`,
    how:{title:w=>w?`So verarbeitet die KI „${w}“`:'So verarbeitet die KI das',none:'Tippe oben ein Wort an. Dann zeigt dieser Kasten Schritt für Schritt, wie die KI genau dieses Wort verarbeitet.',
-     items:(w,t,p)=>[`<b>Vergleichen:</b> Für „${w}“ vergleicht das Modell seine Zahlenliste (das Embedding aus Station 3) mit der jedes Worts davor. Passt ein Wort gut, bekommt es ein hohes Gewicht. Alle Gewichte zusammen ergeben 100 %.`,`<b>Mischen:</b> Dann mischt es die Bedeutungen dieser Wörter nach ihren Gewichten in „${w}“ hinein. Am stärksten zählt „${t}“: Danach steckt in „${w}“ gewissermaßen zu ${p} „${t}“.`,`<b>Warum das zählt:</b> Erst durch diese Mischung „weiß“ das Modell, wozu „${w}“ in diesem Satz gehört, und kann passend weiterschreiben oder Fragen dazu beantworten. Wähle die andere Variante: Ein einziges geändertes Wort verschiebt die Gewichte und damit die Bedeutung.`]},
+     items:(w,t,p)=>[`<b>Vergleichen:</b> Für „${w}“ vergleicht das Modell seine Zahlenliste (das Embedding aus der Station „Wortkarte“) mit der jedes Worts davor. Passt ein Wort gut, bekommt es ein hohes Gewicht. Alle Gewichte zusammen ergeben 100 %.`,`<b>Mischen:</b> Dann mischt es die Bedeutungen dieser Wörter nach ihren Gewichten in „${w}“ hinein. Am stärksten zählt „${t}“: Danach steckt in „${w}“ gewissermaßen zu ${p} „${t}“.`,`<b>Warum das zählt:</b> Erst durch diese Mischung „weiß“ das Modell, wozu „${w}“ in diesem Satz gehört, und kann passend weiterschreiben oder Fragen dazu beantworten. Wähle die andere Variante: Ein einziges geändertes Wort verschiebt die Gewichte und damit die Bedeutung.`]},
    title:'Ausprobieren: Worauf schaut ein Wort?',
    intro:'Tippe ein Wort an. Je kräftiger die Farbe der anderen Wörter, desto mehr Aufmerksamkeit bekommen sie. Das Modell schaut dabei nur nach links, auf das, was schon da ist.',
    pick:'Tippe ein Wort an.',
@@ -745,7 +820,7 @@ stations:[
        'Dazu kommt eine neue Gefahr: Texte, die der Agent unterwegs liest, können versteckte Anweisungen enthalten, die ihn umlenken sollen.'],
  lab:{type:'agent',title:'Ausprobieren: Wo braucht es deine Freigabe?',
    intro:'Ein Agent soll deine Dienstreise nach Hamburg vorbereiten. Entscheide für jeden Schritt: Darf er das allein, oder nur mit deiner Freigabe?',
-   how:{title:'So sorgst du dafür, dass die KI vorher fragt',items:['<b>In den Einstellungen:</b> Viele Assistenten mit Agenten- oder Aktionsmodus haben Schalter wie „Vor Aktionen fragen“, „Immer bestätigen“ oder Berechtigungen pro Werkzeug. Stell Kaufen, Senden und Löschen dort auf „Fragen“.','<b>Bei den Zugriffen:</b> Gib nur frei, was nötig ist: Kalender nur lesen, kein Zahlungsmittel hinterlegen, E-Mails nur als Entwurf.','<b>Im Prompt:</b> Schreib die Regel ausdrücklich dazu, zum Beispiel mit dieser Vorlage:'],prompt:'Bevor du etwas kaufst, bezahlst, sendest, veröffentlichst oder löschst: Halte an, zeig mir genau, was du tun willst, und warte auf mein ausdrückliches „Ja“. Lesen, suchen und Entwürfe schreiben darfst du ohne Rückfrage.',caveat:'<b>Eine Anweisung im Prompt ist keine Sperre.</b> Sie ist nur Text im Kontextfenster, den das Modell meistens befolgt, aber nicht garantiert. Bei langen Aufgaben kann sie aus dem Kontextfenster rutschen (siehe <a href="#kontext">Station 5: Kontextfenster</a>), sie kann übersehen werden, und versteckte Anweisungen in Webseiten oder Mails (Prompt-Injection) können sie aushebeln. Eine echte Sperre setzt nur das Programm: fehlende Zugriffe und Bestätigungs-Schalter. Nutze den Prompt deshalb zusätzlich, nie allein.'},
+   how:{title:'So sorgst du dafür, dass die KI vorher fragt',items:['<b>In den Einstellungen:</b> Viele Assistenten mit Agenten- oder Aktionsmodus haben Schalter wie „Vor Aktionen fragen“, „Immer bestätigen“ oder Berechtigungen pro Werkzeug. Stell Kaufen, Senden und Löschen dort auf „Fragen“.','<b>Bei den Zugriffen:</b> Gib nur frei, was nötig ist: Kalender nur lesen, kein Zahlungsmittel hinterlegen, E-Mails nur als Entwurf.','<b>Im Prompt:</b> Schreib die Regel ausdrücklich dazu, zum Beispiel mit dieser Vorlage:'],prompt:'Bevor du etwas kaufst, bezahlst, sendest, veröffentlichst oder löschst: Halte an, zeig mir genau, was du tun willst, und warte auf mein ausdrückliches „Ja“. Lesen, suchen und Entwürfe schreiben darfst du ohne Rückfrage.',caveat:'<b>Eine Anweisung im Prompt ist keine Sperre.</b> Sie ist nur Text im Kontextfenster, den das Modell meistens befolgt, aber nicht garantiert. Bei langen Aufgaben kann sie aus dem Kontextfenster rutschen (siehe <a href="#kontext">Station „Kontextfenster“</a>), sie kann übersehen werden, und versteckte Anweisungen in Webseiten oder Mails (Prompt-Injection) können sie aushebeln. Eine echte Sperre setzt nur das Programm: fehlende Zugriffe und Bestätigungs-Schalter. Nutze den Prompt deshalb zusätzlich, nie allein.'},
    keys:['ok','ask'],
    names:{ok:'Darf allein',ask:'Nur mit Freigabe'},
    btn:{ok:'Darf allein',ask:'Nur mit Freigabe'},
@@ -764,6 +839,7 @@ stations:[
  everyday:['Gib Agenten nur die Zugriffe, die sie wirklich brauchen.','Alles, was Geld kostet, Menschen erreicht oder sich nicht rückgängig machen lässt: nur mit deiner Freigabe.']}
 ],
 quiz:[
+ {q:'Wie hängen KI und Sprachmodelle zusammen?',opts:['Sprachmodelle sind ein Teil von KI, genauer von generativer KI','KI und Sprachmodelle sind dasselbe','Sprachmodelle sind keine KI, nur Statistik'],a:0,why:'KI ist der Oberbegriff. Sprachmodelle gehören zum maschinellen Lernen, genauer zu Deep Learning und generativer KI. Spamfilter, Navi oder Gesichtserkennung sind auch KI, aber keine Sprachmodelle.'},
  {q:'Was lernt ein Sprachmodell beim Vortraining eigentlich?',opts:['Fakten aus einer Datenbank abzurufen','Das nächste Wortstück vorherzusagen','Regeln, die Menschen aufgeschrieben haben'],a:1,why:'Alles andere, auch das Faktenwissen, entsteht als Nebenprodukt dieser einen Übung.'},
  {q:'Warum kostet derselbe Inhalt auf Deutsch oft mehr als auf Englisch?',opts:['Weil Deutsch mehr Tokens braucht','Weil deutsche Server teurer sind','Weil Umlaute extra kosten'],a:0,why:'Lange Zusammensetzungen und Endungen werden in mehr Stücke zerlegt, und abgerechnet wird pro Token.'},
  {q:'Ein Chat ist sehr lang geworden, und die KI weiß ein Detail vom Anfang nicht mehr. Warum?',opts:['Sie ist müde geworden','Das Detail ist aus dem Kontextfenster gefallen','Sie hat es absichtlich gelöscht'],a:1,why:'Was nicht mehr ins Fenster passt, sieht das Modell nicht. Neuer Chat mit Zusammenfassung hilft.'},
@@ -824,10 +900,51 @@ ui:{
   credits:'© 2026 Karsten Leick · Content: <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> · Code: MIT · Fonts: Fredoka, Atkinson Hyperlegible, JetBrains Mono (SIL Open Font License 1.1) · Created with the help of AI (Claude). This page loads nothing from the internet and only stores your language setting in your browser.'
 },
 parts:[
-  {id:'a',title:'How a language model works',intro:'From training to the finished answer: eight stations showing what happens between your question and the reply.'},
+  {id:'z',title:'The big picture',intro:'Before we get to chatbots: what AI actually is, which kinds there are and where language models fit in.'},
+  {id:'a',title:'How a language model works',intro:'From training to the finished answer: eight stations showing what happens between your question and the reply.',flow:{title:'The journey of your question through the model',play:'Show the steps',q:'What is the capital of France?',
+    note:'The model learned all of this beforehand in training. Tap a step to jump to the matching station.',
+    steps:[{id:'tokens',t:'Split up',ex:'What · is · the · capital · of · …'},{id:'wortkarte',t:'Turn into numbers',ex:'[0.12 · −0.81 · 1.40 · …]'},{id:'aufmerksamkeit',t:'Link words',ex:'“capital” ↔ “France”'},{id:'erfunden',t:'Probabilities',ex:'Paris 97 % · Lyon 2 % · …'},{id:'zufall',t:'Roll the dice',ex:'→ “Paris”'},{id:'kontext',t:'Append, repeat',ex:'… France? Paris → next piece'}]}},
   {id:'b',title:'Working with it wisely',intro:'Asking well, spotting traps, protecting data: five stations for everyday life at work and at home.'}
 ],
 stations:[
+{id:'ki',part:'z',short:'What is AI?',
+ q:'What is AI anyway, and where does a chatbot fit in?',
+ text:['<b>Artificial intelligence</b> is an umbrella term, not a single program. It means computer methods for tasks that used to need human thinking: recognising, deciding, planning, translating, writing. The field has existed since 1956.',
+       'For a long time, people wrote the rules themselves. In <b>machine learning</b>, the computer finds the rules from examples. <b>Deep learning</b> uses neural networks with many layers for this, and <b>generative AI</b> uses them to create new things: texts, images, music. So language models like ChatGPT or Claude are only one part of AI, even if they are the best known right now.',
+       'All of today’s systems are specialists for particular tasks: a chess program does not write emails, a language model does not drive a car. A general AI that can learn and do everything like a human does not exist so far. And even if a chatbot sounds like it: no system today has been shown to have consciousness or feelings.'],
+ lab:{type:'sort',title:'Try it: which kind of AI is it?',
+   intro:'Sort ten everyday examples into the circles. Every inner circle also belongs to all the outer ones.',
+   rings:{ki:'Artificial intelligence',ml:'Machine learning',dl:'Deep learning',gen:'Generative AI',none:'Not AI'},
+   notes:{ki:'rules and search methods, designed by people',ml:'learns from examples instead of rules',dl:'neural networks with many layers',gen:'creates new things: language models, image generators',none:'fixed calculations, nothing is learned'},
+   ask:'Where does this belong?', pos:(i,n)=>`Example ${i} of ${n}`,
+   right:'Correct.', wrong:n=>`Not quite: this belongs to “${n}”.`,
+   next:'Next example', again:'Sort again',
+   done:(ok,n)=>`Done: ${ok} of ${n} sorted correctly. The examples are now in their circles.`,
+   items:[{t:'A pocket calculator works out 4,837 × 29.',a:'none',why:'It follows fixed rules of arithmetic and learns nothing. Useful technology, but not AI.'},
+     {t:'The chess computer Deep Blue beats the world champion in 1997.',a:'ki',why:'Classic AI: it searched millions of moves and rated them with rules that people had given it. It did not learn.'},
+     {t:'The satnav finds the shortest route.',a:'ki',why:'Route finding is a classic AI search method with fixed rules. For traffic forecasts, some services also use machine learning.'},
+     {t:'The spam filter sorts out junk mail.',a:'ml',why:'It learned from many emails that people marked as spam. Nobody wrote every single rule for it.'},
+     {t:'A streaming service suggests films to you.',a:'ml',why:'Recommender systems learn from what you and people with similar taste have watched.'},
+     {t:'Your phone unlocks with your face.',a:'dl',why:'Face recognition uses neural networks with many layers. It recognises something but does not create anything new.'},
+     {t:'Dictation writes down what you say.',a:'dl',why:'Speech recognition is deep learning: a neural network turns sound waves into text.'},
+     {t:'A translation program translates a web page.',a:['dl','gen'],why:'Modern translators are neural networks, i.e. deep learning. Many now use the same technology as language models, so “generative AI” fits too.'},
+     {t:'A chatbot writes a letter for you.',a:'gen',why:'A language model: generative AI that produces text one piece at a time. That is what the rest of this page is about.'},
+     {t:'A program paints a picture from your description.',a:'gen',why:'An image generator is generative AI too, but it works differently from a language model. More in the station “Pictures from noise”.'}],
+   timeTitle:'A short history of AI',
+   time:[['1956','At a conference in Dartmouth (USA) the field gets its name: “artificial intelligence”.'],
+     ['1966','ELIZA, a chat program with simple fixed rules, amazes many people.'],
+     ['1997','The chess computer Deep Blue beats world champion Garry Kasparov.'],
+     ['2012','Neural networks suddenly recognise images far better than any other method: the breakthrough of deep learning.'],
+     ['2016','AlphaGo beats one of the world’s best players of the board game Go.'],
+     ['2017','The transformer architecture is introduced, the basis of today’s language models.'],
+     ['2022','ChatGPT is released and makes language models available to everyone.']]},
+ hood:[['Artificial intelligence (AI)','Umbrella term for computer methods that solve tasks which used to require human intelligence. It also includes methods without learning, such as search and rule systems.'],
+   ['Machine learning','The program learns patterns from example data instead of being given every rule. How good it gets depends heavily on the amount and quality of the data.'],
+   ['Neural network and deep learning','A computing model made of many simple, connected units arranged in layers. “Deep” means many layers in a row.'],
+   ['Generative AI','AI that creates new content: language models for text, image generators, music and video generators.'],
+   ['General AI (AGI)','The idea of an AI that can learn and solve any task like a human. Whether and when it will exist is disputed.']],
+ everyday:['When a product advertises “AI”, ask: what exactly does it learn, and from what? Not everything called “AI” is a language model, and some of it is not AI at all.','What you learn here about language models does not apply to every AI. A spam filter does not make up answers, but it can still be wrong.']},
+
 {id:'training',part:'a',short:'Training',
  q:'How does a language model learn from text?',
  text:['A language model learns one single task: predicting the next piece of a word. It reads huge amounts of text, covers up the next piece each time, guesses and compares. When it is wrong, its billions of <b>weights</b> are nudged a tiny bit in the right direction.',
@@ -915,7 +1032,7 @@ stations:[
  lab:{type:'attention',varLbl:'Sentence:',
    barsTitle:w=>`The strongest weights for “${w}” (all weights together add up to 100 %)`,
    how:{title:w=>w?`How the AI processes “${w}”`:'How the AI processes this',none:'Tap a word above. This box then shows step by step how the AI processes exactly that word.',
-     items:(w,t,p)=>[`<b>Compare:</b> For “${w}” the model compares its list of numbers (the embedding from station 3) with that of every word before it. A word that fits well gets a high weight. All weights together add up to 100 %.`,`<b>Mix:</b> It then mixes the meanings of those words into “${w}” according to their weights. “${t}” counts most: afterwards “${w}” is, so to speak, ${p} “${t}”.`,`<b>Why it matters:</b> Only through this mix does the model “know” what “${w}” belongs to in this sentence, so it can continue sensibly or answer questions about it. Pick the other version: a single changed word shifts the weights and with them the meaning.`]},
+     items:(w,t,p)=>[`<b>Compare:</b> For “${w}” the model compares its list of numbers (the embedding from the “Word map” station) with that of every word before it. A word that fits well gets a high weight. All weights together add up to 100 %.`,`<b>Mix:</b> It then mixes the meanings of those words into “${w}” according to their weights. “${t}” counts most: afterwards “${w}” is, so to speak, ${p} “${t}”.`,`<b>Why it matters:</b> Only through this mix does the model “know” what “${w}” belongs to in this sentence, so it can continue sensibly or answer questions about it. Pick the other version: a single changed word shifts the weights and with them the meaning.`]},
    title:'Try it: what does a word look at?',
    intro:'Tap a word. The stronger the colour of the other words, the more attention they get. The model only looks to the left, at what is already there.',
    pick:'Tap a word.',
@@ -1148,7 +1265,7 @@ stations:[
        'There is also a new danger: texts the agent reads along the way may contain hidden instructions meant to redirect it.'],
  lab:{type:'agent',title:'Try it: where is your approval needed?',
    intro:'An agent is to prepare your business trip to Hamburg. Decide for each step: may it do this alone, or only with your approval?',
-   how:{title:'How to make sure the AI asks first',items:['<b>In the settings:</b> Many assistants with an agent or action mode have switches such as “ask before actions”, “always confirm” or permissions per tool. Set buying, sending and deleting to “ask”.','<b>With access rights:</b> Only grant what is needed: calendar read-only, no stored payment method, emails as drafts only.','<b>In the prompt:</b> State the rule explicitly, for example with this template:'],prompt:'Before you buy, pay, send, publish or delete anything: stop, show me exactly what you are about to do and wait for my explicit “yes”. You may read, search and write drafts without asking.',caveat:'<b>An instruction in the prompt is not a lock.</b> It is just text in the context window that the model usually follows, but not guaranteed. In long tasks it can slip out of the context window (see <a href="#kontext">station 5: context window</a>), it can be overlooked, and hidden instructions in web pages or emails (prompt injection) can override it. Only the software sets a real lock: missing permissions and confirmation switches. So use the prompt in addition, never on its own.'},
+   how:{title:'How to make sure the AI asks first',items:['<b>In the settings:</b> Many assistants with an agent or action mode have switches such as “ask before actions”, “always confirm” or permissions per tool. Set buying, sending and deleting to “ask”.','<b>With access rights:</b> Only grant what is needed: calendar read-only, no stored payment method, emails as drafts only.','<b>In the prompt:</b> State the rule explicitly, for example with this template:'],prompt:'Before you buy, pay, send, publish or delete anything: stop, show me exactly what you are about to do and wait for my explicit “yes”. You may read, search and write drafts without asking.',caveat:'<b>An instruction in the prompt is not a lock.</b> It is just text in the context window that the model usually follows, but not guaranteed. In long tasks it can slip out of the context window (see <a href="#kontext">the “Context window” station</a>), it can be overlooked, and hidden instructions in web pages or emails (prompt injection) can override it. Only the software sets a real lock: missing permissions and confirmation switches. So use the prompt in addition, never on its own.'},
    keys:['ok','ask'],
    names:{ok:'May act alone',ask:'Only with approval'},
    btn:{ok:'May act alone',ask:'Only with approval'},
@@ -1167,6 +1284,7 @@ stations:[
  everyday:['Give agents only the access they really need.','Anything that costs money, reaches other people or cannot be undone: only with your approval.']}
 ],
 quiz:[
+ {q:'How are AI and language models related?',opts:['Language models are part of AI, more precisely of generative AI','AI and language models are the same thing','Language models are not AI, just statistics'],a:0,why:'AI is the umbrella term. Language models belong to machine learning, more precisely to deep learning and generative AI. Spam filters, satnavs or face recognition are AI too, but not language models.'},
  {q:'What does a language model actually learn during pre-training?',opts:['To retrieve facts from a database','To predict the next piece of a word','Rules that people have written down'],a:1,why:'Everything else, including factual knowledge, emerges as a by-product of this one exercise.'},
  {q:'Why does the same content often cost more in German than in English?',opts:['Because German needs more tokens','Because German servers are more expensive','Because umlauts cost extra'],a:0,why:'Long compounds and endings are cut into more pieces, and billing is per token.'},
  {q:'A chat has become very long, and the AI no longer knows a detail from the beginning. Why?',opts:['It got tired','The detail dropped out of the context window','It deleted it on purpose'],a:1,why:'What no longer fits in the window, the model cannot see. A new chat with a summary helps.'},
@@ -1227,10 +1345,51 @@ ui:{
   credits:'© 2026 Karsten Leick · Contenus : <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.fr">CC BY-SA 4.0</a> · Code : MIT · Polices : Fredoka, Atkinson Hyperlegible, JetBrains Mono (SIL Open Font License 1.1) · Créé avec l’aide de l’IA (Claude). Cette page ne charge rien depuis Internet et n’enregistre que ta langue dans ton navigateur.'
 },
 parts:[
-  {id:'a',title:'Comment fonctionne un modèle de langage',intro:'De l’entraînement à la réponse finale : huit stations qui montrent ce qui se passe entre ta question et la réponse.'},
+  {id:'z',title:'Vue d’ensemble',intro:'Avant de parler des chatbots : ce qu’est vraiment l’IA, quels types il existe et où se situent les modèles de langage.'},
+  {id:'a',title:'Comment fonctionne un modèle de langage',intro:'De l’entraînement à la réponse finale : huit stations qui montrent ce qui se passe entre ta question et la réponse.',flow:{title:'Le parcours de ta question dans le modèle',play:'Montrer les étapes',q:'Quelle est la capitale de la France ?',
+    note:'Le modèle a appris tout cela auparavant, pendant l’entraînement. Touche une étape pour aller à l’étape correspondante.',
+    steps:[{id:'tokens',t:'Découper',ex:'Quelle · est · la · capit · ale · …'},{id:'wortkarte',t:'Traduire en nombres',ex:'[0,12 · −0,81 · 1,40 · …]'},{id:'aufmerksamkeit',t:'Relier les mots',ex:'« capitale » ↔ « France »'},{id:'erfunden',t:'Probabilités',ex:'Paris 97 % · Lyon 2 % · …'},{id:'zufall',t:'Tirer au sort',ex:'→ « Paris »'},{id:'kontext',t:'Ajouter, recommencer',ex:'… France ? Paris → morceau suivant'}]}},
   {id:'b',title:'Bien l’utiliser',intro:'Bien demander, repérer les pièges, protéger les données : cinq stations pour le quotidien, au travail comme à la maison.'}
 ],
 stations:[
+{id:'ki',part:'z',short:'C’est quoi l’IA ?',
+ q:'Qu’est-ce que l’IA, au fond, et où se situe un chatbot ?',
+ text:['L’<b>intelligence artificielle</b> est un terme générique, pas un programme unique. Il désigne des méthodes informatiques pour des tâches qui demandaient autrefois la réflexion humaine : reconnaître, décider, planifier, traduire, écrire. Le domaine existe depuis 1956.',
+       'Longtemps, les humains écrivaient eux-mêmes les règles. Avec l’<b>apprentissage automatique</b>, l’ordinateur trouve les règles à partir d’exemples. L’<b>apprentissage profond</b> utilise pour cela des réseaux de neurones à nombreuses couches, et l’<b>IA générative</b> s’en sert pour créer du nouveau : textes, images, musique. Les modèles de langage comme ChatGPT ou Claude ne sont donc qu’une partie de l’IA, même si c’est la plus connue en ce moment.',
+       'Tous les systèmes actuels sont des spécialistes de certaines tâches : un programme d’échecs n’écrit pas de mails, un modèle de langage ne conduit pas de voiture. Une IA générale, qui saurait tout apprendre et tout faire comme un humain, n’existe pas à ce jour. Et même si un chatbot en donne l’impression : aucun système actuel n’a démontré avoir une conscience ou des sentiments.'],
+ lab:{type:'sort',title:'À essayer : quel type d’IA est-ce ?',
+   intro:'Range dix exemples du quotidien dans les cercles. Chaque cercle intérieur appartient aussi à tous les cercles extérieurs.',
+   rings:{ki:'Intelligence artificielle',ml:'Apprentissage automatique',dl:'Apprentissage profond',gen:'IA générative',none:'Pas d’IA'},
+   notes:{ki:'règles et méthodes de recherche conçues par des humains',ml:'apprend à partir d’exemples au lieu de règles',dl:'réseaux de neurones à nombreuses couches',gen:'crée du nouveau : modèles de langage, générateurs d’images',none:'calculs fixes, rien n’est appris'},
+   ask:'Où cela va-t-il ?', pos:(i,n)=>`Exemple ${i} sur ${n}`,
+   right:'Juste.', wrong:n=>`Pas tout à fait : cela va dans « ${n} ».`,
+   next:'Exemple suivant', again:'Trier à nouveau',
+   done:(ok,n)=>`Terminé : ${ok} sur ${n} bien rangés. Les exemples sont maintenant dans leurs cercles.`,
+   items:[{t:'Une calculatrice calcule 4 837 × 29.',a:'none',why:'Elle suit des règles de calcul fixes et n’apprend rien. Une technique pratique, mais pas de l’IA.'},
+     {t:'L’ordinateur d’échecs Deep Blue bat le champion du monde en 1997.',a:'ki',why:'IA classique : il examinait des millions de coups et les évaluait avec des règles données par des humains. Il n’apprenait pas.'},
+     {t:'Le GPS cherche l’itinéraire le plus court.',a:'ki',why:'La recherche d’itinéraire est une méthode de recherche classique de l’IA, avec des règles fixes. Pour prévoir les bouchons, certains services utilisent en plus l’apprentissage automatique.'},
+     {t:'Le filtre antispam trie les courriers indésirables.',a:'ml',why:'Il a appris à partir de nombreux mails que des humains ont marqués comme spam. Personne ne lui a dicté chaque règle.'},
+     {t:'Un service de streaming te propose des films.',a:'ml',why:'Les systèmes de recommandation apprennent de ce que toi et des personnes aux goûts proches avez regardé.'},
+     {t:'Le téléphone se déverrouille avec ton visage.',a:'dl',why:'La reconnaissance faciale utilise des réseaux de neurones à nombreuses couches. Elle reconnaît, mais ne crée rien de nouveau.'},
+     {t:'La dictée vocale écrit ce que tu dis.',a:'dl',why:'La reconnaissance vocale, c’est de l’apprentissage profond : un réseau de neurones transforme les ondes sonores en texte.'},
+     {t:'Un logiciel de traduction traduit une page web.',a:['dl','gen'],why:'Les traducteurs modernes sont des réseaux de neurones, donc de l’apprentissage profond. Beaucoup utilisent désormais la même technique que les modèles de langage, « IA générative » convient donc aussi.'},
+     {t:'Un chatbot t’écrit une lettre.',a:'gen',why:'Un modèle de langage : une IA générative qui produit du texte morceau par morceau. C’est le sujet du reste de cette page.'},
+     {t:'Un programme peint une image d’après ta description.',a:'gen',why:'Un générateur d’images est aussi de l’IA générative, mais il fonctionne autrement qu’un modèle de langage. Plus de détails dans l’étape « Des images à partir de bruit ».'}],
+   timeTitle:'Petite histoire de l’IA',
+   time:[['1956','Lors d’une conférence à Dartmouth (États-Unis), le domaine reçoit son nom : « intelligence artificielle ».'],
+     ['1966','ELIZA, un programme de discussion aux règles simples et fixes, impressionne beaucoup de gens.'],
+     ['1997','L’ordinateur d’échecs Deep Blue bat le champion du monde Garry Kasparov.'],
+     ['2012','Les réseaux de neurones reconnaissent soudain les images bien mieux que toutes les autres méthodes : la percée de l’apprentissage profond.'],
+     ['2016','AlphaGo bat l’un des meilleurs joueurs du monde au jeu de go.'],
+     ['2017','L’architecture Transformer est présentée : c’est la base des modèles de langage actuels.'],
+     ['2022','ChatGPT sort et rend les modèles de langage accessibles à tous.']]},
+ hood:[['Intelligence artificielle (IA)','Terme générique pour des méthodes informatiques qui résolvent des tâches demandant jusqu’ici l’intelligence humaine. Il inclut aussi des méthodes sans apprentissage, comme la recherche et les systèmes de règles.'],
+   ['Apprentissage automatique','Le programme apprend des schémas à partir de données d’exemple au lieu de recevoir chaque règle. Sa qualité dépend fortement de la quantité et de la qualité des données.'],
+   ['Réseau de neurones et apprentissage profond','Un modèle de calcul fait de nombreuses unités simples et reliées, organisées en couches. « Profond » signifie : beaucoup de couches à la suite.'],
+   ['IA générative','IA qui crée de nouveaux contenus : modèles de langage pour le texte, générateurs d’images, de musique et de vidéos.'],
+   ['IA générale (AGI)','L’idée d’une IA capable d’apprendre et de résoudre n’importe quelle tâche comme un humain. Si et quand elle existera est controversé.']],
+ everyday:['Quand un produit vante son « IA », demande : qu’apprend-il exactement, et à partir de quoi ? Tout ce qui s’appelle « IA » n’est pas un modèle de langage, et certaines choses ne sont pas de l’IA du tout.','Ce que tu apprends ici sur les modèles de langage ne vaut pas pour toute IA. Un filtre antispam n’invente pas de réponses, mais il peut quand même se tromper.']},
+
 {id:'training',part:'a',short:'Entraînement',
  q:'Comment un modèle de langage apprend-il à partir de textes ?',
  text:['Un modèle de langage apprend une seule tâche : prédire le prochain morceau de mot. Il lit d’énormes quantités de texte, cache à chaque fois le morceau suivant, devine et compare. S’il se trompe, ses milliards de <b>poids</b> sont légèrement ajustés dans la bonne direction.',
@@ -1316,7 +1475,7 @@ stations:[
  lab:{type:'attention',varLbl:'Phrase :',
    barsTitle:w=>`Les poids les plus forts pour « ${w} » (tous les poids réunis font 100 %)`,
    how:{title:w=>w?`Comment l’IA traite « ${w} »`:'Comment l’IA traite cela',none:'Touche un mot ci-dessus. Ce cadre montre alors étape par étape comment l’IA traite précisément ce mot.',
-     items:(w,t,p)=>[`<b>Comparer :</b> pour « ${w} », le modèle compare sa liste de nombres (l’embedding de l’étape 3) avec celle de chaque mot précédent. Un mot qui correspond bien reçoit un poids élevé. Tous les poids réunis font 100 %.`,`<b>Mélanger :</b> il mélange ensuite le sens de ces mots dans « ${w} » selon leurs poids. « ${t} » compte le plus : ensuite, « ${w} » contient pour ainsi dire ${p} de « ${t} ».`,`<b>Pourquoi c’est important :</b> c’est seulement grâce à ce mélange que le modèle « sait » à quoi se rattache « ${w} » dans cette phrase, et peut continuer correctement ou répondre à des questions. Choisis l’autre version : un seul mot changé déplace les poids, et donc le sens.`]},
+     items:(w,t,p)=>[`<b>Comparer :</b> pour « ${w} », le modèle compare sa liste de nombres (l’embedding de l’étape « Carte des mots ») avec celle de chaque mot précédent. Un mot qui correspond bien reçoit un poids élevé. Tous les poids réunis font 100 %.`,`<b>Mélanger :</b> il mélange ensuite le sens de ces mots dans « ${w} » selon leurs poids. « ${t} » compte le plus : ensuite, « ${w} » contient pour ainsi dire ${p} de « ${t} ».`,`<b>Pourquoi c’est important :</b> c’est seulement grâce à ce mélange que le modèle « sait » à quoi se rattache « ${w} » dans cette phrase, et peut continuer correctement ou répondre à des questions. Choisis l’autre version : un seul mot changé déplace les poids, et donc le sens.`]},
    title:'À essayer : que regarde un mot ?',
    intro:'Touche un mot. Plus la couleur des autres mots est intense, plus ils reçoivent d’attention. Le modèle ne regarde que vers la gauche, ce qui est déjà là.',
    pick:'Touche un mot.',
@@ -1549,7 +1708,7 @@ stations:[
        'S’y ajoute un nouveau danger : les textes que l’agent lit en chemin peuvent contenir des instructions cachées destinées à le détourner.'],
  lab:{type:'agent',title:'À essayer : où ton accord est-il nécessaire ?',
    intro:'Un agent doit préparer ton déplacement professionnel à Hambourg. Décide pour chaque étape : peut-il le faire seul, ou seulement avec ton accord ?',
-   how:{title:'Comment t’assurer que l’IA demande d’abord',items:['<b>Dans les paramètres :</b> beaucoup d’assistants avec un mode agent ou action ont des options comme « demander avant d’agir », « toujours confirmer » ou des autorisations par outil. Règle l’achat, l’envoi et la suppression sur « demander ».','<b>Dans les accès :</b> n’accorde que le nécessaire : agenda en lecture seule, aucun moyen de paiement enregistré, e-mails seulement en brouillon.','<b>Dans le prompt :</b> écris la règle explicitement, par exemple avec ce modèle :'],prompt:'Avant d’acheter, de payer, d’envoyer, de publier ou de supprimer quoi que ce soit : arrête-toi, montre-moi exactement ce que tu veux faire et attends mon « oui » explicite. Tu peux lire, chercher et rédiger des brouillons sans demander.',caveat:'<b>Une consigne dans le prompt n’est pas un verrou.</b> Ce n’est que du texte dans la fenêtre de contexte, que le modèle suit généralement, sans garantie. Lors de longues tâches, elle peut sortir de la fenêtre de contexte (voir <a href="#kontext">étape 5 : fenêtre de contexte</a>), elle peut être ignorée, et des instructions cachées dans des pages web ou des mails (injection de prompt) peuvent la contourner. Seul le logiciel pose un vrai verrou : des accès absents et des boutons de confirmation. Utilise donc le prompt en plus, jamais seul.'},
+   how:{title:'Comment t’assurer que l’IA demande d’abord',items:['<b>Dans les paramètres :</b> beaucoup d’assistants avec un mode agent ou action ont des options comme « demander avant d’agir », « toujours confirmer » ou des autorisations par outil. Règle l’achat, l’envoi et la suppression sur « demander ».','<b>Dans les accès :</b> n’accorde que le nécessaire : agenda en lecture seule, aucun moyen de paiement enregistré, e-mails seulement en brouillon.','<b>Dans le prompt :</b> écris la règle explicitement, par exemple avec ce modèle :'],prompt:'Avant d’acheter, de payer, d’envoyer, de publier ou de supprimer quoi que ce soit : arrête-toi, montre-moi exactement ce que tu veux faire et attends mon « oui » explicite. Tu peux lire, chercher et rédiger des brouillons sans demander.',caveat:'<b>Une consigne dans le prompt n’est pas un verrou.</b> Ce n’est que du texte dans la fenêtre de contexte, que le modèle suit généralement, sans garantie. Lors de longues tâches, elle peut sortir de la fenêtre de contexte (voir <a href="#kontext">étape « Fenêtre de contexte »</a>), elle peut être ignorée, et des instructions cachées dans des pages web ou des mails (injection de prompt) peuvent la contourner. Seul le logiciel pose un vrai verrou : des accès absents et des boutons de confirmation. Utilise donc le prompt en plus, jamais seul.'},
    keys:['ok','ask'],
    names:{ok:'Peut agir seul',ask:'Seulement avec accord'},
    btn:{ok:'Peut agir seul',ask:'Seulement avec accord'},
@@ -1568,6 +1727,7 @@ stations:[
  everyday:['Ne donne aux agents que les accès dont ils ont vraiment besoin.','Tout ce qui coûte de l’argent, touche d’autres personnes ou ne peut pas être annulé : seulement avec ton accord.']}
 ],
 quiz:[
+ {q:'Quel est le lien entre l’IA et les modèles de langage ?',opts:['Les modèles de langage sont une partie de l’IA, plus précisément de l’IA générative','L’IA et les modèles de langage sont la même chose','Les modèles de langage ne sont pas de l’IA, seulement des statistiques'],a:0,why:'L’IA est le terme générique. Les modèles de langage relèvent de l’apprentissage automatique, plus précisément de l’apprentissage profond et de l’IA générative. Les filtres antispam, le GPS ou la reconnaissance faciale sont aussi de l’IA, mais pas des modèles de langage.'},
  {q:'Qu’apprend réellement un modèle de langage pendant le pré-entraînement ?',opts:['À retrouver des faits dans une base de données','À prédire le prochain morceau de mot','Des règles écrites par des humains'],a:1,why:'Tout le reste, y compris les connaissances, naît comme effet secondaire de ce seul exercice.'},
  {q:'Pourquoi le même contenu coûte-t-il souvent plus cher en français qu’en anglais ?',opts:['Parce que le français demande plus de jetons','Parce que les serveurs français sont plus chers','Parce que les accents coûtent un supplément'],a:0,why:'Les mots longs et les terminaisons sont découpés en plus de morceaux, et on paie au jeton.'},
  {q:'Une conversation est devenue très longue et l’IA ne connaît plus un détail du début. Pourquoi ?',opts:['Elle est fatiguée','Le détail est sorti de la fenêtre de contexte','Elle l’a effacé exprès'],a:1,why:'Ce qui ne tient plus dans la fenêtre, le modèle ne le voit pas. Une nouvelle conversation avec un résumé aide.'},
@@ -1628,10 +1788,51 @@ ui:{
   credits:'© 2026 Karsten Leick · Contenuti: <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.it">CC BY-SA 4.0</a> · Codice: MIT · Caratteri: Fredoka, Atkinson Hyperlegible, JetBrains Mono (SIL Open Font License 1.1) · Creato con l’aiuto dell’IA (Claude). Questa pagina non carica nulla da Internet e salva solo la tua lingua nel browser.'
 },
 parts:[
-  {id:'a',title:'Come funziona un modello linguistico',intro:'Dall’addestramento alla risposta finale: otto stazioni che mostrano che cosa succede tra la tua domanda e la risposta.'},
+  {id:'z',title:'Il quadro generale',intro:'Prima di parlare di chatbot: che cos’è davvero l’IA, quali tipi esistono e dove si collocano i modelli linguistici.'},
+  {id:'a',title:'Come funziona un modello linguistico',intro:'Dall’addestramento alla risposta finale: otto stazioni che mostrano che cosa succede tra la tua domanda e la risposta.',flow:{title:'Il percorso della tua domanda nel modello',play:'Mostra i passaggi',q:'Qual è la capitale della Francia?',
+    note:'Tutto questo il modello l’ha imparato prima, durante l’addestramento. Tocca un passaggio per andare alla tappa corrispondente.',
+    steps:[{id:'tokens',t:'Spezzettare',ex:'Qual · è · la · capit · ale · …'},{id:'wortkarte',t:'Tradurre in numeri',ex:'[0,12 · −0,81 · 1,40 · …]'},{id:'aufmerksamkeit',t:'Collegare parole',ex:'«capitale» ↔ «Francia»'},{id:'erfunden',t:'Probabilità',ex:'Parigi 97 % · Lione 2 % · …'},{id:'zufall',t:'Tirare il dado',ex:'→ «Parigi»'},{id:'kontext',t:'Aggiungere, ripetere',ex:'… Francia? Parigi → pezzo successivo'}]}},
   {id:'b',title:'Usarlo con intelligenza',intro:'Chiedere bene, riconoscere le trappole, proteggere i dati: cinque stazioni per la vita di tutti i giorni, al lavoro e a casa.'}
 ],
 stations:[
+{id:'ki',part:'z',short:'Che cos’è l’IA?',
+ q:'Che cos’è l’IA, in fondo, e dove si colloca un chatbot?',
+ text:['L’<b>intelligenza artificiale</b> è un termine generale, non un singolo programma. Indica metodi informatici per compiti che un tempo richiedevano il pensiero umano: riconoscere, decidere, pianificare, tradurre, scrivere. La disciplina esiste dal 1956.',
+       'A lungo le regole le hanno scritte le persone. Con l’<b>apprendimento automatico</b> il computer trova le regole a partire da esempi. Il <b>deep learning</b> usa a questo scopo reti neurali con molti strati, e l’<b>IA generativa</b> le usa per creare cose nuove: testi, immagini, musica. I modelli linguistici come ChatGPT o Claude sono quindi solo una parte dell’IA, anche se oggi la più nota.',
+       'Tutti i sistemi attuali sono specialisti di compiti precisi: un programma di scacchi non scrive e-mail, un modello linguistico non guida un’auto. Un’IA generale, capace di imparare e fare tutto come una persona, finora non esiste. E anche se un chatbot può sembrarlo: nessun sistema attuale ha dimostrato di avere coscienza o sentimenti.'],
+ lab:{type:'sort',title:'Prova: che tipo di IA è?',
+   intro:'Metti dieci esempi della vita quotidiana nei cerchi giusti. Ogni cerchio interno fa parte anche di tutti quelli esterni.',
+   rings:{ki:'Intelligenza artificiale',ml:'Apprendimento automatico',dl:'Deep learning',gen:'IA generativa',none:'Non è IA'},
+   notes:{ki:'regole e metodi di ricerca ideati da persone',ml:'impara da esempi invece che da regole',dl:'reti neurali con molti strati',gen:'crea cose nuove: modelli linguistici, generatori di immagini',none:'calcoli fissi, non impara nulla'},
+   ask:'Dove va?', pos:(i,n)=>`Esempio ${i} di ${n}`,
+   right:'Giusto.', wrong:n=>`Non proprio: va in «${n}».`,
+   next:'Esempio successivo', again:'Ordina di nuovo',
+   done:(ok,n)=>`Fatto: ${ok} su ${n} sistemati bene. Gli esempi ora sono nei loro cerchi.`,
+   items:[{t:'Una calcolatrice calcola 4.837 × 29.',a:'none',why:'Segue regole di calcolo fisse e non impara nulla. Tecnologia utile, ma non IA.'},
+     {t:'Il computer di scacchi Deep Blue batte il campione del mondo nel 1997.',a:'ki',why:'IA classica: esaminava milioni di mosse e le valutava con regole date dalle persone. Non imparava.'},
+     {t:'Il navigatore cerca il percorso più breve.',a:'ki',why:'La ricerca del percorso è un metodo di ricerca classico dell’IA, con regole fisse. Per prevedere il traffico alcuni servizi usano anche l’apprendimento automatico.'},
+     {t:'Il filtro antispam toglie la posta indesiderata.',a:'ml',why:'Ha imparato da tante e-mail che le persone hanno segnato come spam. Nessuno gli ha scritto ogni regola.'},
+     {t:'Un servizio di streaming ti consiglia dei film.',a:'ml',why:'I sistemi di raccomandazione imparano da ciò che hai guardato tu e chi ha gusti simili.'},
+     {t:'Il telefono si sblocca con il tuo volto.',a:'dl',why:'Il riconoscimento facciale usa reti neurali con molti strati. Riconosce qualcosa, ma non crea nulla di nuovo.'},
+     {t:'La dettatura vocale scrive ciò che dici.',a:'dl',why:'Il riconoscimento vocale è deep learning: una rete neurale trasforma le onde sonore in testo.'},
+     {t:'Un programma di traduzione traduce una pagina web.',a:['dl','gen'],why:'I traduttori moderni sono reti neurali, quindi deep learning. Molti ormai usano la stessa tecnica dei modelli linguistici, perciò va bene anche «IA generativa».'},
+     {t:'Un chatbot ti scrive una lettera.',a:'gen',why:'Un modello linguistico: IA generativa che produce testo un pezzo alla volta. È l’argomento del resto di questa pagina.'},
+     {t:'Un programma dipinge un’immagine dalla tua descrizione.',a:'gen',why:'Anche un generatore di immagini è IA generativa, ma funziona diversamente da un modello linguistico. Di più nella tappa «Immagini dal rumore».'}],
+   timeTitle:'Breve storia dell’IA',
+   time:[['1956','A una conferenza a Dartmouth (USA) la disciplina riceve il suo nome: «intelligenza artificiale».'],
+     ['1966','ELIZA, un programma di chat con regole semplici e fisse, stupisce molte persone.'],
+     ['1997','Il computer di scacchi Deep Blue batte il campione del mondo Garry Kasparov.'],
+     ['2012','Le reti neurali riconoscono di colpo le immagini molto meglio di tutti gli altri metodi: la svolta del deep learning.'],
+     ['2016','AlphaGo batte uno dei migliori giocatori del mondo a Go.'],
+     ['2017','Viene presentata l’architettura Transformer, la base dei modelli linguistici di oggi.'],
+     ['2022','Esce ChatGPT e rende i modelli linguistici accessibili a tutti.']]},
+ hood:[['Intelligenza artificiale (IA)','Termine generale per metodi informatici che risolvono compiti che finora richiedevano intelligenza umana. Comprende anche metodi senza apprendimento, come la ricerca e i sistemi a regole.'],
+   ['Apprendimento automatico','Il programma impara schemi da dati di esempio invece di ricevere ogni regola. Quanto diventa bravo dipende molto da quantità e qualità dei dati.'],
+   ['Rete neurale e deep learning','Un modello di calcolo fatto di tante unità semplici e collegate, disposte a strati. «Deep» significa: molti strati uno dopo l’altro.'],
+   ['IA generativa','IA che crea nuovi contenuti: modelli linguistici per il testo, generatori di immagini, musica e video.'],
+   ['IA generale (AGI)','L’idea di un’IA che sappia imparare e risolvere qualsiasi compito come una persona. Se e quando esisterà è controverso.']],
+ everyday:['Quando un prodotto si vanta della sua «IA», chiedi: che cosa impara esattamente, e da che cosa? Non tutto ciò che si chiama «IA» è un modello linguistico, e qualcosa non è proprio IA.','Ciò che impari qui sui modelli linguistici non vale per ogni IA. Un filtro antispam non inventa risposte, ma può comunque sbagliare.']},
+
 {id:'training',part:'a',short:'Addestramento',
  q:'Come impara un modello linguistico dai testi?',
  text:['Un modello linguistico impara un solo compito: prevedere il prossimo pezzo di parola. Legge enormi quantità di testo, ogni volta copre il pezzo successivo, indovina e confronta. Se sbaglia, i suoi miliardi di <b>pesi</b> vengono spostati di pochissimo nella direzione giusta.',
@@ -1717,7 +1918,7 @@ stations:[
  lab:{type:'attention',varLbl:'Frase:',
    barsTitle:w=>`I pesi più forti per «${w}» (tutti i pesi insieme fanno 100 %)`,
    how:{title:w=>w?`Come l’IA elabora «${w}»`:'Come lo elabora l’IA',none:'Tocca una parola qui sopra. Questo riquadro mostra poi passo dopo passo come l’IA elabora proprio quella parola.',
-     items:(w,t,p)=>[`<b>Confrontare:</b> per «${w}» il modello confronta la sua lista di numeri (l’embedding della tappa 3) con quella di ogni parola precedente. Una parola che si adatta bene riceve un peso alto. Tutti i pesi insieme fanno 100 %.`,`<b>Mescolare:</b> poi mescola i significati di quelle parole in «${w}» secondo i loro pesi. Conta di più «${t}»: dopo, «${w}» è per così dire al ${p} «${t}».`,`<b>Perché conta:</b> solo grazie a questa miscela il modello «sa» a che cosa si riferisce «${w}» in questa frase, e può continuare in modo sensato o rispondere a domande. Scegli l’altra versione: una sola parola cambiata sposta i pesi e quindi il significato.`]},
+     items:(w,t,p)=>[`<b>Confrontare:</b> per «${w}» il modello confronta la sua lista di numeri (l’embedding della tappa «Mappa delle parole») con quella di ogni parola precedente. Una parola che si adatta bene riceve un peso alto. Tutti i pesi insieme fanno 100 %.`,`<b>Mescolare:</b> poi mescola i significati di quelle parole in «${w}» secondo i loro pesi. Conta di più «${t}»: dopo, «${w}» è per così dire al ${p} «${t}».`,`<b>Perché conta:</b> solo grazie a questa miscela il modello «sa» a che cosa si riferisce «${w}» in questa frase, e può continuare in modo sensato o rispondere a domande. Scegli l’altra versione: una sola parola cambiata sposta i pesi e quindi il significato.`]},
    title:'Prova: che cosa guarda una parola?',
    intro:'Tocca una parola. Più intenso è il colore delle altre parole, più attenzione ricevono. Il modello guarda solo a sinistra, a ciò che c’è già.',
    pick:'Tocca una parola.',
@@ -1951,7 +2152,7 @@ stations:[
        'C’è poi un nuovo pericolo: i testi che l’agente legge strada facendo possono contenere istruzioni nascoste pensate per deviarlo.'],
  lab:{type:'agent',title:'Prova: dove serve la tua approvazione?',
    intro:'Un agente deve preparare la tua trasferta di lavoro ad Amburgo. Decidi per ogni passaggio: può farlo da solo o solo con la tua approvazione?',
-   how:{title:'Come assicurarti che l’IA chieda prima',items:['<b>Nelle impostazioni:</b> molti assistenti con modalità agente o azioni hanno opzioni come «chiedi prima di agire», «conferma sempre» o permessi per singolo strumento. Imposta su «chiedi» acquisti, invii e cancellazioni.','<b>Negli accessi:</b> concedi solo il necessario: agenda in sola lettura, nessun metodo di pagamento salvato, e-mail solo come bozza.','<b>Nel prompt:</b> scrivi la regola in modo esplicito, per esempio con questo modello:'],prompt:'Prima di comprare, pagare, inviare, pubblicare o cancellare qualcosa: fermati, mostrami esattamente che cosa vuoi fare e aspetta il mio «sì» esplicito. Leggere, cercare e scrivere bozze puoi farlo senza chiedere.',caveat:'<b>Un’istruzione nel prompt non è un blocco.</b> È solo testo nella finestra di contesto, che il modello di solito segue, ma senza garanzia. Nei compiti lunghi può uscire dalla finestra di contesto (vedi <a href="#kontext">tappa 5: finestra di contesto</a>), può essere ignorata, e istruzioni nascoste in pagine web o e-mail (prompt injection) possono aggirarla. Un vero blocco lo mette solo il programma: accessi mancanti e interruttori di conferma. Usa quindi il prompt in aggiunta, mai da solo.'},
+   how:{title:'Come assicurarti che l’IA chieda prima',items:['<b>Nelle impostazioni:</b> molti assistenti con modalità agente o azioni hanno opzioni come «chiedi prima di agire», «conferma sempre» o permessi per singolo strumento. Imposta su «chiedi» acquisti, invii e cancellazioni.','<b>Negli accessi:</b> concedi solo il necessario: agenda in sola lettura, nessun metodo di pagamento salvato, e-mail solo come bozza.','<b>Nel prompt:</b> scrivi la regola in modo esplicito, per esempio con questo modello:'],prompt:'Prima di comprare, pagare, inviare, pubblicare o cancellare qualcosa: fermati, mostrami esattamente che cosa vuoi fare e aspetta il mio «sì» esplicito. Leggere, cercare e scrivere bozze puoi farlo senza chiedere.',caveat:'<b>Un’istruzione nel prompt non è un blocco.</b> È solo testo nella finestra di contesto, che il modello di solito segue, ma senza garanzia. Nei compiti lunghi può uscire dalla finestra di contesto (vedi <a href="#kontext">tappa «Finestra di contesto»</a>), può essere ignorata, e istruzioni nascoste in pagine web o e-mail (prompt injection) possono aggirarla. Un vero blocco lo mette solo il programma: accessi mancanti e interruttori di conferma. Usa quindi il prompt in aggiunta, mai da solo.'},
    keys:['ok','ask'],
    names:{ok:'Può da solo',ask:'Solo con approvazione'},
    btn:{ok:'Può da solo',ask:'Solo con approvazione'},
@@ -1970,6 +2171,7 @@ stations:[
  everyday:['Dai agli agenti solo gli accessi di cui hanno davvero bisogno.','Tutto ciò che costa denaro, raggiunge altre persone o non si può annullare: solo con la tua approvazione.']}
 ],
 quiz:[
+ {q:'Che rapporto c’è tra IA e modelli linguistici?',opts:['I modelli linguistici sono una parte dell’IA, più precisamente dell’IA generativa','IA e modelli linguistici sono la stessa cosa','I modelli linguistici non sono IA, solo statistica'],a:0,why:'IA è il termine generale. I modelli linguistici rientrano nell’apprendimento automatico, più precisamente nel deep learning e nell’IA generativa. Anche filtri antispam, navigatori o riconoscimento facciale sono IA, ma non modelli linguistici.'},
  {q:'Che cosa impara davvero un modello linguistico nel pre-addestramento?',opts:['A recuperare fatti da un database','A prevedere il prossimo pezzo di parola','Regole scritte da persone'],a:1,why:'Tutto il resto, comprese le conoscenze, nasce come effetto collaterale di questo unico esercizio.'},
  {q:'Perché lo stesso contenuto costa spesso di più in italiano che in inglese?',opts:['Perché l’italiano richiede più token','Perché i server italiani costano di più','Perché gli accenti costano un extra'],a:0,why:'Parole lunghe e desinenze vengono tagliate in più pezzi, e si paga a token.'},
  {q:'Una chat è diventata molto lunga e l’IA non sa più un dettaglio dell’inizio. Perché?',opts:['È stanca','Il dettaglio è uscito dalla finestra di contesto','L’ha cancellato apposta'],a:1,why:'Ciò che non sta più nella finestra il modello non lo vede. Aiuta una nuova chat con un riassunto.'},
@@ -2030,10 +2232,51 @@ ui:{
   credits:'© 2026 Karsten Leick · Contenidos: <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.es">CC BY-SA 4.0</a> · Código: MIT · Tipografías: Fredoka, Atkinson Hyperlegible, JetBrains Mono (SIL Open Font License 1.1) · Creado con ayuda de IA (Claude). Esta página no carga nada de internet y solo guarda tu idioma en tu navegador.'
 },
 parts:[
-  {id:'a',title:'Cómo funciona un modelo de lenguaje',intro:'Del entrenamiento a la respuesta final: ocho estaciones que muestran qué pasa entre tu pregunta y la respuesta.'},
+  {id:'z',title:'El panorama general',intro:'Antes de hablar de chatbots: qué es realmente la IA, qué tipos hay y dónde encajan los modelos de lenguaje.'},
+  {id:'a',title:'Cómo funciona un modelo de lenguaje',intro:'Del entrenamiento a la respuesta final: ocho estaciones que muestran qué pasa entre tu pregunta y la respuesta.',flow:{title:'El camino de tu pregunta por el modelo',play:'Mostrar los pasos',q:'¿Cuál es la capital de Francia?',
+    note:'Todo esto lo aprendió el modelo antes, durante el entrenamiento. Toca un paso para ir a la estación correspondiente.',
+    steps:[{id:'tokens',t:'Trocear',ex:'¿ · Cuál · es · la · capit · al · …'},{id:'wortkarte',t:'Pasar a números',ex:'[0,12 · −0,81 · 1,40 · …]'},{id:'aufmerksamkeit',t:'Relacionar palabras',ex:'«capital» ↔ «Francia»'},{id:'erfunden',t:'Probabilidades',ex:'París 97 % · Lyon 2 % · …'},{id:'zufall',t:'Tirar el dado',ex:'→ «París»'},{id:'kontext',t:'Añadir, repetir',ex:'… Francia? París → siguiente trozo'}]}},
   {id:'b',title:'Usarlo con cabeza',intro:'Preguntar bien, detectar trampas, proteger datos: cinco estaciones para el día a día en el trabajo y en casa.'}
 ],
 stations:[
+{id:'ki',part:'z',short:'¿Qué es la IA?',
+ q:'¿Qué es la IA, en realidad, y dónde encaja un chatbot?',
+ text:['La <b>inteligencia artificial</b> es un término general, no un programa concreto. Se refiere a métodos informáticos para tareas que antes requerían pensamiento humano: reconocer, decidir, planificar, traducir, escribir. La disciplina existe desde 1956.',
+       'Durante mucho tiempo, las personas escribían las reglas. Con el <b>aprendizaje automático</b>, el ordenador encuentra las reglas a partir de ejemplos. El <b>aprendizaje profundo</b> usa para ello redes neuronales con muchas capas, y la <b>IA generativa</b> las usa para crear algo nuevo: textos, imágenes, música. Así que los modelos de lenguaje como ChatGPT o Claude son solo una parte de la IA, aunque ahora sea la más conocida.',
+       'Todos los sistemas actuales son especialistas en tareas concretas: un programa de ajedrez no escribe correos, un modelo de lenguaje no conduce coches. Una IA general, que pueda aprenderlo y hacerlo todo como una persona, no existe por ahora. Y aunque un chatbot lo parezca: ningún sistema actual ha demostrado tener conciencia ni sentimientos.'],
+ lab:{type:'sort',title:'Pruébalo: ¿qué tipo de IA es?',
+   intro:'Coloca diez ejemplos cotidianos en los círculos. Cada círculo interior pertenece también a todos los exteriores.',
+   rings:{ki:'Inteligencia artificial',ml:'Aprendizaje automático',dl:'Aprendizaje profundo',gen:'IA generativa',none:'No es IA'},
+   notes:{ki:'reglas y métodos de búsqueda ideados por personas',ml:'aprende de ejemplos en vez de reglas',dl:'redes neuronales con muchas capas',gen:'crea algo nuevo: modelos de lenguaje, generadores de imágenes',none:'cálculos fijos, no aprende nada'},
+   ask:'¿Dónde va?', pos:(i,n)=>`Ejemplo ${i} de ${n}`,
+   right:'Correcto.', wrong:n=>`No del todo: va en «${n}».`,
+   next:'Siguiente ejemplo', again:'Ordenar otra vez',
+   done:(ok,n)=>`Listo: ${ok} de ${n} bien colocados. Los ejemplos están ahora en sus círculos.`,
+   items:[{t:'Una calculadora calcula 4.837 × 29.',a:'none',why:'Sigue reglas de cálculo fijas y no aprende nada. Tecnología útil, pero no IA.'},
+     {t:'El ordenador de ajedrez Deep Blue gana al campeón del mundo en 1997.',a:'ki',why:'IA clásica: examinaba millones de jugadas y las valoraba con reglas que le habían dado personas. No aprendía.'},
+     {t:'El navegador busca la ruta más corta.',a:'ki',why:'Buscar rutas es un método de búsqueda clásico de la IA, con reglas fijas. Para prever atascos, algunos servicios usan además aprendizaje automático.'},
+     {t:'El filtro de spam aparta el correo basura.',a:'ml',why:'Aprendió de muchos correos que las personas marcaron como spam. Nadie le escribió cada regla.'},
+     {t:'Un servicio de streaming te recomienda películas.',a:'ml',why:'Los sistemas de recomendación aprenden de lo que has visto tú y gente con gustos parecidos.'},
+     {t:'El móvil se desbloquea con tu cara.',a:'dl',why:'El reconocimiento facial usa redes neuronales con muchas capas. Reconoce algo, pero no crea nada nuevo.'},
+     {t:'El dictado por voz escribe lo que dices.',a:'dl',why:'El reconocimiento de voz es aprendizaje profundo: una red neuronal convierte las ondas sonoras en texto.'},
+     {t:'Un traductor automático traduce una página web.',a:['dl','gen'],why:'Los traductores modernos son redes neuronales, es decir, aprendizaje profundo. Muchos usan ya la misma técnica que los modelos de lenguaje, así que «IA generativa» también vale.'},
+     {t:'Un chatbot te escribe una carta.',a:'gen',why:'Un modelo de lenguaje: IA generativa que produce texto trozo a trozo. De eso trata el resto de esta página.'},
+     {t:'Un programa pinta una imagen a partir de tu descripción.',a:'gen',why:'Un generador de imágenes también es IA generativa, pero funciona de otra manera que un modelo de lenguaje. Más en la estación «Imágenes a partir de ruido».'}],
+   timeTitle:'Breve historia de la IA',
+   time:[['1956','En una conferencia en Dartmouth (EE. UU.) la disciplina recibe su nombre: «inteligencia artificial».'],
+     ['1966','ELIZA, un programa de conversación con reglas sencillas y fijas, sorprende a mucha gente.'],
+     ['1997','El ordenador de ajedrez Deep Blue vence al campeón del mundo Gari Kaspárov.'],
+     ['2012','Las redes neuronales reconocen de pronto las imágenes mucho mejor que cualquier otro método: el gran avance del aprendizaje profundo.'],
+     ['2016','AlphaGo vence a uno de los mejores jugadores del mundo de go.'],
+     ['2017','Se presenta la arquitectura Transformer, la base de los modelos de lenguaje actuales.'],
+     ['2022','Sale ChatGPT y pone los modelos de lenguaje al alcance de todos.']]},
+ hood:[['Inteligencia artificial (IA)','Término general para métodos informáticos que resuelven tareas que hasta ahora requerían inteligencia humana. Incluye también métodos sin aprendizaje, como la búsqueda y los sistemas de reglas.'],
+   ['Aprendizaje automático','El programa aprende patrones a partir de datos de ejemplo en vez de recibir cada regla. Lo bueno que llegue a ser depende mucho de la cantidad y la calidad de los datos.'],
+   ['Red neuronal y aprendizaje profundo','Un modelo de cálculo formado por muchas unidades sencillas y conectadas, organizadas en capas. «Profundo» significa: muchas capas seguidas.'],
+   ['IA generativa','IA que crea contenidos nuevos: modelos de lenguaje para texto, generadores de imágenes, de música y de vídeo.'],
+   ['IA general (AGI)','La idea de una IA capaz de aprender y resolver cualquier tarea como una persona. Si llegará a existir, y cuándo, es objeto de debate.']],
+ everyday:['Cuando un producto presume de «IA», pregunta: ¿qué aprende exactamente y a partir de qué? No todo lo que se llama «IA» es un modelo de lenguaje, y algunas cosas ni siquiera son IA.','Lo que aprendes aquí sobre modelos de lenguaje no vale para cualquier IA. Un filtro de spam no se inventa respuestas, pero también puede equivocarse.']},
+
 {id:'training',part:'a',short:'Entrenamiento',
  q:'¿Cómo aprende un modelo de lenguaje a partir de textos?',
  text:['Un modelo de lenguaje aprende una sola tarea: predecir el siguiente trozo de palabra. Lee cantidades enormes de texto, tapa cada vez el trozo siguiente, adivina y compara. Si falla, sus miles de millones de <b>pesos</b> se mueven un poquito en la dirección correcta.',
@@ -2119,7 +2362,7 @@ stations:[
  lab:{type:'attention',varLbl:'Frase:',
    barsTitle:w=>`Los pesos más fuertes para «${w}» (todos los pesos juntos suman 100 %)`,
    how:{title:w=>w?`Cómo procesa la IA «${w}»`:'Cómo lo procesa la IA',none:'Toca una palabra de arriba. Este recuadro te mostrará paso a paso cómo procesa la IA justo esa palabra.',
-     items:(w,t,p)=>[`<b>Comparar:</b> para «${w}», el modelo compara su lista de números (el embedding de la estación 3) con la de cada palabra anterior. Una palabra que encaja bien recibe un peso alto. Todos los pesos juntos suman 100 %.`,`<b>Mezclar:</b> después mezcla en «${w}» los significados de esas palabras según sus pesos. La que más cuenta es «${t}»: luego «${w}» es, por así decirlo, un ${p} «${t}».`,`<b>Por qué importa:</b> solo con esta mezcla el modelo «sabe» a qué se refiere «${w}» en esta frase, y puede seguir escribiendo con sentido o responder preguntas. Elige la otra versión: una sola palabra cambiada desplaza los pesos y, con ellos, el significado.`]},
+     items:(w,t,p)=>[`<b>Comparar:</b> para «${w}», el modelo compara su lista de números (el embedding de la estación «Mapa de palabras») con la de cada palabra anterior. Una palabra que encaja bien recibe un peso alto. Todos los pesos juntos suman 100 %.`,`<b>Mezclar:</b> después mezcla en «${w}» los significados de esas palabras según sus pesos. La que más cuenta es «${t}»: luego «${w}» es, por así decirlo, un ${p} «${t}».`,`<b>Por qué importa:</b> solo con esta mezcla el modelo «sabe» a qué se refiere «${w}» en esta frase, y puede seguir escribiendo con sentido o responder preguntas. Elige la otra versión: una sola palabra cambiada desplaza los pesos y, con ellos, el significado.`]},
    title:'Pruébalo: ¿a qué mira una palabra?',
    intro:'Toca una palabra. Cuanto más intenso es el color de las demás palabras, más atención reciben. El modelo solo mira hacia la izquierda, a lo que ya está.',
    pick:'Toca una palabra.',
@@ -2352,7 +2595,7 @@ stations:[
        'Además hay un peligro nuevo: los textos que el agente lee por el camino pueden contener instrucciones ocultas pensadas para desviarlo.'],
  lab:{type:'agent',title:'Pruébalo: ¿dónde hace falta tu aprobación?',
    intro:'Un agente debe preparar tu viaje de trabajo a Hamburgo. Decide en cada paso: ¿puede hacerlo solo o solo con tu aprobación?',
-   how:{title:'Cómo asegurarte de que la IA pregunte antes',items:['<b>En los ajustes:</b> muchos asistentes con modo agente o de acciones tienen opciones como «preguntar antes de actuar», «confirmar siempre» o permisos por herramienta. Pon en «preguntar» las compras, los envíos y los borrados.','<b>En los accesos:</b> concede solo lo necesario: agenda solo de lectura, ningún medio de pago guardado, correos solo como borrador.','<b>En el prompt:</b> escribe la regla de forma explícita, por ejemplo con esta plantilla:'],prompt:'Antes de comprar, pagar, enviar, publicar o borrar nada: detente, muéstrame exactamente lo que vas a hacer y espera mi «sí» expreso. Puedes leer, buscar y escribir borradores sin preguntar.',caveat:'<b>Una instrucción en el prompt no es un bloqueo.</b> Es solo texto en la ventana de contexto, que el modelo suele seguir, pero sin garantía. En tareas largas puede salirse de la ventana de contexto (ver <a href="#kontext">estación 5: ventana de contexto</a>), puede pasarse por alto, y las instrucciones ocultas en webs o correos (inyección de prompt) pueden anularla. Un bloqueo de verdad solo lo pone el programa: accesos que no existen e interruptores de confirmación. Usa el prompt como complemento, nunca solo.'},
+   how:{title:'Cómo asegurarte de que la IA pregunte antes',items:['<b>En los ajustes:</b> muchos asistentes con modo agente o de acciones tienen opciones como «preguntar antes de actuar», «confirmar siempre» o permisos por herramienta. Pon en «preguntar» las compras, los envíos y los borrados.','<b>En los accesos:</b> concede solo lo necesario: agenda solo de lectura, ningún medio de pago guardado, correos solo como borrador.','<b>En el prompt:</b> escribe la regla de forma explícita, por ejemplo con esta plantilla:'],prompt:'Antes de comprar, pagar, enviar, publicar o borrar nada: detente, muéstrame exactamente lo que vas a hacer y espera mi «sí» expreso. Puedes leer, buscar y escribir borradores sin preguntar.',caveat:'<b>Una instrucción en el prompt no es un bloqueo.</b> Es solo texto en la ventana de contexto, que el modelo suele seguir, pero sin garantía. En tareas largas puede salirse de la ventana de contexto (ver <a href="#kontext">estación «Ventana de contexto»</a>), puede pasarse por alto, y las instrucciones ocultas en webs o correos (inyección de prompt) pueden anularla. Un bloqueo de verdad solo lo pone el programa: accesos que no existen e interruptores de confirmación. Usa el prompt como complemento, nunca solo.'},
    keys:['ok','ask'],
    names:{ok:'Puede solo',ask:'Solo con aprobación'},
    btn:{ok:'Puede solo',ask:'Solo con aprobación'},
@@ -2371,6 +2614,7 @@ stations:[
  everyday:['Da a los agentes solo los accesos que de verdad necesitan.','Todo lo que cuesta dinero, llega a otras personas o no se puede deshacer: solo con tu aprobación.']}
 ],
 quiz:[
+ {q:'¿Qué relación hay entre la IA y los modelos de lenguaje?',opts:['Los modelos de lenguaje son una parte de la IA, en concreto de la IA generativa','La IA y los modelos de lenguaje son lo mismo','Los modelos de lenguaje no son IA, solo estadística'],a:0,why:'IA es el término general. Los modelos de lenguaje pertenecen al aprendizaje automático, en concreto al aprendizaje profundo y a la IA generativa. Los filtros de spam, el navegador o el reconocimiento facial también son IA, pero no modelos de lenguaje.'},
  {q:'¿Qué aprende de verdad un modelo de lenguaje en el preentrenamiento?',opts:['A recuperar datos de una base de datos','A predecir el siguiente trozo de palabra','Reglas que han escrito personas'],a:1,why:'Todo lo demás, también los conocimientos, surge como efecto secundario de este único ejercicio.'},
  {q:'¿Por qué el mismo contenido suele costar más en español que en inglés?',opts:['Porque el español necesita más tokens','Porque los servidores españoles son más caros','Porque las tildes cuestan un extra'],a:0,why:'Las palabras largas y las terminaciones se cortan en más trozos, y se paga por token.'},
  {q:'Un chat se ha vuelto muy largo y la IA ya no sabe un detalle del principio. ¿Por qué?',opts:['Está cansada','El detalle ha salido de la ventana de contexto','Lo ha borrado a propósito'],a:1,why:'Lo que ya no cabe en la ventana, el modelo no lo ve. Ayuda un chat nuevo con un resumen.'},
@@ -2431,10 +2675,51 @@ ui:{
   credits:'© 2026 Karsten Leick · Inhoud: <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.nl">CC BY-SA 4.0</a> · Code: MIT · Lettertypen: Fredoka, Atkinson Hyperlegible, JetBrains Mono (SIL Open Font License 1.1) · Gemaakt met hulp van AI (Claude). Deze pagina laadt niets van internet en slaat alleen je taalinstelling op in je browser.'
 },
 parts:[
-  {id:'a',title:'Zo werkt een taalmodel',intro:'Van training tot het uiteindelijke antwoord: acht stations die laten zien wat er gebeurt tussen jouw vraag en het antwoord.'},
+  {id:'z',title:'Het grote geheel',intro:'Voordat het over chatbots gaat: wat AI eigenlijk is, welke soorten er zijn en waar taalmodellen bij horen.'},
+  {id:'a',title:'Zo werkt een taalmodel',intro:'Van training tot het uiteindelijke antwoord: acht stations die laten zien wat er gebeurt tussen jouw vraag en het antwoord.',flow:{title:'De weg van je vraag door het model',play:'Stappen tonen',q:'Wat is de hoofdstad van Frankrijk?',
+    note:'Dit alles heeft het model vooraf in de training geleerd. Tik op een stap om naar het bijbehorende station te gaan.',
+    steps:[{id:'tokens',t:'Opknippen',ex:'Wat · is · de · hoofd · stad · …'},{id:'wortkarte',t:'Omzetten in getallen',ex:'[0,12 · −0,81 · 1,40 · …]'},{id:'aufmerksamkeit',t:'Verbanden leggen',ex:'„hoofdstad” ↔ „Frankrijk”'},{id:'erfunden',t:'Kansen',ex:'Parijs 97 % · Lyon 2 % · …'},{id:'zufall',t:'Dobbelen',ex:'→ „Parijs”'},{id:'kontext',t:'Toevoegen, opnieuw',ex:'… Frankrijk? Parijs → volgend stukje'}]}},
   {id:'b',title:'Er slim mee werken',intro:'Goed vragen, valkuilen herkennen, gegevens beschermen: vijf stations voor het dagelijks leven, op het werk en thuis.'}
 ],
 stations:[
+{id:'ki',part:'z',short:'Wat is AI?',
+ q:'Wat is AI eigenlijk, en waar hoort een chatbot bij?',
+ text:['<b>Kunstmatige intelligentie</b> is een verzamelnaam, geen enkel programma. Het gaat om computermethoden voor taken waarvoor vroeger menselijk denken nodig was: herkennen, beslissen, plannen, vertalen, schrijven. Het vakgebied bestaat sinds 1956.',
+       'Lange tijd schreven mensen de regels zelf. Bij <b>machine learning</b> vindt de computer de regels in voorbeelden. <b>Deep learning</b> gebruikt daarvoor neurale netwerken met veel lagen, en <b>generatieve AI</b> maakt er iets nieuws mee: teksten, beelden, muziek. Taalmodellen zoals ChatGPT of Claude zijn dus maar een deel van AI, al is het nu wel het bekendste deel.',
+       'Alle huidige systemen zijn specialisten in bepaalde taken: een schaakprogramma schrijft geen mail, een taalmodel bestuurt geen auto. Een algemene AI die net als een mens alles kan leren en kunnen, bestaat tot nu toe niet. En ook al klinkt een chatbot zo: van geen enkel huidig systeem is aangetoond dat het bewustzijn of gevoelens heeft.'],
+ lab:{type:'sort',title:'Probeer het: welk soort AI is het?',
+   intro:'Sorteer tien voorbeelden uit het dagelijks leven in de cirkels. Elke binnenste cirkel hoort ook bij alle buitenste.',
+   rings:{ki:'Kunstmatige intelligentie',ml:'Machine learning',dl:'Deep learning',gen:'Generatieve AI',none:'Geen AI'},
+   notes:{ki:'regels en zoekmethoden, bedacht door mensen',ml:'leert van voorbeelden in plaats van regels',dl:'neurale netwerken met veel lagen',gen:'maakt iets nieuws: taalmodellen, beeldgeneratoren',none:'vaste berekeningen, er wordt niets geleerd'},
+   ask:'Waar hoort dit bij?', pos:(i,n)=>`Voorbeeld ${i} van ${n}`,
+   right:'Goed.', wrong:n=>`Niet helemaal: dit hoort bij „${n}”.`,
+   next:'Volgend voorbeeld', again:'Opnieuw sorteren',
+   done:(ok,n)=>`Klaar: ${ok} van de ${n} goed gesorteerd. De voorbeelden staan nu in hun cirkels.`,
+   items:[{t:'Een rekenmachine rekent 4.837 × 29 uit.',a:'none',why:'Hij volgt vaste rekenregels en leert niets. Handige techniek, maar geen AI.'},
+     {t:'Schaakcomputer Deep Blue verslaat in 1997 de wereldkampioen.',a:'ki',why:'Klassieke AI: hij doorzocht miljoenen zetten en beoordeelde ze met regels die mensen hadden opgegeven. Hij leerde niet.'},
+     {t:'De navigatie zoekt de kortste route.',a:'ki',why:'Routes zoeken is een klassieke zoekmethode uit de AI, met vaste regels. Voor filevoorspellingen gebruiken sommige diensten daarnaast machine learning.'},
+     {t:'Het spamfilter haalt reclamemail eruit.',a:'ml',why:'Het leerde van veel mails die mensen als spam hebben gemarkeerd. Niemand heeft het elke regel voorgeschreven.'},
+     {t:'Een streamingdienst raadt je films aan.',a:'ml',why:'Aanbevelingssystemen leren van wat jij en mensen met een vergelijkbare smaak hebben bekeken.'},
+     {t:'Je telefoon ontgrendelt met je gezicht.',a:'dl',why:'Gezichtsherkenning gebruikt neurale netwerken met veel lagen. Ze herkent iets, maar maakt niets nieuws.'},
+     {t:'De dicteerfunctie schrijft op wat je zegt.',a:'dl',why:'Spraakherkenning is deep learning: een neuraal netwerk zet geluidsgolven om in tekst.'},
+     {t:'Een vertaalprogramma vertaalt een webpagina.',a:['dl','gen'],why:'Moderne vertalers zijn neurale netwerken, dus deep learning. Veel gebruiken inmiddels dezelfde techniek als taalmodellen, daarom past „generatieve AI” ook.'},
+     {t:'Een chatbot schrijft een brief voor je.',a:'gen',why:'Een taalmodel: generatieve AI die tekst stukje voor stukje maakt. Daar gaat de rest van deze pagina over.'},
+     {t:'Een programma maakt een plaatje op basis van je beschrijving.',a:'gen',why:'Een beeldgenerator is ook generatieve AI, maar werkt anders dan een taalmodel. Meer daarover in het station „Beelden uit ruis”.'}],
+   timeTitle:'Korte geschiedenis van AI',
+   time:[['1956','Op een conferentie in Dartmouth (VS) krijgt het vakgebied zijn naam: „kunstmatige intelligentie”.'],
+     ['1966','ELIZA, een chatprogramma met eenvoudige vaste regels, verbaast veel mensen.'],
+     ['1997','Schaakcomputer Deep Blue verslaat wereldkampioen Garri Kasparov.'],
+     ['2012','Neurale netwerken herkennen plotseling beelden veel beter dan alle andere methoden: de doorbraak van deep learning.'],
+     ['2016','AlphaGo verslaat een van de beste go-spelers ter wereld.'],
+     ['2017','De transformer-architectuur wordt gepresenteerd, de basis van de huidige taalmodellen.'],
+     ['2022','ChatGPT verschijnt en maakt taalmodellen voor iedereen toegankelijk.']]},
+ hood:[['Kunstmatige intelligentie (AI)','Verzamelnaam voor computermethoden die taken oplossen waarvoor tot nu toe menselijke intelligentie nodig was. Daar horen ook methoden zonder leren bij, zoals zoeken en regelsystemen.'],
+   ['Machine learning','Het programma leert patronen uit voorbeelddata in plaats van elke regel voorgeschreven te krijgen. Hoe goed het wordt, hangt sterk af van de hoeveelheid en kwaliteit van de data.'],
+   ['Neuraal netwerk en deep learning','Een rekenmodel van veel eenvoudige, verbonden rekeneenheden in lagen. „Deep” betekent: veel lagen achter elkaar.'],
+   ['Generatieve AI','AI die nieuwe inhoud maakt: taalmodellen voor tekst, beeldgeneratoren, muziek- en videogeneratoren.'],
+   ['Algemene AI (AGI)','Het idee van een AI die net als een mens elke taak kan leren en oplossen. Of en wanneer die er komt, is omstreden.']],
+ everyday:['Prijst een product zijn „AI” aan, vraag dan: wat leert het precies, en waarvan? Niet alles wat „AI” heet is een taalmodel, en sommige dingen zijn helemaal geen AI.','Wat je hier over taalmodellen leert, geldt niet voor elke AI. Een spamfilter verzint geen antwoorden, maar kan zich toch vergissen.']},
+
 {id:'training',part:'a',short:'Training',
  q:'Hoe leert een taalmodel van tekst?',
  text:['Een taalmodel leert één enkele taak: het volgende woorddeel voorspellen. Het leest enorme hoeveelheden tekst, dekt telkens het volgende stuk af, raadt en vergelijkt. Zit het ernaast, dan worden zijn miljarden <b>gewichten</b> een heel klein beetje in de goede richting verschoven.',
@@ -2520,7 +2805,7 @@ stations:[
  lab:{type:'attention',varLbl:'Zin:',
    barsTitle:w=>`De sterkste gewichten voor „${w}” (alle gewichten samen zijn 100 %)`,
    how:{title:w=>w?`Zo verwerkt de AI „${w}”`:'Zo verwerkt de AI dit',none:'Tik hierboven op een woord. Dit kader laat dan stap voor stap zien hoe de AI precies dat woord verwerkt.',
-     items:(w,t,p)=>[`<b>Vergelijken:</b> voor „${w}” vergelijkt het model zijn lijst getallen (de embedding uit station 3) met die van elk woord ervoor. Een woord dat goed past, krijgt een hoog gewicht. Alle gewichten samen zijn 100 %.`,`<b>Mengen:</b> daarna mengt het de betekenissen van die woorden volgens hun gewichten in „${w}”. „${t}” telt het zwaarst: daarna is „${w}” als het ware voor ${p} „${t}”.`,`<b>Waarom dat telt:</b> pas door deze menging „weet” het model waar „${w}” in deze zin bij hoort, en kan het zinnig verder schrijven of vragen erover beantwoorden. Kies de andere versie: één veranderd woord verschuift de gewichten en daarmee de betekenis.`]},
+     items:(w,t,p)=>[`<b>Vergelijken:</b> voor „${w}” vergelijkt het model zijn lijst getallen (de embedding uit het station „Woordkaart”) met die van elk woord ervoor. Een woord dat goed past, krijgt een hoog gewicht. Alle gewichten samen zijn 100 %.`,`<b>Mengen:</b> daarna mengt het de betekenissen van die woorden volgens hun gewichten in „${w}”. „${t}” telt het zwaarst: daarna is „${w}” als het ware voor ${p} „${t}”.`,`<b>Waarom dat telt:</b> pas door deze menging „weet” het model waar „${w}” in deze zin bij hoort, en kan het zinnig verder schrijven of vragen erover beantwoorden. Kies de andere versie: één veranderd woord verschuift de gewichten en daarmee de betekenis.`]},
    title:'Probeer het: waar kijkt een woord naar?',
    intro:'Tik op een woord. Hoe sterker de kleur van de andere woorden, hoe meer aandacht ze krijgen. Het model kijkt alleen naar links, naar wat er al is.',
    pick:'Tik op een woord.',
@@ -2753,7 +3038,7 @@ stations:[
        'Daar komt een nieuw gevaar bij: teksten die de agent onderweg leest, kunnen verborgen opdrachten bevatten die hem moeten ompraten.'],
  lab:{type:'agent',title:'Probeer het: waar is jouw akkoord nodig?',
    intro:'Een agent moet je zakenreis naar Hamburg voorbereiden. Beslis bij elke stap: mag hij dat zelf, of alleen met jouw akkoord?',
-   how:{title:'Zo zorg je ervoor dat de AI eerst vraagt',items:['<b>In de instellingen:</b> veel assistenten met een agent- of actiemodus hebben schakelaars als „vragen voor acties”, „altijd bevestigen” of rechten per hulpmiddel. Zet kopen, versturen en verwijderen op „vragen”.','<b>Bij de toegang:</b> geef alleen wat nodig is: agenda alleen lezen, geen betaalmiddel opgeslagen, e-mail alleen als concept.','<b>In de prompt:</b> schrijf de regel er uitdrukkelijk bij, bijvoorbeeld met dit sjabloon:'],prompt:'Voordat je iets koopt, betaalt, verstuurt, publiceert of verwijdert: stop, laat me precies zien wat je wilt doen en wacht op mijn uitdrukkelijke „ja”. Lezen, zoeken en concepten schrijven mag zonder te vragen.',caveat:'<b>Een instructie in de prompt is geen slot.</b> Het is alleen tekst in het contextvenster, die het model meestal opvolgt, maar zonder garantie. Bij lange taken kan ze uit het contextvenster schuiven (zie <a href="#kontext">station 5: contextvenster</a>), ze kan over het hoofd worden gezien, en verborgen instructies in webpagina’s of mails (promptinjectie) kunnen haar omzeilen. Een echt slot zet alleen het programma: ontbrekende toegang en bevestigingsschakelaars. Gebruik de prompt dus als aanvulling, nooit alleen.'},
+   how:{title:'Zo zorg je ervoor dat de AI eerst vraagt',items:['<b>In de instellingen:</b> veel assistenten met een agent- of actiemodus hebben schakelaars als „vragen voor acties”, „altijd bevestigen” of rechten per hulpmiddel. Zet kopen, versturen en verwijderen op „vragen”.','<b>Bij de toegang:</b> geef alleen wat nodig is: agenda alleen lezen, geen betaalmiddel opgeslagen, e-mail alleen als concept.','<b>In de prompt:</b> schrijf de regel er uitdrukkelijk bij, bijvoorbeeld met dit sjabloon:'],prompt:'Voordat je iets koopt, betaalt, verstuurt, publiceert of verwijdert: stop, laat me precies zien wat je wilt doen en wacht op mijn uitdrukkelijke „ja”. Lezen, zoeken en concepten schrijven mag zonder te vragen.',caveat:'<b>Een instructie in de prompt is geen slot.</b> Het is alleen tekst in het contextvenster, die het model meestal opvolgt, maar zonder garantie. Bij lange taken kan ze uit het contextvenster schuiven (zie <a href="#kontext">het station „Contextvenster”</a>), ze kan over het hoofd worden gezien, en verborgen instructies in webpagina’s of mails (promptinjectie) kunnen haar omzeilen. Een echt slot zet alleen het programma: ontbrekende toegang en bevestigingsschakelaars. Gebruik de prompt dus als aanvulling, nooit alleen.'},
    keys:['ok','ask'],
    names:{ok:'Mag zelf',ask:'Alleen met akkoord'},
    btn:{ok:'Mag zelf',ask:'Alleen met akkoord'},
@@ -2772,6 +3057,7 @@ stations:[
  everyday:['Geef agenten alleen de toegang die ze echt nodig hebben.','Alles wat geld kost, andere mensen bereikt of niet terug te draaien is: alleen met jouw akkoord.']}
 ],
 quiz:[
+ {q:'Hoe hangen AI en taalmodellen samen?',opts:['Taalmodellen zijn een deel van AI, preciezer van generatieve AI','AI en taalmodellen zijn hetzelfde','Taalmodellen zijn geen AI, alleen statistiek'],a:0,why:'AI is de verzamelnaam. Taalmodellen horen bij machine learning, preciezer bij deep learning en generatieve AI. Spamfilters, navigatie of gezichtsherkenning zijn ook AI, maar geen taalmodellen.'},
  {q:'Wat leert een taalmodel eigenlijk tijdens de voortraining?',opts:['Feiten uit een database ophalen','Het volgende woorddeel voorspellen','Regels die mensen hebben opgeschreven'],a:1,why:'Al het andere, ook de feitenkennis, ontstaat als bijproduct van deze ene oefening.'},
  {q:'Waarom kost dezelfde inhoud in het Nederlands vaak meer dan in het Engels?',opts:['Omdat Nederlands meer tokens nodig heeft','Omdat Nederlandse servers duurder zijn','Omdat lange woorden een toeslag hebben'],a:0,why:'Lange samenstellingen en uitgangen worden in meer stukjes geknipt, en er wordt per token afgerekend.'},
  {q:'Een chat is heel lang geworden en de AI weet een detail van het begin niet meer. Waarom?',opts:['Ze is moe','Het detail is uit het contextvenster gevallen','Ze heeft het met opzet gewist'],a:1,why:'Wat niet meer in het venster past, ziet het model niet. Een nieuwe chat met een samenvatting helpt.'},
@@ -2832,6 +3118,7 @@ function render(){
   $$('.langbar [data-lang]').forEach(b=>b.onclick=()=>{if(b.dataset.lang!==LC)setLang(b.dataset.lang)});
   if(i>=0)LAB[st[i].lab.type].bind(st[i].lab,st[i].id);
   if(v===FIN){bindQuiz();bindCheat()}
+  if(v===HOME)bindFlow();
 }
 window.addEventListener('hashchange',()=>{render();window.scrollTo({top:0,behavior:'instant'});const h=$('#app h1, #app h2');if(h){h.setAttribute('tabindex','-1');h.focus({preventScroll:true})}});
 
@@ -2847,10 +3134,21 @@ function homePage(){const st=L.stations;
       <p class="small">${u.meta}</p>
       <div class="row"><a class="btn primary" href="#${st[0].id}">${u.startBtn} →</a></div>
     </header>
-    ${L.parts.map((p,pi)=>`<section class="part-head"><span class="kick">${u.partKick(pi+1)}</span><h2>${p.title}</h2><p>${p.intro}</p>
+    ${L.parts.map((p,pi)=>`<section class="part-head"><span class="kick">${u.partKick(pi+1)}</span><h2>${p.title}</h2><p>${p.intro}</p>${p.flow?flowHtml(p.flow):''}
       <div class="cards">${st.map((s,k)=>s.part===p.id?card(s,k):'').join('')}</div></section>`).join('')}
     <section class="part-head"><span class="kick">${u.finKick}</span><h2>${u.finTitle}</h2>
       <div class="cards"><a class="card" href="#${FIN}"><span class="n">✓</span><span class="ct"><b>${u.finTitle}</b><span>${u.finCard}</span></span></a></div></section>`}
+/* „Der Weg deiner Frage“: Schritte vom Text zum nächsten Wort, mit Verweis auf die passende Station */
+function flowHtml(f){return `<div class="flow"><div class="row"><b class="flow-t">${f.title}</b><button class="btn primary go" id="flow-play">${f.play}</button></div>
+  <div class="prompt">${esc(f.q)}</div>
+  <ol class="flow-steps">${f.steps.map((s,i)=>`<li><a href="#${s.id}" data-i="${i}"><span class="fn">${i+1}</span><b>${s.t}</b><span class="ex">${esc(s.ex)}</span></a></li>`).join('')}</ol>
+  <p class="small">${f.note}</p></div>`}
+function bindFlow(){const b=$('#flow-play');if(!b)return;let t=null;
+  b.onclick=()=>{const li=$$('.flow-steps a');clearInterval(t);li.forEach(a=>a.classList.remove('on','done'));
+    if(reduce){li.forEach(a=>a.classList.add('done'));return}
+    let k=0;const step=()=>{li.forEach((a,j)=>{a.classList.toggle('on',j===k);a.classList.toggle('done',j<k)});
+      if(++k>li.length){clearInterval(t);li.forEach(a=>{a.classList.remove('on');a.classList.add('done')})}};
+    step();t=setInterval(()=>{if(!b.isConnected){clearInterval(t);return}step()},900)}}
 function pager(prev,next){const a=(v,lbl,cls)=>v?`<a class="btn ${cls}" href="#${v[0]}">${lbl}</a>`:'<span></span>';
   return `<nav class="pager">${a(prev,`← ${esc(prev?prev[1]:'')}`,'')}${a(next,`${esc(next?next[1]:'')} →`,'primary')}</nav>`}
 function crumb(label){return `<nav class="crumb"><a href="#${HOME}">← ${u.navHome}</a><span class="small">${label}</span></nav>`}
@@ -2897,6 +3195,30 @@ const LAB={};
 const seg=(lbl,items,attr,sel)=>`<div class="seg" role="group"${lbl?` aria-label="${esc(lbl.replace(/:\s*$/,''))}"`:''}>${lbl?`<span class="seglbl" aria-hidden="true">${lbl}</span>`:''}${items.map((t,i)=>`<button class="opt" ${attr}="${i}" aria-pressed="${i===sel}">${esc(t)}</button>`).join('')}</div>`;
 const tgl=(id,t,on)=>`<button class="btn tgl" id="${id}" aria-pressed="${!!on}">${t}</button>`;
 const callout=(kind,lbl,html)=>`<div class="call ${kind}"><p>${lbl?`<b class="sr">${lbl}: </b>`:''}${html}</p></div>`;
+
+/* Was ist KI? Beispiele in ineinanderliegende Kreise sortieren (KI ⊃ ML ⊃ Deep Learning ⊃ Generative KI) */
+LAB.sort={
+  html:(d,id)=>{const ring=(k,inner)=>`<div class="ring r-${k}" data-ring="${k}"><div class="rl"><b>${d.rings[k]}</b><span>${d.notes[k]}</span></div><div class="rc" id="${id}-c-${k}"></div>${inner||''}</div>`;
+    return `<p class="small">${d.intro}</p>
+    <div class="rings">${ring('ki',ring('ml',ring('dl',ring('gen'))))}${ring('none')}</div>
+    <div class="sortq"><p class="small mono" id="${id}-pos"></p><p class="sitem" id="${id}-item" aria-live="polite"></p>
+      ${seg(d.ask,['none','ki','ml','dl','gen'].map(k=>d.rings[k]),'data-o',-1).replace('class="seg"',`class="seg" id="${id}-opts"`)}
+      <p class="fb" id="${id}-fb" aria-live="polite"></p>
+      <div class="row wait" id="${id}-nx"><button class="btn primary go" id="${id}-next">${d.next}</button></div></div>
+    <h3>${d.timeTitle}</h3><ol class="timeline">${d.time.map(([y,t])=>`<li><b>${y}</b><span>${t}</span></li>`).join('')}</ol>`},
+  bind(d,id){const K=['none','ki','ml','dl','gen'];let i=0,ok=0,done=false;
+    const show=()=>{const it=d.items[i];done=false;$(`#${id}-pos`).textContent=d.pos(i+1,d.items.length);$(`#${id}-item`).textContent=it.t;
+      press(`#${id}-opts .opt`,()=>false);$(`#${id}-fb`).textContent='';$(`#${id}-fb`).className='fb wait';$(`#${id}-nx`).classList.add('wait');
+      $$(`#${id} .ring`).forEach(r=>r.classList.remove('hl'))};
+    $$(`#${id}-opts .opt`).forEach(b=>b.onclick=()=>{if(done)return;done=true;const it=d.items[i],ans=[].concat(it.a),k=K[+b.dataset.o],hit=ans.includes(k);
+      if(hit)ok++;press(`#${id}-opts .opt`,x=>x===b);
+      const home=hit?k:ans[0];$$(`#${id} .ring`).forEach(r=>r.classList.toggle('hl',r.dataset.ring===home));
+      $(`#${id}-c-${home}`).insertAdjacentHTML('beforeend',`<span class="chip${hit?'':' miss'}">${esc(it.t.replace(/[.!?。]\s*$/,''))}</span>`);
+      const last=i===d.items.length-1,f=$(`#${id}-fb`);f.className='fb'+(hit?'':' no');
+      f.textContent=(hit?d.right:d.wrong(d.rings[ans[0]]))+' '+it.why+(last?' '+d.done(ok,d.items.length):'');
+      $(`#${id}-next`).textContent=last?d.again:d.next;$(`#${id}-nx`).classList.remove('wait')});
+    $(`#${id}-next`).onclick=()=>{if(i===d.items.length-1){i=0;ok=0;$$(`#${id} .rc`).forEach(c=>c.innerHTML='')}else i++;show()};
+    show()}};
 
 /* Training: ein Mini-Modell zählt, welches Wort nach zwei Wörtern folgt */
 LAB.train={
