@@ -70,6 +70,7 @@ a{color:var(--blue)}
 .feat li span:first-child{font-size:1.3rem;line-height:1.2}
 .dl{border:3px dashed var(--teal);border-radius:18px;padding:18px 20px;display:flex;flex-direction:column;gap:10px;background:var(--card)}
 .dl .go{background:var(--key);color:var(--ink);font-size:1rem}
+.go.teach{background:var(--card);color:var(--ink);font-size:1rem}
 .name{color:var(--ink-soft);font-size:.95rem}
 footer{color:var(--ink-soft);font-size:.85rem;display:flex;flex-direction:column;gap:6px;border-top:2px solid var(--grid);padding-top:14px}
 footer a{display:inline-block;padding:10px 0}
@@ -134,6 +135,7 @@ footer a{display:inline-block;padding:10px 0}
     <p data-k="dlText">Beide Seiten sind jeweils eine einzige Datei. Du kannst sie herunterladen und auch ohne Internet öffnen, zum Beispiel im Unterricht.</p>
     <a class="go" href="https://github.com/AnotherKarsten/turi-explains-ai/releases/latest"><span data-k="dlGo">Dateien herunterladen</span> <span aria-hidden="true">↓</span></a>
   </section>
+  <p><a class="go teach" id="goTeach" href="teachers.html"><span data-k="teach">Für Lehrkräfte: Ablaufpläne und Arbeitsblätter</span> <span aria-hidden="true">→</span></a></p>
   <p class="name" data-k="name">Turi ist nach Alan Turing benannt, einem der Väter der Informatik und Vordenker der künstlichen Intelligenz.</p>
   <footer>
     <span data-k="footer">© 2026 Karsten Leick · Programmcode: MIT · Inhalte: CC BY-SA 4.0 · Schriften: SIL OFL 1.1 · Erstellt mit Unterstützung von KI (Claude)</span>
@@ -160,6 +162,7 @@ INDEX_LANG.de={
  f2:'Lädt nichts aus dem Internet und speichert nur deine Sprache',
  f3:'Für Tablet, Handy und Computer gemacht',
  f4:'Auf Deutsch, Englisch, Französisch, Italienisch, Spanisch und Niederländisch',
+ teach:'Für Lehrkräfte: Ablaufpläne und Arbeitsblätter',
  dlTitle:'Zum Mitnehmen',
  dlText:'Beide Seiten sind jeweils eine einzige Datei. Du kannst sie herunterladen und auch ohne Internet öffnen, zum Beispiel im Unterricht.',
  dlGo:'Dateien herunterladen',
@@ -185,6 +188,7 @@ INDEX_LANG.en={
  f2:'Loads nothing from the internet and only remembers your language',
  f3:'Made for tablet, phone and computer',
  f4:'In German, English, French, Italian, Spanish and Dutch',
+ teach:'For teachers: lesson plans and worksheets',
  dlTitle:'Take it with you',
  dlText:'Each page is a single file. You can download it and open it without internet, for example in class.',
  dlGo:'Download the files',
@@ -210,6 +214,7 @@ INDEX_LANG.fr={
  f2:'Ne charge rien depuis Internet et ne retient que ta langue',
  f3:'Conçu pour tablette, téléphone et ordinateur',
  f4:'En allemand, anglais, français, italien, espagnol et néerlandais',
+ teach:'Pour les enseignants : déroulés et fiches',
  dlTitle:'À emporter',
  dlText:'Chaque page est un seul fichier. Tu peux le télécharger et l’ouvrir sans Internet, par exemple en classe.',
  dlGo:'Télécharger les fichiers',
@@ -235,6 +240,7 @@ INDEX_LANG.it={
  f2:'Non carica nulla da Internet e ricorda solo la tua lingua',
  f3:'Pensato per tablet, smartphone e computer',
  f4:'In tedesco, inglese, francese, italiano, spagnolo e olandese',
+ teach:'Per insegnanti: scalette e schede',
  dlTitle:'Da portare con te',
  dlText:'Ogni pagina è un unico file. Puoi scaricarlo e aprirlo anche senza Internet, per esempio a scuola.',
  dlGo:'Scarica i file',
@@ -260,6 +266,7 @@ INDEX_LANG.es={
  f2:'No carga nada de Internet y solo recuerda tu idioma',
  f3:'Pensado para tableta, móvil y ordenador',
  f4:'En alemán, inglés, francés, italiano, español y neerlandés',
+ teach:'Para docentes: planes de clase y fichas',
  dlTitle:'Para llevar',
  dlText:'Cada página es un solo archivo. Puedes descargarlo y abrirlo sin Internet, por ejemplo en clase.',
  dlGo:'Descargar los archivos',
@@ -285,6 +292,7 @@ INDEX_LANG.nl={
  f2:'Laadt niets van internet en onthoudt alleen je taal',
  f3:'Gemaakt voor tablet, telefoon en computer',
  f4:'In het Duits, Engels, Frans, Italiaans, Spaans en Nederlands',
+ teach:'Voor docenten: lesplannen en werkbladen',
  dlTitle:'Om mee te nemen',
  dlText:'Elke pagina is één bestand. Je kunt het downloaden en ook zonder internet openen, bijvoorbeeld in de klas.',
  dlGo:'Bestanden downloaden',
@@ -309,6 +317,7 @@ function apply(lc){
   bar.innerHTML='<span class="langlbl" aria-hidden="true">🌐 '+L.lang+'</span>'+LANGS.map(c=>'<button type="button" lang="'+c+'" data-lang="'+c+'" aria-pressed="'+(c===lc)+'">'+LNAME[c]+'</button>').join('');
   document.getElementById('goKids').href='turi-explains-ai.html?lang='+lc;
   document.getElementById('goAdult').href='ai-under-the-hood.html?lang='+lc;
+  document.getElementById('goTeach').href='teachers.html?lang='+lc;
 }
 document.getElementById('langbar').addEventListener('click',e=>{const b=e.target.closest('button[data-lang]');if(!b)return;store.set(b.dataset.lang);apply(b.dataset.lang)});
 apply(pick());

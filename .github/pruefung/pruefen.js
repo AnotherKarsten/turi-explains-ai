@@ -368,6 +368,35 @@ async function pruefeStart(browser, lang, geraet, opt, melde) {
   await ctx.close();
 }
 
+// Seite für Lehrkräfte (teachers.html): Sprachen, Links, Überlauf, Tippflächen, keine Anfragen ins Internet
+async function pruefeLehrer(browser, lang, geraet, opt, melde) {
+  const wo = `Lehrkräfte ${lang} ${geraet}`, datei = path.resolve(path.dirname(START), 'teachers.html');
+  const ctx = await browser.newContext({...opt});
+  await ctx.route(/^(https?|wss?|ftp):/, r => { melde(wo, 'Anfrage ins Internet: ' + r.request().url()); r.abort(); });
+  const p = await ctx.newPage();
+  p.on('pageerror', e => melde(wo, 'JavaScript-Fehler: ' + e.message));
+  await p.goto('file://' + datei + '?lang=' + lang);
+  await p.waitForTimeout(200);
+  const r = await p.evaluate(() => ({lang: document.documentElement.lang, sw: document.documentElement.scrollWidth, b: innerWidth,
+    sprachen: Object.keys(TEACH_LANG).join(), ziele: [...document.querySelectorAll('#page a')].map(a => a.getAttribute('href')).filter(h => !/^https?:/.test(h)),
+    text: document.getElementById('page').innerText, blaetter: document.querySelectorAll('.sheet').length}));
+  if (r.lang !== lang) melde(wo, `Seite meldet Sprache „${r.lang}“`);
+  if (r.sprachen !== ALLE.join()) melde(wo, 'Sprachen fehlen: ' + r.sprachen);
+  if (r.sw > r.b + 1) melde(wo, `läuft horizontal über (${r.sw} px statt ${r.b} px)`);
+  if (r.blaetter !== 2) melde(wo, 'Arbeitsblätter fehlen');
+  for (const h of ['index.html', 'turi-explains-ai.html', 'ai-under-the-hood.html'])
+    if (!r.ziele.includes(h + '?lang=' + lang)) melde(wo, `kein Link auf ${h}?lang=${lang}`);
+  for (const h of r.ziele) if (!fs.existsSync(path.resolve(path.dirname(START), h.split('?')[0]))) melde(wo, 'Link auf fehlende Datei: ' + h);
+  if (lang !== 'de') for (const zeile of r.text.split('\n')) { const m = zeile.match(DEUTSCH); if (m) melde(wo, `deutscher Textrest? „${m[0]}“ in „${zeile.trim().slice(0, 80)}“`); }
+  if (geraet.startsWith('iPad')) {
+    const klein = await p.$$eval('button, a', els => els.filter(e => e.offsetParent && !e.closest('p, footer, li'))
+      .map(e => [e, e.getBoundingClientRect()]).filter(([, b]) => b.width > 0 && b.height < 44)
+      .map(([e, b]) => `${e.tagName.toLowerCase()} „${e.textContent.trim()}“ (${Math.round(b.height)} px)`));
+    [...new Set(klein)].forEach(k => melde(wo, 'Tippfläche niedriger als 44 px: ' + k));
+  }
+  await ctx.close();
+}
+
 // Startseite ohne JavaScript: Der deutsche Text steht fest im HTML, die Links funktionieren auch so
 async function pruefeStartOhneJs(browser, geraet, opt, melde) {
   const wo = `Startseite ohne JavaScript ${geraet}`;
@@ -395,6 +424,7 @@ async function pruefeStartOhneJs(browser, geraet, opt, melde) {
     ...(haube ? GERAETE.map(([geraet, opt]) => ({name: `Haube ohne JavaScript ${geraet}`, schwer: false, los: melde => pruefeHaubeOhneJs(browser, geraet, opt, melde)})) : []),
     ...(start ? SPRACHEN.flatMap(lang => GERAETE.map(([geraet, opt]) => ({name: `Startseite ${lang} ${geraet}`, schwer: false, los: melde => pruefeStart(browser, lang, geraet, opt, melde)}))) : []),
     ...(start ? GERAETE.map(([geraet, opt]) => ({name: `Startseite ohne JavaScript ${geraet}`, schwer: false, los: melde => pruefeStartOhneJs(browser, geraet, opt, melde)})) : []),
+    ...(start ? SPRACHEN.flatMap(lang => GERAETE.map(([geraet, opt]) => ({name: `Lehrkräfte ${lang} ${geraet}`, schwer: false, los: melde => pruefeLehrer(browser, lang, geraet, opt, melde)}))) : []),
   ];
   const ergebnisse = auftraege.map(() => []);
   // Die aufwendigen Desktop-Prüfungen (alle Knöpfe bedienen) zuerst starten, damit am Ende keine allein übrig bleibt
@@ -414,7 +444,7 @@ async function pruefeStartOhneJs(browser, geraet, opt, melde) {
 
   const ergebnis = probleme.length
     ? `❌ ${probleme.length} Problem(e) gefunden:\n\n` + probleme.map(x => '- ' + x).join('\n')
-    : `✅ Alles in Ordnung: ${[turi && '„Turi erklärt KI“', haube && '„KI unter der Haube“', start && 'die Startseite'].filter(Boolean).join(', ')} in ${SPRACHEN.length} Sprachen auf ${GERAETE.length} Geräten, alle Stationen, ohne JavaScript-Fehler, ohne Anfragen ins Internet, ohne Überlauf; Hinweis ohne JavaScript sichtbar.`;
+    : `✅ Alles in Ordnung: ${[turi && '„Turi erklärt KI“', haube && '„KI unter der Haube“', start && 'die Startseite und die Seite für Lehrkräfte'].filter(Boolean).join(', ')} in ${SPRACHEN.length} Sprachen auf ${GERAETE.length} Geräten, alle Stationen, ohne JavaScript-Fehler, ohne Anfragen ins Internet, ohne Überlauf; Hinweis ohne JavaScript sichtbar.`;
   console.log(ergebnis);
   if (process.env.GITHUB_STEP_SUMMARY) fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, '## Prüfung der Lernseiten\n\n' + ergebnis + '\n');
   process.exit(probleme.length ? 1 : 0);
