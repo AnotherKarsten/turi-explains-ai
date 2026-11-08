@@ -16,13 +16,13 @@ Sprache der Seite, der Commits und der Pull Requests: Deutsch.
   `index.html` (Startseite für GitHub Pages), `teachers.html` (für Lehrkräfte), `.nojekyll`, `README.md`, `CLAUDE.md`, `LICENSE`, `LICENSES/` und `.github/` (Prüf- und Release-Ablauf). Keine Kopien alter
   Versionen ablegen; die Historie steht in Git.
 - „KI unter der Haube“: 16 Stationen in drei Teilen (`parts`: z „Das große Bild“, a „So funktioniert ein Sprachmodell“
-  mit der Übersicht `flow` „Der Weg deiner Frage“, b „Klug damit arbeiten“), je Station Text, ein Labor (`lab.type`: sort,
+  mit `flow` „Der Weg deiner Frage“, der als Rückblick auf der Abschlussseite steht, b „Klug damit arbeiten“), je Station Text, ein Labor (`lab.type`: sort,
   diffusion, train, tokens, map, attention, window, temperature, confidence, lookup, prompt, bias, cost, ampel, recht, agent), die Klappe „Unter der
   Haube“ (`hood`, Fachbegriffe) und „Im Alltag heißt das“ (`everyday`). Wortkarte (`map`, Wörter als `[w,x,y,z]`) und Fehler-Landschaft
   (`train.land`) lassen sich in 3D drehen (Ziehen, Pfeiltasten). Am Ende Quiz (zehn Fragen) und Spickzettel; das PDF erzeugt die
   Seite selbst (A4, Helvetica, WinAnsi-Zeichensatz: nur Zeichen verwenden, die es dort gibt). Gleiche Farben, Schriften
   und Tasten wie Turi, aber ohne Maskottchen.
-- KI unter der Haube ist in Ansichten derselben Datei aufgeteilt (Hash-Adressen): `#uebersicht` (Startseite mit Karten),
+- KI unter der Haube ist in Ansichten derselben Datei aufgeteilt (Hash-Adressen): `#uebersicht` (Startseite, nur Teile und Karten, keine Inhalte),
   `#<Stations-id>` (eine Station je Ansicht, mit Nummernleiste und Zurück/Weiter) und `#abschluss` (Quiz und
   Spickzettel; `#quiz` und `#spickzettel` führen dorthin). Stations-ids sind sprachunabhängig und bleiben stabil, damit
   Links funktionieren. `pruefen.js` geht alle Ansichten durch.

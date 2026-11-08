@@ -100,11 +100,10 @@ will, klappt bei jeder Station „Unter der Haube“ auf.
 | Station | Leitfrage | Zum Ausprobieren |
 |---|---|---|
 | **Teil 1: Das große Bild** | | |
-| 1. Was ist KI? | Was ist KI überhaupt, und wo gehört ein Chatbot hin? | Zehn Alltagsbeispiele in die Kreise KI, maschinelles Lernen, Deep Learning und generative KI (oder „keine KI“) sortieren; dazu eine kurze Zeitleiste von 1956 bis heute. |
-| 2. Bilder aus Rauschen | Wie malt eine KI ein Bild nach einer Beschreibung? | Zusehen, wie ein Bild Schritt für Schritt aus zufälligem Rauschen entsteht; mit neuem Rauschen wird es jedes Mal anders. |
+| 1. Was ist KI? | Was ist KI überhaupt, und wo gehört ein Chatbot hin? | Zehn Alltagsbeispiele in die Kreise KI, maschinelles Lernen, Deep Learning und generative KI (oder „keine KI“) sortieren; dazu weitere Teilgebiete wie Bilderkennung oder Robotik und eine kurze Zeitleiste von 1956 bis heute. |
+| 2. Bilder aus Rauschen | Wie malt eine KI ein Bild nach einer Beschreibung? | Zusehen, wie ein Bild Schritt für Schritt aus zufälligem Rauschen entsteht; mit anderem Startrauschen entsteht zur gleichen Beschreibung ein anderes Bild, das vorige bleibt zum Vergleich stehen. |
 | **Teil 2: So funktioniert ein Sprachmodell** | | |
-| Der Weg deiner Frage | Was passiert zwischen Frage und Antwort? | Eine Übersicht zeigt alle Schritte als Kette; jeder Schritt führt zur passenden Station. |
-| 3. Training | Wie lernt ein Sprachmodell aus Text? | Ein Mini-Modell liest Sätze und lernt, welches Wort folgt; dazu eine drehbare 3D-Fehler-Landschaft, in der das Training mit großen oder kleinen Schritten bergab läuft. |
+| 3. Training | Wie lernt ein Sprachmodell aus Text? | Ein Mini-Modell liest Sätze und lernt, welches Wort folgt; dazu eine drehbare 3D-Fehler-Landschaft für ein Modell mit zwei „Knöpfen“: Mit jedem Schritt bergab wird die Vorhersage besser. |
 | 4. Tokens | Warum zählt die KI in Tokens, und warum kostet Deutsch mehr? | Eigenen Text zerlegen; bei vier Satzpaaren schätzen, welche Sprache mehr Tokens braucht. |
 | 5. Wortkarte | Wie kann eine Maschine mit Bedeutung rechnen? | Nachbarn auf einer Bedeutungskarte, die sich auch in 3D drehen lässt, und zwei Analogie-Rätsel („Mann verhält sich zu Frau wie König zu …?“), gelöst mit Pfeilen auf der Karte. |
 | 6. Aufmerksamkeit | Woher weiß das Modell, worauf sich ein Wort bezieht? | Sehen, worauf „sie“ oder „er“ im Satz schaut, mit Gewichten in Prozent und einer Erklärung, wie das Modell sie verrechnet. |
@@ -120,7 +119,8 @@ will, klappt bei jeder Station „Unter der Haube“ auf.
 | 15. Urheberrecht | Darf ich KI-Texte und KI-Bilder einfach verwenden? | Ampel-Spiel mit acht Situationen rund um Schutz, Kennzeichnung und fremde Werke; keine Rechtsberatung. |
 | 16. KI-Agenten | Was ändert sich, wenn die KI handelt? | Entscheiden, welche Schritte ein Agent nur mit Freigabe tun darf; dazu Tipps und eine Prompt-Vorlage, damit die KI vorher fragt, und warum eine Anweisung im Prompt keine echte Sperre ist. |
 
-Zum Schluss gibt es ein Quiz mit zehn Fragen und einen **Spickzettel als PDF** (eine A4-Seite mit den wichtigsten
+Zum Schluss zeigt „Der Weg deiner Frage“ alle Schritte vom Text zur Antwort noch einmal als Kette (jeder Schritt
+führt zur passenden Station), dann gibt es ein Quiz mit zehn Fragen und einen **Spickzettel als PDF** (eine A4-Seite mit den wichtigsten
 Regeln und einer Vorlage für gute Anfragen), den die Seite selbst erzeugt.
 
 ### So lernt man mit der Seite

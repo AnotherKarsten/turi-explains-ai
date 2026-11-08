@@ -411,6 +411,20 @@ canvas.c3{width:100%;aspect-ratio:4/3;max-height:70vh;border:2px solid var(--edg
 canvas.c3:active{cursor:grabbing}
 .land{display:flex;flex-direction:column;gap:10px;border-top:2px dashed var(--track);padding-top:14px;margin-top:6px}
 .map[hidden],.v3[hidden]{display:none!important}
+
+/* Sortierspiel: neu eingetragenes Beispiel kurz hervorheben */
+.rings .chip.new{outline:3px solid var(--coral);outline-offset:1px}
+@media (prefers-reduced-motion:no-preference){.rings .chip.new{animation:chipin .6s ease-out}}
+@keyframes chipin{from{transform:scale(1.25)}to{transform:none}}
+.sortq{margin-bottom:12px}
+/* Bilder aus Rauschen: voriges Ergebnis zum Vergleich */
+.diffrow{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end}
+.diffrow .diff{flex:1 1 240px;min-width:0}
+.diffrow .prev{margin:0;flex:0 1 160px;display:flex;flex-direction:column;gap:4px}
+.diffrow .prev canvas{width:100%;height:auto;border:2px solid var(--track);border-radius:10px}
+.diffrow .prev figcaption{font-size:.85rem;color:var(--ink-2,var(--ink))}
+/* Fehler-Landschaft: Erklärung in drei Schritten */
+.land .how{margin:0 0 6px;padding-left:1.4em;display:flex;flex-direction:column;gap:4px}
 </style>
 <!-- Hinweis für Vorschaufenster ohne JavaScript (z. B. Mailprogramm, Dateien-App). Wird beim Programmstart entfernt. -->
 <div id="nojs">
@@ -493,6 +507,9 @@ stations:[
      {t:'Ein Übersetzungsprogramm übersetzt eine Webseite.',a:['dl','gen'],why:'Moderne Übersetzer sind neuronale Netze, also Deep Learning. Viele nutzen inzwischen dieselbe Technik wie Sprachmodelle, deshalb passt auch „Generative KI“.'},
      {t:'Ein Chatbot schreibt dir einen Brief.',a:'gen',why:'Ein Sprachmodell: generative KI, die Text Wortstück für Wortstück erzeugt. Darum geht es im Rest dieser Seite.'},
      {t:'Ein Programm malt ein Bild nach deiner Beschreibung.',a:'gen',why:'Ein Bildgenerator ist ebenfalls generative KI, arbeitet aber anders als ein Sprachmodell. Mehr dazu in der Station „Bilder aus Rauschen“.'}],
+   placed:n=>`Das Beispiel steht jetzt unten im Kreis „${n}“.`,
+   moreTitle:'Was diese Seite nicht zeigt',
+   more:'KI ist viel mehr als Chatbots und Bildgeneratoren. Weitere große Teilgebiete sind zum Beispiel <b>Bilderkennung</b> (das Handy erkennt dein Gesicht, Autos erkennen Verkehrsschilder), <b>Spracherkennung</b> (Diktieren, Sprachassistenten), <b>Robotik</b> (Saugroboter, Lagerroboter), <b>Empfehlungssysteme</b> (was dir Streamingdienste und Onlineshops vorschlagen), <b>Planen und Optimieren</b> (Routen, Fahrpläne, Lieferketten) und <b>bestärkendes Lernen</b> (lernen durch Ausprobieren und Belohnung, etwa beim Spielen oder Steuern). Diese Seite konzentriert sich auf Sprachmodelle und streift Bildgeneratoren. Vieles davon, etwa Training, Fehler und Verzerrungen, gilt aber für alle Arten von KI.',
    timeTitle:'Kurze Geschichte der KI',
    time:[['1956','Auf einer Konferenz in Dartmouth (USA) bekommt das Fachgebiet seinen Namen: „Künstliche Intelligenz“.'],
      ['1966','ELIZA, ein Chatprogramm mit einfachen festen Regeln, verblüfft viele Menschen.'],
@@ -514,9 +531,9 @@ stations:[
        'Beim Training hat das Modell Millionen Bilder gesehen, die schrittweise verrauscht wurden, und gelernt, das wieder rückgängig zu machen. Deine Beschreibung lenkt jeden Schritt: Sie entscheidet, was im Rauschen „gesehen“ und herausgearbeitet wird. Zuerst entstehen grobe Formen, am Ende die Details.',
        'Weil jedes Mal anderes Rauschen am Anfang steht, kommt bei derselben Beschreibung jedes Mal ein anderes Bild heraus. Und weil das Modell nur gelernt hat, wie Bilder typischerweise aussehen, entstehen manchmal Fehler, etwa sechs Finger oder unlesbare Schrift.'],
  lab:{type:'diffusion',title:'Ausprobieren: Ein Bild aus Rauschen holen',
-   intro:'Wähle eine Beschreibung und schieb den Regler nach rechts, oder lass es ablaufen. Mit „Neues Rauschen“ beginnt alles mit anderem Zufall.',
+   intro:'Wähle eine Beschreibung und schieb den Regler nach rechts, oder lass es ablaufen. Jede neue Beschreibung beginnt wieder beim reinen Rauschen.',
    promptLbl:'Beschreibung:', prompts:['Ein Haus mit roter Tür in der Sonne','Ein Segelboot auf dem See','Ein Baum auf einer Wiese bei Nacht'],
-   slider:'Schritt', play:'Ablaufen lassen', reseed:'Neues Rauschen',
+   slider:'Schritt', play:'Ablaufen lassen', reseed:'Neu mit anderem Rauschen', reseedNote:'Gleiche Beschreibung, aber anderes Startrauschen: Am Ende entsteht ein anderes Bild. Daneben siehst du zum Vergleich das vorige Ergebnis.', prev:'Vorher: gleiche Beschreibung, anderes Rauschen',
    stage:(k,n)=>k===0?'Schritt 0: nur zufälliges Rauschen. Noch ist nichts zu erkennen.':k<n*.35?`Schritt ${k} von ${n}: Grobe Flächen und Farben tauchen auf.`:k<n*.8?`Schritt ${k} von ${n}: Die Formen werden klarer, das Rauschen nimmt ab.`:k<n?`Schritt ${k} von ${n}: Jetzt kommen die Details.`:`Schritt ${n} von ${n}: fertig. Mit neuem Rauschen sähe das Bild etwas anders aus.`,
    alt:'Bild, das schrittweise aus Rauschen entsteht'},
  hood:[['Diffusionsmodell','Die häufigste Bauart von Bildgeneratoren. Es lernt, Rauschen Schritt für Schritt aus einem Bild zu entfernen, und kann so aus purem Rauschen neue Bilder erzeugen.'],
@@ -530,10 +547,11 @@ stations:[
  q:'Wie lernt ein Sprachmodell aus Text?',
  text:['Ein Sprachmodell lernt eine einzige Aufgabe: das nächste Wortstück vorherzusagen. Es liest riesige Mengen Text, deckt jeweils das nächste Stück ab, rät und vergleicht. Liegt es daneben, werden seine Milliarden <b>Gewichte</b> ein winziges Stück in die richtige Richtung verschoben.',
        'Aus dieser schlichten Übung entsteht erstaunlich viel: Grammatik, Faktenwissen, Stil. Danach folgt ein <b>Feinschliff</b> mit Menschen, die Antworten bewerten. Erst dadurch wird aus dem Textvervollständiger ein hilfsbereiter Assistent.'],
- lab:{type:'train',land:{title:'Die Fehler-Landschaft',intro:'So verstellt das Training die Gewichte: Stell dir alle möglichen Einstellungen als Landschaft vor, die Höhe ist der Fehler. Das Training lässt die Kugel Schritt für Schritt bergab rollen, immer in die steilste Richtung. Ziehe zum Drehen.',
+ lab:{type:'train',land:{title:'Die Fehler-Landschaft',how:['Stell dir ein winziges Modell mit nur zwei Gewichten vor, also zwei Knöpfen. Jede Stelle der Landschaft ist eine Einstellung dieser beiden Knöpfe. Echte Modelle haben Milliarden Knöpfe; ihre Landschaft kann niemand zeichnen, das Prinzip ist aber dasselbe.','Die Höhe zeigt den Fehler: wie oft das Modell mit dieser Einstellung beim Lesen der Trainingssätze das nächste Wort falsch rät.','Ein Trainingsschritt heißt: Sätze lesen, Fehler messen und beide Knöpfe ein Stück in die Richtung drehen, in der es am steilsten bergab geht. Unter der Landschaft siehst du, wie sich dabei die Vorhersage verbessert.'],
+     drag:'Ziehe die Landschaft, um sie zu drehen.',probe:'Der Himmel ist …',words:['blau','grau','heiß'],pred:p=>`So setzt das Modell mit dieser Einstellung „${p}“ fort:`,
      rateLbl:'Schrittweite:',rates:['klein','mittel','groß'],step:'Ein Schritt',run:'Abrollen lassen',reset:'Neuer Startpunkt',
-     note:(e,k)=>`Fehler ${e} nach ${k} Schritten.`,
-     hints:{go:'Wähle eine Schrittweite und lass die Kugel rollen.',local:'Die Kugel steckt in einer kleinen Mulde fest, obwohl es woanders tiefer geht. Das passiert auch beim echten Training; dann helfen andere Startpunkte oder Einstellungen.',jump:'Bei großer Schrittweite springt die Kugel über das Tal hinweg. Zu große Schritte machen das Training unruhig.',best:'Die Kugel hat das tiefste Tal erreicht: Hier ist der Fehler am kleinsten.'},
+     note:(e,k,a,b)=>`Knopf 1: ${a} · Knopf 2: ${b} · Fehler ${e} · ${k} Schritte`,
+     hints:{roll:'Die Kugel rollt bergab: Mit jedem Schritt wird der Fehler kleiner und die Vorhersage besser.',go:'Wähle eine Schrittweite und lass die Kugel rollen.',local:'Die Kugel steckt in einer kleinen Mulde fest, obwohl es woanders tiefer geht. Das passiert auch beim echten Training; dann helfen andere Startpunkte oder Einstellungen.',jump:'Bei großer Schrittweite springt die Kugel über das Tal hinweg. Zu große Schritte machen das Training unruhig.',best:'Die Kugel hat das tiefste Tal erreicht: Hier ist der Fehler am kleinsten.'},
      alt:'Drehbare Fehler-Landschaft mit einer rollenden Kugel'},
    probeLbl:'Satzanfang:',
    only:l=>`Gezählt wird nur das Wort direkt nach „${l}“. In den gelesenen Sätzen ist es markiert. Was danach kommt, etwa „klar“ in „blau und klar“, lernt das Modell für einen anderen Anfang („… und“).`,
@@ -991,6 +1009,9 @@ stations:[
      {t:'A translation program translates a web page.',a:['dl','gen'],why:'Modern translators are neural networks, i.e. deep learning. Many now use the same technology as language models, so “generative AI” fits too.'},
      {t:'A chatbot writes a letter for you.',a:'gen',why:'A language model: generative AI that produces text one piece at a time. That is what the rest of this page is about.'},
      {t:'A program paints a picture from your description.',a:'gen',why:'An image generator is generative AI too, but it works differently from a language model. More in the station “Pictures from noise”.'}],
+   placed:n=>`The example now sits below in the “${n}” circle.`,
+   moreTitle:'What this page does not show',
+   more:'AI is much more than chatbots and image generators. Other big fields include <b>computer vision</b> (your phone recognises your face, cars recognise road signs), <b>speech recognition</b> (dictation, voice assistants), <b>robotics</b> (robot vacuums, warehouse robots), <b>recommender systems</b> (what streaming services and online shops suggest to you), <b>planning and optimisation</b> (routes, timetables, supply chains) and <b>reinforcement learning</b> (learning by trial and reward, for example in games or control). This page focuses on language models and touches on image generators. Much of it, such as training, errors and bias, applies to every kind of AI.',
    timeTitle:'A short history of AI',
    time:[['1956','At a conference in Dartmouth (USA) the field gets its name: “artificial intelligence”.'],
      ['1966','ELIZA, a chat program with simple fixed rules, amazes many people.'],
@@ -1012,9 +1033,9 @@ stations:[
        'In training, the model saw millions of images that were made noisier step by step, and learned to undo this. Your description guides every step: it decides what is “seen” in the noise and worked out. Rough shapes appear first, details come last.',
        'Because different noise is used at the start each time, the same description gives a different picture each time. And because the model has only learned what pictures typically look like, mistakes sometimes appear, such as six fingers or unreadable writing.'],
  lab:{type:'diffusion',title:'Try it: pull a picture out of noise',
-   intro:'Pick a description and move the slider to the right, or let it run. “New noise” starts everything with different randomness.',
+   intro:'Pick a description and move the slider to the right, or let it run. Every new description starts again from pure noise.',
    promptLbl:'Description:', prompts:['A house with a red door in the sun','A sailing boat on the lake','A tree in a meadow at night'],
-   slider:'Step', play:'Let it run', reseed:'New noise',
+   slider:'Step', play:'Let it run', reseed:'Again with different noise', reseedNote:'Same description, but different starting noise: you end up with a different picture. Next to it you can see the previous result for comparison.', prev:'Before: same description, different noise',
    stage:(k,n)=>k===0?'Step 0: just random noise. Nothing can be seen yet.':k<n*.35?`Step ${k} of ${n}: rough areas and colours appear.`:k<n*.8?`Step ${k} of ${n}: the shapes get clearer, the noise fades.`:k<n?`Step ${k} of ${n}: now the details come.`:`Step ${n} of ${n}: done. With new noise the picture would look a little different.`,
    alt:'Picture that gradually emerges from noise'},
  hood:[['Diffusion model','The most common type of image generator. It learns to remove noise from an image step by step, and can therefore create new images from pure noise.'],
@@ -1028,10 +1049,11 @@ stations:[
  q:'How does a language model learn from text?',
  text:['A language model learns one single task: predicting the next piece of a word. It reads huge amounts of text, covers up the next piece each time, guesses and compares. When it is wrong, its billions of <b>weights</b> are nudged a tiny bit in the right direction.',
        'A surprising amount comes out of this simple exercise: grammar, factual knowledge, style. Then comes <b>fine-tuning</b> with people who rate answers. Only that turns the text completer into a helpful assistant.'],
- lab:{type:'train',land:{title:'The error landscape',intro:'This is how training adjusts the weights: imagine all possible settings as a landscape where the height is the error. Training lets the ball roll downhill step by step, always in the steepest direction. Drag to turn it.',
+ lab:{type:'train',land:{title:'The error landscape',how:['Imagine a tiny model with only two weights, that is two knobs. Every point of the landscape is one setting of these two knobs. Real models have billions of knobs; nobody can draw their landscape, but the principle is the same.','The height shows the error: how often the model, with this setting, guesses the next word wrong while reading the training sentences.','A training step means: read sentences, measure the error and turn both knobs a little in the direction that goes downhill most steeply. Below the landscape you can see how the prediction improves.'],
+     drag:'Drag the landscape to turn it.',probe:'The sky is …',words:['blue','grey','hot'],pred:p=>`How the model continues “${p}” with this setting:`,
      rateLbl:'Step size:',rates:['small','medium','large'],step:'One step',run:'Let it roll',reset:'New starting point',
-     note:(e,k)=>`Error ${e} after ${k} steps.`,
-     hints:{go:'Pick a step size and let the ball roll.',local:'The ball is stuck in a small hollow, although it goes deeper elsewhere. This happens in real training too; other starting points or settings help.',jump:'With a large step size the ball jumps over the valley. Steps that are too big make training unstable.',best:'The ball has reached the deepest valley: the error is smallest here.'},
+     note:(e,k,a,b)=>`Knob 1: ${a} · Knob 2: ${b} · error ${e} · ${k} steps`,
+     hints:{roll:'The ball is rolling downhill: with every step the error gets smaller and the prediction better.',go:'Pick a step size and let the ball roll.',local:'The ball is stuck in a small hollow, although it goes deeper elsewhere. This happens in real training too; other starting points or settings help.',jump:'With a large step size the ball jumps over the valley. Steps that are too big make training unstable.',best:'The ball has reached the deepest valley: the error is smallest here.'},
      alt:'Rotatable error landscape with a rolling ball'},
    probeLbl:'Sentence start:',
    only:l=>`Only the word directly after “${l}” is counted. It is marked in the sentences read so far. Anything after it, such as “clear” in “blue and clear”, is learned for a different start (“… and”).`,
@@ -1487,6 +1509,9 @@ stations:[
      {t:'Un logiciel de traduction traduit une page web.',a:['dl','gen'],why:'Les traducteurs modernes sont des réseaux de neurones, donc de l’apprentissage profond. Beaucoup utilisent désormais la même technique que les modèles de langage, « IA générative » convient donc aussi.'},
      {t:'Un chatbot t’écrit une lettre.',a:'gen',why:'Un modèle de langage : une IA générative qui produit du texte morceau par morceau. C’est le sujet du reste de cette page.'},
      {t:'Un programme peint une image d’après ta description.',a:'gen',why:'Un générateur d’images est aussi de l’IA générative, mais il fonctionne autrement qu’un modèle de langage. Plus de détails dans l’étape « Des images à partir de bruit ».'}],
+   placed:n=>`L’exemple se trouve maintenant plus bas dans le cercle « ${n} ».`,
+   moreTitle:'Ce que cette page ne montre pas',
+   more:'L’IA, c’est bien plus que les chatbots et les générateurs d’images. D’autres grands domaines sont par exemple la <b>vision par ordinateur</b> (le téléphone reconnaît ton visage, les voitures reconnaissent les panneaux), la <b>reconnaissance vocale</b> (dictée, assistants vocaux), la <b>robotique</b> (robots aspirateurs, robots d’entrepôt), les <b>systèmes de recommandation</b> (ce que te proposent les plateformes de streaming et les boutiques en ligne), la <b>planification et l’optimisation</b> (itinéraires, horaires, chaînes d’approvisionnement) et l’<b>apprentissage par renforcement</b> (apprendre en essayant et en étant récompensé, par exemple dans les jeux ou le pilotage). Cette page se concentre sur les modèles de langage et aborde les générateurs d’images. Beaucoup de choses, comme l’entraînement, les erreurs et les biais, valent pourtant pour toutes les sortes d’IA.',
    timeTitle:'Petite histoire de l’IA',
    time:[['1956','Lors d’une conférence à Dartmouth (États-Unis), le domaine reçoit son nom : « intelligence artificielle ».'],
      ['1966','ELIZA, un programme de discussion aux règles simples et fixes, impressionne beaucoup de gens.'],
@@ -1508,9 +1533,9 @@ stations:[
        'Pendant l’entraînement, le modèle a vu des millions d’images rendues de plus en plus bruitées, et a appris à annuler ce processus. Ta description guide chaque étape : elle décide de ce qui est « vu » dans le bruit et mis en forme. Les formes grossières apparaissent d’abord, les détails à la fin.',
        'Comme le bruit de départ est différent à chaque fois, la même description donne une image différente à chaque fois. Et comme le modèle a seulement appris à quoi ressemblent habituellement les images, des erreurs apparaissent parfois, comme six doigts ou un texte illisible.'],
  lab:{type:'diffusion',title:'À essayer : faire sortir une image du bruit',
-   intro:'Choisis une description et déplace le curseur vers la droite, ou laisse l’animation tourner. « Nouveau bruit » recommence avec un autre hasard.',
+   intro:'Choisis une description et déplace le curseur vers la droite, ou laisse l’animation tourner. Chaque nouvelle description repart du bruit pur.',
    promptLbl:'Description :', prompts:['Une maison à porte rouge au soleil','Un voilier sur le lac','Un arbre dans un pré, la nuit'],
-   slider:'Étape', play:'Lancer', reseed:'Nouveau bruit',
+   slider:'Étape', play:'Lancer', reseed:'Recommencer avec un autre bruit', reseedNote:'Même description, mais autre bruit de départ : à la fin, on obtient une autre image. À côté, tu vois le résultat précédent pour comparer.', prev:'Avant : même description, autre bruit',
    stage:(k,n)=>k===0?'Étape 0 : seulement du bruit aléatoire. On ne distingue encore rien.':k<n*.35?`Étape ${k} sur ${n} : des zones et des couleurs grossières apparaissent.`:k<n*.8?`Étape ${k} sur ${n} : les formes se précisent, le bruit diminue.`:k<n?`Étape ${k} sur ${n} : maintenant viennent les détails.`:`Étape ${n} sur ${n} : terminé. Avec un nouveau bruit, l’image serait un peu différente.`,
    alt:'Image qui apparaît peu à peu à partir du bruit'},
  hood:[['Modèle de diffusion','Le type de générateur d’images le plus courant. Il apprend à retirer le bruit d’une image étape par étape, et peut ainsi créer de nouvelles images à partir de bruit pur.'],
@@ -1524,10 +1549,11 @@ stations:[
  q:'Comment un modèle de langage apprend-il à partir de textes ?',
  text:['Un modèle de langage apprend une seule tâche : prédire le prochain morceau de mot. Il lit d’énormes quantités de texte, cache à chaque fois le morceau suivant, devine et compare. S’il se trompe, ses milliards de <b>poids</b> sont légèrement ajustés dans la bonne direction.',
        'De cet exercice tout simple naît une quantité étonnante de choses : grammaire, connaissances, style. Vient ensuite un <b>réglage fin</b> avec des personnes qui évaluent les réponses. C’est seulement ainsi que le compléteur de texte devient un assistant serviable.'],
- lab:{type:'train',land:{title:'Le paysage de l’erreur',intro:'Voici comment l’entraînement ajuste les poids : imagine tous les réglages possibles comme un paysage dont la hauteur est l’erreur. L’entraînement fait rouler la bille vers le bas, pas à pas, toujours dans la direction la plus raide. Fais glisser pour tourner.',
+ lab:{type:'train',land:{title:'Le paysage de l’erreur',how:['Imagine un tout petit modèle avec seulement deux poids, donc deux boutons. Chaque point du paysage est un réglage de ces deux boutons. Les vrais modèles ont des milliards de boutons ; personne ne peut dessiner leur paysage, mais le principe est le même.','La hauteur montre l’erreur : à quelle fréquence le modèle, avec ce réglage, se trompe sur le mot suivant en lisant les phrases d’entraînement.','Un pas d’entraînement, c’est : lire des phrases, mesurer l’erreur et tourner les deux boutons un peu dans la direction qui descend le plus fort. Sous le paysage, tu vois comment la prédiction s’améliore.'],
+     drag:'Fais glisser le paysage pour le tourner.',probe:'Le ciel est …',words:['bleu','gris','chaud'],pred:p=>`Comment le modèle continue « ${p} » avec ce réglage :`,
      rateLbl:'Taille du pas :',rates:['petit','moyen','grand'],step:'Un pas',run:'Laisser rouler',reset:'Nouveau point de départ',
-     note:(e,k)=>`Erreur ${e} après ${k} pas.`,
-     hints:{go:'Choisis une taille de pas et laisse rouler la bille.',local:'La bille est coincée dans un petit creux, alors qu’ailleurs c’est plus profond. Cela arrive aussi dans un vrai entraînement ; d’autres points de départ ou réglages aident alors.',jump:'Avec un grand pas, la bille saute par-dessus la vallée. Des pas trop grands rendent l’entraînement instable.',best:'La bille a atteint la vallée la plus profonde : l’erreur y est la plus petite.'},
+     note:(e,k,a,b)=>`Bouton 1 : ${a} · bouton 2 : ${b} · erreur ${e} · ${k} pas`,
+     hints:{roll:'La bille descend : à chaque pas, l’erreur diminue et la prédiction s’améliore.',go:'Choisis une taille de pas et laisse rouler la bille.',local:'La bille est coincée dans un petit creux, alors qu’ailleurs c’est plus profond. Cela arrive aussi dans un vrai entraînement ; d’autres points de départ ou réglages aident alors.',jump:'Avec un grand pas, la bille saute par-dessus la vallée. Des pas trop grands rendent l’entraînement instable.',best:'La bille a atteint la vallée la plus profonde : l’erreur y est la plus petite.'},
      alt:'Paysage de l’erreur que l’on peut faire tourner, avec une bille qui roule'},
    probeLbl:'Début de phrase :',
    only:l=>`Seul le mot qui suit directement « ${l} » est compté. Il est marqué dans les phrases déjà lues. Ce qui vient après, comme « clair » dans « bleu et clair », est appris pour un autre début (« … et »).`,
@@ -1981,6 +2007,9 @@ stations:[
      {t:'Un programma di traduzione traduce una pagina web.',a:['dl','gen'],why:'I traduttori moderni sono reti neurali, quindi deep learning. Molti ormai usano la stessa tecnica dei modelli linguistici, perciò va bene anche «IA generativa».'},
      {t:'Un chatbot ti scrive una lettera.',a:'gen',why:'Un modello linguistico: IA generativa che produce testo un pezzo alla volta. È l’argomento del resto di questa pagina.'},
      {t:'Un programma dipinge un’immagine dalla tua descrizione.',a:'gen',why:'Anche un generatore di immagini è IA generativa, ma funziona diversamente da un modello linguistico. Di più nella tappa «Immagini dal rumore».'}],
+   placed:n=>`Ora l’esempio si trova più in basso nel cerchio «${n}».`,
+   moreTitle:'Che cosa questa pagina non mostra',
+   more:'L’IA è molto più di chatbot e generatori di immagini. Altri grandi settori sono per esempio la <b>visione artificiale</b> (il telefono riconosce il tuo volto, le auto riconoscono i cartelli stradali), il <b>riconoscimento vocale</b> (dettatura, assistenti vocali), la <b>robotica</b> (robot aspirapolvere, robot di magazzino), i <b>sistemi di raccomandazione</b> (ciò che ti propongono servizi di streaming e negozi online), la <b>pianificazione e ottimizzazione</b> (percorsi, orari, catene di fornitura) e l’<b>apprendimento per rinforzo</b> (imparare provando e ricevendo premi, per esempio nei giochi o nel controllo). Questa pagina si concentra sui modelli linguistici e accenna ai generatori di immagini. Molte cose, come addestramento, errori e pregiudizi, valgono però per ogni tipo di IA.',
    timeTitle:'Breve storia dell’IA',
    time:[['1956','A una conferenza a Dartmouth (USA) la disciplina riceve il suo nome: «intelligenza artificiale».'],
      ['1966','ELIZA, un programma di chat con regole semplici e fisse, stupisce molte persone.'],
@@ -2002,9 +2031,9 @@ stations:[
        'Durante l’addestramento il modello ha visto milioni di immagini rese sempre più rumorose, e ha imparato ad annullare il processo. La tua descrizione guida ogni passo: decide che cosa viene «visto» nel rumore e messo in risalto. Prima compaiono le forme grossolane, alla fine i dettagli.',
        'Poiché all’inizio c’è ogni volta un rumore diverso, la stessa descrizione dà ogni volta un’immagine diversa. E poiché il modello ha solo imparato come appaiono di solito le immagini, a volte compaiono errori, come sei dita o scritte illeggibili.'],
  lab:{type:'diffusion',title:'Prova: far emergere un’immagine dal rumore',
-   intro:'Scegli una descrizione e sposta il cursore a destra, oppure lascialo scorrere. «Nuovo rumore» ricomincia con un altro caso.',
+   intro:'Scegli una descrizione e sposta il cursore a destra, oppure lascialo scorrere. Ogni nuova descrizione ricomincia dal rumore puro.',
    promptLbl:'Descrizione:', prompts:['Una casa con la porta rossa al sole','Una barca a vela sul lago','Un albero in un prato di notte'],
-   slider:'Passo', play:'Fai scorrere', reseed:'Nuovo rumore',
+   slider:'Passo', play:'Fai scorrere', reseed:'Di nuovo con altro rumore', reseedNote:'Stessa descrizione, ma rumore iniziale diverso: alla fine esce un’altra immagine. Accanto vedi il risultato precedente per confrontarlo.', prev:'Prima: stessa descrizione, altro rumore',
    stage:(k,n)=>k===0?'Passo 0: solo rumore casuale. Non si vede ancora niente.':k<n*.35?`Passo ${k} di ${n}: compaiono macchie e colori grossolani.`:k<n*.8?`Passo ${k} di ${n}: le forme diventano più chiare, il rumore diminuisce.`:k<n?`Passo ${k} di ${n}: ora arrivano i dettagli.`:`Passo ${n} di ${n}: fatto. Con un nuovo rumore l’immagine sarebbe un po’ diversa.`,
    alt:'Immagine che emerge poco a poco dal rumore'},
  hood:[['Modello di diffusione','Il tipo più diffuso di generatore di immagini. Impara a togliere il rumore da un’immagine passo dopo passo, e può quindi creare nuove immagini dal puro rumore.'],
@@ -2018,10 +2047,11 @@ stations:[
  q:'Come impara un modello linguistico dai testi?',
  text:['Un modello linguistico impara un solo compito: prevedere il prossimo pezzo di parola. Legge enormi quantità di testo, ogni volta copre il pezzo successivo, indovina e confronta. Se sbaglia, i suoi miliardi di <b>pesi</b> vengono spostati di pochissimo nella direzione giusta.',
        'Da questo semplice esercizio nasce una quantità sorprendente di cose: grammatica, conoscenze, stile. Poi arriva una <b>rifinitura</b> con persone che valutano le risposte. Solo così il completatore di testi diventa un assistente disponibile.'],
- lab:{type:'train',land:{title:'Il paesaggio dell’errore',intro:'Così l’addestramento regola i pesi: immagina tutte le impostazioni possibili come un paesaggio in cui l’altezza è l’errore. L’addestramento fa rotolare la pallina in discesa passo dopo passo, sempre nella direzione più ripida. Trascina per ruotare.',
+ lab:{type:'train',land:{title:'Il paesaggio dell’errore',how:['Immagina un modello minuscolo con solo due pesi, cioè due manopole. Ogni punto del paesaggio è un’impostazione di queste due manopole. I modelli veri hanno miliardi di manopole; nessuno può disegnare il loro paesaggio, ma il principio è lo stesso.','L’altezza mostra l’errore: quanto spesso il modello, con questa impostazione, sbaglia la parola successiva leggendo le frasi di addestramento.','Un passo di addestramento significa: leggere frasi, misurare l’errore e girare entrambe le manopole un po’ nella direzione che scende più ripida. Sotto il paesaggio vedi come migliora la previsione.'],
+     drag:'Trascina il paesaggio per ruotarlo.',probe:'Il cielo è …',words:['blu','grigio','caldo'],pred:p=>`Come il modello continua «${p}» con questa impostazione:`,
      rateLbl:'Ampiezza del passo:',rates:['piccola','media','grande'],step:'Un passo',run:'Fai rotolare',reset:'Nuovo punto di partenza',
-     note:(e,k)=>`Errore ${e} dopo ${k} passi.`,
-     hints:{go:'Scegli un’ampiezza del passo e fai rotolare la pallina.',local:'La pallina è bloccata in una piccola conca, anche se altrove si scende di più. Succede anche nell’addestramento vero; allora aiutano altri punti di partenza o altre impostazioni.',jump:'Con un passo grande la pallina salta oltre la valle. Passi troppo grandi rendono l’addestramento instabile.',best:'La pallina ha raggiunto la valle più profonda: qui l’errore è minimo.'},
+     note:(e,k,a,b)=>`Manopola 1: ${a} · manopola 2: ${b} · errore ${e} · ${k} passi`,
+     hints:{roll:'La pallina rotola in discesa: a ogni passo l’errore diminuisce e la previsione migliora.',go:'Scegli un’ampiezza del passo e fai rotolare la pallina.',local:'La pallina è bloccata in una piccola conca, anche se altrove si scende di più. Succede anche nell’addestramento vero; allora aiutano altri punti di partenza o altre impostazioni.',jump:'Con un passo grande la pallina salta oltre la valle. Passi troppo grandi rendono l’addestramento instabile.',best:'La pallina ha raggiunto la valle più profonda: qui l’errore è minimo.'},
      alt:'Paesaggio dell’errore ruotabile con una pallina che rotola'},
    probeLbl:'Inizio della frase:',
    only:l=>`Viene contata solo la parola subito dopo «${l}». Nelle frasi già lette è evidenziata. Quello che viene dopo, come «limpido» in «blu e limpido», il modello lo impara per un altro inizio («… e»).`,
@@ -2476,6 +2506,9 @@ stations:[
      {t:'Un traductor automático traduce una página web.',a:['dl','gen'],why:'Los traductores modernos son redes neuronales, es decir, aprendizaje profundo. Muchos usan ya la misma técnica que los modelos de lenguaje, así que «IA generativa» también vale.'},
      {t:'Un chatbot te escribe una carta.',a:'gen',why:'Un modelo de lenguaje: IA generativa que produce texto trozo a trozo. De eso trata el resto de esta página.'},
      {t:'Un programa pinta una imagen a partir de tu descripción.',a:'gen',why:'Un generador de imágenes también es IA generativa, pero funciona de otra manera que un modelo de lenguaje. Más en la estación «Imágenes a partir de ruido».'}],
+   placed:n=>`El ejemplo está ahora más abajo, en el círculo «${n}».`,
+   moreTitle:'Lo que esta página no muestra',
+   more:'La IA es mucho más que chatbots y generadores de imágenes. Otros grandes campos son, por ejemplo, la <b>visión artificial</b> (el móvil reconoce tu cara, los coches reconocen señales de tráfico), el <b>reconocimiento de voz</b> (dictado, asistentes de voz), la <b>robótica</b> (robots aspiradores, robots de almacén), los <b>sistemas de recomendación</b> (lo que te sugieren las plataformas de streaming y las tiendas online), la <b>planificación y optimización</b> (rutas, horarios, cadenas de suministro) y el <b>aprendizaje por refuerzo</b> (aprender probando y recibiendo recompensas, por ejemplo en juegos o en el control de máquinas). Esta página se centra en los modelos de lenguaje y toca los generadores de imágenes. Pero mucho de ello, como el entrenamiento, los errores y los sesgos, vale para todo tipo de IA.',
    timeTitle:'Breve historia de la IA',
    time:[['1956','En una conferencia en Dartmouth (EE. UU.) la disciplina recibe su nombre: «inteligencia artificial».'],
      ['1966','ELIZA, un programa de conversación con reglas sencillas y fijas, sorprende a mucha gente.'],
@@ -2497,9 +2530,9 @@ stations:[
        'En el entrenamiento, el modelo vio millones de imágenes a las que se añadía ruido paso a paso, y aprendió a deshacerlo. Tu descripción guía cada paso: decide qué se «ve» en el ruido y se va perfilando. Primero aparecen las formas generales, al final los detalles.',
        'Como cada vez se parte de un ruido distinto, la misma descripción da cada vez una imagen distinta. Y como el modelo solo ha aprendido cómo suelen ser las imágenes, a veces aparecen errores, como seis dedos o letras ilegibles.'],
  lab:{type:'diffusion',title:'Pruébalo: sacar una imagen del ruido',
-   intro:'Elige una descripción y mueve el control hacia la derecha, o deja que avance solo. «Ruido nuevo» empieza todo con otro azar.',
+   intro:'Elige una descripción y mueve el control hacia la derecha, o deja que avance solo. Cada descripción nueva empieza otra vez desde el ruido puro.',
    promptLbl:'Descripción:', prompts:['Una casa con puerta roja al sol','Un velero en el lago','Un árbol en un prado de noche'],
-   slider:'Paso', play:'Dejar avanzar', reseed:'Ruido nuevo',
+   slider:'Paso', play:'Dejar avanzar', reseed:'Otra vez con otro ruido', reseedNote:'Misma descripción, pero otro ruido inicial: al final sale otra imagen. Al lado ves el resultado anterior para comparar.', prev:'Antes: misma descripción, otro ruido',
    stage:(k,n)=>k===0?'Paso 0: solo ruido al azar. Todavía no se ve nada.':k<n*.35?`Paso ${k} de ${n}: aparecen zonas y colores generales.`:k<n*.8?`Paso ${k} de ${n}: las formas se aclaran, el ruido disminuye.`:k<n?`Paso ${k} de ${n}: ahora llegan los detalles.`:`Paso ${n} de ${n}: listo. Con ruido nuevo la imagen sería algo distinta.`,
    alt:'Imagen que surge poco a poco del ruido'},
  hood:[['Modelo de difusión','El tipo más común de generador de imágenes. Aprende a quitar el ruido de una imagen paso a paso, y así puede crear imágenes nuevas a partir de puro ruido.'],
@@ -2513,10 +2546,11 @@ stations:[
  q:'¿Cómo aprende un modelo de lenguaje a partir de textos?',
  text:['Un modelo de lenguaje aprende una sola tarea: predecir el siguiente trozo de palabra. Lee cantidades enormes de texto, tapa cada vez el trozo siguiente, adivina y compara. Si falla, sus miles de millones de <b>pesos</b> se mueven un poquito en la dirección correcta.',
        'De este ejercicio tan sencillo surge muchísimo: gramática, conocimientos, estilo. Después llega un <b>ajuste fino</b> con personas que valoran las respuestas. Solo así el completador de textos se convierte en un asistente servicial.'],
- lab:{type:'train',land:{title:'El paisaje del error',intro:'Así ajusta el entrenamiento los pesos: imagina todos los ajustes posibles como un paisaje cuya altura es el error. El entrenamiento hace rodar la bola cuesta abajo paso a paso, siempre en la dirección más empinada. Arrastra para girar.',
+ lab:{type:'train',land:{title:'El paisaje del error',how:['Imagina un modelo diminuto con solo dos pesos, es decir, dos perillas. Cada punto del paisaje es un ajuste de esas dos perillas. Los modelos reales tienen miles de millones de perillas; nadie puede dibujar su paisaje, pero el principio es el mismo.','La altura muestra el error: con qué frecuencia el modelo, con este ajuste, falla la palabra siguiente al leer las frases de entrenamiento.','Un paso de entrenamiento significa: leer frases, medir el error y girar las dos perillas un poco en la dirección que baja más empinada. Debajo del paisaje ves cómo mejora la predicción.'],
+     drag:'Arrastra el paisaje para girarlo.',probe:'El cielo está …',words:['azul','gris','caliente'],pred:p=>`Cómo continúa el modelo «${p}» con este ajuste:`,
      rateLbl:'Tamaño del paso:',rates:['pequeño','mediano','grande'],step:'Un paso',run:'Dejar rodar',reset:'Nuevo punto de partida',
-     note:(e,k)=>`Error ${e} tras ${k} pasos.`,
-     hints:{go:'Elige un tamaño de paso y deja rodar la bola.',local:'La bola se ha quedado atascada en un pequeño hoyo, aunque en otro sitio se baja más. Esto también pasa en el entrenamiento real; entonces ayudan otros puntos de partida u otros ajustes.',jump:'Con un paso grande, la bola salta por encima del valle. Los pasos demasiado grandes hacen el entrenamiento inestable.',best:'La bola ha llegado al valle más profundo: aquí el error es el menor.'},
+     note:(e,k,a,b)=>`Perilla 1: ${a} · perilla 2: ${b} · error ${e} · ${k} pasos`,
+     hints:{roll:'La bola rueda cuesta abajo: con cada paso el error baja y la predicción mejora.',go:'Elige un tamaño de paso y deja rodar la bola.',local:'La bola se ha quedado atascada en un pequeño hoyo, aunque en otro sitio se baja más. Esto también pasa en el entrenamiento real; entonces ayudan otros puntos de partida u otros ajustes.',jump:'Con un paso grande, la bola salta por encima del valle. Los pasos demasiado grandes hacen el entrenamiento inestable.',best:'La bola ha llegado al valle más profundo: aquí el error es el menor.'},
      alt:'Paisaje del error que se puede girar, con una bola que rueda'},
    probeLbl:'Inicio de frase:',
    only:l=>`Solo se cuenta la palabra que va justo después de «${l}». En las frases ya leídas está marcada. Lo que viene después, como «despejado» en «azul y despejado», el modelo lo aprende para otro inicio («… y»).`,
@@ -2970,6 +3004,9 @@ stations:[
      {t:'Een vertaalprogramma vertaalt een webpagina.',a:['dl','gen'],why:'Moderne vertalers zijn neurale netwerken, dus deep learning. Veel gebruiken inmiddels dezelfde techniek als taalmodellen, daarom past „generatieve AI” ook.'},
      {t:'Een chatbot schrijft een brief voor je.',a:'gen',why:'Een taalmodel: generatieve AI die tekst stukje voor stukje maakt. Daar gaat de rest van deze pagina over.'},
      {t:'Een programma maakt een plaatje op basis van je beschrijving.',a:'gen',why:'Een beeldgenerator is ook generatieve AI, maar werkt anders dan een taalmodel. Meer daarover in het station „Beelden uit ruis”.'}],
+   placed:n=>`Het voorbeeld staat nu hieronder in de cirkel „${n}”.`,
+   moreTitle:'Wat deze pagina niet laat zien',
+   more:'AI is veel meer dan chatbots en beeldgeneratoren. Andere grote deelgebieden zijn bijvoorbeeld <b>beeldherkenning</b> (je telefoon herkent je gezicht, auto’s herkennen verkeersborden), <b>spraakherkenning</b> (dicteren, spraakassistenten), <b>robotica</b> (robotstofzuigers, magazijnrobots), <b>aanbevelingssystemen</b> (wat streamingdiensten en webwinkels je voorstellen), <b>plannen en optimaliseren</b> (routes, dienstregelingen, toeleveringsketens) en <b>reinforcement learning</b> (leren door uitproberen en beloning, bijvoorbeeld bij spellen of besturing). Deze pagina richt zich op taalmodellen en raakt beeldgeneratoren aan. Veel ervan, zoals training, fouten en vooroordelen, geldt wel voor alle soorten AI.',
    timeTitle:'Korte geschiedenis van AI',
    time:[['1956','Op een conferentie in Dartmouth (VS) krijgt het vakgebied zijn naam: „kunstmatige intelligentie”.'],
      ['1966','ELIZA, een chatprogramma met eenvoudige vaste regels, verbaast veel mensen.'],
@@ -2991,9 +3028,9 @@ stations:[
        'Tijdens de training zag het model miljoenen beelden die stap voor stap steeds meer ruis kregen, en leerde dat terug te draaien. Je beschrijving stuurt elke stap: ze bepaalt wat er in de ruis wordt „gezien” en uitgewerkt. Eerst verschijnen ruwe vormen, op het eind de details.',
        'Omdat er elke keer andere ruis aan het begin staat, levert dezelfde beschrijving elke keer een ander beeld op. En omdat het model alleen heeft geleerd hoe beelden er meestal uitzien, ontstaan er soms fouten, zoals zes vingers of onleesbare tekst.'],
  lab:{type:'diffusion',title:'Probeer het: een beeld uit ruis halen',
-   intro:'Kies een beschrijving en schuif de regelaar naar rechts, of laat het afspelen. Met „Nieuwe ruis” begint alles met ander toeval.',
+   intro:'Kies een beschrijving en schuif de regelaar naar rechts, of laat het afspelen. Elke nieuwe beschrijving begint weer bij pure ruis.',
    promptLbl:'Beschrijving:', prompts:['Een huis met een rode deur in de zon','Een zeilboot op het meer','Een boom in een weiland bij nacht'],
-   slider:'Stap', play:'Laten afspelen', reseed:'Nieuwe ruis',
+   slider:'Stap', play:'Laten afspelen', reseed:'Opnieuw met andere ruis', reseedNote:'Dezelfde beschrijving, maar andere startruis: aan het eind ontstaat een ander beeld. Ernaast zie je het vorige resultaat om te vergelijken.', prev:'Eerder: zelfde beschrijving, andere ruis',
    stage:(k,n)=>k===0?'Stap 0: alleen willekeurige ruis. Er is nog niets te zien.':k<n*.35?`Stap ${k} van ${n}: ruwe vlakken en kleuren verschijnen.`:k<n*.8?`Stap ${k} van ${n}: de vormen worden duidelijker, de ruis neemt af.`:k<n?`Stap ${k} van ${n}: nu komen de details.`:`Stap ${n} van ${n}: klaar. Met nieuwe ruis zou het beeld er iets anders uitzien.`,
    alt:'Beeld dat stap voor stap uit ruis ontstaat'},
  hood:[['Diffusiemodel','Het meest gebruikte type beeldgenerator. Het leert stap voor stap ruis uit een beeld te halen, en kan zo uit pure ruis nieuwe beelden maken.'],
@@ -3007,10 +3044,11 @@ stations:[
  q:'Hoe leert een taalmodel van tekst?',
  text:['Een taalmodel leert één enkele taak: het volgende woorddeel voorspellen. Het leest enorme hoeveelheden tekst, dekt telkens het volgende stuk af, raadt en vergelijkt. Zit het ernaast, dan worden zijn miljarden <b>gewichten</b> een heel klein beetje in de goede richting verschoven.',
        'Uit deze eenvoudige oefening ontstaat verrassend veel: grammatica, feitenkennis, stijl. Daarna volgt een <b>fijnafstemming</b> met mensen die antwoorden beoordelen. Pas daardoor wordt de tekstaanvuller een behulpzame assistent.'],
- lab:{type:'train',land:{title:'Het foutenlandschap',intro:'Zo stelt de training de gewichten bij: stel je alle mogelijke instellingen voor als een landschap waarin de hoogte de fout is. De training laat de bal stap voor stap bergaf rollen, steeds in de steilste richting. Sleep om te draaien.',
+ lab:{type:'train',land:{title:'Het foutenlandschap',how:['Stel je een piepklein model voor met maar twee gewichten, dus twee knoppen. Elke plek in het landschap is een instelling van deze twee knoppen. Echte modellen hebben miljarden knoppen; hun landschap kan niemand tekenen, maar het principe is hetzelfde.','De hoogte toont de fout: hoe vaak het model met deze instelling het volgende woord verkeerd raadt bij het lezen van de trainingszinnen.','Een trainingsstap betekent: zinnen lezen, de fout meten en beide knoppen een stukje draaien in de richting waar het het steilst bergaf gaat. Onder het landschap zie je hoe de voorspelling beter wordt.'],
+     drag:'Sleep het landschap om het te draaien.',probe:'De lucht is …',words:['blauw','grijs','heet'],pred:p=>`Zo vult het model „${p}” aan met deze instelling:`,
      rateLbl:'Stapgrootte:',rates:['klein','middel','groot'],step:'Eén stap',run:'Laten rollen',reset:'Nieuw startpunt',
-     note:(e,k)=>`Fout ${e} na ${k} stappen.`,
-     hints:{go:'Kies een stapgrootte en laat de bal rollen.',local:'De bal zit vast in een kleine kuil, terwijl het elders dieper gaat. Dat gebeurt ook bij echte training; dan helpen andere startpunten of instellingen.',jump:'Bij een grote stap springt de bal over het dal heen. Te grote stappen maken de training onrustig.',best:'De bal heeft het diepste dal bereikt: hier is de fout het kleinst.'},
+     note:(e,k,a,b)=>`Knop 1: ${a} · knop 2: ${b} · fout ${e} · ${k} stappen`,
+     hints:{roll:'De bal rolt bergaf: met elke stap wordt de fout kleiner en de voorspelling beter.',go:'Kies een stapgrootte en laat de bal rollen.',local:'De bal zit vast in een kleine kuil, terwijl het elders dieper gaat. Dat gebeurt ook bij echte training; dan helpen andere startpunten of instellingen.',jump:'Bij een grote stap springt de bal over het dal heen. Te grote stappen maken de training onrustig.',best:'De bal heeft het diepste dal bereikt: hier is de fout het kleinst.'},
      alt:'Draaibaar foutenlandschap met een rollende bal'},
    probeLbl:'Begin van de zin:',
    only:l=>`Alleen het woord direct na „${l}” telt. In de gelezen zinnen is het gemarkeerd. Wat daarna komt, zoals „helder” in „blauw en helder”, leert het model voor een ander begin („… en”).`,
@@ -3433,8 +3471,7 @@ function render(){
   </div>`;
   $$('.langbar [data-lang]').forEach(b=>b.onclick=()=>{if(b.dataset.lang!==LC)setLang(b.dataset.lang)});
   if(i>=0)LAB[st[i].lab.type].bind(st[i].lab,st[i].id);
-  if(v===FIN){bindQuiz();bindCheat()}
-  if(v===HOME)bindFlow();
+  if(v===FIN){bindFlow();bindQuiz();bindCheat()}
 }
 window.addEventListener('hashchange',()=>{render();window.scrollTo({top:0,behavior:'instant'});const h=$('#app h1, #app h2');if(h){h.setAttribute('tabindex','-1');h.focus({preventScroll:true})}});
 
@@ -3450,7 +3487,7 @@ function homePage(){const st=L.stations;
       <p class="small">${u.meta}</p>
       <div class="row"><a class="btn primary" href="#${st[0].id}">${u.startBtn} →</a></div>
     </header>
-    ${L.parts.map((p,pi)=>`<section class="part-head"><span class="kick">${u.partKick(pi+1)}</span><h2>${p.title}</h2><p>${p.intro}</p>${p.flow?flowHtml(p.flow):''}
+    ${L.parts.map((p,pi)=>`<section class="part-head"><span class="kick">${u.partKick(pi+1)}</span><h2>${p.title}</h2><p>${p.intro}</p>
       <div class="cards">${st.map((s,k)=>s.part===p.id?card(s,k):'').join('')}</div></section>`).join('')}
     <section class="part-head"><span class="kick">${u.finKick}</span><h2>${u.finTitle}</h2>
       <div class="cards"><a class="card" href="#${FIN}"><span class="n">✓</span><span class="ct"><b>${u.finTitle}</b><span>${u.finCard}</span></span></a></div></section>`}
@@ -3472,7 +3509,7 @@ function stationPage(i){const st=L.stations,s=st[i],pi=L.parts.findIndex(p=>p.id
   const prev=i>0?[st[i-1].id,st[i-1].short]:[HOME,u.navHome],next=i<st.length-1?[st[i+1].id,st[i+1].short]:[FIN,u.finTitle];
   return crumb(`${u.partKick(pi+1)} · ${L.parts[pi].title}`)+stepNav(s.id)+station(s,i)+pager(prev,next)}
 function finPage(){const st=L.stations;
-  return crumb(u.finKick)+stepNav(FIN)+`<div class="part-head"><span class="kick">${u.finKick}</span><h2>${u.finTitle}</h2></div>${quizHtml()}${cheatHtml()}`
+  return crumb(u.finKick)+stepNav(FIN)+`<div class="part-head"><span class="kick">${u.finKick}</span><h2>${u.finTitle}</h2></div>${L.parts.filter(p=>p.flow).map(p=>flowHtml(p.flow)).join('')}${quizHtml()}${cheatHtml()}`
     +pager([st[st.length-1].id,st[st.length-1].short],[HOME,u.navHome])}
 function station(s,i){
   return `<section class="station" id="${s.id}" aria-labelledby="h-${s.id}">
@@ -3516,11 +3553,12 @@ const callout=(kind,lbl,html)=>`<div class="call ${kind}"><p>${lbl?`<b class="sr
 LAB.sort={
   html:(d,id)=>{const ring=(k,inner)=>`<div class="ring r-${k}" data-ring="${k}"><div class="rl"><b>${d.rings[k]}</b><span>${d.notes[k]}</span></div><div class="rc" id="${id}-c-${k}"></div>${inner||''}</div>`;
     return `<p class="small">${d.intro}</p>
-    <div class="rings">${ring('ki',ring('ml',ring('dl',ring('gen'))))}${ring('none')}</div>
     <div class="sortq"><p class="small mono" id="${id}-pos"></p><p class="sitem" id="${id}-item" aria-live="polite"></p>
       ${seg(d.ask,['none','ki','ml','dl','gen'].map(k=>d.rings[k]),'data-o',-1).replace('class="seg"',`class="seg" id="${id}-opts"`)}
       <p class="fb" id="${id}-fb" aria-live="polite"></p>
       <div class="row wait" id="${id}-nx"><button class="btn primary go" id="${id}-next">${d.next}</button></div></div>
+    <div class="rings">${ring('ki',ring('ml',ring('dl',ring('gen'))))}${ring('none')}</div>
+    ${callout('info','',`<b>${d.moreTitle}:</b> ${d.more}`)}
     <h3>${d.timeTitle}</h3><ol class="timeline">${d.time.map(([y,t])=>`<li><b>${y}</b><span>${t}</span></li>`).join('')}</ol>`},
   bind(d,id){const K=['none','ki','ml','dl','gen'];let i=0,ok=0,done=false;
     const show=()=>{const it=d.items[i];done=false;$(`#${id}-pos`).textContent=d.pos(i+1,d.items.length);$(`#${id}-item`).textContent=it.t;
@@ -3529,9 +3567,9 @@ LAB.sort={
     $$(`#${id}-opts .opt`).forEach(b=>b.onclick=()=>{if(done)return;done=true;const it=d.items[i],ans=[].concat(it.a),k=K[+b.dataset.o],hit=ans.includes(k);
       if(hit)ok++;press(`#${id}-opts .opt`,x=>x===b);
       const home=hit?k:ans[0];$$(`#${id} .ring`).forEach(r=>r.classList.toggle('hl',r.dataset.ring===home));
-      $(`#${id}-c-${home}`).insertAdjacentHTML('beforeend',`<span class="chip${hit?'':' miss'}">${esc(it.t.replace(/[.!?。]\s*$/,''))}</span>`);
+      $$(`#${id} .chip.new`).forEach(c=>c.classList.remove('new'));$(`#${id}-c-${home}`).insertAdjacentHTML('beforeend',`<span class="chip new${hit?'':' miss'}">${esc(it.t.replace(/[.!?。]\s*$/,''))}</span>`);
       const last=i===d.items.length-1,f=$(`#${id}-fb`);f.className='fb'+(hit?'':' no');
-      f.textContent=(hit?d.right:d.wrong(d.rings[ans[0]]))+' '+it.why+(last?' '+d.done(ok,d.items.length):'');
+      f.textContent=(hit?d.right:d.wrong(d.rings[ans[0]]))+' '+it.why+' '+d.placed(d.rings[home])+(last?' '+d.done(ok,d.items.length):'');
       $(`#${id}-next`).textContent=last?d.again:d.next;$(`#${id}-nx`).classList.remove('wait')});
     $(`#${id}-next`).onclick=()=>{if(i===d.items.length-1){i=0;ok=0;$$(`#${id} .rc`).forEach(c=>c.innerHTML='')}else i++;show()};
     show()}};
@@ -3558,10 +3596,12 @@ function scene(ctx,W,H,kind,seed){const r=rng(seed*7919+kind*13),j=(a,b)=>a+(b-a
 LAB.diffusion={
   html:(d,id)=>`<p class="small">${d.intro}</p>
     ${seg(d.promptLbl,d.prompts,'data-p',0)}
-    <canvas class="diff" id="${id}-cv" width="240" height="160" role="img" aria-label="${esc(d.alt)}"></canvas>
+    <div class="diffrow"><canvas class="diff" id="${id}-cv" width="240" height="160" role="img" aria-label="${esc(d.alt)}"></canvas>
+      <figure class="prev" id="${id}-pf" hidden><canvas id="${id}-pv" width="240" height="160" role="img" aria-label="${esc(d.prev)}"></canvas><figcaption>${d.prev}</figcaption></figure></div>
     <div class="slider"><label for="${id}-k">${d.slider}</label><input type="range" id="${id}-k" min="0" max="40" step="1" value="0"><span class="tval" id="${id}-kv"></span></div>
     <p class="small" id="${id}-st" aria-live="polite" style="min-height:3em"></p>
-    <div class="row"><button class="btn primary go" id="${id}-play">${d.play}</button><button class="btn" id="${id}-seed">🎲 ${d.reseed}</button></div>`,
+    <div class="row"><button class="btn primary go" id="${id}-play">${d.play}</button><button class="btn" id="${id}-seed">🎲 ${d.reseed}</button></div>
+    <p class="small" id="${id}-sn" aria-live="polite"></p>`,
   bind(d,id){const N=40,W=240,H=160,cv=$(`#${id}-cv`),ctx=cv.getContext('2d'),full=document.createElement('canvas'),sm=document.createElement('canvas');
     full.width=W;full.height=H;let kind=0,seed=1,noise=null,timer=null;
     const mkNoise=()=>{const r=rng(seed+4242);noise=new Uint8ClampedArray(W*H*4);for(let i=0;i<noise.length;i++)noise[i]=Math.floor(((r()+r()+r())/3)*255)};
@@ -3576,21 +3616,26 @@ LAB.diffusion={
       ctx.putImageData(img,0,0)};
     const stop=()=>{clearInterval(timer);timer=null};
     $(`#${id}-k`).addEventListener('input',()=>{stop();paint()});
-    $$(`#${id} [data-p]`).forEach(b=>b.onclick=()=>{kind=+b.dataset.p;press(`#${id} [data-p]`,x=>x===b);paint()});
-    $(`#${id}-seed`).onclick=()=>{stop();seed=Math.floor(Math.random()*1e6)+2;mkNoise();paint()};
+    const restart=()=>{stop();$(`#${id}-k`).value=0;paint()};
+    $$(`#${id} [data-p]`).forEach(b=>b.onclick=()=>{kind=+b.dataset.p;press(`#${id} [data-p]`,x=>x===b);$(`#${id}-pf`).hidden=true;$(`#${id}-sn`).textContent='';restart()});
+    /* Neues Rauschen: dieselbe Beschreibung mit anderem Zufall von vorn; das bisherige Endergebnis bleibt zum Vergleich stehen */
+    $(`#${id}-seed`).onclick=()=>{const pv=$(`#${id}-pv`);scene(pv.getContext('2d'),W,H,kind,seed);$(`#${id}-pf`).hidden=false;$(`#${id}-sn`).textContent=d.reseedNote;
+      seed=Math.floor(Math.random()*1e6)+2;mkNoise();restart();$(`#${id}-play`).click()};
     $(`#${id}-play`).onclick=()=>{stop();const sl=$(`#${id}-k`);if(reduce){sl.value=N;paint();return}sl.value=0;paint();
       timer=setInterval(()=>{if(!cv.isConnected){stop();return}sl.value=+sl.value+1;paint();if(+sl.value>=N)stop()},90)};
     mkNoise();paint()}};
 
 /* Fehler-Landschaft: Gradientenabstieg als Kugel, die bergab rollt (zwei Täler: ein tiefes, eine kleine Mulde) */
 const lossAt=(u,v)=>.25*(u*u+v*v)+1-.9*Math.exp(-((u-.45)**2+(v-.35)**2)/.08)-.55*Math.exp(-((u+.5)**2+(v+.45)**2)/.06);
-const landHtml=(d,id)=>{const L=d.land;return `<div class="land"><h3>${L.title}</h3><p class="small">${L.intro}</p>
+const landHtml=(d,id)=>{const L=d.land;return `<div class="land"><h3>${L.title}</h3><ol class="how small">${L.how.map(t=>`<li>${t}</li>`).join('')}</ol><p class="small">${L.drag}</p>
   <canvas class="c3" id="${id}-lc" tabindex="0" role="img" aria-label="${esc(L.alt)}"></canvas>
   ${seg(L.rateLbl,L.rates,'data-lr',0)}
   <div class="row"><button class="btn primary go" id="${id}-lrun">${L.run}</button><button class="btn" id="${id}-lstep">${L.step}</button><button class="btn ghost undo" id="${id}-lnew">${L.reset}</button></div>
-  <p class="small mono" id="${id}-lnote"></p><p class="small" id="${id}-lhint" aria-live="polite" style="min-height:3em"></p></div>`};
+  <p class="small mono" id="${id}-lnote"></p>
+  <p class="small"><b>${L.pred(esc(L.probe))}</b></p><div class="bars" id="${id}-lpred"></div>
+  <p class="small" id="${id}-lhint" aria-live="polite" style="min-height:3em"></p></div>`};
 function landBind(d,id){const L=d.land,rates=[.02,.06,.25],starts=[[-.9,-.85],[.9,-.8],[-.85,.85],[.85,.9],[-.2,-.95],[.1,.95]];
-  let lr=rates[0],si=0,pos=starts[0].slice(),trail=[pos.slice()],k=0,rose=false,timer=null;
+  let moved=1,lr=rates[0],si=0,pos=starts[0].slice(),trail=[pos.slice()],k=0,rose=false,timer=null;
   const H=(u,v)=>lossAt(u,v)*.75-.55;
   const draw=(c,P)=>{const N=24,col=cssv('--teal');c.lineWidth=1;
     for(let i=0;i<=N;i++)for(const dir of [0,1]){c.beginPath();for(let j=0;j<=N;j++){const u=-1+2*(dir?i:j)/N,v=-1+2*(dir?j:i)/N,[x,y]=P(u,H(u,v),v);j?c.lineTo(x,y):c.moveTo(x,y)}
@@ -3598,16 +3643,20 @@ function landBind(d,id){const L=d.land,rates=[.02,.06,.25],starts=[[-.9,-.85],[.
     c.globalAlpha=1;c.strokeStyle=cssv('--coral');c.lineWidth=2.5;c.beginPath();trail.forEach(([u,v],j)=>{const [x,y]=P(u,H(u,v)+.03,v);j?c.lineTo(x,y):c.moveTo(x,y)});c.stroke();
     const [bx,by,,f]=P(pos[0],H(pos[0],pos[1])+.05,pos[1]);c.fillStyle=cssv('--coral');c.strokeStyle=cssv('--edge');c.lineWidth=2;c.beginPath();c.arc(bx,by,9*f,0,7);c.fill();c.stroke();};
   const v=make3d($(`#${id}-lc`),draw,.3,.56);
-  const info=()=>{const e=lossAt(...pos);$(`#${id}-lnote`).textContent=L.note(e.toFixed(2).replace('.',u.dec),k);
-    $(`#${id}-lhint`).textContent=!k?L.hints.go:rose?L.hints.jump:e<.25?L.hints.best:L.hints.local;v.redraw()};
+  const num=x=>(x<0?'−':'')+Math.abs(x).toFixed(2).replace('.',u.dec);
+  /* Vorhersage des Mini-Modells: je kleiner der Fehler, desto sicherer das passende Wort */
+  const pred=e=>{const g=Math.max(0,Math.min(1,(1.4-e)/1.2)),p=1/3+(.86-1/3)*g,r=1-p;return [p,r*.6,r*.4].map((x,i)=>({w:L.words[i],p:x,cls:i?'':'top'}))};
+  const info=()=>{const e=lossAt(...pos);$(`#${id}-lnote`).textContent=L.note(e.toFixed(2).replace('.',u.dec),k,num(pos[0]),num(pos[1]));
+    $(`#${id}-lpred`).innerHTML=bars(pred(e));
+    $(`#${id}-lhint`).textContent=!k?L.hints.go:rose?L.hints.jump:e<.25?L.hints.best:moved>4e-3?L.hints.roll:L.hints.local;v.redraw()};
   const step=()=>{const [a,b]=pos,h=1e-3,gu=(lossAt(a+h,b)-lossAt(a-h,b))/(2*h),gv=(lossAt(a,b+h)-lossAt(a,b-h))/(2*h),before=lossAt(a,b);
-    pos=[Math.max(-1,Math.min(1,a-lr*gu)),Math.max(-1,Math.min(1,b-lr*gv))];if(lossAt(...pos)>before+1e-4)rose=true;trail.push(pos.slice());k++};
+    pos=[Math.max(-1,Math.min(1,a-lr*gu)),Math.max(-1,Math.min(1,b-lr*gv))];moved=Math.hypot(pos[0]-a,pos[1]-b);if(lossAt(...pos)>before+1e-4)rose=true;trail.push(pos.slice());k++};
   const stop=()=>{clearInterval(timer);timer=null};
   $$(`#${id} [data-lr]`).forEach(b=>b.onclick=()=>{lr=rates[+b.dataset.lr];press(`#${id} [data-lr]`,x=>x===b)});
   $(`#${id}-lstep`).onclick=()=>{stop();step();info()};
   $(`#${id}-lrun`).onclick=()=>{stop();if(reduce){for(let i=0;i<40;i++)step();info();return}let n=0;
     timer=setInterval(()=>{if(!$(`#${id}-lc`)){stop();return}step();info();if(++n>=40)stop()},90)};
-  $(`#${id}-lnew`).onclick=()=>{stop();si=(si+1)%starts.length;pos=starts[si].slice();trail=[pos.slice()];k=0;rose=false;info()};
+  $(`#${id}-lnew`).onclick=()=>{stop();si=(si+1)%starts.length;pos=starts[si].slice();trail=[pos.slice()];k=0;rose=false;moved=1;info()};
   info()}
 
 /* Training: ein Mini-Modell zählt, welches Wort nach zwei Wörtern folgt */
