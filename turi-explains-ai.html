@@ -179,6 +179,10 @@ input[type=text]{font:inherit;width:100%;border:2px solid var(--edge);border-rad
 @media (max-width:480px){.bar{grid-template-columns:76px minmax(0,1fr) 46px 36px;gap:6px}}
 .slider{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:center}
 .slider input{width:100%;accent-color:var(--coral)}
+.picrow{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end;margin:10px 0}
+.piccv{flex:1 1 240px;min-width:0;max-width:480px;width:100%;height:auto;aspect-ratio:3/2;border:3px solid var(--edge);border-radius:16px;image-rendering:auto}
+.picprev{margin:0;flex:0 1 160px;display:flex;flex-direction:column;gap:4px}
+.picprev canvas{width:100%;height:auto;border:2px solid var(--edge);border-radius:12px}
 .question{font-family:var(--f-display);font-size:1.35rem;font-weight:500}
 .slot{display:inline-block;min-width:3.2em;border-bottom:3px dashed var(--coral);color:var(--coral);text-align:center}
 .result{font-family:var(--f-display);font-size:1.1rem;min-height:1.6em}
@@ -593,7 +597,10 @@ cases:[
  {s:'Du siehst ein Video, in dem ein berühmter Fußballer etwas total Verrücktes sagt.',a:'y',why:'Mit KI kann man Videos fälschen, die echt aussehen. Das nennt man Deepfake. Erst prüfen, ob seriöse Nachrichten darüber berichten, und nicht einfach weiterschicken.'},
  {s:'Eine Sprachnachricht klingt genau wie deine Mama. Sie bittet dich, schnell einen Code vom Handy zu schicken.',a:'r',why:'Stopp! KI kann Stimmen nachmachen. Ruf deine Mama selbst an oder frag persönlich nach, bevor du irgendetwas schickst. Ein Familien-Codewort hilft auch.'},
  {s:'Jemand aus deiner Klasse will mit KI ein peinliches Bild von einem anderen Kind machen.',a:'r',why:'Stopp! Das verletzt andere Menschen und kann sogar verboten sein. Mach nicht mit und erzähl es einem Erwachsenen, dem du vertraust.'},
- {s:'Du hast Bauchweh und fragst die KI, welche Tabletten du nehmen sollst.',a:'r',why:'Bei Gesundheit fragst du deine Eltern oder eine Ärztin. Eine KI kann sich irren, und hier wäre ein Fehler gefährlich.'}],
+ {s:'Du hast Bauchweh und fragst die KI, welche Tabletten du nehmen sollst.',a:'r',why:'Bei Gesundheit fragst du deine Eltern oder eine Ärztin. Eine KI kann sich irren, und hier wäre ein Fehler gefährlich.'},
+ {s:'Du nimmst ein Bild, das eine KI gemalt hat, für dein Plakat in der Schule.',a:'y',why:'Das ist okay, aber schreib dazu, dass es von einer KI ist. So wissen alle, woher das Bild kommt, und niemand denkt, du hättest es selbst gemalt.'},
+ {s:'Du lässt die KI deine Hausaufgabe schreiben und gibst sie als deine eigene ab.',a:'r',why:'Stopp! Dann lernst du nichts, und es ist geschummelt. Ob und wie du KI benutzen darfst, entscheidet deine Lehrerin oder dein Lehrer. Lass dir lieber etwas erklären und schreib dann selbst.'},
+ {s:'Du lädst ein Foto deiner Freundin in eine KI-App, um sie lustig aussehen zu lassen.',a:'r',why:'Stopp! Für Fotos von anderen Menschen brauchst du ihre Erlaubnis, auch für einen Spaß. Was in der App landet, kann gespeichert oder weitergegeben werden.'}],
 amp:{g:'Grün: Prima',y:'Gelb: Vorsicht, nachprüfen',r:'Rot: Stopp, Erwachsene fragen'}, ampShort:{g:'Grün',y:'Gelb',r:'Rot'},
 cheese:['Der','Himmel','ist','Käse',',','weil','der','Mond','ihn','jede','Nacht','mit','Milch','anmalt','.'],
 quiz:[
@@ -705,6 +712,14 @@ ui:{
  genSay:'Ein Token ist geraten. Und jetzt? Das neue Token wird hinten angehängt, und <b>alles beginnt von vorn</b>: schneiden, Zahlen, Aufmerksamkeit, raten. Immer wieder, bis das Modell das besondere Token <b>[ENDE]</b> wählt. Eine KI schreibt ihre Antwort also nicht auf einmal, sondern Schritt für Schritt.',
  loop:['Text lesen','Aufmerksamkeit','Raten','Anhängen'], genStep:'Nächstes Wort raten', genAuto:'Automatisch', genPause:'Pause', genRestart:'Von vorn',
  genCand:'Kandidaten', genOther:'Probier auch die anderen Anfragen',
+ picTitle:'🎨 Und wie malt eine KI Bilder?',
+ picP:'Turi schreibt Wort für Wort. Eine Bilder-KI macht es ganz anders: Sie fängt mit lauter bunten Krümeln an, dem <b>Rauschen</b>, und räumt es Schritt für Schritt auf, bis ein Bild herauskommt. Deine Beschreibung sagt ihr, was sie im Rauschen „sehen“ soll.',
+ picKinds:['🏠 Haus mit roter Tür','⛵ Segelboot auf dem See','🌳 Baum bei Nacht'],
+ picGo:'Aufräumen!', picNew:'Nochmal mit neuem Rauschen', picNoise:'Rauschen', picImage:'Bild', picAria:'Wie weit das Bild schon aufgeräumt ist',
+ picAlt:'Bild, das Schritt für Schritt aus Rauschen entsteht', picPrev:'Vorher: gleiche Beschreibung, anderes Rauschen',
+ picStage:(k,n)=>k===0?'Nur Rauschen. Noch ist nichts zu erkennen.':k<n*.4?'Erste Farben und Flecken tauchen auf …':k<n?'Jetzt werden die Formen deutlich …':'Fertig! Aus Rauschen ist ein Bild geworden.',
+ picNewNote:n=>`Gleiche Beschreibung, aber anderes Rauschen am Anfang: Darum sieht das Bild jedes Mal ein bisschen anders aus. Das ist wie beim Würfeln in der Station ${n}.`,
+ picFact:'Bilder-KIs machen manchmal komische Fehler, zum Beispiel sechs Finger an einer Hand oder Schrift, die man nicht lesen kann. Sie wissen nämlich nicht, was eine Hand ist. Sie wissen nur, wie Bilder meistens aussehen.',
  genOtherP:'Bei einer Frage schreibt die KI eine <b>Antwort</b>, bei einem Satzanfang schreibt sie <b>weiter</b>. Jede Anfrage rät andere Wörter. Wechsle hier die Anfrage und lass jede bis zum <b>[ENDE]</b> schreiben. Danach lohnt es sich, auch die anderen Stationen mit der neuen Anfrage anzuschauen.',
  you:'Du', genRound:(n,l)=>`Runde ${n} von ${l}`, genNone:'Noch kein Wort geraten', genPress:'Drück auf „Nächstes Wort raten“.',
  genTop3:n=>`Runde ${n}: die drei besten Kandidaten`, genDone:'Fertig!',
@@ -803,7 +818,7 @@ ui:{
  lkThinkSteps:["📝 Am Anfang hat Lena 3 Äpfel.", "📝 Doppelt so viele dazu: 3 × 2 = 6. Zusammen: 3 + 6 = 9.", "📝 Sie isst 2: 9 − 2 = 7.", "Antwort: Lena hat jetzt <b>7 Äpfel</b>."],
  lkThinkNote:"Jeder aufgeschriebene Schritt landet im Kontextfenster. Beim nächsten Schritt kann die Aufmerksamkeit darauf zurückschauen, wie auf einen Notizzettel. Moderne KIs denken so oft erst nach, bevor sie antworten.",
  lkFact:"<b>Gut zu wissen:</b> Manche KIs erledigen mit Werkzeugen sogar mehrere Schritte hintereinander allein, zum Beispiel suchen, vergleichen und eine Tabelle schreiben. Man nennt sie <b>KI-Agenten</b>. Aber auch mit Werkzeugen kann eine KI Fehler machen, zum Beispiel eine schlechte Quelle finden. Nachprüfen bleibt wichtig!",
- t:{search:"Lass die KI die Öffnungszeiten nachschlagen",calc:"Lass die KI mit dem Taschenrechner rechnen",think:"Lass die KI Schritt für Schritt nachdenken",read:(r,n)=>`Lies alle ${n} Sätze im Lernstapel (${r} von ${n})`, fine:'Wähle beim Feinschliff die bessere Antwort',
+ t:{pic:'Lass ein Bild aus Rauschen entstehen',search:"Lass die KI die Öffnungszeiten nachschlagen",calc:"Lass die KI mit dem Taschenrechner rechnen",think:"Lass die KI Schritt für Schritt nachdenken",read:(r,n)=>`Lies alle ${n} Sätze im Lernstapel (${r} von ${n})`, fine:'Wähle beim Feinschliff die bessere Antwort',
   cut:'Schneide deine Anfrage mit der Schere in Schnipsel',sandbox:'Tippe in der Schnipsel-Werkstatt einen eigenen Satz ein', flip:(a,n)=>`Dreh alle Schnipsel um (${a} von ${n})`,
   map:a=>`Tippe auf mindestens 3 Wörter der Landkarte (${a} von 3)`, regions:a=>`Schau dir Steckbriefe aus 2 verschiedenen Gegenden der Karte an (${a} von 2)`,
   pairs:a=>`Vergleiche mindestens 2 Wortpaare (${a} von 2)`,
@@ -902,7 +917,10 @@ cases:[
  {s:'You see a video in which a famous footballer says something totally crazy.',a:'y',why:'With AI you can fake videos that look real. That is called a deepfake. First check whether trusted news reports it, and do not simply forward it.'},
  {s:'A voice message sounds exactly like your mum. She asks you to quickly send a code from your phone.',a:'r',why:'Stop! AI can copy voices. Call your mum yourself or ask her in person before you send anything. A family code word helps too.'},
  {s:'Someone in your class wants to use AI to make an embarrassing picture of another child.',a:'r',why:'Stop! That hurts other people and can even be against the law. Do not join in, and tell an adult you trust.'},
- {s:'You have a tummy ache and ask the AI which pills you should take.',a:'r',why:'For health questions, ask your parents or a doctor. An AI can be wrong, and here a mistake would be dangerous.'}],
+ {s:'You have a tummy ache and ask the AI which pills you should take.',a:'r',why:'For health questions, ask your parents or a doctor. An AI can be wrong, and here a mistake would be dangerous.'},
+ {s:'You use a picture that an AI painted for your poster at school.',a:'y',why:'That is okay, but write that it comes from an AI. Then everyone knows where the picture comes from, and nobody thinks you painted it yourself.'},
+ {s:'You let the AI write your homework and hand it in as your own.',a:'r',why:'Stop! Then you learn nothing, and it is cheating. Whether and how you may use AI is up to your teacher. Better let the AI explain something and then write it yourself.'},
+ {s:'You upload a photo of your friend to an AI app to make her look funny.',a:'r',why:'Stop! For photos of other people you need their permission, even for a joke. Whatever ends up in the app can be stored or passed on.'}],
 amp:{g:'Green: great',y:'Yellow: careful, check',r:'Red: stop, ask an adult'}, ampShort:{g:'green',y:'yellow',r:'red'},
 cheese:['The','sky','is','cheese',',','because','the','moon','paints','it','with','milk','every','night','.'],
 quiz:[
@@ -1014,6 +1032,14 @@ ui:{
  genSay:'One token has been guessed. And now? The new token is added at the end, and <b>everything starts again</b>: cutting, numbers, attention, guessing. Again and again, until the model picks the special token <b>[END]</b>. So an AI does not write its answer all at once, but step by step.',
  loop:['Read text','Attention','Guess','Add'], genStep:'Guess next word', genAuto:'Automatic', genPause:'Pause', genRestart:'Start over',
  genCand:'Candidates', genOther:'Try the other requests too',
+ picTitle:'🎨 And how does an AI paint pictures?',
+ picP:'Turi writes word by word. A picture AI does it completely differently: it starts with lots of colourful crumbs, the <b>noise</b>, and tidies it up step by step until a picture appears. Your description tells it what to “see” in the noise.',
+ picKinds:['🏠 House with a red door','⛵ Sailing boat on a lake','🌳 Tree at night'],
+ picGo:'Tidy up!', picNew:'Again with new noise', picNoise:'Noise', picImage:'Picture', picAria:'How far the picture has been tidied up',
+ picAlt:'Picture that appears step by step from noise', picPrev:'Before: same description, different noise',
+ picStage:(k,n)=>k===0?'Only noise. You cannot see anything yet.':k<n*.4?'First colours and blobs appear …':k<n?'Now the shapes become clear …':'Done! The noise has become a picture.',
+ picNewNote:n=>`Same description, but different noise at the start: that is why the picture looks a little different every time. It is like rolling the dice in the station ${n}.`,
+ picFact:'Picture AIs sometimes make funny mistakes, for example six fingers on one hand or writing nobody can read. That is because they do not know what a hand is. They only know what pictures usually look like.',
  genOtherP:'For a question the AI writes an <b>answer</b>; for a sentence start it <b>continues</b> it. Each request guesses different words. Switch the request here and let each one write to the <b>[END]</b>. After that it is worth looking at the other stations with the new request too.',
  you:'You', genRound:(n,l)=>`Round ${n} of ${l}`, genNone:'No word guessed yet', genPress:'Press “Guess next word”.',
  genTop3:n=>`Round ${n}: the three best candidates`, genDone:'Finished!',
@@ -1112,7 +1138,7 @@ ui:{
  lkThinkSteps:["📝 At the start, Lena has 3 apples.", "📝 Twice as many on top: 3 × 2 = 6. Together: 3 + 6 = 9.", "📝 She eats 2: 9 − 2 = 7.", "Answer: Lena now has <b>7 apples</b>."],
  lkThinkNote:"Every step that is written down lands in the context window. For the next step, attention can look back at it, like at a sticky note. Modern AIs often think like this before they answer.",
  lkFact:"<b>Good to know:</b> Some AIs even use tools to do several steps in a row on their own, for example searching, comparing and writing a table. They are called <b>AI agents</b>. But even with tools an AI can make mistakes, for example by finding a bad source. Checking is still important!",
- t:{search:"Let the AI look up the opening hours",calc:"Let the AI use the calculator",think:"Let the AI think step by step",read:(r,n)=>`Read all ${n} sentences in the learning pile (${r} of ${n})`, fine:'Pick the better answer in the polishing step',
+ t:{pic:'Let a picture appear from noise',search:"Let the AI look up the opening hours",calc:"Let the AI use the calculator",think:"Let the AI think step by step",read:(r,n)=>`Read all ${n} sentences in the learning pile (${r} of ${n})`, fine:'Pick the better answer in the polishing step',
   cut:'Cut your request into snippets with the scissors',sandbox:'Type your own sentence in the snippet workshop', flip:(a,n)=>`Flip all snippets (${a} of ${n})`,
   map:a=>`Tap at least 3 words on the map (${a} of 3)`, regions:a=>`Look at profiles from 2 different areas of the map (${a} of 2)`,
   pairs:a=>`Compare at least 2 word pairs (${a} of 2)`,
@@ -1210,7 +1236,10 @@ cases:[
  {s:'Tu vois une vidéo où un footballeur célèbre dit quelque chose de complètement fou.',a:'y',why:'Avec l’IA, on peut truquer des vidéos qui ont l’air vraies. On appelle ça un deepfake. Vérifie d’abord si des médias fiables en parlent, et ne la transfère pas comme ça.'},
  {s:'Un message vocal a exactement la voix de ta maman. Elle te demande d’envoyer vite un code de ton téléphone.',a:'r',why:'Stop ! L’IA peut imiter les voix. Appelle toi-même ta maman ou demande-lui en face avant d’envoyer quoi que ce soit. Un mot de passe secret de famille aide aussi.'},
  {s:'Quelqu’un de ta classe veut faire avec l’IA une image gênante d’un autre enfant.',a:'r',why:'Stop ! Ça blesse les autres et ça peut même être interdit. Ne participe pas et parles-en à un adulte de confiance.'},
- {s:'Tu as mal au ventre et tu demandes à l’IA quels médicaments prendre.',a:'r',why:'Pour la santé, demande à tes parents ou à un médecin. Une IA peut se tromper, et ici une erreur serait dangereuse.'}],
+ {s:'Tu as mal au ventre et tu demandes à l’IA quels médicaments prendre.',a:'r',why:'Pour la santé, demande à tes parents ou à un médecin. Une IA peut se tromper, et ici une erreur serait dangereuse.'},
+ {s:'Tu prends une image dessinée par une IA pour ton affiche à l’école.',a:'y',why:'C’est d’accord, mais écris qu’elle vient d’une IA. Ainsi, tout le monde sait d’où vient l’image, et personne ne croit que tu l’as dessinée toi-même.'},
+ {s:'Tu fais écrire tes devoirs par l’IA et tu les rends comme si c’étaient les tiens.',a:'r',why:'Stop ! Tu n’apprends rien, et c’est tricher. C’est ta maîtresse ou ton maître qui décide si et comment tu peux utiliser l’IA. Fais-toi plutôt expliquer quelque chose, puis écris toi-même.'},
+ {s:'Tu mets une photo de ton amie dans une appli d’IA pour la rendre rigolote.',a:'r',why:'Stop ! Pour les photos d’autres personnes, il te faut leur permission, même pour rire. Ce qui arrive dans l’appli peut être enregistré ou transmis.'}],
 amp:{g:'Vert : super',y:'Orange : attention, vérifie',r:'Rouge : stop, demande à un adulte'}, ampShort:{g:'vert',y:'orange',r:'rouge'},
 cheese:['Le','ciel','est','fromage',',','car','la','lune','le','peint','avec','du','lait','chaque','nuit','.'],
 quiz:[
@@ -1322,6 +1351,14 @@ ui:{
  genSay:'Un jeton a été deviné. Et maintenant ? Le nouveau jeton est ajouté à la fin, et <b>tout recommence</b> : découper, nombres, attention, deviner. Encore et encore, jusqu’à ce que le modèle choisisse le jeton spécial <b>[FIN]</b>. Une IA n’écrit donc pas sa réponse d’un coup, mais pas à pas.',
  loop:['Lire le texte','Attention','Deviner','Ajouter'], genStep:'Deviner le mot suivant', genAuto:'Automatique', genPause:'Pause', genRestart:'Recommencer',
  genCand:'Candidats', genOther:'Essaie aussi les autres demandes',
+ picTitle:'🎨 Et comment une IA dessine-t-elle des images ?',
+ picP:'Turi écrit mot à mot. Une IA d’images fait tout autrement : elle commence avec plein de miettes colorées, le <b>bruit</b>, et le range pas à pas jusqu’à ce qu’une image apparaisse. Ta description lui dit ce qu’elle doit « voir » dans le bruit.',
+ picKinds:['🏠 Maison à la porte rouge','⛵ Voilier sur le lac','🌳 Arbre la nuit'],
+ picGo:'On range !', picNew:'Encore avec un nouveau bruit', picNoise:'Bruit', picImage:'Image', picAria:'Où en est le rangement de l’image',
+ picAlt:'Image qui apparaît pas à pas à partir du bruit', picPrev:'Avant : même description, autre bruit',
+ picStage:(k,n)=>k===0?'Seulement du bruit. On ne voit encore rien.':k<n*.4?'Les premières couleurs et taches apparaissent …':k<n?'Maintenant, les formes deviennent nettes …':'Terminé ! Le bruit est devenu une image.',
+ picNewNote:n=>`Même description, mais un autre bruit au départ : c’est pour ça que l’image est un peu différente à chaque fois. C’est comme le dé dans l’étape ${n}.`,
+ picFact:'Les IA d’images font parfois des erreurs bizarres, par exemple six doigts à une main ou une écriture illisible. Elles ne savent pas ce qu’est une main. Elles savent seulement à quoi ressemblent les images, la plupart du temps.',
  genOtherP:'Pour une question, l’IA écrit une <b>réponse</b> ; pour un début de phrase, elle <b>continue</b> d’écrire. Chaque demande devine d’autres mots. Change ici de demande et laisse chacune écrire jusqu’à <b>[FIN]</b>. Après, ça vaut le coup de revoir aussi les autres étapes avec la nouvelle demande.',
  you:'Toi', genRound:(n,l)=>`Tour ${n} sur ${l}`, genNone:'Aucun mot deviné pour l’instant', genPress:'Appuie sur « Deviner le mot suivant ».',
  genTop3:n=>`Tour ${n} : les trois meilleurs candidats`, genDone:'Terminé !',
@@ -1420,7 +1457,7 @@ ui:{
  lkThinkSteps:["📝 Au début, Lena a 3 pommes.", "📝 Elle en reçoit deux fois plus : 3 × 2 = 6. Ensemble : 3 + 6 = 9.", "📝 Elle en mange 2 : 9 − 2 = 7.", "Réponse : Lena a maintenant <b>7 pommes</b>."],
  lkThinkNote:"Chaque étape écrite va dans la fenêtre de contexte. Pour l’étape suivante, l’attention peut la relire, comme un pense-bête. Les IA modernes réfléchissent souvent ainsi avant de répondre.",
  lkFact:"<b>Bon à savoir :</b> certaines IA font même plusieurs étapes à la suite toutes seules avec des outils, par exemple chercher, comparer et écrire un tableau. On les appelle des <b>agents IA</b>. Mais même avec des outils, une IA peut se tromper, par exemple en trouvant une mauvaise source. Vérifier reste important !",
- t:{search:"Laisse l’IA chercher les horaires",calc:"Laisse l’IA calculer avec la calculatrice",think:"Laisse l’IA réfléchir étape par étape",read:(r,n)=>`Lis les ${n} phrases de la pile d’entraînement (${r} sur ${n})`, fine:'Choisis la meilleure réponse dans la finition',
+ t:{pic:'Fais apparaître une image à partir du bruit',search:"Laisse l’IA chercher les horaires",calc:"Laisse l’IA calculer avec la calculatrice",think:"Laisse l’IA réfléchir étape par étape",read:(r,n)=>`Lis les ${n} phrases de la pile d’entraînement (${r} sur ${n})`, fine:'Choisis la meilleure réponse dans la finition',
   cut:'Découpe ta demande en morceaux avec les ciseaux',sandbox:'Tape ta propre phrase dans l’atelier des morceaux', flip:(a,n)=>`Retourne tous les morceaux (${a} sur ${n})`,
   map:a=>`Touche au moins 3 mots sur la carte (${a} sur 3)`, regions:a=>`Regarde les cartes d’identité de 2 zones différentes de la carte (${a} sur 2)`,
   pairs:a=>`Compare au moins 2 paires de mots (${a} sur 2)`,
@@ -1518,7 +1555,10 @@ cases:[
  {s:'Vedi un video in cui un calciatore famoso dice una cosa assurda.',a:'y',why:'Con l’IA si possono falsificare video che sembrano veri. Si chiama deepfake. Prima controlla se ne parlano notizie affidabili e non inoltrarlo e basta.'},
  {s:'Un messaggio vocale ha la voce identica a quella della mamma. Ti chiede di mandarle subito un codice dal telefono.',a:'r',why:'Stop! L’IA può imitare le voci. Chiama tu la mamma o chiedile di persona prima di mandare qualsiasi cosa. Anche una parola segreta di famiglia aiuta.'},
  {s:'Un compagno di classe vuole usare l’IA per fare un’immagine imbarazzante di un altro bambino.',a:'r',why:'Stop! Questo ferisce le persone e può essere perfino vietato. Non partecipare e raccontalo a un adulto di cui ti fidi.'},
- {s:'Hai mal di pancia e chiedi all’IA quali medicine prendere.',a:'r',why:'Per la salute chiedi ai tuoi genitori o a un medico. Un’IA può sbagliare, e qui un errore sarebbe pericoloso.'}],
+ {s:'Hai mal di pancia e chiedi all’IA quali medicine prendere.',a:'r',why:'Per la salute chiedi ai tuoi genitori o a un medico. Un’IA può sbagliare, e qui un errore sarebbe pericoloso.'},
+ {s:'Usi un’immagine disegnata da un’IA per il tuo cartellone a scuola.',a:'y',why:'Va bene, ma scrivi che viene da un’IA. Così tutti sanno da dove viene l’immagine e nessuno pensa che l’abbia disegnata tu.'},
+ {s:'Ti fai scrivere i compiti dall’IA e li consegni come se fossero tuoi.',a:'r',why:'Stop! Così non impari niente, ed è barare. Se e come puoi usare l’IA lo decide la tua maestra o il tuo maestro. Fatti piuttosto spiegare qualcosa e poi scrivi da solo.'},
+ {s:'Carichi una foto della tua amica in un’app di IA per farla sembrare buffa.',a:'r',why:'Stop! Per le foto di altre persone ti serve il loro permesso, anche per scherzo. Quello che finisce nell’app può essere salvato o passato ad altri.'}],
 amp:{g:'Verde: ottimo',y:'Giallo: attenzione, controlla',r:'Rosso: stop, chiedi a un adulto'}, ampShort:{g:'verde',y:'giallo',r:'rosso'},
 cheese:['Il','cielo','è','formaggio',',','perché','la','luna','lo','dipinge','di','latte','ogni','notte','.'],
 quiz:[
@@ -1630,6 +1670,14 @@ ui:{
  genSay:'Un token è stato indovinato. E adesso? Il nuovo token viene aggiunto in fondo, e <b>tutto ricomincia</b>: tagliare, numeri, attenzione, indovinare. Ancora e ancora, finché il modello sceglie il token speciale <b>[FINE]</b>. Quindi un’IA non scrive la risposta tutta in una volta, ma passo dopo passo.',
  loop:['Leggere','Attenzione','Indovinare','Aggiungere'], genStep:'Indovina la parola dopo', genAuto:'Automatico', genPause:'Pausa', genRestart:'Da capo',
  genCand:'Candidati', genOther:'Prova anche le altre richieste',
+ picTitle:'🎨 E come disegna immagini un’IA?',
+ picP:'Turi scrive parola per parola. Un’IA per immagini fa tutto in un altro modo: comincia con tante briciole colorate, il <b>rumore</b>, e lo mette in ordine passo dopo passo finché appare un’immagine. La tua descrizione le dice che cosa deve «vedere» nel rumore.',
+ picKinds:['🏠 Casa con la porta rossa','⛵ Barca a vela sul lago','🌳 Albero di notte'],
+ picGo:'Metti in ordine!', picNew:'Ancora con un nuovo rumore', picNoise:'Rumore', picImage:'Immagine', picAria:'Quanto è già in ordine l’immagine',
+ picAlt:'Immagine che nasce passo dopo passo dal rumore', picPrev:'Prima: stessa descrizione, altro rumore',
+ picStage:(k,n)=>k===0?'Solo rumore. Non si vede ancora niente.':k<n*.4?'Appaiono i primi colori e le prime macchie …':k<n?'Ora le forme diventano chiare …':'Fatto! Il rumore è diventato un’immagine.',
+ picNewNote:n=>`Stessa descrizione, ma all’inizio un altro rumore: per questo l’immagine è ogni volta un po’ diversa. È come tirare il dado nella tappa ${n}.`,
+ picFact:'Le IA per immagini a volte fanno errori buffi, per esempio sei dita su una mano o scritte che non si riescono a leggere. Non sanno che cos’è una mano. Sanno solo come sono fatte di solito le immagini.',
  genOtherP:'A una domanda l’IA scrive una <b>risposta</b>, a un inizio di frase <b>continua</b> a scrivere. Ogni richiesta indovina parole diverse. Cambia qui la richiesta e fai scrivere ognuna fino a <b>[FINE]</b>. Dopo conviene guardare anche le altre tappe con la nuova richiesta.',
  you:'Tu', genRound:(n,l)=>`Turno ${n} di ${l}`, genNone:'Nessuna parola indovinata', genPress:'Premi «Indovina la parola dopo».',
  genTop3:n=>`Turno ${n}: i tre migliori candidati`, genDone:'Finito!',
@@ -1728,7 +1776,7 @@ ui:{
  lkThinkSteps:["📝 All’inizio Lena ha 3 mele.", "📝 Ne riceve il doppio: 3 × 2 = 6. Insieme: 3 + 6 = 9.", "📝 Ne mangia 2: 9 − 2 = 7.", "Risposta: Lena adesso ha <b>7 mele</b>."],
  lkThinkNote:"Ogni passaggio scritto finisce nella finestra di contesto. Per il passaggio successivo l’attenzione può guardarlo di nuovo, come un foglietto di appunti. Le IA moderne spesso ragionano così prima di rispondere.",
  lkFact:"<b>Buono a sapersi:</b> alcune IA con gli strumenti fanno perfino più passaggi di fila da sole, per esempio cercare, confrontare e scrivere una tabella. Si chiamano <b>agenti IA</b>. Ma anche con gli strumenti un’IA può sbagliare, per esempio trovando una fonte sbagliata. Controllare resta importante!",
- t:{search:"Fai cercare all’IA gli orari",calc:"Fai calcolare l’IA con la calcolatrice",think:"Fai ragionare l’IA passo dopo passo",read:(r,n)=>`Leggi tutte le ${n} frasi della pila di studio (${r} di ${n})`, fine:'Scegli la risposta migliore nella rifinitura',
+ t:{pic:'Fai nascere un’immagine dal rumore',search:"Fai cercare all’IA gli orari",calc:"Fai calcolare l’IA con la calcolatrice",think:"Fai ragionare l’IA passo dopo passo",read:(r,n)=>`Leggi tutte le ${n} frasi della pila di studio (${r} di ${n})`, fine:'Scegli la risposta migliore nella rifinitura',
   cut:'Taglia la tua richiesta a pezzetti con le forbici',sandbox:'Scrivi una tua frase nel laboratorio dei pezzetti', flip:(a,n)=>`Gira tutti i pezzetti (${a} di ${n})`,
   map:a=>`Tocca almeno 3 parole sulla mappa (${a} di 3)`, regions:a=>`Guarda le carte d’identità di 2 zone diverse della mappa (${a} di 2)`,
   pairs:a=>`Confronta almeno 2 coppie di parole (${a} di 2)`,
@@ -1827,7 +1875,10 @@ cases:[
  {s:'Ves un vídeo en el que un futbolista famoso dice algo totalmente loco.',a:'y',why:'Con IA se pueden falsificar vídeos que parecen reales. Se llama deepfake. Primero comprueba si lo cuentan noticias fiables, y no lo reenvíes sin más.'},
  {s:'Un audio suena exactamente como tu madre. Te pide que le mandes rápido un código del móvil.',a:'r',why:'¡Alto! La IA puede imitar voces. Llama tú a tu madre o pregúntale en persona antes de mandar nada. Una palabra clave familiar también ayuda.'},
  {s:'Alguien de tu clase quiere usar la IA para hacer una imagen vergonzosa de otro niño.',a:'r',why:'¡Alto! Eso hace daño a otras personas y hasta puede estar prohibido. No participes y cuéntaselo a un adulto de confianza.'},
- {s:'Te duele la tripa y le preguntas a la IA qué pastillas tomar.',a:'r',why:'Para la salud, pregunta a tus padres o a un médico. Una IA puede equivocarse, y aquí un error sería peligroso.'}],
+ {s:'Te duele la tripa y le preguntas a la IA qué pastillas tomar.',a:'r',why:'Para la salud, pregunta a tus padres o a un médico. Una IA puede equivocarse, y aquí un error sería peligroso.'},
+ {s:'Usas una imagen pintada por una IA para tu cartel del colegio.',a:'y',why:'Está bien, pero escribe que es de una IA. Así todos saben de dónde viene la imagen y nadie piensa que la has pintado tú.'},
+ {s:'Dejas que la IA haga tus deberes y los entregas como si fueran tuyos.',a:'r',why:'¡Alto! Así no aprendes nada, y es hacer trampa. Si puedes usar la IA, y cómo, lo decide tu profe. Mejor pide que te explique algo y luego escríbelo tú.'},
+ {s:'Subes una foto de tu amiga a una app de IA para que salga graciosa.',a:'r',why:'¡Alto! Para usar fotos de otras personas necesitas su permiso, aunque sea de broma. Lo que acaba en la app puede guardarse o pasarse a otros.'}],
 amp:{g:'Verde: genial',y:'Amarillo: cuidado, comprueba',r:'Rojo: alto, pregunta a un adulto'}, ampShort:{g:'verde',y:'amarillo',r:'rojo'},
 cheese:['El','cielo','es','queso',',','porque','la','luna','lo','pinta','con','leche','cada','noche','.'],
 quiz:[
@@ -1939,6 +1990,14 @@ ui:{
  genSay:'Ya se ha adivinado un token. ¿Y ahora? El token nuevo se añade al final, y <b>todo empieza de nuevo</b>: cortar, números, atención, adivinar. Una y otra vez, hasta que el modelo elige el token especial <b>[FIN]</b>. Así que una IA no escribe su respuesta de golpe, sino paso a paso.',
  loop:['Leer','Atención','Adivinar','Añadir'], genStep:'Adivinar la siguiente palabra', genAuto:'Automático', genPause:'Pausa', genRestart:'Desde el principio',
  genCand:'Candidatos', genOther:'Prueba también las otras peticiones',
+ picTitle:'🎨 ¿Y cómo pinta imágenes una IA?',
+ picP:'Turi escribe palabra a palabra. Una IA de imágenes lo hace de otra forma: empieza con muchas migas de colores, el <b>ruido</b>, y lo ordena paso a paso hasta que aparece una imagen. Tu descripción le dice qué tiene que «ver» en el ruido.',
+ picKinds:['🏠 Casa con puerta roja','⛵ Velero en el lago','🌳 Árbol de noche'],
+ picGo:'¡A ordenar!', picNew:'Otra vez con ruido nuevo', picNoise:'Ruido', picImage:'Imagen', picAria:'Cuánto se ha ordenado ya la imagen',
+ picAlt:'Imagen que aparece paso a paso a partir del ruido', picPrev:'Antes: misma descripción, otro ruido',
+ picStage:(k,n)=>k===0?'Solo ruido. Todavía no se ve nada.':k<n*.4?'Aparecen los primeros colores y manchas …':k<n?'Ahora las formas se ven claras …':'¡Listo! El ruido se ha convertido en una imagen.',
+ picNewNote:n=>`Misma descripción, pero otro ruido al principio: por eso la imagen sale un poco distinta cada vez. Es como tirar el dado en la estación ${n}.`,
+ picFact:'Las IA de imágenes a veces cometen errores raros, por ejemplo seis dedos en una mano o letras que no se pueden leer. Es que no saben lo que es una mano. Solo saben cómo suelen ser las imágenes.',
  genOtherP:'Ante una pregunta, la IA escribe una <b>respuesta</b>; ante el comienzo de una frase, <b>sigue</b> escribiendo. Cada petición adivina palabras distintas. Cambia aquí la petición y deja que cada una escriba hasta <b>[FIN]</b>. Después merece la pena ver también las otras etapas con la nueva petición.',
  you:'Tú', genRound:(n,l)=>`Ronda ${n} de ${l}`, genNone:'Aún no se ha adivinado ninguna palabra', genPress:'Pulsa «Adivinar la siguiente palabra».',
  genTop3:n=>`Ronda ${n}: los tres mejores candidatos`, genDone:'¡Terminado!',
@@ -2037,7 +2096,7 @@ ui:{
  lkThinkSteps:["📝 Al principio, Lena tiene 3 manzanas.", "📝 Le dan el doble: 3 × 2 = 6. En total: 3 + 6 = 9.", "📝 Se come 2: 9 − 2 = 7.", "Respuesta: Lena tiene ahora <b>7 manzanas</b>."],
  lkThinkNote:"Cada paso escrito va a la ventana de contexto. En el paso siguiente, la atención puede volver a mirarlo, como una nota adhesiva. Las IA modernas a menudo piensan así antes de responder.",
  lkFact:"<b>Bueno saberlo:</b> algunas IA incluso hacen solas varios pasos seguidos con herramientas, por ejemplo buscar, comparar y escribir una tabla. Se llaman <b>agentes de IA</b>. Pero también con herramientas una IA puede equivocarse, por ejemplo si encuentra una mala fuente. ¡Comprobar sigue siendo importante!",
- t:{search:"Deja que la IA busque el horario",calc:"Deja que la IA use la calculadora",think:"Deja que la IA piense paso a paso",read:(r,n)=>`Lee las ${n} frases del montón de estudio (${r} de ${n})`, fine:'Elige la mejor respuesta en el pulido',
+ t:{pic:'Haz que aparezca una imagen a partir del ruido',search:"Deja que la IA busque el horario",calc:"Deja que la IA use la calculadora",think:"Deja que la IA piense paso a paso",read:(r,n)=>`Lee las ${n} frases del montón de estudio (${r} de ${n})`, fine:'Elige la mejor respuesta en el pulido',
   cut:'Corta tu petición en trocitos con las tijeras',sandbox:'Escribe una frase tuya en el taller de trocitos', flip:(a,n)=>`Da la vuelta a todos los trocitos (${a} de ${n})`,
   map:a=>`Toca al menos 3 palabras del mapa (${a} de 3)`, regions:a=>`Mira fichas de 2 zonas distintas del mapa (${a} de 2)`,
   pairs:a=>`Compara al menos 2 parejas de palabras (${a} de 2)`,
@@ -2136,7 +2195,10 @@ cases:[
  {s:'Je ziet een video waarin een beroemde voetballer iets heel geks zegt.',a:'y',why:'Met AI kun je video’s namaken die echt lijken. Dat heet een deepfake. Kijk eerst of betrouwbaar nieuws erover bericht, en stuur het niet zomaar door.'},
  {s:'Een spraakbericht klinkt precies als je moeder. Ze vraagt je snel een code van je telefoon te sturen.',a:'r',why:'Stop! AI kan stemmen nadoen. Bel je moeder zelf of vraag het haar persoonlijk voordat je iets stuurt. Een geheim familiewoord helpt ook.'},
  {s:'Iemand uit je klas wil met AI een gênante foto van een ander kind maken.',a:'r',why:'Stop! Dat doet andere mensen pijn en kan zelfs verboden zijn. Doe niet mee en vertel het aan een volwassene die je vertrouwt.'},
- {s:'Je hebt buikpijn en vraagt de AI welke pillen je moet nemen.',a:'r',why:'Bij gezondheid vraag je het aan je ouders of een dokter. Een AI kan zich vergissen, en hier zou een fout gevaarlijk zijn.'}],
+ {s:'Je hebt buikpijn en vraagt de AI welke pillen je moet nemen.',a:'r',why:'Bij gezondheid vraag je het aan je ouders of een dokter. Een AI kan zich vergissen, en hier zou een fout gevaarlijk zijn.'},
+ {s:'Je gebruikt een plaatje dat een AI heeft gemaakt voor je poster op school.',a:'y',why:'Dat mag, maar schrijf erbij dat het van een AI komt. Dan weet iedereen waar het plaatje vandaan komt, en denkt niemand dat je het zelf hebt getekend.'},
+ {s:'Je laat de AI je huiswerk maken en levert het in alsof je het zelf hebt gedaan.',a:'r',why:'Stop! Dan leer je niets, en het is valsspelen. Of en hoe je AI mag gebruiken, beslist je juf of meester. Laat je liever iets uitleggen en schrijf het dan zelf.'},
+ {s:'Je zet een foto van je vriendin in een AI-app om haar er grappig uit te laten zien.',a:'r',why:'Stop! Voor foto’s van andere mensen heb je hun toestemming nodig, ook voor een grapje. Wat in de app terechtkomt, kan worden opgeslagen of doorgegeven.'}],
 amp:{g:'Groen: prima',y:'Oranje: let op, controleer',r:'Rood: stop, vraag een volwassene'}, ampShort:{g:'groen',y:'oranje',r:'rood'},
 cheese:['De','lucht','is','kaas',',','omdat','de','maan','hem','elke','nacht','met','melk','verft','.'],
 quiz:[
@@ -2248,6 +2310,14 @@ ui:{
  genSay:'Eén token is geraden. En nu? Het nieuwe token wordt achteraan geplakt, en <b>alles begint opnieuw</b>: knippen, getallen, aandacht, raden. Steeds weer, tot het model het speciale token <b>[EINDE]</b> kiest. Een AI schrijft zijn antwoord dus niet in één keer, maar stap voor stap.',
  loop:['Tekst lezen','Aandacht','Raden','Achteraan plakken'], genStep:'Volgend woord raden', genAuto:'Automatisch', genPause:'Pauze', genRestart:'Opnieuw',
  genCand:'Kandidaten', genOther:'Probeer ook de andere vragen',
+ picTitle:'🎨 En hoe tekent een AI plaatjes?',
+ picP:'Turi schrijft woord voor woord. Een plaatjes-AI doet het heel anders: die begint met allemaal gekleurde kruimels, de <b>ruis</b>, en ruimt die stap voor stap op tot er een plaatje verschijnt. Jouw beschrijving vertelt wat de AI in de ruis moet „zien”.',
+ picKinds:['🏠 Huis met rode deur','⛵ Zeilboot op het meer','🌳 Boom bij nacht'],
+ picGo:'Opruimen!', picNew:'Nog eens met nieuwe ruis', picNoise:'Ruis', picImage:'Plaatje', picAria:'Hoe ver het plaatje al is opgeruimd',
+ picAlt:'Plaatje dat stap voor stap uit ruis ontstaat', picPrev:'Eerder: zelfde beschrijving, andere ruis',
+ picStage:(k,n)=>k===0?'Alleen ruis. Je ziet nog niets.':k<n*.4?'De eerste kleuren en vlekken verschijnen …':k<n?'Nu worden de vormen duidelijk …':'Klaar! Van ruis is een plaatje geworden.',
+ picNewNote:n=>`Zelfde beschrijving, maar andere ruis aan het begin: daarom ziet het plaatje er elke keer een beetje anders uit. Net als het dobbelen in het station ${n}.`,
+ picFact:'Plaatjes-AI’s maken soms gekke fouten, bijvoorbeeld zes vingers aan een hand of letters die je niet kunt lezen. Ze weten namelijk niet wat een hand is. Ze weten alleen hoe plaatjes er meestal uitzien.',
  genOtherP:'Bij een vraag schrijft de AI een <b>antwoord</b>, bij een zinsbegin schrijft hij <b>verder</b>. Elke vraag raadt andere woorden. Wissel hier de vraag en laat elke vraag tot <b>[EINDE]</b> schrijven. Daarna is het de moeite waard om ook de andere stations met de nieuwe vraag te bekijken.',
  you:'Jij', genRound:(n,l)=>`Ronde ${n} van ${l}`, genNone:'Nog geen woord geraden', genPress:'Druk op ‘Volgend woord raden’.',
  genTop3:n=>`Ronde ${n}: de drie beste kandidaten`, genDone:'Klaar!',
@@ -2346,7 +2416,7 @@ ui:{
  lkThinkSteps:["📝 In het begin heeft Lena 3 appels.", "📝 Twee keer zoveel erbij: 3 × 2 = 6. Samen: 3 + 6 = 9.", "📝 Ze eet er 2 op: 9 − 2 = 7.", "Antwoord: Lena heeft nu <b>7 appels</b>."],
  lkThinkNote:"Elke opgeschreven stap komt in het contextvenster. Bij de volgende stap kan de aandacht ernaar terugkijken, zoals naar een briefje. Moderne AI’s denken zo vaak eerst na voordat ze antwoorden.",
  lkFact:"<b>Goed om te weten:</b> sommige AI’s doen met gereedschap zelfs meerdere stappen achter elkaar helemaal zelf, bijvoorbeeld zoeken, vergelijken en een tabel maken. Die heten <b>AI-agenten</b>. Maar ook met gereedschap kan een AI fouten maken, bijvoorbeeld door een slechte bron te vinden. Controleren blijft belangrijk!",
- t:{search:"Laat de AI de openingstijden opzoeken",calc:"Laat de AI rekenen met de rekenmachine",think:"Laat de AI stap voor stap nadenken",read:(r,n)=>`Lees alle ${n} zinnen op de leerstapel (${r} van ${n})`, fine:'Kies bij het bijschaven het betere antwoord',
+ t:{pic:'Laat een plaatje uit ruis ontstaan',search:"Laat de AI de openingstijden opzoeken",calc:"Laat de AI rekenen met de rekenmachine",think:"Laat de AI stap voor stap nadenken",read:(r,n)=>`Lees alle ${n} zinnen op de leerstapel (${r} van ${n})`, fine:'Kies bij het bijschaven het betere antwoord',
   cut:'Knip je vraag met de schaar in stukjes',sandbox:'Typ een eigen zin in de stukjeswerkplaats', flip:(a,n)=>`Draai alle stukjes om (${a} van ${n})`,
   map:a=>`Tik op minstens 3 woorden op de kaart (${a} van 3)`, regions:a=>`Bekijk paspoorten uit 2 verschillende gebieden van de kaart (${a} van 2)`,
   pairs:a=>`Vergelijk minstens 2 woordparen (${a} van 2)`,
@@ -2918,7 +2988,8 @@ function stGen(){
       <div class="panel-title">${u.genOther}</div>
       <p>${u.genOtherP}</p>
       <div class="presets" id="genPresets">${PRESETS.map(presetBtn).join('')}</div>
-    </div>`,
+    </div>
+    ${picHtml()}`,
    bind(){
      const draw=(fresh)=>{
        const words=G.slice(0,S.gen).map(s=>s[0][0]);
@@ -2939,10 +3010,69 @@ function stGen(){
      bindGenPresets();
      $('#autoB').onclick=()=>{if(S.auto){stopAuto();$('#autoB').textContent='▶ '+u.genAuto}else{$('#autoB').textContent='⏸ '+u.genPause;step();S.auto=setInterval(step,1000)}};
      $('#restart').onclick=()=>{stopAuto();S.gen=0;$('#autoB').textContent='▶ '+u.genAuto;draw()};
-     draw();
+     draw();picBind();
    }};
 }
 function bindGenPresets(){document.querySelectorAll('#genPresets .preset').forEach(b=>b.onclick=()=>keepPlace('#genPresets',()=>setPreset(+b.dataset.p)))}
+
+/* ---------- Bilder aus Rauschen: ein Bild entsteht schrittweise aus bunten Krümeln (vereinfacht) ---------- */
+S.pic={kind:0,seed:1,k:0,done:false,prev:false,pseed:1};
+function rng(seed){let x=seed>>>0||1;return()=>{x^=x<<13;x>>>=0;x^=x>>17;x^=x<<5;x>>>=0;return x/4294967296}}
+function scene(ctx,W,H,kind,seed){const r=rng(seed*7919+kind*13),j=(a,b)=>a+(b-a)*r();
+  const sky=(c1,c2)=>{const g=ctx.createLinearGradient(0,0,0,H);g.addColorStop(0,c1);g.addColorStop(1,c2);ctx.fillStyle=g;ctx.fillRect(0,0,W,H)};
+  const circ=(x,y,rad,c)=>{ctx.fillStyle=c;ctx.beginPath();ctx.arc(x,y,rad,0,7);ctx.fill()};
+  const rect=(x,y,w,h,c)=>{ctx.fillStyle=c;ctx.fillRect(x,y,w,h)};
+  if(kind===0){sky('#7cc6f2','#d9f0ff');circ(j(.65,.88)*W,j(.14,.26)*H,H*.11,'#ffd23f');rect(0,H*.72,W,H*.28,'#5fae4e');
+    const x=j(.18,.32)*W,w=W*.36,y=H*.42,h=H*.34;rect(x,y,w,h,['#f4e3c1','#e8d2b0','#f1d7a6'][Math.floor(r()*3)]);
+    ctx.fillStyle='#8c2f2a';ctx.beginPath();ctx.moveTo(x-W*.03,y);ctx.lineTo(x+w/2,y-H*.2);ctx.lineTo(x+w+W*.03,y);ctx.fill();
+    rect(x+w*.4,y+h*.42,w*.2,h*.58,'#d63a2f');rect(x+w*.1,y+h*.2,w*.2,h*.25,'#9bd3f5');rect(x+w*.7,y+h*.2,w*.2,h*.25,'#9bd3f5');
+    circ(j(.75,.9)*W,H*.7,H*.09,'#3f8f3a')}
+  else if(kind===1){sky('#ffb27a','#ffe2b8');circ(j(.15,.4)*W,j(.3,.42)*H,H*.13,'#ff7a45');rect(0,H*.6,W,H*.4,'#2f78b7');
+    for(let i=0;i<6;i++)rect(j(0,.9)*W,j(.64,.96)*H,W*j(.05,.14),2,'#7fb4e0');
+    const x=j(.45,.62)*W,y=H*.66;ctx.fillStyle='#6b3f22';ctx.beginPath();ctx.moveTo(x-W*.14,y);ctx.lineTo(x+W*.14,y);ctx.lineTo(x+W*.1,y+H*.08);ctx.lineTo(x-W*.1,y+H*.08);ctx.fill();
+    rect(x-1,y-H*.42,3,H*.42,'#4a3020');ctx.fillStyle='#fffaf0';ctx.beginPath();ctx.moveTo(x+3,y-H*.4);ctx.lineTo(x+3,y-H*.04);ctx.lineTo(x+W*.13,y-H*.04);ctx.fill()}
+  else{sky('#0b1636','#26365e');for(let i=0;i<26;i++)circ(r()*W,r()*H*.55,r()*1.4+.4,'#fff6c8');circ(j(.72,.88)*W,j(.12,.22)*H,H*.08,'#f4f1d0');
+    rect(0,H*.74,W,H*.26,'#1f4a2b');const x=j(.35,.55)*W;rect(x-W*.025,H*.46,W*.05,H*.3,'#4a2f1b');
+    [[0,-.2,.16],[-.1,-.1,.13],[.1,-.1,.13],[0,-.04,.12]].forEach(([dx,dy,rr])=>circ(x+dx*W,H*.46+dy*H,rr*H,'#2e6b3a'))}}
+const PIC_N=30,PIC_W=240,PIC_H=160;
+const picHtml=()=>`<div class="panel">
+      <div class="panel-title">${u.picTitle}</div>
+      <p>${u.picP}</p>
+      <div class="row" id="picKinds">${u.picKinds.map((t,i)=>`<button class="btn" data-pk="${i}" aria-pressed="${i===S.pic.kind}">${esc(t)}</button>`).join('')}</div>
+      <div class="picrow"><canvas class="piccv" id="picCv" width="${PIC_W}" height="${PIC_H}" role="img" aria-label="${esc(u.picAlt)}"></canvas>
+        <figure class="picprev" id="picPrev" ${S.pic.prev?'':'hidden'}><canvas id="picPv" width="${PIC_W}" height="${PIC_H}" role="img" aria-label="${esc(u.picPrev)}"></canvas><figcaption class="small">${u.picPrev}</figcaption></figure></div>
+      <div class="slider"><span class="small">${u.picNoise}</span><input type="range" id="picK" min="0" max="${PIC_N}" step="1" value="${S.pic.k}" aria-label="${esc(u.picAria)}"><span class="small">${u.picImage}</span></div>
+      <p id="picSt" aria-live="polite" style="min-height:3em"></p>
+      <div class="row"><button class="btn primary" id="picGo">▶ ${u.picGo}</button><button class="btn teal" id="picNew">🎲 ${u.picNew}</button></div>
+      <p id="picNote" ${S.pic.prev?'':'hidden'}>${u.picNewNote(qt(L.st[6]))}</p>
+      <div class="fact">${u.picFact}</div>
+    </div>`;
+function picBind(){const cv=$('#picCv');if(!cv)return;const ctx=cv.getContext('2d'),full=document.createElement('canvas'),sm=document.createElement('canvas');
+  full.width=PIC_W;full.height=PIC_H;let noise=null,timer=null;
+  const mkNoise=()=>{const r=rng(S.pic.seed+4242);noise=new Uint8ClampedArray(PIC_W*PIC_H*4);for(let i=0;i<noise.length;i++)noise[i]=Math.floor(((r()+r()+r())/3)*255)};
+  const paint=()=>{if(!cv.isConnected){clearInterval(timer);return}const k=S.pic.k,t=k/PIC_N;$('#picSt').textContent=u.picStage(k,PIC_N);
+    const f=full.getContext('2d');scene(f,PIC_W,PIC_H,S.pic.kind,S.pic.seed);
+    /* grob zuerst: das Motiv in kleiner Auflösung, mit jedem Schritt feiner */
+    const w=Math.max(3,Math.round(PIC_W*(.025+.975*t*t))),h=Math.max(2,Math.round(w*PIC_H/PIC_W));sm.width=w;sm.height=h;
+    sm.getContext('2d').drawImage(full,0,0,w,h);ctx.imageSmoothingEnabled=true;ctx.clearRect(0,0,PIC_W,PIC_H);ctx.drawImage(sm,0,0,PIC_W,PIC_H);
+    const img=ctx.getImageData(0,0,PIC_W,PIC_H),px=img.data,a=Math.pow(t,1.1);
+    for(let i=0;i<px.length;i+=4){px[i]=px[i]*a+noise[i]*(1-a);px[i+1]=px[i+1]*a+noise[i+1]*(1-a);px[i+2]=px[i+2]*a+noise[i+2]*(1-a);px[i+3]=255}
+    ctx.putImageData(img,0,0);
+    if(k>=PIC_N&&!S.pic.done){S.pic.done=true;updTasks()}};
+  const stop=()=>{clearInterval(timer);timer=null};
+  const play=()=>{stop();S.pic.k=0;$('#picK').value=0;paint();if(reduce){S.pic.k=PIC_N;$('#picK').value=PIC_N;paint();return}
+    timer=setInterval(()=>{if(!cv.isConnected){stop();return}S.pic.k++;$('#picK').value=S.pic.k;paint();if(S.pic.k>=PIC_N)stop()},110)};
+  $('#picK').addEventListener('input',e=>{stop();S.pic.k=+e.target.value;paint()});
+  /* andere Beschreibung: wieder beim Rauschen anfangen */
+  document.querySelectorAll('#picKinds [data-pk]').forEach(b=>b.onclick=()=>{stop();S.pic.kind=+b.dataset.pk;S.pic.prev=false;
+    document.querySelectorAll('#picKinds [data-pk]').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));
+    $('#picPrev').hidden=true;$('#picNote').hidden=true;S.pic.k=0;$('#picK').value=0;paint()});
+  $('#picGo').onclick=play;
+  /* neues Rauschen: gleiche Beschreibung, das bisherige Bild bleibt zum Vergleich stehen */
+  $('#picNew').onclick=()=>{S.pic.pseed=S.pic.seed;scene($('#picPv').getContext('2d'),PIC_W,PIC_H,S.pic.kind,S.pic.seed);S.pic.prev=true;$('#picPrev').hidden=false;$('#picNote').hidden=false;
+    S.pic.seed=Math.floor(Math.random()*1e6)+2;mkNoise();play()};
+  if(S.pic.prev)scene($('#picPv').getContext('2d'),PIC_W,PIC_H,S.pic.kind,S.pic.pseed);
+  mkNoise();paint()}
 
 /* ---------- Station 9: Nachschlagen (Werkzeuge, Suche, Nachdenken) ---------- */
 S.look={search:null,calc:null,think:null};
@@ -3109,7 +3239,8 @@ const TASKS=[
  ()=>[[S.done.rolled,u.t.roll,'#roll1'],[S.done.temp,u.t.temp,'#temp']],
  ()=>{if(S.gen>=P().gen.length&&!S.explored.has(S.p)){S.explored.add(S.p);setTimeout(renderPresetsLater,0)}const n=S.explored.size;
    return [[n>=1,u.t.end,'#step1'],
-     [n>=PRESETS.length,u.t.all(n,PRESETS.length),'#genPresets']]},
+     [n>=PRESETS.length,u.t.all(n,PRESETS.length),'#genPresets'],
+     [S.pic.done,u.t.pic,'#picCv']]},
  ()=>[[S.done.search,u.t.search,'#lkYes'],[S.done.calc,u.t.calc,'#calcTool'],[S.done.think,u.t.think,'#thinkSlow']],
  ()=>{const n=Object.keys(S.safe.pick).length;return [[S.safe.cheese,u.t.cheese(qt(CHEESE[3])),'#cheeseBtn'],
       [S.safe.checked,u.t.verify,'#verify'],
