@@ -292,22 +292,15 @@ input[type=text]{font:inherit;width:100%;border:2px solid var(--edge);border-rad
 .axis{position:absolute;font-family:var(--f-mono);font-size:.72rem;font-weight:700;color:var(--teal);line-height:1}
 .axis.x{top:3px;transform:translateX(-50%)}.axis.y{left:4px;transform:translateY(-50%)}
 .map svg circle{fill:var(--teal)}
-.scale{position:relative;height:58px;margin:4px 10px 0}
-.scale::before{content:"";position:absolute;left:0;right:0;top:27px;height:3px;background:var(--teal);border-radius:2px}
-.scale span{position:absolute;transform:translateX(-50%);font-family:var(--f-mono);font-size:.75rem;font-variant-numeric:tabular-nums;white-space:nowrap}
-.scale .t{top:8px;color:var(--ink-soft)}.scale .b{top:36px;font-weight:700;color:var(--teal)}
-.scale .mk{top:19px;width:14px;height:14px;border-radius:50%;background:var(--coral);border:2px solid var(--edge)}
-.howpc{border:2px dashed var(--track);border-radius:12px;padding:10px 12px;display:flex;flex-direction:column;gap:6px;font-size:.92rem}
 .coords{display:flex;flex-direction:column;gap:2px;font-variant-numeric:tabular-nums}
 .coords .ax{display:inline-block;width:1.4em;color:var(--teal);font-weight:700}
 .qcards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
 @media (max-width:640px){.qcards{grid-template-columns:1fr}}
 .qcard{border:2px solid var(--edge);border-radius:14px;background:var(--paper);padding:12px 14px;display:flex;flex-direction:column;gap:6px;box-shadow:3px 3px 0 var(--edge);min-width:0}
 .qhead{font-family:var(--f-display);font-weight:600;font-size:1.3rem}
-.trow{display:grid;grid-template-columns:minmax(0,1fr) minmax(60px,110px) 40px;gap:8px;align-items:center;font-size:.92rem;padding:2px 4px;border-radius:6px}
+.trow{display:grid;grid-template-columns:minmax(0,1fr) minmax(80px,150px);gap:8px;align-items:center;font-size:.92rem;padding:2px 4px;border-radius:6px}
 .trow .tr{height:14px;background:var(--track);border-radius:5px;overflow:hidden}
 .trow .tr span{display:block;height:100%;background:var(--blue);border-radius:5px}
-.trow .p{font-family:var(--f-mono);font-size:.82rem;text-align:right;font-variant-numeric:tabular-nums}
 .trow.diff{background:var(--hi);color:var(--on-hi)}
 .trow.diff .tr{background:var(--card)}
 .trow.diff .tr span{background:var(--coral)}
@@ -604,8 +597,8 @@ cases:[
 amp:{g:'Grün: Prima',y:'Gelb: Vorsicht, nachprüfen',r:'Rot: Stopp, Erwachsene fragen'}, ampShort:{g:'Grün',y:'Gelb',r:'Rot'},
 cheese:['Der','Himmel','ist','Käse',',','weil','der','Mond','ihn','jede','Nacht','mit','Milch','anmalt','.'],
 quiz:[
- ['Ein LLM schlägt seine Antworten in einem großen Lexikon nach.',false,'Es rät Token für Token, was am besten passt. Dabei nutzt es Muster, die es beim Training gelernt hat.'],
- ['Ein LLM kann sich irren, auch wenn es ganz sicher klingt.',true,'Weil es rät, kann auch mal eine falsche Antwort gewinnen. Wichtige Fakten lieber nachprüfen!'],
+ ['Eine KI wie ChatGPT schlägt ihre Antworten in einem großen Lexikon nach.',false,'Sie rät Token für Token, was am besten passt. Dabei nutzt sie Muster, die sie beim Training gelernt hat.'],
+ ['Eine KI kann sich irren, auch wenn sie ganz sicher klingt.',true,'Weil sie rät, kann auch mal eine falsche Antwort gewinnen. Wichtige Fakten lieber nachprüfen!'],
  ['Das Modell schreibt die ganze Antwort auf einmal.',false,'Es schreibt Token für Token und hängt jedes neue Token hinten an.'],
  ['Beim Training rät das Modell immer wieder das nächste Wort und lernt aus seinen Fehlern.',true,'Genau. Bei jedem Fehler werden die Knöpfe ein kleines Stück gedreht.'],
  ['Während du mit einer KI chattest, verändert sie ständig ihre Knöpfe.',false,'Nach dem Training bleiben die Knöpfe fest. Im Chat merkt sie sich nur, was im Gespräch steht.'],
@@ -620,7 +613,7 @@ quiz:[
 posS:["Hund beißt Mann", "Mann beißt Hund"],
 ui:{
  lang:'Sprache', eyebrow:'Eine Reise ins Innere einer KI', h1:'Wie denkt ein <mark>Sprachmodell</mark>?',
- lead:'ChatGPT, Claude und Co. sind <b>LLMs</b>. Das steht für <b>Large Language Model</b>, auf Deutsch „großes Sprachmodell“. Zuerst schaust du zu, wie so ein Modell überhaupt lernt. Danach begleitest du eine Anfrage durch alle Stationen, bis daraus eine Antwort wird. Zum Schluss erfährst du, wie du KI klug und sicher benutzt.',
+ lead:'ChatGPT, Claude und Co. sind <b>KIs</b>, die mit Sprache arbeiten. Fachleute nennen so eine KI <b>Sprachmodell</b> oder kurz LLM (englisch <i>Large Language Model</i>). Auf dieser Seite sagen wir einfach <b>KI</b> oder <b>Modell</b>, gemeint ist immer dasselbe. Zuerst schaust du zu, wie so eine KI überhaupt lernt. Danach begleitest du eine Anfrage durch alle Stationen, bis daraus eine Antwort wird. Zum Schluss erfährst du, wie du KI klug und sicher benutzt.',
  pLabel:'Probier alle drei Anfragen aus!',
  pIntro:'Jede Anfrage zeigt dir an manchen Stationen etwas anderes. Verfolge eine bis zum Ende, dann wechsle zur nächsten. Die Aufgabe dazu findest du in der Station <b>Wort für Wort</b>.',
  stepperAria:'Stationen', prev:'← Zurück', next:'Weiter →', stepL:'Stationen nach links blättern', stepR:'Stationen nach rechts blättern',
@@ -665,16 +658,16 @@ ui:{
  mapSay:'Eine Nummer allein sagt noch nichts darüber, was ein Wort <i>bedeutet</i>. Darum bekommt jedes Token einen Platz auf einer riesigen <b>Bedeutungs-Landkarte</b>. Wörter mit ähnlicher Bedeutung wohnen nah beieinander. <b>Tippe auf ein Wort</b> und schau dir an, wo es wohnt und wer seine Nachbarn sind.',
  mapTap:'Tippe auf ein Wort auf der Karte', mapLegend:'Gelber Ring: Dieses Wort kommt in deiner Anfrage vor.',
  cardTitle:'Der Steckbrief eines Wortes',
- cardP:w=>`Unsere Karte hat nur <b>2 Richtungen</b>: nach rechts und nach unten. Darum hat jedes Wort hier nur 2 Zahlen. Ein echtes Modell speichert für jedes Wort eine <b>lange Liste von Zahlen</b>, oft über 4.000 Stück. Jede Zahl ist eine eigene Richtung. Stell dir jede Zahl wie die Antwort auf eine Frage vor: 0 heißt „gar nicht“, 1 heißt „total“, 0,5 heißt „halb-halb“. Eine Zahl wie 0,95 ist also fast ganz „total“, so wie 19 von 20 Kästchen. So sieht ein Teil vom Steckbrief für ${w} aus:`,
+ cardP:w=>`Unsere Karte hat nur <b>2 Richtungen</b>: nach rechts und nach unten. Darum hat jedes Wort hier nur 2 Zahlen. Eine echte KI speichert für jedes Wort eine <b>lange Liste von Zahlen</b>, oft über 4.000 Stück. Stell dir jede Zahl wie die Antwort auf eine Frage vor: Je länger der Balken, desto mehr passt „ja“. So sieht ein Teil vom Steckbrief für ${w} aus:`,
  cardSmall:'In Wirklichkeit haben die Richtungen keine Namen. Das Modell sucht sie sich beim Training selbst aus. Manche passen aber ungefähr zu solchen Fragen.',
  cardHint:'Probier es aus: Tippe oben auf der Landkarte oder hier auf ein Wort. Der Steckbrief ändert sich sofort mit! Vergleich mal ein Tier mit etwas zum Essen.', cardJump:w=>`Steckbrief von ${w} ansehen ↓`, cardBack:'Zur Landkarte',
  pairTitle:'Warum braucht man so viele Richtungen?', and:'und',
  mapFact:'<b>Stell dir vor:</b> Du sollst alle Kinder in deiner Klasse nur mit 2 Zahlen beschreiben, zum Beispiel Größe und Alter. Dann sehen viele fast gleich aus! Nimmst du mehr Angaben dazu, wie Haarfarbe, Lieblingsfach und Lieblingstier, kannst du jedes Kind genau beschreiben. Genauso geht es dem Modell mit Wörtern. Mit Tausenden Zahlen kann es sogar ganz feine Unterschiede speichern.',
  chosen:'Gewählt', mRight:n=>`nach rechts: <b>${n}</b> Kästchen`, mDown:n=>`nach unten: <b>${n}</b> Kästchen`,
  addr:w=>`Das ist die Adresse von ${w}, wie bei Schiffe versenken. Folge den grünen Linien zum Rand und zähl die Kästchen ab.`,
- howTitle:v=>`So schreibt es der Computer: ${v}`,
- howCalc:(g,x)=>`Die Karte ist 20 Kästchen breit. ${g} von 20 Kästchen ist dasselbe wie ${g} ÷ 20 = <b>${x}</b>.`,
- howSmall:'Oben: Kästchen. Unten: dieselbe Stelle als Kommazahl. Der Computer misst immer von <b>0</b> (ganz links oder oben) bis <b>1</b> (ganz rechts oder unten). 0,5 ist genau die Mitte. So passt die Rechnung zu jeder Karte, egal wie viele Kästchen sie hat.',
+
+
+
  neighbors:'Nächste Nachbarn:', more:'… und noch über 4.000 weitere Zahlen', pairMarked:'(Gelb markiert: die Fragen, bei denen sie sich unterscheiden.)',
 
  attTitle:'Aufmerksamkeit',
@@ -781,7 +774,7 @@ ui:{
  quizTitle:'Quiz: Wahr oder falsch?',
  endFact:'<b>Merke dir:</b> Ein Sprachmodell ist ein extrem gut trainierter Wort-Rater. Es kann super erklären, schreiben und helfen. Weil es aber rät statt nachschlägt, solltest du wichtige Dinge immer noch einmal überprüfen.',
  again:'Mit einer anderen Anfrage nochmal', yes:'Wahr', no:'Falsch', qRight:'Richtig!', qWrong:'Leider nein.',
- score:(ok,n)=>`${ok} von ${n} richtig${ok===n?'. Du bist jetzt LLM-Profi!':'.'}`,
+ score:(ok,n)=>`${ok} von ${n} richtig${ok===n?'. Du bist jetzt KI-Profi!':'.'}`,
 
 
  posTitle:"Die Reihenfolge zählt",
@@ -924,8 +917,8 @@ cases:[
 amp:{g:'Green: great',y:'Yellow: careful, check',r:'Red: stop, ask an adult'}, ampShort:{g:'green',y:'yellow',r:'red'},
 cheese:['The','sky','is','cheese',',','because','the','moon','paints','it','with','milk','every','night','.'],
 quiz:[
- ['An LLM looks up its answers in a big encyclopedia.',false,'It guesses token by token what fits best. To do that, it uses patterns it learned during training.'],
- ['An LLM can be wrong even when it sounds very sure.',true,'Because it guesses, a wrong answer can win sometimes. Better check important facts!'],
+ ['An AI like ChatGPT looks up its answers in a big encyclopedia.',false,'It guesses token by token what fits best. To do that, it uses patterns it learned during training.'],
+ ['An AI can be wrong even when it sounds very sure.',true,'Because it guesses, a wrong answer can win sometimes. Better check important facts!'],
  ['The model writes the whole answer at once.',false,'It writes token by token and adds each new token at the end.'],
  ['During training, the model keeps guessing the next word and learns from its mistakes.',true,'Exactly. With every mistake the knobs are turned a little bit.'],
  ['While you chat with an AI, it keeps changing its knobs.',false,'After training the knobs stay fixed. In the chat it only remembers what is in the conversation.'],
@@ -940,7 +933,7 @@ quiz:[
 posS:["Dog bites man", "Man bites dog"],
 ui:{
  lang:'Language', eyebrow:'A journey inside an AI', h1:'How does a <mark>language model</mark> think?',
- lead:'ChatGPT, Claude and friends are <b>LLMs</b>. That stands for <b>Large Language Model</b>. First you watch how such a model learns at all. Then you follow a request through every station until it becomes an answer. At the end you find out how to use AI wisely and safely.',
+ lead:'ChatGPT, Claude and friends are <b>AIs</b> that work with language. Experts call such an AI a <b>language model</b>, or LLM for short (<i>Large Language Model</i>). On this page we simply say <b>AI</b> or <b>model</b>; both always mean the same thing. First you watch how such an AI learns at all. Then you follow a request through every station until it becomes an answer. At the end you find out how to use AI wisely and safely.',
  pLabel:'Try all three requests!',
  pIntro:'Each request shows you something different at some stations. Follow one to the end, then switch to the next. You will find the task for this in the station <b>Word by word</b>.',
  stepperAria:'Stations', prev:'← Back', next:'Next →', stepL:'Scroll stations left', stepR:'Scroll stations right',
@@ -985,16 +978,16 @@ ui:{
  mapSay:'A number alone says nothing about what a word <i>means</i>. That is why every token gets a place on a huge <b>meaning map</b>. Words with similar meanings live close together. <b>Tap a word</b> and see where it lives and who its neighbours are.',
  mapTap:'Tap a word on the map', mapLegend:'Yellow ring: this word appears in your request.',
  cardTitle:'A word’s profile',
- cardP:w=>`Our map has only <b>2 directions</b>: to the right and down. That is why every word here has only 2 numbers. A real model stores a <b>long list of numbers</b> for every word, often more than 4,000 of them. Each number is a direction of its own. Think of each number as the answer to a question: 0 means “not at all”, 1 means “totally”, 0.5 means “half and half”. So a number like 0.95 is almost completely “totally”, like 19 out of 20 squares. Here is part of the profile for ${w}:`,
+ cardP:w=>`Our map has only <b>2 directions</b>: to the right and down. That is why every word here has only 2 numbers. A real AI stores a <b>long list of numbers</b> for every word, often more than 4,000 of them. Think of each number as the answer to a question: the longer the bar, the more the answer is “yes”. Here is part of the profile for ${w}:`,
  cardSmall:'In reality the directions have no names. The model picks them itself during training. But some roughly match questions like these.',
  cardHint:'Try it: tap a word on the map above or right here. The profile changes straight away! Compare an animal with something to eat, for example.', cardJump:w=>`See the profile of ${w} ↓`, cardBack:'Back to the map',
  pairTitle:'Why are so many directions needed?', and:'and',
  mapFact:'<b>Imagine:</b> you have to describe every child in your class with just 2 numbers, for example height and age. Then many look almost the same! Add more details, like hair colour, favourite subject and favourite animal, and you can describe every child exactly. It is the same for the model with words. With thousands of numbers it can store even very fine differences.',
  chosen:'Selected', mRight:n=>`to the right: <b>${n}</b> squares`, mDown:n=>`down: <b>${n}</b> squares`,
  addr:w=>`This is the address of ${w}, like in Battleship. Follow the green lines to the edge and count the squares.`,
- howTitle:v=>`This is how the computer writes it: ${v}`,
- howCalc:(g,x)=>`The map is 20 squares wide. ${g} out of 20 squares is the same as ${g} ÷ 20 = <b>${x}</b>.`,
- howSmall:'Top: squares. Bottom: the same spot as a decimal number. The computer always measures from <b>0</b> (far left or top) to <b>1</b> (far right or bottom). 0.5 is exactly the middle. That way the calculation works for every map, no matter how many squares it has.',
+
+
+
  neighbors:'Closest neighbours:', more:'… and more than 4,000 other numbers', pairMarked:'(Marked in yellow: the questions where they differ.)',
 
  attTitle:'Attention',
@@ -1101,7 +1094,7 @@ ui:{
  quizTitle:'Quiz: true or false?',
  endFact:'<b>Remember:</b> A language model is an extremely well-trained word guesser. It can explain, write and help brilliantly. But because it guesses instead of looking things up, you should always double-check important things.',
  again:'Again with another request', yes:'True', no:'False', qRight:'Right!', qWrong:'Not quite.',
- score:(ok,n)=>`${ok} of ${n} correct${ok===n?'. You are now an LLM pro!':'.'}`,
+ score:(ok,n)=>`${ok} of ${n} correct${ok===n?'. You are now an AI pro!':'.'}`,
 
 
  posTitle:"Order matters",
@@ -1243,8 +1236,8 @@ cases:[
 amp:{g:'Vert : super',y:'Orange : attention, vérifie',r:'Rouge : stop, demande à un adulte'}, ampShort:{g:'vert',y:'orange',r:'rouge'},
 cheese:['Le','ciel','est','fromage',',','car','la','lune','le','peint','avec','du','lait','chaque','nuit','.'],
 quiz:[
- ['Un LLM cherche ses réponses dans une grande encyclopédie.',false,'Il devine jeton après jeton ce qui va le mieux. Pour ça, il utilise des modèles appris pendant l’entraînement.'],
- ['Un LLM peut se tromper, même s’il a l’air très sûr de lui.',true,'Comme il devine, une mauvaise réponse peut parfois gagner. Mieux vaut vérifier les faits importants !'],
+ ['Une IA comme ChatGPT cherche ses réponses dans une grande encyclopédie.',false,'Elle devine jeton après jeton ce qui va le mieux. Pour ça, elle utilise des modèles appris pendant l’entraînement.'],
+ ['Une IA peut se tromper, même si elle a l’air très sûre d’elle.',true,'Comme elle devine, une mauvaise réponse peut parfois gagner. Mieux vaut vérifier les faits importants !'],
  ['Le modèle écrit toute la réponse d’un coup.',false,'Il écrit jeton après jeton et ajoute chaque nouveau jeton à la fin.'],
  ['Pendant l’entraînement, le modèle devine sans arrêt le mot suivant et apprend de ses erreurs.',true,'Exactement. À chaque erreur, les boutons sont tournés un tout petit peu.'],
  ['Pendant que tu discutes avec une IA, elle change sans arrêt ses boutons.',false,'Après l’entraînement, les boutons restent fixes. Dans la discussion, elle retient seulement ce qui est dans la conversation.'],
@@ -1259,7 +1252,7 @@ quiz:[
 posS:["Le chien mord l’homme", "L’homme mord le chien"],
 ui:{
  lang:'Langue', eyebrow:'Un voyage à l’intérieur d’une IA', h1:'Comment pense un <mark>modèle de langage</mark> ?',
- lead:'ChatGPT, Claude et les autres sont des <b>LLM</b>. Ça veut dire <b>Large Language Model</b>, en français « grand modèle de langage ». D’abord, tu regardes comment un tel modèle apprend. Ensuite, tu suis une demande à travers toutes les étapes, jusqu’à ce qu’elle devienne une réponse. À la fin, tu découvres comment utiliser l’IA de façon maline et sûre.',
+ lead:'ChatGPT, Claude et les autres sont des <b>IA</b> qui travaillent avec la langue. Les spécialistes appellent une telle IA un <b>modèle de langage</b>, ou LLM en abrégé (en anglais <i>Large Language Model</i>). Sur cette page, on dit simplement <b>IA</b> ou <b>modèle</b> : c’est toujours la même chose. D’abord, tu regardes comment une telle IA apprend. Ensuite, tu suis une demande à travers toutes les étapes, jusqu’à ce qu’elle devienne une réponse. À la fin, tu découvres comment utiliser l’IA de façon maline et sûre.',
  pLabel:'Essaie les trois demandes !',
  pIntro:'Chaque demande te montre autre chose à certaines étapes. Suis-en une jusqu’au bout, puis passe à la suivante. Tu trouveras la mission pour ça à l’étape <b>Mot à mot</b>.',
  stepperAria:'Étapes', prev:'← Retour', next:'Suivant →', stepL:'Faire défiler les étapes vers la gauche', stepR:'Faire défiler les étapes vers la droite',
@@ -1304,16 +1297,16 @@ ui:{
  mapSay:'Un numéro tout seul ne dit rien sur ce qu’un mot <i>veut dire</i>. C’est pour ça que chaque jeton reçoit une place sur une immense <b>carte des sens</b>. Les mots de sens proche habitent près les uns des autres. <b>Touche un mot</b> et regarde où il habite et qui sont ses voisins.',
  mapTap:'Touche un mot sur la carte', mapLegend:'Anneau jaune : ce mot apparaît dans ta demande.',
  cardTitle:'La carte d’identité d’un mot',
- cardP:w=>`Notre carte n’a que <b>2 directions</b> : vers la droite et vers le bas. C’est pour ça qu’ici chaque mot n’a que 2 nombres. Un vrai modèle garde pour chaque mot une <b>longue liste de nombres</b>, souvent plus de 4 000. Chaque nombre est une direction à part. Imagine chaque nombre comme la réponse à une question : 0 veut dire « pas du tout », 1 veut dire « complètement », 0,5 veut dire « moitié-moitié ». Un nombre comme 0,95 est donc presque « complètement », comme 19 cases sur 20. Voici une partie de la carte d’identité de ${w} :`,
+ cardP:w=>`Notre carte n’a que <b>2 directions</b> : vers la droite et vers le bas. C’est pour ça qu’ici chaque mot n’a que 2 nombres. Une vraie IA garde pour chaque mot une <b>longue liste de nombres</b>, souvent plus de 4 000. Imagine chaque nombre comme la réponse à une question : plus la barre est longue, plus la réponse est « oui ». Voici une partie de la carte d’identité de ${w} :`,
  cardSmall:'En vrai, les directions n’ont pas de nom. Le modèle les choisit tout seul pendant l’entraînement. Mais certaines ressemblent à peu près à des questions comme celles-ci.',
  cardHint:'Essaie : touche un mot sur la carte au-dessus ou ici. La carte d’identité change tout de suite ! Compare par exemple un animal et quelque chose à manger.', cardJump:w=>`Voir la carte d’identité de ${w} ↓`, cardBack:'Retour à la carte',
  pairTitle:'Pourquoi faut-il autant de directions ?', and:'et',
  mapFact:'<b>Imagine :</b> tu dois décrire tous les enfants de ta classe avec seulement 2 nombres, par exemple la taille et l’âge. Alors beaucoup se ressemblent presque ! Si tu ajoutes d’autres informations, comme la couleur des cheveux, la matière préférée et l’animal préféré, tu peux décrire chaque enfant précisément. C’est pareil pour le modèle avec les mots. Avec des milliers de nombres, il peut retenir même de toutes petites différences.',
  chosen:'Choisi', mRight:n=>`vers la droite : <b>${n}</b> cases`, mDown:n=>`vers le bas : <b>${n}</b> cases`,
  addr:w=>`C’est l’adresse de ${w}, comme à la bataille navale. Suis les lignes vertes jusqu’au bord et compte les cases.`,
- howTitle:v=>`Voilà comment l’ordinateur l’écrit : ${v}`,
- howCalc:(g,x)=>`La carte fait 20 cases de large. ${g} cases sur 20, c’est pareil que ${g} ÷ 20 = <b>${x}</b>.`,
- howSmall:'En haut : les cases. En bas : le même endroit en nombre à virgule. L’ordinateur mesure toujours de <b>0</b> (tout à gauche ou en haut) à <b>1</b> (tout à droite ou en bas). 0,5, c’est pile le milieu. Comme ça, le calcul marche pour toutes les cartes, quel que soit le nombre de cases.',
+
+
+
  neighbors:'Voisins les plus proches :', more:'… et plus de 4 000 autres nombres', pairMarked:'(En jaune : les questions où ils sont différents.)',
 
  attTitle:'Attention',
@@ -1420,7 +1413,7 @@ ui:{
  quizTitle:'Quiz : vrai ou faux ?',
  endFact:'<b>Retiens bien :</b> un modèle de langage est un devineur de mots extrêmement bien entraîné. Il sait très bien expliquer, écrire et aider. Mais comme il devine au lieu de chercher, tu devrais toujours revérifier les choses importantes.',
  again:'Recommencer avec une autre demande', yes:'Vrai', no:'Faux', qRight:'Juste !', qWrong:'Eh non.',
- score:(ok,n)=>`${ok} sur ${n} justes${ok===n?'. Tu es maintenant un pro des LLM !':'.'}`,
+ score:(ok,n)=>`${ok} sur ${n} justes${ok===n?'. Tu es maintenant un pro de l’IA !':'.'}`,
 
 
  posTitle:"L’ordre compte",
@@ -1562,8 +1555,8 @@ cases:[
 amp:{g:'Verde: ottimo',y:'Giallo: attenzione, controlla',r:'Rosso: stop, chiedi a un adulto'}, ampShort:{g:'verde',y:'giallo',r:'rosso'},
 cheese:['Il','cielo','è','formaggio',',','perché','la','luna','lo','dipinge','di','latte','ogni','notte','.'],
 quiz:[
- ['Un LLM cerca le risposte in una grande enciclopedia.',false,'Indovina token per token cosa si adatta meglio. Per farlo usa schemi imparati durante l’allenamento.'],
- ['Un LLM può sbagliare anche quando sembra sicurissimo.',true,'Siccome indovina, a volte vince una risposta sbagliata. Meglio controllare i fatti importanti!'],
+ ['Un’IA come ChatGPT cerca le risposte in una grande enciclopedia.',false,'Indovina token per token cosa si adatta meglio. Per farlo usa schemi imparati durante l’allenamento.'],
+ ['Un’IA può sbagliare anche quando sembra sicurissima.',true,'Siccome indovina, a volte vince una risposta sbagliata. Meglio controllare i fatti importanti!'],
  ['Il modello scrive tutta la risposta in una volta.',false,'Scrive token per token e aggiunge ogni nuovo token alla fine.'],
  ['Durante l’allenamento il modello indovina sempre la parola successiva e impara dai suoi errori.',true,'Esatto. A ogni errore le manopole vengono girate un pochino.'],
  ['Mentre chatti con un’IA, lei cambia continuamente le sue manopole.',false,'Dopo l’allenamento le manopole restano ferme. In chat si ricorda solo quello che c’è nella conversazione.'],
@@ -1578,7 +1571,7 @@ quiz:[
 posS:["Il cane morde l’uomo", "L’uomo morde il cane"],
 ui:{
  lang:'Lingua', eyebrow:'Un viaggio dentro un’IA', h1:'Come pensa un <mark>modello linguistico</mark>?',
- lead:'ChatGPT, Claude e compagnia sono <b>LLM</b>. Significa <b>Large Language Model</b>, in italiano «grande modello linguistico». Prima guardi come un modello del genere impara. Poi accompagni una richiesta attraverso tutte le tappe, finché diventa una risposta. Alla fine scopri come usare l’IA in modo furbo e sicuro.',
+ lead:'ChatGPT, Claude e compagnia sono <b>IA</b> che lavorano con la lingua. Gli esperti chiamano un’IA così <b>modello linguistico</b>, o in breve LLM (in inglese <i>Large Language Model</i>). In questa pagina diciamo semplicemente <b>IA</b> o <b>modello</b>: si intende sempre la stessa cosa. Prima guardi come impara un’IA del genere. Poi accompagni una richiesta attraverso tutte le tappe, finché diventa una risposta. Alla fine scopri come usare l’IA in modo furbo e sicuro.',
  pLabel:'Prova tutte e tre le richieste!',
  pIntro:'Ogni richiesta ti mostra qualcosa di diverso in alcune tappe. Seguine una fino alla fine, poi passa alla successiva. Il compito lo trovi nella tappa <b>Parola per parola</b>.',
  stepperAria:'Tappe', prev:'← Indietro', next:'Avanti →', stepL:'Scorri le tappe a sinistra', stepR:'Scorri le tappe a destra',
@@ -1623,16 +1616,16 @@ ui:{
  mapSay:'Un numero da solo non dice niente su cosa <i>significa</i> una parola. Per questo ogni token riceve un posto su un’enorme <b>mappa dei significati</b>. Le parole con significato simile abitano vicine. <b>Tocca una parola</b> e guarda dove abita e chi sono i suoi vicini.',
  mapTap:'Tocca una parola sulla mappa', mapLegend:'Anello giallo: questa parola è nella tua richiesta.',
  cardTitle:'La carta d’identità di una parola',
- cardP:w=>`La nostra mappa ha solo <b>2 direzioni</b>: verso destra e verso il basso. Per questo qui ogni parola ha solo 2 numeri. Un modello vero salva per ogni parola una <b>lunga lista di numeri</b>, spesso più di 4.000. Ogni numero è una direzione a sé. Immagina ogni numero come la risposta a una domanda: 0 vuol dire «per niente», 1 vuol dire «del tutto», 0,5 vuol dire «metà e metà». Un numero come 0,95 è quindi quasi «del tutto», come 19 quadretti su 20. Ecco una parte della carta d’identità di ${w}:`,
+ cardP:w=>`La nostra mappa ha solo <b>2 direzioni</b>: verso destra e verso il basso. Per questo qui ogni parola ha solo 2 numeri. Una vera IA salva per ogni parola una <b>lunga lista di numeri</b>, spesso più di 4.000. Immagina ogni numero come la risposta a una domanda: più la barra è lunga, più la risposta è «sì». Ecco una parte della carta d’identità di ${w}:`,
  cardSmall:'In realtà le direzioni non hanno nomi. Il modello le sceglie da solo durante l’allenamento. Alcune però somigliano più o meno a domande così.',
  cardHint:'Prova: tocca una parola sulla mappa qui sopra o proprio qui. La carta d’identità cambia subito! Confronta per esempio un animale con qualcosa da mangiare.', cardJump:w=>`Guarda la carta d’identità di ${w} ↓`, cardBack:'Torna alla mappa',
  pairTitle:'Perché servono così tante direzioni?', and:'e',
  mapFact:'<b>Immagina:</b> devi descrivere tutti i bambini della tua classe con soli 2 numeri, per esempio altezza ed età. Allora molti sembrano quasi uguali! Se aggiungi altre informazioni, come colore dei capelli, materia preferita e animale preferito, puoi descrivere ogni bambino con precisione. Per il modello è lo stesso con le parole. Con migliaia di numeri può salvare anche differenze piccolissime.',
  chosen:'Scelta', mRight:n=>`verso destra: <b>${n}</b> quadretti`, mDown:n=>`verso il basso: <b>${n}</b> quadretti`,
  addr:w=>`Questo è l’indirizzo di ${w}, come a battaglia navale. Segui le linee verdi fino al bordo e conta i quadretti.`,
- howTitle:v=>`Così lo scrive il computer: ${v}`,
- howCalc:(g,x)=>`La mappa è larga 20 quadretti. ${g} quadretti su 20 è lo stesso di ${g} ÷ 20 = <b>${x}</b>.`,
- howSmall:'Sopra: quadretti. Sotto: lo stesso punto come numero con la virgola. Il computer misura sempre da <b>0</b> (tutto a sinistra o in alto) a <b>1</b> (tutto a destra o in basso). 0,5 è esattamente a metà. Così il calcolo va bene per ogni mappa, qualunque sia il numero di quadretti.',
+
+
+
  neighbors:'Vicini più vicini:', more:'… e più di 4.000 altri numeri', pairMarked:'(In giallo: le domande in cui sono diversi.)',
 
  attTitle:'Attenzione',
@@ -1739,7 +1732,7 @@ ui:{
  quizTitle:'Quiz: vero o falso?',
  endFact:'<b>Ricorda:</b> un modello linguistico è un indovina-parole allenatissimo. Sa spiegare, scrivere e aiutare benissimo. Ma siccome indovina invece di cercare, le cose importanti dovresti sempre ricontrollarle.',
  again:'Di nuovo con un’altra richiesta', yes:'Vero', no:'Falso', qRight:'Giusto!', qWrong:'Purtroppo no.',
- score:(ok,n)=>`${ok} su ${n} giuste${ok===n?'. Ora sei un esperto di LLM!':'.'}`,
+ score:(ok,n)=>`${ok} su ${n} giuste${ok===n?'. Ora sei un esperto di IA!':'.'}`,
 
 
  posTitle:"L’ordine conta",
@@ -1882,8 +1875,8 @@ cases:[
 amp:{g:'Verde: genial',y:'Amarillo: cuidado, comprueba',r:'Rojo: alto, pregunta a un adulto'}, ampShort:{g:'verde',y:'amarillo',r:'rojo'},
 cheese:['El','cielo','es','queso',',','porque','la','luna','lo','pinta','con','leche','cada','noche','.'],
 quiz:[
- ['Un LLM busca sus respuestas en una gran enciclopedia.',false,'Adivina token a token lo que mejor encaja. Para ello usa patrones que aprendió en el entrenamiento.'],
- ['Un LLM puede equivocarse aunque suene muy seguro.',true,'Como adivina, a veces gana una respuesta equivocada. ¡Mejor comprobar los datos importantes!'],
+ ['Una IA como ChatGPT busca sus respuestas en una gran enciclopedia.',false,'Adivina token a token lo que mejor encaja. Para ello usa patrones que aprendió en el entrenamiento.'],
+ ['Una IA puede equivocarse aunque suene muy segura.',true,'Como adivina, a veces gana una respuesta equivocada. ¡Mejor comprobar los datos importantes!'],
  ['El modelo escribe toda la respuesta de una vez.',false,'Escribe token a token y añade cada token nuevo al final.'],
  ['En el entrenamiento, el modelo adivina una y otra vez la siguiente palabra y aprende de sus errores.',true,'Exacto. Con cada error se giran un poquito los botones.'],
  ['Mientras chateas con una IA, cambia todo el rato sus botones.',false,'Después del entrenamiento los botones se quedan fijos. En el chat solo recuerda lo que hay en la conversación.'],
@@ -1898,7 +1891,7 @@ quiz:[
 posS:["El perro muerde al hombre", "El hombre muerde al perro"],
 ui:{
  lang:'Idioma', eyebrow:'Un viaje al interior de una IA', h1:'¿Cómo piensa un <mark>modelo de lenguaje</mark>?',
- lead:'ChatGPT, Claude y compañía son <b>LLM</b>. Significa <b>Large Language Model</b>, en español «gran modelo de lenguaje». Primero ves cómo aprende un modelo así. Después acompañas una petición por todas las etapas hasta que se convierte en una respuesta. Al final descubres cómo usar la IA con cabeza y de forma segura.',
+ lead:'ChatGPT, Claude y compañía son <b>IA</b> que trabajan con el lenguaje. Los expertos llaman a una IA así <b>modelo de lenguaje</b>, o LLM para abreviar (en inglés <i>Large Language Model</i>). En esta página decimos simplemente <b>IA</b> o <b>modelo</b>: siempre es lo mismo. Primero ves cómo aprende una IA así. Después acompañas una petición por todas las etapas hasta que se convierte en una respuesta. Al final descubres cómo usar la IA con cabeza y de forma segura.',
  pLabel:'¡Prueba las tres peticiones!',
  pIntro:'Cada petición te enseña algo distinto en algunas etapas. Sigue una hasta el final y luego cambia a la siguiente. La tarea para esto está en la etapa <b>Palabra a palabra</b>.',
  stepperAria:'Etapas', prev:'← Atrás', next:'Siguiente →', stepL:'Desplazar las etapas a la izquierda', stepR:'Desplazar las etapas a la derecha',
@@ -1943,16 +1936,16 @@ ui:{
  mapSay:'Un número solo no dice nada de lo que <i>significa</i> una palabra. Por eso cada token recibe un lugar en un enorme <b>mapa de significados</b>. Las palabras con significado parecido viven cerca. <b>Toca una palabra</b> y mira dónde vive y quiénes son sus vecinos.',
  mapTap:'Toca una palabra del mapa', mapLegend:'Anillo amarillo: esta palabra está en tu petición.',
  cardTitle:'La ficha de una palabra',
- cardP:w=>`Nuestro mapa solo tiene <b>2 direcciones</b>: hacia la derecha y hacia abajo. Por eso aquí cada palabra tiene solo 2 números. Un modelo de verdad guarda para cada palabra una <b>larga lista de números</b>, a menudo más de 4.000. Cada número es una dirección propia. Imagina cada número como la respuesta a una pregunta: 0 significa «nada», 1 significa «totalmente», 0,5 significa «mitad y mitad». Un número como 0,95 es casi «totalmente», como 19 de 20 cuadritos. Así es una parte de la ficha de ${w}:`,
+ cardP:w=>`Nuestro mapa solo tiene <b>2 direcciones</b>: hacia la derecha y hacia abajo. Por eso aquí cada palabra tiene solo 2 números. Una IA de verdad guarda para cada palabra una <b>larga lista de números</b>, a menudo más de 4.000. Imagina cada número como la respuesta a una pregunta: cuanto más larga es la barra, más es la respuesta «sí». Así es una parte de la ficha de ${w}:`,
  cardSmall:'En realidad, las direcciones no tienen nombre. El modelo las elige solo durante el entrenamiento. Pero algunas se parecen más o menos a preguntas así.',
  cardHint:'Pruébalo: toca una palabra en el mapa de arriba o aquí mismo. ¡La ficha cambia al momento! Compara, por ejemplo, un animal con algo de comer.', cardJump:w=>`Ver la ficha de ${w} ↓`, cardBack:'Volver al mapa',
  pairTitle:'¿Por qué hacen falta tantas direcciones?', and:'y',
  mapFact:'<b>Imagínate:</b> tienes que describir a todos los niños de tu clase con solo 2 números, por ejemplo altura y edad. ¡Entonces muchos parecen casi iguales! Si añades más datos, como color de pelo, asignatura favorita y animal favorito, puedes describir a cada niño con precisión. Al modelo le pasa lo mismo con las palabras. Con miles de números puede guardar hasta diferencias muy pequeñas.',
  chosen:'Elegida', mRight:n=>`hacia la derecha: <b>${n}</b> cuadritos`, mDown:n=>`hacia abajo: <b>${n}</b> cuadritos`,
  addr:w=>`Esta es la dirección de ${w}, como en el juego de los barquitos. Sigue las líneas verdes hasta el borde y cuenta los cuadritos.`,
- howTitle:v=>`Así lo escribe el ordenador: ${v}`,
- howCalc:(g,x)=>`El mapa mide 20 cuadritos de ancho. ${g} de 20 cuadritos es lo mismo que ${g} ÷ 20 = <b>${x}</b>.`,
- howSmall:'Arriba: cuadritos. Abajo: el mismo sitio como número decimal. El ordenador siempre mide de <b>0</b> (del todo a la izquierda o arriba) a <b>1</b> (del todo a la derecha o abajo). 0,5 es justo la mitad. Así el cálculo sirve para cualquier mapa, tenga los cuadritos que tenga.',
+
+
+
  neighbors:'Vecinos más cercanos:', more:'… y más de 4.000 números más', pairMarked:'(En amarillo: las preguntas en las que se diferencian.)',
 
  attTitle:'Atención',
@@ -2059,7 +2052,7 @@ ui:{
  quizTitle:'Quiz: ¿verdadero o falso?',
  endFact:'<b>Recuerda:</b> un modelo de lenguaje es un adivinador de palabras superentrenado. Sabe explicar, escribir y ayudar de maravilla. Pero como adivina en lugar de buscar, deberías volver a comprobar siempre las cosas importantes.',
  again:'Otra vez con otra petición', yes:'Verdadero', no:'Falso', qRight:'¡Correcto!', qWrong:'Pues no.',
- score:(ok,n)=>`${ok} de ${n} correctas${ok===n?'. ¡Ya eres un experto en LLM!':'.'}`,
+ score:(ok,n)=>`${ok} de ${n} correctas${ok===n?'. ¡Ya eres un experto en IA!':'.'}`,
 
 
  posTitle:"El orden importa",
@@ -2202,8 +2195,8 @@ cases:[
 amp:{g:'Groen: prima',y:'Oranje: let op, controleer',r:'Rood: stop, vraag een volwassene'}, ampShort:{g:'groen',y:'oranje',r:'rood'},
 cheese:['De','lucht','is','kaas',',','omdat','de','maan','hem','elke','nacht','met','melk','verft','.'],
 quiz:[
- ['Een LLM zoekt zijn antwoorden op in een grote encyclopedie.',false,'Het raadt token voor token wat het beste past. Daarbij gebruikt het patronen die het in de training heeft geleerd.'],
- ['Een LLM kan zich vergissen, ook als het heel zeker klinkt.',true,'Omdat het raadt, kan er soms een fout antwoord winnen. Controleer belangrijke feiten liever!'],
+ ['Een AI zoals ChatGPT zoekt zijn antwoorden op in een grote encyclopedie.',false,'Hij raadt token voor token wat het beste past. Daarbij gebruikt hij patronen die hij in de training heeft geleerd.'],
+ ['Een AI kan zich vergissen, ook als hij heel zeker klinkt.',true,'Omdat hij raadt, kan er soms een fout antwoord winnen. Controleer belangrijke feiten liever!'],
  ['Het model schrijft het hele antwoord in één keer.',false,'Het schrijft token voor token en plakt elk nieuw token achteraan.'],
  ['In de training raadt het model steeds het volgende woord en leert het van zijn fouten.',true,'Precies. Bij elke fout worden de knoppen een klein stukje gedraaid.'],
  ['Terwijl je met een AI chat, verandert die steeds zijn knoppen.',false,'Na de training blijven de knoppen vast. In de chat onthoudt hij alleen wat in het gesprek staat.'],
@@ -2218,7 +2211,7 @@ quiz:[
 posS:["Hond bijt man", "Man bijt hond"],
 ui:{
  lang:'Taal', eyebrow:'Een reis naar de binnenkant van een AI', h1:'Hoe denkt een <mark>taalmodel</mark>?',
- lead:'ChatGPT, Claude en anderen zijn <b>LLM’s</b>. Dat staat voor <b>Large Language Model</b>, in het Nederlands ‘groot taalmodel’. Eerst kijk je hoe zo’n model eigenlijk leert. Daarna volg je een vraag langs alle stations tot er een antwoord uit komt. Aan het eind ontdek je hoe je AI slim en veilig gebruikt.',
+ lead:'ChatGPT, Claude en anderen zijn <b>AI’s</b> die met taal werken. Deskundigen noemen zo’n AI een <b>taalmodel</b>, of kort LLM (Engels <i>Large Language Model</i>). Op deze pagina zeggen we gewoon <b>AI</b> of <b>model</b>; we bedoelen altijd hetzelfde. Eerst kijk je hoe zo’n AI eigenlijk leert. Daarna volg je een vraag langs alle stations tot er een antwoord uit komt. Aan het eind ontdek je hoe je AI slim en veilig gebruikt.',
  pLabel:'Probeer alle drie de vragen!',
  pIntro:'Elke vraag laat je bij sommige stations iets anders zien. Volg er een tot het einde en ga dan naar de volgende. De opdracht hiervoor vind je bij het station <b>Woord voor woord</b>.',
  stepperAria:'Stations', prev:'← Terug', next:'Verder →', stepL:'Stations naar links schuiven', stepR:'Stations naar rechts schuiven',
@@ -2263,16 +2256,16 @@ ui:{
  mapSay:'Een nummer alleen zegt nog niets over wat een woord <i>betekent</i>. Daarom krijgt elk token een plek op een enorme <b>betekeniskaart</b>. Woorden met een vergelijkbare betekenis wonen dicht bij elkaar. <b>Tik op een woord</b> en kijk waar het woont en wie zijn buren zijn.',
  mapTap:'Tik op een woord op de kaart', mapLegend:'Gele ring: dit woord staat in jouw vraag.',
  cardTitle:'Het paspoort van een woord',
- cardP:w=>`Onze kaart heeft maar <b>2 richtingen</b>: naar rechts en naar beneden. Daarom heeft elk woord hier maar 2 getallen. Een echt model bewaart voor elk woord een <b>lange lijst met getallen</b>, vaak meer dan 4.000. Elk getal is een eigen richting. Zie elk getal als het antwoord op een vraag: 0 betekent ‘helemaal niet’, 1 betekent ‘helemaal’, 0,5 betekent ‘half-half’. Een getal als 0,95 is dus bijna ‘helemaal’, zoals 19 van de 20 hokjes. Zo ziet een deel van het paspoort van ${w} eruit:`,
+ cardP:w=>`Onze kaart heeft maar <b>2 richtingen</b>: naar rechts en naar beneden. Daarom heeft elk woord hier maar 2 getallen. Een echte AI bewaart voor elk woord een <b>lange lijst met getallen</b>, vaak meer dan 4.000. Zie elk getal als het antwoord op een vraag: hoe langer de balk, hoe meer het antwoord ‘ja’ is. Zo ziet een deel van het paspoort van ${w} eruit:`,
  cardSmall:'In het echt hebben de richtingen geen namen. Het model kiest ze zelf tijdens de training. Sommige passen wel ongeveer bij zulke vragen.',
  cardHint:'Probeer het: tik op een woord op de kaart hierboven of hier. Het paspoort verandert meteen mee! Vergelijk bijvoorbeeld een dier met iets om te eten.', cardJump:w=>`Bekijk het paspoort van ${w} ↓`, cardBack:'Terug naar de kaart',
  pairTitle:'Waarom zijn er zoveel richtingen nodig?', and:'en',
  mapFact:'<b>Stel je voor:</b> je moet alle kinderen in je klas beschrijven met maar 2 getallen, bijvoorbeeld lengte en leeftijd. Dan lijken er veel bijna hetzelfde! Neem je meer gegevens erbij, zoals haarkleur, lievelingsvak en lievelingsdier, dan kun je elk kind precies beschrijven. Zo gaat het het model ook met woorden. Met duizenden getallen kan het zelfs heel kleine verschillen bewaren.',
  chosen:'Gekozen', mRight:n=>`naar rechts: <b>${n}</b> hokjes`, mDown:n=>`naar beneden: <b>${n}</b> hokjes`,
  addr:w=>`Dit is het adres van ${w}, zoals bij zeeslag. Volg de groene lijnen naar de rand en tel de hokjes.`,
- howTitle:v=>`Zo schrijft de computer het: ${v}`,
- howCalc:(g,x)=>`De kaart is 20 hokjes breed. ${g} van de 20 hokjes is hetzelfde als ${g} ÷ 20 = <b>${x}</b>.`,
- howSmall:'Boven: hokjes. Onder: dezelfde plek als kommagetal. De computer meet altijd van <b>0</b> (helemaal links of boven) tot <b>1</b> (helemaal rechts of onder). 0,5 is precies het midden. Zo werkt de berekening voor elke kaart, hoeveel hokjes die ook heeft.',
+
+
+
  neighbors:'Dichtste buren:', more:'… en nog meer dan 4.000 andere getallen', pairMarked:'(Geel gemarkeerd: de vragen waarin ze verschillen.)',
 
  attTitle:'Aandacht',
@@ -2379,7 +2372,7 @@ ui:{
  quizTitle:'Quiz: waar of niet waar?',
  endFact:'<b>Onthoud:</b> een taalmodel is een extreem goed getrainde woordenrader. Het kan super uitleggen, schrijven en helpen. Maar omdat het raadt in plaats van opzoekt, moet je belangrijke dingen altijd nog eens controleren.',
  again:'Nog een keer met een andere vraag', yes:'Waar', no:'Niet waar', qRight:'Goed!', qWrong:'Helaas niet.',
- score:(ok,n)=>`${ok} van ${n} goed${ok===n?'. Jij bent nu een LLM-expert!':'.'}`,
+ score:(ok,n)=>`${ok} van ${n} goed${ok===n?'. Jij bent nu een AI-expert!':'.'}`,
 
 
  posTitle:"De volgorde telt",
@@ -2746,7 +2739,7 @@ const TR_FIX={0:{4:.62},1:{4:.6},2:{4:.5},6:{0:.8},7:{0:.95},9:{0:.85},15:{2:.15
 const regionOf=m=>m[2]<50?(m[1]<35?0:m[1]<62?1:2):(m[1]<35?3:m[1]<62?4:5);
 function traitsOf(i){const r=regionOf(MAP[i]),h=hash('w'+i),fx=TR_FIX[i]||{};
   return TRAITS.map((t,k)=>{if(fx[k]!==undefined)return fx[k];const n=((h>>>(k*4))%16)/100;return REG_TRAIT[r].includes(k)?.95-n:.03+n})}
-const trow=(t,v,d)=>`<div class="trow ${d?'diff':''}"><span class="tl">${esc(t)}</span><span class="tr"><span style="width:${Math.round(v*100)}%"></span></span><span class="p">${num(v)}</span></div>`;
+const trow=(t,v,d)=>`<div class="trow ${d?'diff':''}"><span class="tl">${esc(t)}</span><span class="tr"><span style="width:${Math.round(v*100)}%"></span></span></div>`;
 S.pair=0;
 /* Schnellwahl im Steckbrief: ein Wort aus jeder Gegend der Karte (Tiere, Menschen, Himmel, Orte, kleine Wörter, Essen) */
 const CARD_PICK=[0,6,11,17,22,29];
@@ -2786,18 +2779,13 @@ function stMap(){
        const sel=MAP[S.mapSel];
        const near=MAP.map((m,i)=>[i,Math.hypot(m[1]-sel[1],m[2]-sel[2])]).filter(x=>x[0]!==S.mapSel).sort((a,b)=>a[1]-b[1]).slice(0,3).map(x=>x[0]);
        document.querySelectorAll('.mw').forEach(b=>{const i=+b.dataset.i;b.classList.toggle('sel',i===S.mapSel);b.classList.toggle('near',near.includes(i))});
-       const gx=Math.round(sel[1]/5),gy=Math.round(sel[2]/5),x=gx/20,y=gy/20;
+       const gx=Math.round(sel[1]/5),gy=Math.round(sel[2]/5);
        $('#mapLines').innerHTML=`<line class="guide" x1="0" y1="${gy*5}" x2="${gx*5}" y2="${gy*5}"/><line class="guide" x1="${gx*5}" y1="0" x2="${gx*5}" y2="${gy*5}"/>`+
          near.map(i=>`<line x1="${sel[1]}" y1="${sel[2]}" x2="${MAP[i][1]}" y2="${MAP[i][2]}"/>`).join('');
-       const scale=v=>`<div class="scale" aria-hidden="true">${[0,5,10,15,20].map(k=>`<span class="t" style="left:${k*5}%">${k}</span><span class="b" style="left:${k*5}%">${String(k/20).replace('.',L.dec)}</span>`).join('')}<span class="mk" style="left:${v*100}%"></span></div>`;
        $('#mapInfo').innerHTML=`<div class="panel-title">${u.chosen}</div>
          <div class="whole" style="padding:0">${esc(sel[0])}</div>
          <div class="coords"><div><span class="ax">→</span> ${u.mRight(gx)}</div><div><span class="ax">↓</span> ${u.mDown(gy)}</div></div>
          <span class="small">${u.addr(qt(esc(sel[0])))}</span>
-         <div class="howpc"><b>${u.howTitle(`[${num(x)}; ${num(y)}]`)}</b>
-           <span>${u.howCalc(gx,num(x))}</span>
-           ${scale(x)}
-           <span class="small">${u.howSmall}</span></div>
          <div><b>${u.neighbors}</b><br>${near.map(i=>esc(MAP[i][0])).join(', ')}</div>
          <button class="btn teal" id="toCard">📇 ${u.cardJump(qt(esc(sel[0])))}</button>`;
        $('#toCard').onclick=()=>$('#cardPanel').scrollIntoView({behavior:reduce?'auto':'smooth',block:'start'});
@@ -3066,7 +3054,7 @@ function picBind(){const cv=$('#picCv');if(!cv)return;const ctx=cv.getContext('2
   /* andere Beschreibung: wieder beim Rauschen anfangen */
   document.querySelectorAll('#picKinds [data-pk]').forEach(b=>b.onclick=()=>{stop();S.pic.kind=+b.dataset.pk;S.pic.prev=false;
     document.querySelectorAll('#picKinds [data-pk]').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));
-    $('#picPrev').hidden=true;$('#picNote').hidden=true;S.pic.k=0;$('#picK').value=0;paint()});
+    $('#picPrev').hidden=true;$('#picNote').hidden=true;play()});
   $('#picGo').onclick=play;
   /* neues Rauschen: gleiche Beschreibung, das bisherige Bild bleibt zum Vergleich stehen */
   $('#picNew').onclick=()=>{S.pic.pseed=S.pic.seed;scene($('#picPv').getContext('2d'),PIC_W,PIC_H,S.pic.kind,S.pic.seed);S.pic.prev=true;$('#picPrev').hidden=false;$('#picNote').hidden=false;
