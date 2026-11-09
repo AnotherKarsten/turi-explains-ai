@@ -413,8 +413,11 @@ canvas.c3:active{cursor:grabbing}
 .map[hidden],.v3[hidden]{display:none!important}
 
 /* Sortierspiel: neu eingetragenes Beispiel kurz hervorheben */
-.rings .chip.new{outline:3px solid var(--coral);outline-offset:1px}
-@media (prefers-reduced-motion:no-preference){.rings .chip.new{animation:chipin .6s ease-out}}
+.ring .rc::before{content:attr(data-lbl);flex-basis:100%;font-size:.75rem;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-soft)}
+.ring .rc{border-top:1.5px dashed var(--track);padding-top:6px}
+.ring .ex{font-size:.85rem;font-style:italic;border:1.5px dashed var(--ink-soft);border-radius:8px;padding:2px 8px;background:var(--card);color:var(--ink)}
+.ring .ex.new{border-style:solid;border-color:var(--edge);box-shadow:0 0 0 3px var(--hi)}
+@media (prefers-reduced-motion:no-preference){.ring .ex.new{animation:chipin .6s ease-out}}
 @keyframes chipin{from{transform:scale(1.25)}to{transform:none}}
 .sortq{margin-bottom:12px}
 /* Bilder aus Rauschen: voriges Ergebnis zum Vergleich */
@@ -425,6 +428,10 @@ canvas.c3:active{cursor:grabbing}
 .diffrow .prev figcaption{font-size:.85rem;color:var(--ink-2,var(--ink))}
 /* Fehler-Landschaft: Erklärung in drei Schritten */
 .land .how{margin:0 0 6px;padding-left:1.4em;display:flex;flex-direction:column;gap:4px}
+
+/* Fehler-Landschaft: Hinweis gut sichtbar, Platz reserviert */
+.land .lhint{min-height:6.5em}
+.land .lhint .call p{font-size:1rem;line-height:1.5}
 </style>
 <!-- Hinweis für Vorschaufenster ohne JavaScript (z. B. Mailprogramm, Dateien-App). Wird beim Programmstart entfernt. -->
 <div id="nojs">
@@ -496,7 +503,8 @@ stations:[
    ask:'Wohin gehört das?', pos:(i,n)=>`Beispiel ${i} von ${n}`,
    right:'Richtig.', wrong:n=>`Nicht ganz: Das gehört zu „${n}“.`,
    next:'Nächstes Beispiel', again:'Noch einmal sortieren',
-   done:(ok,n)=>`Fertig: ${ok} von ${n} richtig einsortiert. Die Beispiele stehen jetzt in ihren Kreisen.`,
+   exLbl:'Beispiele',
+   done:(ok,n)=>`Fertig: Alle ${n} Beispiele stehen jetzt in ihren Kreisen. Die Grenzen sind oft unscharf; auch Fachleute ordnen manches unterschiedlich ein.`,
    items:[{t:'Ein Taschenrechner rechnet 4.837 × 29.',a:'none',why:'Er folgt festen Rechenregeln und lernt nichts dazu. Praktische Technik, aber keine KI.'},
      {t:'Der Schachcomputer Deep Blue schlägt 1997 den Weltmeister.',a:'ki',why:'Klassische KI: Er durchsuchte Millionen Züge und bewertete sie mit Regeln, die Menschen vorgegeben hatten. Gelernt hat er nicht.'},
      {t:'Das Navi sucht die kürzeste Route.',a:'ki',why:'Die Routensuche ist ein klassisches Suchverfahren der KI mit festen Regeln. Für Stauprognosen nutzen manche Dienste zusätzlich maschinelles Lernen.'},
@@ -547,12 +555,14 @@ stations:[
  q:'Wie lernt ein Sprachmodell aus Text?',
  text:['Ein Sprachmodell lernt eine einzige Aufgabe: das nächste Wortstück vorherzusagen. Es liest riesige Mengen Text, deckt jeweils das nächste Stück ab, rät und vergleicht. Liegt es daneben, werden seine Milliarden <b>Gewichte</b> ein winziges Stück in die richtige Richtung verschoben.',
        'Aus dieser schlichten Übung entsteht erstaunlich viel: Grammatik, Faktenwissen, Stil. Danach folgt ein <b>Feinschliff</b> mit Menschen, die Antworten bewerten. Erst dadurch wird aus dem Textvervollständiger ein hilfsbereiter Assistent.'],
- lab:{type:'train',land:{title:'Die Fehler-Landschaft',bridge:'Das Mini-Modell oben zählt nur. Echte Sprachmodelle lernen anders: Sie haben Gewichte, also Knöpfe, die beim Training nach und nach verstellt werden. Die Landschaft zeigt das für ein Modell mit nur zwei Knöpfen.',how:['Jeder Punkt der Landschaft ist eine Stellung der beiden Knöpfe. Die Kugel zeigt die Stellung, die das Modell gerade hat.','Die Höhe zeigt, wie oft das Modell mit dieser Stellung falsch rät. Unten im Tal rät es am besten.','Ein Trainingsschritt: Das Modell rät bei den Trainingssätzen, sieht seine Fehler und dreht beide Knöpfe ein kleines Stück so, dass es beim nächsten Mal weniger falsch liegt. Dadurch rollt die Kugel ein Stück bergab.'],
-     stepMsg:(k,a,b)=>`Trainingsschritt ${k}: geraten, Fehler gemessen, Knöpfe gedreht. Fehler vorher ${a}, jetzt ${b}.`,
-     drag:'Ziehe die Landschaft, um sie zu drehen.',probe:'Der Himmel ist …',words:['blau','grau','heiß'],pred:p=>`So setzt das Modell mit dieser Einstellung „${p}“ fort:`,
-     rateLbl:'Schrittweite:',rates:['klein','mittel','groß'],step:'Ein Trainingsschritt',run:'Training laufen lassen',reset:'Neuer Startpunkt',
-     note:(e,k,a,b)=>`Knopf 1: ${a} · Knopf 2: ${b} · Fehler ${e} · ${k} Schritte`,
-     hints:{done:'Weitere Schritte ändern nichts mehr, das Training ist hier fertig. Probiere einen neuen Startpunkt oder eine andere Schrittweite.',roll:'Die Kugel rollt bergab: Mit jedem Schritt wird der Fehler kleiner und die Vorhersage besser.',go:'Wähle eine Schrittweite und lass die Kugel rollen.',local:'Die Kugel steckt in einer kleinen Mulde fest, obwohl es woanders tiefer geht. Das passiert auch beim echten Training; dann helfen andere Startpunkte oder Einstellungen.',jump:'Bei großer Schrittweite springt die Kugel über das Tal hinweg. Zu große Schritte machen das Training unruhig.',best:'Die Kugel hat das tiefste Tal erreicht: Hier ist der Fehler am kleinsten.'},
+ lab:{type:'train',land:{title:'Die Fehler-Landschaft',bridge:'Das Mini-Modell oben zählt nur. Echte Sprachmodelle lernen anders: Sie bestehen aus Milliarden Zahlen, den <b>Gewichten</b>. Das Training stellt sie Schritt für Schritt so ein, dass das Modell immer seltener falsch rät. Hier siehst du das für ein Modell mit nur zwei Gewichten, damit man es zeichnen kann.',
+     how:['Jeder Punkt der Landschaft ist eine mögliche Einstellung der beiden Gewichte. Die Kugel zeigt die Einstellung, die das Modell gerade hat.','Die Höhe ist der Fehler: Wie oft rät das Modell mit dieser Einstellung das nächste Wort falsch? Weit oben sagt es nach „Der Himmel ist“ oft „grau“ oder sogar „heiß“. Tief im Tal sagt es meistens „blau“, so wie in den Trainingssätzen. Die Balken unter der Landschaft zeigen das für die Stelle, an der die Kugel gerade liegt.','Ein Trainingsschritt: Das Modell rät bei den Trainingssätzen, vergleicht mit den richtigen Wörtern und verschiebt beide Gewichte ein kleines Stück in die Richtung, in der der Fehler am schnellsten kleiner wird. Die Kugel rollt dadurch ein Stück bergab.'],
+     drag:'Ziehe die Landschaft, um sie zu drehen.',probe:'Der Himmel ist …',words:['blau','grau','heiß'],pred:p=>`Was das Modell mit diesen Gewichten nach „${p}“ vorhersagt:`,
+     rateLbl:'Schrittweite:',rates:['klein','mittel','groß'],start:'Training starten',restart:'Neu starten mit anderen Startwerten',step:'Ein Trainingsschritt',
+     stepMsg:(k,a,b)=>`Trainingsschritt ${k}: geraten, mit den richtigen Wörtern verglichen, Gewichte verschoben. Fehler vorher ${a}, jetzt ${b}.`,
+     note:(e,k,a,b)=>`Gewicht 1: ${a} · Gewicht 2: ${b} · Fehler ${e} · ${k} Schritte`,
+     hints:{go:'Ein Training beginnt mit zufälligen Gewichten, deshalb rät das Modell am Anfang schlecht. Starte das Training oder geh einzelne Schritte.',roll:'Die Kugel rollt bergab: Mit jedem Schritt wird der Fehler kleiner, und das Modell sagt öfter das passende Wort voraus.',best:'Die Kugel liegt im tiefsten Tal: Mit diesen Gewichten rät das Modell am besten.',local:'Die Kugel liegt in einer kleinen Mulde, obwohl es woanders tiefer geht. Das Modell rät hier ordentlich, aber nicht so gut wie möglich. Auch echte Trainings landen manchmal so.',jump:'Die Schrittweite ist zu groß: Die Kugel springt über das Tal hinweg und kommt nicht zur Ruhe. Der Fehler sinkt kaum, das Training ist unruhig. Wähle eine kleinere Schrittweite.',done:'Weitere Schritte ändern nichts mehr, das Training ist fertig.',restart:'„Neu starten“ heißt: Das Modell vergisst alles Gelernte und trainiert von vorn, mit anderen zufälligen Startwerten. Je nach Start kann das Ergebnis besser oder schlechter werden.'},
+     use:{t:'Und beim Antworten?',p:'Das Training passiert einmal, bevor du das Modell benutzt. Wenn du später eine Frage stellst, rollt nichts mehr und kein Gewicht ändert sich: Das Modell rechnet mit den Gewichten, bei denen das Training aufgehört hat, für jedes mögliche nächste Wort eine Wahrscheinlichkeit aus und wählt daraus (mehr dazu in der Station „Zufall“). Liegt die Kugel tief im Tal, sind diese Wahrscheinlichkeiten gut, und die Antworten passen besser.'},
      alt:'Drehbare Fehler-Landschaft mit einer rollenden Kugel'},
    probeLbl:'Satzanfang:',
    only:l=>`Gezählt wird nur das Wort direkt nach „${l}“. In den gelesenen Sätzen ist es markiert. Was danach kommt, etwa „klar“ in „blau und klar“, lernt das Modell für einen anderen Anfang („… und“).`,
@@ -999,7 +1009,8 @@ stations:[
    ask:'Where does this belong?', pos:(i,n)=>`Example ${i} of ${n}`,
    right:'Correct.', wrong:n=>`Not quite: this belongs to “${n}”.`,
    next:'Next example', again:'Sort again',
-   done:(ok,n)=>`Done: ${ok} of ${n} sorted correctly. The examples are now in their circles.`,
+   exLbl:'Examples',
+   done:(ok,n)=>`Done: all ${n} examples are now in their circles. The borders are often blurry; even experts sort some things differently.`,
    items:[{t:'A pocket calculator works out 4,837 × 29.',a:'none',why:'It follows fixed rules of arithmetic and learns nothing. Useful technology, but not AI.'},
      {t:'The chess computer Deep Blue beats the world champion in 1997.',a:'ki',why:'Classic AI: it searched millions of moves and rated them with rules that people had given it. It did not learn.'},
      {t:'The satnav finds the shortest route.',a:'ki',why:'Route finding is a classic AI search method with fixed rules. For traffic forecasts, some services also use machine learning.'},
@@ -1050,12 +1061,14 @@ stations:[
  q:'How does a language model learn from text?',
  text:['A language model learns one single task: predicting the next piece of a word. It reads huge amounts of text, covers up the next piece each time, guesses and compares. When it is wrong, its billions of <b>weights</b> are nudged a tiny bit in the right direction.',
        'A surprising amount comes out of this simple exercise: grammar, factual knowledge, style. Then comes <b>fine-tuning</b> with people who rate answers. Only that turns the text completer into a helpful assistant.'],
- lab:{type:'train',land:{title:'The error landscape',bridge:'The mini-model above only counts. Real language models learn differently: they have weights, that is knobs, which are adjusted bit by bit during training. The landscape shows this for a model with only two knobs.',how:['Every point of the landscape is one position of the two knobs. The ball shows the position the model has right now.','The height shows how often the model guesses wrong with this position. Down in the valley it guesses best.','A training step: the model guesses on the training sentences, sees its mistakes and turns both knobs a little so that it is less wrong next time. That makes the ball roll a little downhill.'],
-     stepMsg:(k,a,b)=>`Training step ${k}: guessed, measured the error, turned the knobs. Error before ${a}, now ${b}.`,
-     drag:'Drag the landscape to turn it.',probe:'The sky is …',words:['blue','grey','hot'],pred:p=>`How the model continues “${p}” with this setting:`,
-     rateLbl:'Step size:',rates:['small','medium','large'],step:'One training step',run:'Run the training',reset:'New starting point',
-     note:(e,k,a,b)=>`Knob 1: ${a} · Knob 2: ${b} · error ${e} · ${k} steps`,
-     hints:{done:'More steps no longer change anything; training is finished here. Try a new starting point or a different step size.',roll:'The ball is rolling downhill: with every step the error gets smaller and the prediction better.',go:'Pick a step size and let the ball roll.',local:'The ball is stuck in a small hollow, although it goes deeper elsewhere. This happens in real training too; other starting points or settings help.',jump:'With a large step size the ball jumps over the valley. Steps that are too big make training unstable.',best:'The ball has reached the deepest valley: the error is smallest here.'},
+ lab:{type:'train',land:{title:'The error landscape',bridge:'The mini-model above only counts. Real language models learn differently: they consist of billions of numbers, the <b>weights</b>. Training adjusts them step by step so that the model guesses wrong less and less often. Here you see this for a model with only two weights, so that it can be drawn.',
+     how:['Every point of the landscape is one possible setting of the two weights. The ball shows the setting the model has right now.','The height is the error: how often does the model guess the next word wrong with this setting? High up, after “The sky is” it often says “grey” or even “hot”. Deep in the valley it mostly says “blue”, just like in the training sentences. The bars below the landscape show this for the spot where the ball is right now.','A training step: the model guesses on the training sentences, compares with the correct words and moves both weights a little in the direction in which the error shrinks fastest. This makes the ball roll a little downhill.'],
+     drag:'Drag the landscape to turn it.',probe:'The sky is …',words:['blue','grey','hot'],pred:p=>`What the model predicts after “${p}” with these weights:`,
+     rateLbl:'Step size:',rates:['small','medium','large'],start:'Start training',restart:'Restart with different starting values',step:'One training step',
+     stepMsg:(k,a,b)=>`Training step ${k}: guessed, compared with the correct words, moved the weights. Error before ${a}, now ${b}.`,
+     note:(e,k,a,b)=>`Weight 1: ${a} · weight 2: ${b} · error ${e} · ${k} steps`,
+     hints:{go:'Training starts with random weights, so at first the model guesses badly. Start the training or go one step at a time.',roll:'The ball is rolling downhill: with every step the error gets smaller and the model predicts the fitting word more often.',best:'The ball is in the deepest valley: with these weights the model guesses best.',local:'The ball is in a small hollow although it goes deeper elsewhere. The model guesses decently here, but not as well as possible. Real training runs sometimes end up like this too.',jump:'The step size is too large: the ball jumps over the valley and never settles. The error hardly drops; training is unsteady. Choose a smaller step size.',done:'More steps no longer change anything; training is finished.',restart:'“Restart” means: the model forgets everything it learned and trains from scratch with different random starting values. Depending on the start, the result can be better or worse.'},
+     use:{t:'And when it answers?',p:'Training happens once, before you use the model. When you ask a question later, nothing rolls and no weight changes: with the weights where training stopped, the model calculates a probability for every possible next word and picks from them (more in the station “Randomness”). If the ball is deep in the valley, these probabilities are good and the answers fit better.'},
      alt:'Rotatable error landscape with a rolling ball'},
    probeLbl:'Sentence start:',
    only:l=>`Only the word directly after “${l}” is counted. It is marked in the sentences read so far. Anything after it, such as “clear” in “blue and clear”, is learned for a different start (“… and”).`,
@@ -1500,7 +1513,8 @@ stations:[
    ask:'Où cela va-t-il ?', pos:(i,n)=>`Exemple ${i} sur ${n}`,
    right:'Juste.', wrong:n=>`Pas tout à fait : cela va dans « ${n} ».`,
    next:'Exemple suivant', again:'Trier à nouveau',
-   done:(ok,n)=>`Terminé : ${ok} sur ${n} bien rangés. Les exemples sont maintenant dans leurs cercles.`,
+   exLbl:'Exemples',
+   done:(ok,n)=>`Terminé : les ${n} exemples sont maintenant dans leurs cercles. Les frontières sont souvent floues ; même les spécialistes classent certaines choses différemment.`,
    items:[{t:'Une calculatrice calcule 4 837 × 29.',a:'none',why:'Elle suit des règles de calcul fixes et n’apprend rien. Une technique pratique, mais pas de l’IA.'},
      {t:'L’ordinateur d’échecs Deep Blue bat le champion du monde en 1997.',a:'ki',why:'IA classique : il examinait des millions de coups et les évaluait avec des règles données par des humains. Il n’apprenait pas.'},
      {t:'Le GPS cherche l’itinéraire le plus court.',a:'ki',why:'La recherche d’itinéraire est une méthode de recherche classique de l’IA, avec des règles fixes. Pour prévoir les bouchons, certains services utilisent en plus l’apprentissage automatique.'},
@@ -1551,12 +1565,14 @@ stations:[
  q:'Comment un modèle de langage apprend-il à partir de textes ?',
  text:['Un modèle de langage apprend une seule tâche : prédire le prochain morceau de mot. Il lit d’énormes quantités de texte, cache à chaque fois le morceau suivant, devine et compare. S’il se trompe, ses milliards de <b>poids</b> sont légèrement ajustés dans la bonne direction.',
        'De cet exercice tout simple naît une quantité étonnante de choses : grammaire, connaissances, style. Vient ensuite un <b>réglage fin</b> avec des personnes qui évaluent les réponses. C’est seulement ainsi que le compléteur de texte devient un assistant serviable.'],
- lab:{type:'train',land:{title:'Le paysage de l’erreur',bridge:'Le mini-modèle plus haut ne fait que compter. Les vrais modèles de langage apprennent autrement : ils ont des poids, donc des boutons, que l’entraînement ajuste petit à petit. Le paysage le montre pour un modèle à deux boutons seulement.',how:['Chaque point du paysage est une position des deux boutons. La bille montre la position actuelle du modèle.','La hauteur montre à quelle fréquence le modèle se trompe avec cette position. Au fond de la vallée, il devine le mieux.','Un pas d’entraînement : le modèle devine sur les phrases d’entraînement, voit ses erreurs et tourne les deux boutons un tout petit peu pour se tromper moins la fois suivante. La bille descend alors un peu.'],
-     stepMsg:(k,a,b)=>`Pas d’entraînement ${k} : deviné, erreur mesurée, boutons tournés. Erreur avant ${a}, maintenant ${b}.`,
-     drag:'Fais glisser le paysage pour le tourner.',probe:'Le ciel est …',words:['bleu','gris','chaud'],pred:p=>`Comment le modèle continue « ${p} » avec ce réglage :`,
-     rateLbl:'Taille du pas :',rates:['petit','moyen','grand'],step:'Un pas d’entraînement',run:'Lancer l’entraînement',reset:'Nouveau point de départ',
-     note:(e,k,a,b)=>`Bouton 1 : ${a} · bouton 2 : ${b} · erreur ${e} · ${k} pas`,
-     hints:{done:'D’autres pas ne changent plus rien : l’entraînement est terminé ici. Essaie un nouveau point de départ ou une autre taille de pas.',roll:'La bille descend : à chaque pas, l’erreur diminue et la prédiction s’améliore.',go:'Choisis une taille de pas et laisse rouler la bille.',local:'La bille est coincée dans un petit creux, alors qu’ailleurs c’est plus profond. Cela arrive aussi dans un vrai entraînement ; d’autres points de départ ou réglages aident alors.',jump:'Avec un grand pas, la bille saute par-dessus la vallée. Des pas trop grands rendent l’entraînement instable.',best:'La bille a atteint la vallée la plus profonde : l’erreur y est la plus petite.'},
+ lab:{type:'train',land:{title:'Le paysage de l’erreur',bridge:'Le mini-modèle plus haut ne fait que compter. Les vrais modèles de langage apprennent autrement : ils se composent de milliards de nombres, les <b>poids</b>. L’entraînement les ajuste pas à pas pour que le modèle se trompe de moins en moins. Ici, tu le vois pour un modèle à deux poids seulement, pour qu’on puisse le dessiner.',
+     how:['Chaque point du paysage est un réglage possible des deux poids. La bille montre le réglage actuel du modèle.','La hauteur est l’erreur : à quelle fréquence le modèle se trompe-t-il sur le mot suivant avec ce réglage ? Tout en haut, après « Le ciel est », il dit souvent « gris » ou même « chaud ». Au fond de la vallée, il dit le plus souvent « bleu », comme dans les phrases d’entraînement. Les barres sous le paysage le montrent pour l’endroit où se trouve la bille.','Un pas d’entraînement : le modèle devine sur les phrases d’entraînement, compare avec les bons mots et déplace un peu les deux poids dans la direction où l’erreur diminue le plus vite. La bille descend alors un peu.'],
+     drag:'Fais glisser le paysage pour le tourner.',probe:'Le ciel est …',words:['bleu','gris','chaud'],pred:p=>`Ce que le modèle prédit après « ${p} » avec ces poids :`,
+     rateLbl:'Taille du pas :',rates:['petit','moyen','grand'],start:'Lancer l’entraînement',restart:'Recommencer avec d’autres valeurs de départ',step:'Un pas d’entraînement',
+     stepMsg:(k,a,b)=>`Pas d’entraînement ${k} : deviné, comparé avec les bons mots, poids déplacés. Erreur avant ${a}, maintenant ${b}.`,
+     note:(e,k,a,b)=>`Poids 1 : ${a} · poids 2 : ${b} · erreur ${e} · ${k} pas`,
+     hints:{go:'Un entraînement commence avec des poids aléatoires, donc au début le modèle devine mal. Lance l’entraînement ou avance pas à pas.',roll:'La bille descend : à chaque pas, l’erreur diminue et le modèle prédit plus souvent le bon mot.',best:'La bille est dans la vallée la plus profonde : avec ces poids, le modèle devine le mieux.',local:'La bille est dans un petit creux alors que c’est plus profond ailleurs. Le modèle devine correctement ici, mais pas aussi bien que possible. Les vrais entraînements finissent parfois ainsi.',jump:'Le pas est trop grand : la bille saute par-dessus la vallée et ne se pose jamais. L’erreur baisse à peine, l’entraînement est agité. Choisis un pas plus petit.',done:'D’autres pas ne changent plus rien : l’entraînement est terminé.',restart:'« Recommencer » signifie : le modèle oublie tout ce qu’il a appris et s’entraîne de zéro avec d’autres valeurs de départ aléatoires. Selon le départ, le résultat peut être meilleur ou moins bon.'},
+     use:{t:'Et quand il répond ?',p:'L’entraînement a lieu une fois, avant que tu utilises le modèle. Quand tu poses une question plus tard, rien ne roule et aucun poids ne change : avec les poids où l’entraînement s’est arrêté, le modèle calcule une probabilité pour chaque mot suivant possible et choisit parmi elles (plus de détails dans l’étape « Hasard »). Si la bille est au fond de la vallée, ces probabilités sont bonnes et les réponses conviennent mieux.'},
      alt:'Paysage de l’erreur que l’on peut faire tourner, avec une bille qui roule'},
    probeLbl:'Début de phrase :',
    only:l=>`Seul le mot qui suit directement « ${l} » est compté. Il est marqué dans les phrases déjà lues. Ce qui vient après, comme « clair » dans « bleu et clair », est appris pour un autre début (« … et »).`,
@@ -1999,7 +2015,8 @@ stations:[
    ask:'Dove va?', pos:(i,n)=>`Esempio ${i} di ${n}`,
    right:'Giusto.', wrong:n=>`Non proprio: va in «${n}».`,
    next:'Esempio successivo', again:'Ordina di nuovo',
-   done:(ok,n)=>`Fatto: ${ok} su ${n} sistemati bene. Gli esempi ora sono nei loro cerchi.`,
+   exLbl:'Esempi',
+   done:(ok,n)=>`Fatto: tutti i ${n} esempi ora sono nei loro cerchi. I confini sono spesso sfumati; anche gli esperti classificano alcune cose in modo diverso.`,
    items:[{t:'Una calcolatrice calcola 4.837 × 29.',a:'none',why:'Segue regole di calcolo fisse e non impara nulla. Tecnologia utile, ma non IA.'},
      {t:'Il computer di scacchi Deep Blue batte il campione del mondo nel 1997.',a:'ki',why:'IA classica: esaminava milioni di mosse e le valutava con regole date dalle persone. Non imparava.'},
      {t:'Il navigatore cerca il percorso più breve.',a:'ki',why:'La ricerca del percorso è un metodo di ricerca classico dell’IA, con regole fisse. Per prevedere il traffico alcuni servizi usano anche l’apprendimento automatico.'},
@@ -2050,12 +2067,14 @@ stations:[
  q:'Come impara un modello linguistico dai testi?',
  text:['Un modello linguistico impara un solo compito: prevedere il prossimo pezzo di parola. Legge enormi quantità di testo, ogni volta copre il pezzo successivo, indovina e confronta. Se sbaglia, i suoi miliardi di <b>pesi</b> vengono spostati di pochissimo nella direzione giusta.',
        'Da questo semplice esercizio nasce una quantità sorprendente di cose: grammatica, conoscenze, stile. Poi arriva una <b>rifinitura</b> con persone che valutano le risposte. Solo così il completatore di testi diventa un assistente disponibile.'],
- lab:{type:'train',land:{title:'Il paesaggio dell’errore',bridge:'Il mini-modello qui sopra si limita a contare. I veri modelli linguistici imparano in un altro modo: hanno dei pesi, cioè manopole, che l’addestramento regola poco a poco. Il paesaggio lo mostra per un modello con due sole manopole.',how:['Ogni punto del paesaggio è una posizione delle due manopole. La pallina mostra la posizione attuale del modello.','L’altezza mostra quanto spesso il modello sbaglia con questa posizione. In fondo alla valle indovina meglio.','Un passo di addestramento: il modello prova a indovinare sulle frasi di addestramento, vede i suoi errori e gira un po’ entrambe le manopole per sbagliare meno la volta dopo. Così la pallina scende un po’.'],
-     stepMsg:(k,a,b)=>`Passo di addestramento ${k}: indovinato, errore misurato, manopole girate. Errore prima ${a}, ora ${b}.`,
-     drag:'Trascina il paesaggio per ruotarlo.',probe:'Il cielo è …',words:['blu','grigio','caldo'],pred:p=>`Come il modello continua «${p}» con questa impostazione:`,
-     rateLbl:'Ampiezza del passo:',rates:['piccola','media','grande'],step:'Un passo di addestramento',run:'Avvia l’addestramento',reset:'Nuovo punto di partenza',
-     note:(e,k,a,b)=>`Manopola 1: ${a} · manopola 2: ${b} · errore ${e} · ${k} passi`,
-     hints:{done:'Altri passi non cambiano più nulla: qui l’addestramento è finito. Prova un nuovo punto di partenza o un’altra ampiezza del passo.',roll:'La pallina rotola in discesa: a ogni passo l’errore diminuisce e la previsione migliora.',go:'Scegli un’ampiezza del passo e fai rotolare la pallina.',local:'La pallina è bloccata in una piccola conca, anche se altrove si scende di più. Succede anche nell’addestramento vero; allora aiutano altri punti di partenza o altre impostazioni.',jump:'Con un passo grande la pallina salta oltre la valle. Passi troppo grandi rendono l’addestramento instabile.',best:'La pallina ha raggiunto la valle più profonda: qui l’errore è minimo.'},
+ lab:{type:'train',land:{title:'Il paesaggio dell’errore',bridge:'Il mini-modello qui sopra si limita a contare. I veri modelli linguistici imparano in un altro modo: sono fatti di miliardi di numeri, i <b>pesi</b>. L’addestramento li regola passo dopo passo, così che il modello sbagli sempre meno. Qui lo vedi per un modello con due soli pesi, per poterlo disegnare.',
+     how:['Ogni punto del paesaggio è una possibile impostazione dei due pesi. La pallina mostra l’impostazione attuale del modello.','L’altezza è l’errore: quanto spesso il modello sbaglia la parola successiva con questa impostazione? In alto, dopo «Il cielo è» dice spesso «grigio» o perfino «caldo». In fondo alla valle dice quasi sempre «blu», come nelle frasi di addestramento. Le barre sotto il paesaggio lo mostrano per il punto in cui si trova la pallina.','Un passo di addestramento: il modello prova a indovinare sulle frasi di addestramento, confronta con le parole giuste e sposta un po’ entrambi i pesi nella direzione in cui l’errore diminuisce più in fretta. Così la pallina scende un po’.'],
+     drag:'Trascina il paesaggio per ruotarlo.',probe:'Il cielo è …',words:['blu','grigio','caldo'],pred:p=>`Che cosa prevede il modello dopo «${p}» con questi pesi:`,
+     rateLbl:'Ampiezza del passo:',rates:['piccola','media','grande'],start:'Avvia l’addestramento',restart:'Ricomincia con altri valori iniziali',step:'Un passo di addestramento',
+     stepMsg:(k,a,b)=>`Passo di addestramento ${k}: indovinato, confrontato con le parole giuste, pesi spostati. Errore prima ${a}, ora ${b}.`,
+     note:(e,k,a,b)=>`Peso 1: ${a} · peso 2: ${b} · errore ${e} · ${k} passi`,
+     hints:{go:'Un addestramento comincia con pesi casuali, perciò all’inizio il modello indovina male. Avvia l’addestramento o procedi un passo alla volta.',roll:'La pallina rotola in discesa: a ogni passo l’errore diminuisce e il modello prevede più spesso la parola adatta.',best:'La pallina è nella valle più profonda: con questi pesi il modello indovina meglio.',local:'La pallina è in una piccola conca, anche se altrove è più profondo. Qui il modello indovina abbastanza bene, ma non al meglio. Anche gli addestramenti veri a volte finiscono così.',jump:'Il passo è troppo grande: la pallina salta oltre la valle e non si ferma mai. L’errore cala appena, l’addestramento è instabile. Scegli un passo più piccolo.',done:'Altri passi non cambiano più nulla: l’addestramento è finito.',restart:'«Ricomincia» significa: il modello dimentica tutto ciò che ha imparato e si addestra da capo con altri valori iniziali casuali. A seconda della partenza il risultato può essere migliore o peggiore.'},
+     use:{t:'E quando risponde?',p:'L’addestramento avviene una volta sola, prima che tu usi il modello. Quando più tardi fai una domanda, non rotola più niente e nessun peso cambia: con i pesi in cui l’addestramento si è fermato, il modello calcola una probabilità per ogni possibile parola successiva e sceglie tra queste (di più nella tappa «Caso»). Se la pallina è in fondo alla valle, queste probabilità sono buone e le risposte sono più adatte.'},
      alt:'Paesaggio dell’errore ruotabile con una pallina che rotola'},
    probeLbl:'Inizio della frase:',
    only:l=>`Viene contata solo la parola subito dopo «${l}». Nelle frasi già lette è evidenziata. Quello che viene dopo, come «limpido» in «blu e limpido», il modello lo impara per un altro inizio («… e»).`,
@@ -2499,7 +2518,8 @@ stations:[
    ask:'¿Dónde va?', pos:(i,n)=>`Ejemplo ${i} de ${n}`,
    right:'Correcto.', wrong:n=>`No del todo: va en «${n}».`,
    next:'Siguiente ejemplo', again:'Ordenar otra vez',
-   done:(ok,n)=>`Listo: ${ok} de ${n} bien colocados. Los ejemplos están ahora en sus círculos.`,
+   exLbl:'Ejemplos',
+   done:(ok,n)=>`Listo: los ${n} ejemplos están ahora en sus círculos. Los límites a menudo son difusos; incluso los expertos clasifican algunas cosas de forma distinta.`,
    items:[{t:'Una calculadora calcula 4.837 × 29.',a:'none',why:'Sigue reglas de cálculo fijas y no aprende nada. Tecnología útil, pero no IA.'},
      {t:'El ordenador de ajedrez Deep Blue gana al campeón del mundo en 1997.',a:'ki',why:'IA clásica: examinaba millones de jugadas y las valoraba con reglas que le habían dado personas. No aprendía.'},
      {t:'El navegador busca la ruta más corta.',a:'ki',why:'Buscar rutas es un método de búsqueda clásico de la IA, con reglas fijas. Para prever atascos, algunos servicios usan además aprendizaje automático.'},
@@ -2550,12 +2570,14 @@ stations:[
  q:'¿Cómo aprende un modelo de lenguaje a partir de textos?',
  text:['Un modelo de lenguaje aprende una sola tarea: predecir el siguiente trozo de palabra. Lee cantidades enormes de texto, tapa cada vez el trozo siguiente, adivina y compara. Si falla, sus miles de millones de <b>pesos</b> se mueven un poquito en la dirección correcta.',
        'De este ejercicio tan sencillo surge muchísimo: gramática, conocimientos, estilo. Después llega un <b>ajuste fino</b> con personas que valoran las respuestas. Solo así el completador de textos se convierte en un asistente servicial.'],
- lab:{type:'train',land:{title:'El paisaje del error',bridge:'El minimodelo de arriba solo cuenta. Los modelos de lenguaje reales aprenden de otra forma: tienen pesos, es decir, perillas, que el entrenamiento ajusta poco a poco. El paisaje lo muestra para un modelo con solo dos perillas.',how:['Cada punto del paisaje es una posición de las dos perillas. La bola muestra la posición que tiene ahora el modelo.','La altura muestra con qué frecuencia el modelo se equivoca con esa posición. Abajo en el valle es donde mejor acierta.','Un paso de entrenamiento: el modelo adivina con las frases de entrenamiento, ve sus errores y gira un poco las dos perillas para equivocarse menos la próxima vez. Así la bola rueda un poco cuesta abajo.'],
-     stepMsg:(k,a,b)=>`Paso de entrenamiento ${k}: adivinado, error medido, perillas giradas. Error antes ${a}, ahora ${b}.`,
-     drag:'Arrastra el paisaje para girarlo.',probe:'El cielo está …',words:['azul','gris','caliente'],pred:p=>`Cómo continúa el modelo «${p}» con este ajuste:`,
-     rateLbl:'Tamaño del paso:',rates:['pequeño','mediano','grande'],step:'Un paso de entrenamiento',run:'Iniciar el entrenamiento',reset:'Nuevo punto de partida',
-     note:(e,k,a,b)=>`Perilla 1: ${a} · perilla 2: ${b} · error ${e} · ${k} pasos`,
-     hints:{done:'Más pasos ya no cambian nada: aquí el entrenamiento ha terminado. Prueba otro punto de partida u otro tamaño de paso.',roll:'La bola rueda cuesta abajo: con cada paso el error baja y la predicción mejora.',go:'Elige un tamaño de paso y deja rodar la bola.',local:'La bola se ha quedado atascada en un pequeño hoyo, aunque en otro sitio se baja más. Esto también pasa en el entrenamiento real; entonces ayudan otros puntos de partida u otros ajustes.',jump:'Con un paso grande, la bola salta por encima del valle. Los pasos demasiado grandes hacen el entrenamiento inestable.',best:'La bola ha llegado al valle más profundo: aquí el error es el menor.'},
+ lab:{type:'train',land:{title:'El paisaje del error',bridge:'El minimodelo de arriba solo cuenta. Los modelos de lenguaje reales aprenden de otra forma: están hechos de miles de millones de números, los <b>pesos</b>. El entrenamiento los ajusta paso a paso para que el modelo se equivoque cada vez menos. Aquí lo ves para un modelo con solo dos pesos, para poder dibujarlo.',
+     how:['Cada punto del paisaje es un posible ajuste de los dos pesos. La bola muestra el ajuste que tiene ahora el modelo.','La altura es el error: ¿con qué frecuencia falla el modelo la palabra siguiente con este ajuste? Arriba del todo, después de «El cielo está» suele decir «gris» o incluso «caliente». En el fondo del valle dice casi siempre «azul», como en las frases de entrenamiento. Las barras debajo del paisaje lo muestran para el punto donde está la bola.','Un paso de entrenamiento: el modelo adivina con las frases de entrenamiento, compara con las palabras correctas y mueve un poco los dos pesos en la dirección en la que el error baja más rápido. Así la bola rueda un poco cuesta abajo.'],
+     drag:'Arrastra el paisaje para girarlo.',probe:'El cielo está …',words:['azul','gris','caliente'],pred:p=>`Qué predice el modelo después de «${p}» con estos pesos:`,
+     rateLbl:'Tamaño del paso:',rates:['pequeño','mediano','grande'],start:'Iniciar el entrenamiento',restart:'Empezar de nuevo con otros valores iniciales',step:'Un paso de entrenamiento',
+     stepMsg:(k,a,b)=>`Paso de entrenamiento ${k}: adivinado, comparado con las palabras correctas, pesos movidos. Error antes ${a}, ahora ${b}.`,
+     note:(e,k,a,b)=>`Peso 1: ${a} · peso 2: ${b} · error ${e} · ${k} pasos`,
+     hints:{go:'Un entrenamiento empieza con pesos aleatorios, por eso al principio el modelo adivina mal. Inicia el entrenamiento o avanza paso a paso.',roll:'La bola rueda cuesta abajo: con cada paso el error baja y el modelo predice más a menudo la palabra adecuada.',best:'La bola está en el valle más profundo: con estos pesos el modelo es el que mejor acierta.',local:'La bola está en un pequeño hoyo, aunque en otro sitio es más profundo. Aquí el modelo acierta bastante, pero no todo lo posible. Los entrenamientos reales a veces también acaban así.',jump:'El paso es demasiado grande: la bola salta por encima del valle y nunca se detiene. El error apenas baja, el entrenamiento es inestable. Elige un paso más pequeño.',done:'Más pasos ya no cambian nada: el entrenamiento ha terminado.',restart:'«Empezar de nuevo» significa: el modelo olvida todo lo aprendido y entrena desde cero con otros valores iniciales aleatorios. Según el comienzo, el resultado puede ser mejor o peor.'},
+     use:{t:'¿Y cuando responde?',p:'El entrenamiento ocurre una vez, antes de que uses el modelo. Cuando más tarde haces una pregunta, ya no rueda nada y ningún peso cambia: con los pesos en los que se detuvo el entrenamiento, el modelo calcula una probabilidad para cada posible palabra siguiente y elige entre ellas (más en la estación «Azar»). Si la bola está en el fondo del valle, esas probabilidades son buenas y las respuestas encajan mejor.'},
      alt:'Paisaje del error que se puede girar, con una bola que rueda'},
    probeLbl:'Inicio de frase:',
    only:l=>`Solo se cuenta la palabra que va justo después de «${l}». En las frases ya leídas está marcada. Lo que viene después, como «despejado» en «azul y despejado», el modelo lo aprende para otro inicio («… y»).`,
@@ -2998,7 +3020,8 @@ stations:[
    ask:'Waar hoort dit bij?', pos:(i,n)=>`Voorbeeld ${i} van ${n}`,
    right:'Goed.', wrong:n=>`Niet helemaal: dit hoort bij „${n}”.`,
    next:'Volgend voorbeeld', again:'Opnieuw sorteren',
-   done:(ok,n)=>`Klaar: ${ok} van de ${n} goed gesorteerd. De voorbeelden staan nu in hun cirkels.`,
+   exLbl:'Voorbeelden',
+   done:(ok,n)=>`Klaar: alle ${n} voorbeelden staan nu in hun cirkels. De grenzen zijn vaak vaag; ook deskundigen delen sommige dingen verschillend in.`,
    items:[{t:'Een rekenmachine rekent 4.837 × 29 uit.',a:'none',why:'Hij volgt vaste rekenregels en leert niets. Handige techniek, maar geen AI.'},
      {t:'Schaakcomputer Deep Blue verslaat in 1997 de wereldkampioen.',a:'ki',why:'Klassieke AI: hij doorzocht miljoenen zetten en beoordeelde ze met regels die mensen hadden opgegeven. Hij leerde niet.'},
      {t:'De navigatie zoekt de kortste route.',a:'ki',why:'Routes zoeken is een klassieke zoekmethode uit de AI, met vaste regels. Voor filevoorspellingen gebruiken sommige diensten daarnaast machine learning.'},
@@ -3049,12 +3072,14 @@ stations:[
  q:'Hoe leert een taalmodel van tekst?',
  text:['Een taalmodel leert één enkele taak: het volgende woorddeel voorspellen. Het leest enorme hoeveelheden tekst, dekt telkens het volgende stuk af, raadt en vergelijkt. Zit het ernaast, dan worden zijn miljarden <b>gewichten</b> een heel klein beetje in de goede richting verschoven.',
        'Uit deze eenvoudige oefening ontstaat verrassend veel: grammatica, feitenkennis, stijl. Daarna volgt een <b>fijnafstemming</b> met mensen die antwoorden beoordelen. Pas daardoor wordt de tekstaanvuller een behulpzame assistent.'],
- lab:{type:'train',land:{title:'Het foutenlandschap',bridge:'Het minimodel hierboven telt alleen. Echte taalmodellen leren anders: ze hebben gewichten, dus knoppen, die tijdens de training beetje bij beetje worden bijgesteld. Het landschap laat dat zien voor een model met maar twee knoppen.',how:['Elk punt van het landschap is een stand van de twee knoppen. De bal toont de stand die het model nu heeft.','De hoogte toont hoe vaak het model met deze stand verkeerd raadt. Beneden in het dal raadt het het best.','Een trainingsstap: het model raadt bij de trainingszinnen, ziet zijn fouten en draait beide knoppen een klein stukje, zodat het de volgende keer minder fout zit. Daardoor rolt de bal een stukje bergaf.'],
-     stepMsg:(k,a,b)=>`Trainingsstap ${k}: geraden, fout gemeten, knoppen gedraaid. Fout eerst ${a}, nu ${b}.`,
-     drag:'Sleep het landschap om het te draaien.',probe:'De lucht is …',words:['blauw','grijs','heet'],pred:p=>`Zo vult het model „${p}” aan met deze instelling:`,
-     rateLbl:'Stapgrootte:',rates:['klein','middel','groot'],step:'Eén trainingsstap',run:'Training laten lopen',reset:'Nieuw startpunt',
-     note:(e,k,a,b)=>`Knop 1: ${a} · knop 2: ${b} · fout ${e} · ${k} stappen`,
-     hints:{done:'Meer stappen veranderen niets meer; de training is hier klaar. Probeer een nieuw startpunt of een andere stapgrootte.',roll:'De bal rolt bergaf: met elke stap wordt de fout kleiner en de voorspelling beter.',go:'Kies een stapgrootte en laat de bal rollen.',local:'De bal zit vast in een kleine kuil, terwijl het elders dieper gaat. Dat gebeurt ook bij echte training; dan helpen andere startpunten of instellingen.',jump:'Bij een grote stap springt de bal over het dal heen. Te grote stappen maken de training onrustig.',best:'De bal heeft het diepste dal bereikt: hier is de fout het kleinst.'},
+ lab:{type:'train',land:{title:'Het foutenlandschap',bridge:'Het minimodel hierboven telt alleen. Echte taalmodellen leren anders: ze bestaan uit miljarden getallen, de <b>gewichten</b>. De training stelt die stap voor stap zo in dat het model steeds minder vaak fout raadt. Hier zie je dat voor een model met maar twee gewichten, zodat je het kunt tekenen.',
+     how:['Elk punt van het landschap is een mogelijke instelling van de twee gewichten. De bal toont de instelling die het model nu heeft.','De hoogte is de fout: hoe vaak raadt het model met deze instelling het volgende woord verkeerd? Hoog boven zegt het na „De lucht is” vaak „grijs” of zelfs „heet”. Diep in het dal zegt het meestal „blauw”, net als in de trainingszinnen. De balken onder het landschap laten dat zien voor de plek waar de bal nu ligt.','Een trainingsstap: het model raadt bij de trainingszinnen, vergelijkt met de juiste woorden en verschuift beide gewichten een klein stukje in de richting waarin de fout het snelst kleiner wordt. Daardoor rolt de bal een stukje bergaf.'],
+     drag:'Sleep het landschap om het te draaien.',probe:'De lucht is …',words:['blauw','grijs','heet'],pred:p=>`Wat het model met deze gewichten na „${p}” voorspelt:`,
+     rateLbl:'Stapgrootte:',rates:['klein','middel','groot'],start:'Training starten',restart:'Opnieuw beginnen met andere startwaarden',step:'Eén trainingsstap',
+     stepMsg:(k,a,b)=>`Trainingsstap ${k}: geraden, vergeleken met de juiste woorden, gewichten verschoven. Fout eerst ${a}, nu ${b}.`,
+     note:(e,k,a,b)=>`Gewicht 1: ${a} · gewicht 2: ${b} · fout ${e} · ${k} stappen`,
+     hints:{go:'Een training begint met willekeurige gewichten, daarom raadt het model in het begin slecht. Start de training of ga stap voor stap.',roll:'De bal rolt bergaf: met elke stap wordt de fout kleiner en voorspelt het model vaker het passende woord.',best:'De bal ligt in het diepste dal: met deze gewichten raadt het model het best.',local:'De bal ligt in een kleine kuil, terwijl het elders dieper gaat. Het model raadt hier redelijk, maar niet zo goed als mogelijk. Ook echte trainingen eindigen soms zo.',jump:'De stapgrootte is te groot: de bal springt over het dal heen en komt nooit tot rust. De fout daalt nauwelijks, de training is onrustig. Kies een kleinere stapgrootte.',done:'Meer stappen veranderen niets meer: de training is klaar.',restart:'„Opnieuw beginnen” betekent: het model vergeet alles wat het geleerd heeft en traint helemaal opnieuw met andere willekeurige startwaarden. Afhankelijk van de start kan het resultaat beter of slechter worden.'},
+     use:{t:'En bij het antwoorden?',p:'De training gebeurt één keer, voordat je het model gebruikt. Als je later een vraag stelt, rolt er niets meer en verandert geen enkel gewicht: met de gewichten waar de training stopte, berekent het model voor elk mogelijk volgend woord een kans en kiest daaruit (meer in het station „Toeval”). Ligt de bal diep in het dal, dan zijn die kansen goed en passen de antwoorden beter.'},
      alt:'Draaibaar foutenlandschap met een rollende bal'},
    probeLbl:'Begin van de zin:',
    only:l=>`Alleen het woord direct na „${l}” telt. In de gelezen zinnen is het gemarkeerd. Wat daarna komt, zoals „helder” in „blauw en helder”, leert het model voor een ander begin („… en”).`,
@@ -3557,7 +3582,7 @@ const callout=(kind,lbl,html)=>`<div class="call ${kind}"><p>${lbl?`<b class="sr
 
 /* Was ist KI? Beispiele in ineinanderliegende Kreise sortieren (KI ⊃ ML ⊃ Deep Learning ⊃ Generative KI) */
 LAB.sort={
-  html:(d,id)=>{const ring=(k,inner)=>`<div class="ring r-${k}" data-ring="${k}"><div class="rl"><b>${d.rings[k]}</b><span>${d.notes[k]}</span></div><div class="rc" id="${id}-c-${k}"></div>${inner||''}</div>`;
+  html:(d,id)=>{const ring=(k,inner)=>`<div class="ring r-${k}" data-ring="${k}"><div class="rl"><b>${d.rings[k]}</b><span>${d.notes[k]}</span></div><div class="rc" id="${id}-c-${k}" data-lbl="${esc(d.exLbl)}"></div>${inner||''}</div>`;
     return `<p class="small">${d.intro}</p>
     <div class="sortq"><p class="small mono" id="${id}-pos"></p><p class="sitem" id="${id}-item" aria-live="polite"></p>
       ${seg(d.ask,['none','ki','ml','dl','gen'].map(k=>d.rings[k]),'data-o',-1).replace('class="seg"',`class="seg" id="${id}-opts"`)}
@@ -3574,8 +3599,8 @@ LAB.sort={
     $$(`#${id}-opts .opt`).forEach(b=>b.onclick=()=>{if(done)return;done=true;const it=d.items[i],ans=[].concat(it.a),k=K[+b.dataset.o],hit=ans.includes(k);
       if(hit)ok++;press(`#${id}-opts .opt`,x=>x===b);
       const home=hit?k:ans[0];$$(`#${id} .ring`).forEach(r=>r.classList.toggle('hl',r.dataset.ring===home));
-      $$(`#${id} .chip.new`).forEach(c=>c.classList.remove('new'));$(`#${id}-c-${home}`).insertAdjacentHTML('beforeend',`<span class="chip new${hit?'':' miss'}">${esc(it.t.replace(/[.!?。]\s*$/,''))}</span>`);
-      const last=i===d.items.length-1,f=$(`#${id}-fb`);f.className='fb'+(hit?'':' no');
+      $$(`#${id} .ex.new`).forEach(c=>c.classList.remove('new'));$(`#${id}-c-${home}`).insertAdjacentHTML('beforeend',`<span class="ex new">${esc(it.t.replace(/[.!?。]\s*$/,''))}</span>`);
+      const last=i===d.items.length-1,f=$(`#${id}-fb`);f.className='fb';
       f.textContent=(hit?d.right:d.wrong(d.rings[ans[0]]))+' '+it.why+' '+d.placed(d.rings[home])+(last?' '+d.done(ok,d.items.length):'');
       if(last)$(`#${id}-ag`).classList.remove('wait');else $(`#${id}-nx`).classList.remove('wait')});
     $(`#${id}-next`).onclick=()=>{if(i<d.items.length-1){i++;show()}};
@@ -3635,15 +3660,19 @@ LAB.diffusion={
 
 /* Fehler-Landschaft: Gradientenabstieg als Kugel, die bergab rollt (zwei Täler: ein tiefes, eine kleine Mulde) */
 const lossAt=(u,v)=>.25*(u*u+v*v)+1-.9*Math.exp(-((u-.45)**2+(v-.35)**2)/.08)-.55*Math.exp(-((u+.5)**2+(v+.45)**2)/.06);
-const landHtml=(d,id)=>{const L=d.land;return `<div class="land"><h3>${L.title}</h3><p class="small">${L.bridge}</p><ol class="how small">${L.how.map(t=>`<li>${t}</li>`).join('')}</ol><p class="small">${L.drag}</p>
+const landHtml=(d,id)=>{const L=d.land;return `<div class="land"><h3>${L.title}</h3><p>${L.bridge}</p>
+  <ol class="how small">${L.how.map(t=>`<li>${t}</li>`).join('')}</ol><p class="small">${L.drag}</p>
   <canvas class="c3" id="${id}-lc" tabindex="0" role="img" aria-label="${esc(L.alt)}"></canvas>
   ${seg(L.rateLbl,L.rates,'data-lr',0)}
-  <div class="row"><button class="btn primary go" id="${id}-lrun">${L.run}</button><button class="btn" id="${id}-lstep">${L.step}</button><button class="btn ghost undo" id="${id}-lnew">${L.reset}</button></div>
+  <div class="row"><button class="btn primary go" id="${id}-lrun">${L.start}</button><button class="btn" id="${id}-lstep">${L.step}</button></div>
+  <div class="lhint" id="${id}-lhint" aria-live="polite"></div>
   <p class="small mono" id="${id}-lnote"></p><p class="small" id="${id}-lmsg" style="min-height:1.5em"></p>
   <p class="small"><b>${L.pred(esc(L.probe))}</b></p><div class="bars" id="${id}-lpred"></div>
-  <p class="small" id="${id}-lhint" aria-live="polite" style="min-height:3em"></p></div>`};
+  ${callout('info','',`<b>${L.use.t}</b> ${L.use.p}`)}</div>`};
+/* Ein Durchlauf: rollen, bis die Kugel liegen bleibt. Danach startet derselbe Knopf ein neues Training mit anderen
+   zufälligen Startwerten (alles Gelernte wird vergessen). */
 function landBind(d,id){const L=d.land,rates=[.03,.08,.25],starts=[[-.9,-.85],[.9,-.8],[-.85,.85],[.85,.9],[-.2,-.95],[.1,.95]];
-  let moved=1,eb=0,lr=rates[0],si=0,pos=starts[0].slice(),trail=[pos.slice()],k=0,rose=false,timer=null;
+  let moved=1,eb=0,lr=rates[0],si=0,pos=starts[0].slice(),trail=[pos.slice()],k=0,rose=false,ended=false,timer=null;
   const H=(u,v)=>lossAt(u,v)*.75-.55;
   const draw=(c,P)=>{const N=24,col=cssv('--teal');c.lineWidth=1;
     for(let i=0;i<=N;i++)for(const dir of [0,1]){c.beginPath();for(let j=0;j<=N;j++){const u=-1+2*(dir?i:j)/N,v=-1+2*(dir?j:i)/N,[x,y]=P(u,H(u,v),v);j?c.lineTo(x,y):c.moveTo(x,y)}
@@ -3651,25 +3680,27 @@ function landBind(d,id){const L=d.land,rates=[.03,.08,.25],starts=[[-.9,-.85],[.
     c.globalAlpha=1;c.strokeStyle=cssv('--coral');c.lineWidth=2.5;c.beginPath();trail.forEach(([u,v],j)=>{const [x,y]=P(u,H(u,v)+.03,v);j?c.lineTo(x,y):c.moveTo(x,y)});c.stroke();
     const [bx,by,,f]=P(pos[0],H(pos[0],pos[1])+.05,pos[1]);c.fillStyle=cssv('--coral');c.strokeStyle=cssv('--edge');c.lineWidth=2;c.beginPath();c.arc(bx,by,9*f,0,7);c.fill();c.stroke();};
   const v=make3d($(`#${id}-lc`),draw,.3,.56);
-  const num=x=>(x<0?'−':'')+Math.abs(x).toFixed(2).replace('.',u.dec);
-  /* Vorhersage des Mini-Modells: je kleiner der Fehler, desto sicherer das passende Wort */
+  const num=x=>(x<0?'−':'')+Math.abs(x).toFixed(2).replace('.',u.dec),f2=x=>x.toFixed(2).replace('.',u.dec);
+  /* Vorhersage des Modells: je kleiner der Fehler, desto sicherer das passende Wort */
   const pred=e=>{const g=Math.max(0,Math.min(1,(1.4-e)/1.2)),p=1/3+(.86-1/3)*g,r=1-p;return [p,r*.6,r*.4].map((x,i)=>({w:L.words[i],p:x,cls:i?'':'top'}))};
-  const info=()=>{const e=lossAt(...pos);$(`#${id}-lnote`).textContent=L.note(e.toFixed(2).replace('.',u.dec),k,num(pos[0]),num(pos[1]));
+  const info=()=>{const e=lossAt(...pos),conv=k>0&&moved<1e-3;
+    $(`#${id}-lnote`).textContent=L.note(f2(e),k,num(pos[0]),num(pos[1]));
+    $(`#${id}-lmsg`).textContent=k?L.stepMsg(k,f2(eb),f2(e)):'';
     $(`#${id}-lpred`).innerHTML=bars(pred(e));
-    const conv=k>0&&moved<1e-3,f=x=>x.toFixed(2).replace('.',u.dec);
-    $(`#${id}-lmsg`).textContent=k?L.stepMsg(k,f(eb),f(e)):'';
-    $(`#${id}-lstep`).disabled=$(`#${id}-lrun`).disabled=conv;
-    $(`#${id}-lhint`).textContent=!k?L.hints.go:rose?L.hints.jump:conv?(e<.25?L.hints.best:L.hints.local)+' '+L.hints.done:L.hints.roll;v.redraw()};
-  const step=()=>{const [a,b]=pos,h=1e-3;eb=lossAt(a,b);const gu=(lossAt(a+h,b)-lossAt(a-h,b))/(2*h),gv=(lossAt(a,b+h)-lossAt(a,b-h))/(2*h),before=eb;
-    pos=[Math.max(-1,Math.min(1,a-lr*gu)),Math.max(-1,Math.min(1,b-lr*gv))];moved=Math.hypot(pos[0]-a,pos[1]-b);if(lossAt(...pos)>before+1e-4)rose=true;trail.push(pos.slice());k++};
+    $(`#${id}-lstep`).disabled=conv;$(`#${id}-lrun`).textContent=ended?L.restart:L.start;
+    const [kind,t]=!k?['info',L.hints.go]:rose?['warn',L.hints.jump]:conv?(e<.25?['info',L.hints.best]:['warn',L.hints.local]):['info',L.hints.roll];
+    $(`#${id}-lhint`).innerHTML=callout(kind,'',t+(conv?' '+L.hints.done:'')+(ended?' '+L.hints.restart:''));v.redraw()};
+  const step=()=>{const [a,b]=pos,h=1e-3;eb=lossAt(a,b);const gu=(lossAt(a+h,b)-lossAt(a-h,b))/(2*h),gv=(lossAt(a,b+h)-lossAt(a,b-h))/(2*h);
+    pos=[Math.max(-1,Math.min(1,a-lr*gu)),Math.max(-1,Math.min(1,b-lr*gv))];moved=Math.hypot(pos[0]-a,pos[1]-b);if(lossAt(...pos)>eb+1e-4)rose=true;trail.push(pos.slice());k++};
   const stop=()=>{clearInterval(timer);timer=null};
-  $$(`#${id} [data-lr]`).forEach(b=>b.onclick=()=>{lr=rates[+b.dataset.lr];press(`#${id} [data-lr]`,x=>x===b);moved=1;rose=false;info()});
+  const fresh=()=>{si=(si+1)%starts.length;pos=starts[si].slice();trail=[pos.slice()];k=0;rose=false;moved=1;ended=false};
+  $$(`#${id} [data-lr]`).forEach(b=>b.onclick=()=>{lr=rates[+b.dataset.lr];press(`#${id} [data-lr]`,x=>x===b);info()});
   $(`#${id}-lstep`).onclick=()=>{stop();step();info()};
-  /* Training laufen lassen, bis die Kugel liegen bleibt (höchstens 600 Schritte, falls sie hin und her springt) */
+  /* Training laufen lassen, bis die Kugel liegen bleibt (höchstens 600 Schritte; springt sie hin und her, nach 60) */
   const done=()=>moved<1e-3;
-  $(`#${id}-lrun`).onclick=()=>{stop();if(reduce){for(let i=0;i<600&&!done();i++)step();info();return}let n=0;
-    timer=setInterval(()=>{if(!$(`#${id}-lc`)){stop();return}step();info();if(++n>=600||done()||rose&&n>=60)stop()},40)};
-  $(`#${id}-lnew`).onclick=()=>{stop();si=(si+1)%starts.length;pos=starts[si].slice();trail=[pos.slice()];k=0;rose=false;moved=1;info()};
+  $(`#${id}-lrun`).onclick=()=>{stop();if(ended)fresh();
+    if(reduce){for(let i=0;i<600&&!done()&&!(rose&&i>=60);i++)step();ended=true;info();return}let n=0;info();
+    timer=setInterval(()=>{if(!$(`#${id}-lc`)){stop();return}step();if(++n>=600||done()||rose&&n>=60){stop();ended=true}info()},40)};
   info()}
 
 /* Training: ein Mini-Modell zählt, welches Wort nach zwei Wörtern folgt */
