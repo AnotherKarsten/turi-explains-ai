@@ -1,48 +1,56 @@
-**Version 1.2: „KI unter der Haube“ ist übersichtlicher zu bedienen und erklärt mehr.**
+**Version 1.3: KI als großes Bild, Bilder aus Rauschen, 3D-Ansichten und eine Seite für Lehrkräfte.**
 
 | Datei | Für wen |
 |---|---|
 | `turi-explains-ai.html` | **Turi erklärt KI**: für Kinder ab etwa 9 Jahren, spielerisch mit dem Roboter Turi |
 | `ai-under-the-hood.html` | **KI unter der Haube**: für Jugendliche ab etwa 14 Jahren und Erwachsene |
 
-- **Klarere Bedienung:** Aktionen, Auswahlen und Schalter sehen jetzt verschieden aus. Hauptaktionen sind rot mit ▶, Zurücksetzen hat ↺, Auswahlen sind beschriftete Pillen mit Häkchen. Beim Antippen springt die Seite nicht mehr. Hinweise und Warnungen stehen in eigenen Kästen.
-- **Training:** Das gezählte Wort ist in jedem gelesenen Satz markiert.
-- **Tokens:** Die vier Satzpaare lassen sich oben wählen. Die Sätze sind schon vor dem Schätzen lesbar, und nach dem letzten Paar endet die Runde.
-- **Wortkarte:** Hilfslinien zeigen die Koordinaten des gewählten Worts an den Achsen.
-- **Aufmerksamkeit:** Die Gewichte stehen in Prozent da, und ein Kasten erklärt Schritt für Schritt, wie die KI das angetippte Wort verarbeitet.
-- **Kontextfenster:** Die Zusammenfassung des Chats wird mit jeder vergessenen Nachricht schrittweise falscher.
-- **Zufall:** Zehn gewürfelte Fortsetzungen stehen direkt unter dem Knopf. Neu ist ein Kasten, der erklärt, wo du die Temperatur selbst einstellen kannst und wo nicht.
-- **Erfundene Antworten:** Die Wahrscheinlichkeiten im Inneren sind immer sichtbar.
-- **Gut fragen:** Jeder Baustein verändert die Antwort für sich, in beliebiger Reihenfolge.
-- **Vorurteile:** Neu ist ein Kasten, warum Verzerrungen in der Praxis schaden und was hilft.
-- **KI-Agenten:** Eine deutliche Warnung erklärt, dass eine Anweisung im Prompt keine echte Sperre ist.
-- **Turi erklärt KI** ist unverändert.
-- **Online ausprobieren:** https://anotherkarsten.github.io/turi-explains-ai/
+**KI unter der Haube** (jetzt 16 Stationen in drei Teilen, Quiz mit zehn Fragen)
+- **Neuer Teil „Das große Bild“:** Die Station „Was ist KI?“ hat ein Sortierspiel (KI, maschinelles Lernen, Deep Learning, generative KI), weitere Teilgebiete und eine kurze Geschichte der KI. In der Station „Bilder aus Rauschen“ entsteht ein Bild Schritt für Schritt aus Rauschen.
+- **Neue Station „Urheberrecht“:** ein Ampel-Spiel rund um KI-Texte und KI-Bilder.
+- **Training:** neu ist eine drehbare 3D-Fehler-Landschaft. Sie zeigt, wie das Training die Gewichte bergab verschiebt, warum es zwei Täler gibt und was das später beim Antworten bedeutet. Fachbegriffe wie Kreuzentropie, Backpropagation und Adam stehen unter „Unter der Haube“.
+- **Wortkarte:** Die Karte lässt sich in 3D drehen. Eine beschriftete dritte Achse zeigt, was eine weitere Zahl pro Wort bringt.
+- **Der Weg deiner Frage:** Auf der Abschlussseite stehen alle Schritte von der Frage bis zur Antwort noch einmal als Kette.
+- **Übersicht:** Sie zeigt nur noch die Teile und Stationen.
+
+**Turi erklärt KI**
+- **Sortierspiel „Wo steckt überall KI drin?“** in der Station „Clever mit KI“.
+- **Bilder aus Rauschen:** In der Station „Wort für Wort“ lassen die Kinder ein Bild aus bunten Krümeln entstehen.
+- **Neue Ampel-Karten:** KI-Bilder kennzeichnen, Hausaufgaben, Fotos von anderen.
+- **Einfacher:** Die Seite sagt durchgehend „KI“, und die Landkarte kommt ohne Kommazahlen aus.
+
+**Für Lehrkräfte:** Die neue Seite mit Stundenverläufen, Gesprächsimpulsen und zwei Arbeitsblättern zum Ausdrucken gibt es online: https://anotherkarsten.github.io/turi-explains-ai/teachers.html
+
+**Online ausprobieren:** https://anotherkarsten.github.io/turi-explains-ai/
 
 **So geht’s:** Unten bei „Assets“ die passende Datei herunterladen und mit dem Browser öffnen. Beide laufen offline, ohne Installation und ohne Tracking.
 
 ---
 
-**Version 1.2: “AI under the hood” is easier to use and explains more.**
+**Version 1.3: AI as the big picture, pictures from noise, 3D views and a page for teachers.**
 
 | File | For whom |
 |---|---|
 | `turi-explains-ai.html` | **Turi explains AI**: for children aged about 9 and up, playful with the robot Turi |
 | `ai-under-the-hood.html` | **AI under the hood**: for teenagers aged about 14 and up and adults |
 
-- **Clearer controls:** actions, choices and switches now look different. Main actions are red with ▶, reset has ↺, and choices are labelled pills with a tick. The page no longer jumps when you tap something. Notes and warnings have their own boxes.
-- **Training:** the counted word is marked in every sentence that has been read.
-- **Tokens:** the four sentence pairs can be selected at the top. The sentences can be read before you guess, and the round ends after the last pair.
-- **Word map:** guide lines show the coordinates of the selected word on the axes.
-- **Attention:** the weights are shown in per cent, and a box explains step by step how the AI processes the tapped word.
-- **Context window:** the chat summary gets more and more wrong with every forgotten message.
-- **Randomness:** ten rolled continuations appear right below the button. A new box explains where you can set the temperature yourself and where you cannot.
-- **Made-up answers:** the internal probabilities are always visible.
-- **Asking well:** each building block changes the answer on its own, in any order.
-- **Bias:** a new box explains why biases cause harm in practice and what helps.
-- **AI agents:** a clear warning explains that an instruction in the prompt is not a real lock.
-- **Turi explains AI** is unchanged.
-- **Try it online:** https://anotherkarsten.github.io/turi-explains-ai/
+**AI under the hood** (now 16 stations in three parts, quiz with ten questions)
+- **New part “The big picture”:** the station “What is AI?” has a sorting game (AI, machine learning, deep learning, generative AI), other fields and a short history of AI. In the station “Pictures from noise” a picture emerges step by step from noise.
+- **New station “Copyright”:** a traffic-light game about AI texts and AI images.
+- **Training:** new is a rotatable 3D error landscape. It shows how training moves the weights downhill, why there are two valleys and what that means later when the model answers. Technical terms such as cross-entropy, backpropagation and Adam are under “Under the hood”.
+- **Word map:** the map can be turned in 3D. A labelled third axis shows what one more number per word adds.
+- **The journey of your question:** the final page shows all steps from question to answer once more as a chain.
+- **Overview:** it now only shows the parts and stations.
+
+**Turi explains AI**
+- **Sorting game “Where is AI hiding?”** in the station “Smart with AI”.
+- **Pictures from noise:** in the station “Word by word”, children let a picture emerge from colourful crumbs.
+- **New traffic-light cards:** labelling AI pictures, homework, photos of other people.
+- **Simpler:** the page consistently says “AI”, and the map works without decimal numbers.
+
+**For teachers:** the new page with lesson plans, discussion prompts and two printable worksheets is online: https://anotherkarsten.github.io/turi-explains-ai/teachers.html
+
+**Try it online:** https://anotherkarsten.github.io/turi-explains-ai/
 
 Download the file you need below under “Assets” and open it in your browser. Both work offline, with no installation and no tracking.
 
