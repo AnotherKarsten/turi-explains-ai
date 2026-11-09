@@ -107,22 +107,25 @@ async function bediene(p) {
   await p.waitForTimeout(150);
 }
 
-// Geht zu Station i. Beim Tippen kommt der Klick leicht verzögert an; deshalb wird gewartet, bis entweder
-// das Fenster „Moment mal!“ erscheint (dann „Trotzdem weiter“) oder die Station wirklich gewechselt hat.
+// Geht zu Station i. Beim Tippen kommt der Klick leicht verzögert an, und unter hoher Last (viele Prüfungen
+// gleichzeitig) geht ein Tippen manchmal ganz verloren oder trifft das Fenster „Moment mal!“, bevor es bereit ist.
+// Deshalb wird in einer Schleife nachgesehen: Ist die Station erreicht, ist es gut; ist der Hinweis offen, wird
+// „Trotzdem weiter“ getippt; passiert zwei Sekunden lang nichts, wird noch einmal getippt. Nach 30 Sekunden gilt die
+// Station als nicht erreichbar, dann schlägt die Prüfung fehl.
 async function zuStation(p, i, tippen) {
   const sel = `.step[data-s="${i}"]`;
-  const da = () => p.waitForFunction(i => document.querySelector('.step[aria-current]')?.dataset.s === String(i), i, {timeout: 10000});
-  // Unter hoher Last (viele Prüfungen gleichzeitig) kommt ein Tippen manchmal nicht an, etwa während die Seite noch scrollt.
-  // Dann bis zu dreimal tippen; funktioniert Tippen wirklich nicht, schlägt die Prüfung trotzdem fehl.
-  for (let versuch = 1; ; versuch++) {
-    if (tippen) await p.tap(sel); else await p.click(sel);
-    try {
-      await p.waitForFunction(i => !document.getElementById('hint').hidden || document.querySelector('.step[aria-current]')?.dataset.s === String(i), i, {timeout: 5000});
-      break;
-    } catch (e) { if (versuch >= 3) throw e; }
+  const tippe = async s => { try { if (tippen) await p.tap(s, {timeout: 3000}); else await p.click(s, {timeout: 3000}); } catch (e) {} };
+  const da = () => p.evaluate(i => document.querySelector('.step[aria-current]')?.dataset.s === String(i), i);
+  const ende = Date.now() + 30000;
+  let still = 0;
+  await tippe(sel);
+  while (!(await da())) {
+    if (Date.now() > ende) throw new Error(`Station ${i + 1} nicht erreicht`);
+    await p.waitForTimeout(250);
+    if (await da()) break;
+    if (await p.isVisible('#hintGo')) { await tippe('#hintGo'); still = 0; continue; }
+    if (++still >= 8) { await tippe(sel); still = 0; }
   }
-  if (await p.isVisible('#hintGo')) { if (tippen) await p.tap('#hintGo'); else await p.click('#hintGo'); }
-  await da();
   await p.waitForTimeout(100);
   await ruhe(p);
 }
