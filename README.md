@@ -52,9 +52,9 @@ Die Kinder verfolgen eine Anfrage durch elf Stationen, so wie sie auch durch ein
 | 5. Aufmerksamkeit | Tokens schauen, welche anderen Wörter wichtig sind, und warum die Reihenfolge zählt („Hund beißt Mann“). |
 | 6. Kontext | Ein Wort mit zwei Bedeutungen, Vorhersagen, die sich mit einem Wort ändern, und das Kontextfenster als Kurzzeit-Gedächtnis. |
 | 7. Raten | Das nächste Wort wird gewürfelt; ein Kreativitäts-Regler (Temperatur) macht die KI vorsichtig oder wild. |
-| 8. Wort für Wort | Die Antwort entsteht Schritt für Schritt bis zum [ENDE]. |
+| 8. Wort für Wort | Die Antwort entsteht Schritt für Schritt bis zum [ENDE]. Dazu: Wie malt eine KI Bilder? Ein Bild entsteht Schritt für Schritt aus Rauschen, mit neuem Rauschen jedes Mal etwas anders. |
 | 9. Nachschlagen | Werkzeuge: Suchen statt raten, Taschenrechner statt Kopfrechnen, erst nachdenken, dann antworten. |
-| 10. Clever mit KI | Wo überall KI drinsteckt (Sortierspiel: keine KI, KI, die erkennt, KI, die Neues macht), Stärken und Schwächen, Halluzinieren, Missbrauch wie Deepfakes, ein Ampel-Spiel mit Alltagssituationen und Turis Regeln. |
+| 10. Clever mit KI | Wo überall KI drinsteckt (Sortierspiel: keine KI, KI, die erkennt, KI, die Neues macht), Stärken und Schwächen, Halluzinieren, Missbrauch wie Deepfakes, ein Ampel-Spiel mit Alltagssituationen (auch: KI-Bilder kennzeichnen, Hausaufgaben, Fotos von anderen) und Turis Regeln. |
 | 11. Geschafft! | Zusammenfassung, Quiz und eine Abschluss-Urkunde. |
 
 Drei Beispiel-Anfragen („Der Himmel ist …“, „Was ist die Hauptstadt von Frankreich?“, „Hunde sind die besten …“)
