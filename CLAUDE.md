@@ -15,10 +15,10 @@ Sprache der Seite, der Commits und der Pull Requests: Deutsch.
 - Im Repository liegen nur die aktuell nötigen Dateien: `turi-explains-ai.html` (Turi), `ai-under-the-hood.html` (KI unter der Haube),
   `index.html` (Startseite für GitHub Pages), `teachers.html` (für Lehrkräfte), `.nojekyll`, `README.md`, `CLAUDE.md`, `LICENSE`, `LICENSES/` und `.github/` (Prüf- und Release-Ablauf). Keine Kopien alter
   Versionen ablegen; die Historie steht in Git.
-- „KI unter der Haube“: 16 Stationen in drei Teilen (`parts`: z „Das große Bild“, a „So funktioniert ein Sprachmodell“
-  mit `flow` „Der Weg deiner Frage“, der als Rückblick auf der Abschlussseite steht, b „Klug damit arbeiten“), je Station Text, ein Labor (`lab.type`: sort,
+- „KI unter der Haube“: 20 Stationen in drei Teilen (`parts`: z „Das große Bild“, a „So funktioniert ein Sprachmodell“
+  mit `flow` „Der Weg deiner Frage“, der als Rückblick auf der Abschlussseite steht, b „Klug damit arbeiten“), je Station Text, ein Labor (`lab.type`: check, compare, sort,
   diffusion, train, tokens, map, attention, window, temperature, confidence, lookup, prompt, bias, cost, ampel, recht, agent), die Klappe „Unter der
-  Haube“ (`hood`, Fachbegriffe) und „Im Alltag heißt das“ (`everyday`). Wortkarte (`map`, Wörter als `[w,x,y,z]`) und Fehler-Landschaft
+  Haube“ (`hood`, Fachbegriffe) und „Im Alltag heißt das“ (`everyday`), dazu Merksatz (`take`), Transferfrage (`ask`) und bei manchen Stationen „Erst schätzen“ (`guess`, Auflösung unter dem Labor). Besuchte Stationen merkt sich der Browser (`haube-seen`). `QUIZ_ST` ordnet jeder Quizfrage eine Station zu. Wortkarte (`map`, Wörter als `[w,x,y,z]`) und Fehler-Landschaft
   (`train.land`) lassen sich in 3D drehen (Ziehen, Pfeiltasten). Am Ende Quiz (zehn Fragen) und Spickzettel; das PDF erzeugt die
   Seite selbst (A4, Helvetica, WinAnsi-Zeichensatz: nur Zeichen verwenden, die es dort gibt). Gleiche Farben, Schriften
   und Tasten wie Turi, aber ohne Maskottchen.

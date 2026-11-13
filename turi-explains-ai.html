@@ -100,6 +100,7 @@ button{font:inherit;cursor:pointer;color:inherit}
 .bubble{position:relative;background:var(--paper);border:2px solid var(--edge);border-radius:16px;padding:14px 18px;min-width:0;max-width:70ch}
 .bubble::before{content:"";position:absolute;left:-10px;top:18px;width:16px;height:16px;background:var(--paper);border-left:2px solid var(--edge);border-bottom:2px solid var(--edge);transform:rotate(45deg)}
 .bubble h2{font-size:1.45rem;margin-bottom:6px}
+.readbtn{margin-top:10px}
 .content{display:flex;flex-direction:column;gap:18px;min-width:0}
 .navrow{display:flex;justify-content:space-between;align-items:center;gap:10px;border-top:2px dashed var(--track);padding-top:16px}
 .navrow .pos{font-family:var(--f-mono);font-size:.85rem;color:var(--ink-soft);font-variant-numeric:tabular-nums}
@@ -729,6 +730,14 @@ ui:{
   {t:'Ein Chatbot schreibt dir eine Geschichte.',a:'neu',why:'Das ist ein Sprachmodell: Es macht neuen Text, Schnipsel für Schnipsel. Genau das hast du bei Turi kennengelernt.'},
   {t:'Ein Programm malt ein Bild von einem Drachen.',a:'neu',why:'Auch das ist KI, die Neues macht. Sie arbeitet aber anders als ein Chatbot.'}],
  kiGood:'Richtig!', kiRather:k=>`Hmm, eher „${k}“.`, kiScore:(ok,n)=>`${ok} von ${n} richtig sortiert.`,
+ read:'Vorlesen', readStop:'Stopp', readNone:'Auf diesem Gerät gibt es keine Stimme dafür',
+ chkTitle:'🔍 Glauben oder nachprüfen?',
+ chkP:'Eine KI mischt manchmal Richtiges und Ausgedachtes in einer Antwort. Schau dir jeden Satz an: Würdest du ihn einfach glauben, oder lieber nachprüfen?',
+ chkQ:'Erzähl mir etwas über Elefanten.',
+ chkBtn:['👍 Glaube ich','🔍 Prüfe ich nach'],
+ chkFb:{hit:'Gut aufgepasst!',miss:'Hoppla!',ok:'Stimmt.',extra:'Nachprüfen schadet nie.'},
+ chkScore:(h,b)=>`Du hast ${h} von ${b} ausgedachten Sätzen erwischt.`,
+ chkItems:[{t:'Elefanten sind die größten Landtiere der Erde.',why:'Das steht in sehr vielen Büchern. Darum weiß die KI es gut.'},{t:'Mit dem Rüssel saugen Elefanten Wasser an und spritzen es sich ins Maul.',why:'Auch das stimmt und steht oft in Büchern.'},{t:'Ein Elefant wiegt genau 5.482 Kilogramm.',bad:true,why:'Elefanten sind ganz verschieden schwer. So eine genaue Zahl hat sich die KI ausgedacht.'},{t:'Das steht im Buch „Elefanten-Wissen“ von Professor Tom Rüssel, Seite 12.',bad:true,why:'Dieses Buch gibt es nicht. KIs denken sich manchmal Bücher und Namen aus.'}],
  sfTitle:'Clever und sicher mit KI',
  sfSay:'Jetzt weißt du, wie ein Sprachmodell funktioniert. Das hilft dir, es <b>klug zu benutzen</b>. KI kann toll helfen, sie hat aber auch Schwächen. Und manche Menschen benutzen sie, um anderen zu schaden. <b>Schau dir an, worauf du achten solltest, und spiel das Ampel-Spiel!</b>',
  sfGood:'Das kann KI gut',
@@ -811,7 +820,7 @@ ui:{
  lkThinkSteps:["📝 Am Anfang hat Lena 3 Äpfel.", "📝 Doppelt so viele dazu: 3 × 2 = 6. Zusammen: 3 + 6 = 9.", "📝 Sie isst 2: 9 − 2 = 7.", "Antwort: Lena hat jetzt <b>7 Äpfel</b>."],
  lkThinkNote:"Jeder aufgeschriebene Schritt landet im Kontextfenster. Beim nächsten Schritt kann die Aufmerksamkeit darauf zurückschauen, wie auf einen Notizzettel. Moderne KIs denken so oft erst nach, bevor sie antworten.",
  lkFact:"<b>Gut zu wissen:</b> Manche KIs erledigen mit Werkzeugen sogar mehrere Schritte hintereinander allein, zum Beispiel suchen, vergleichen und eine Tabelle schreiben. Man nennt sie <b>KI-Agenten</b>. Aber auch mit Werkzeugen kann eine KI Fehler machen, zum Beispiel eine schlechte Quelle finden. Nachprüfen bleibt wichtig!",
- t:{pic:'Lass ein Bild aus Rauschen entstehen',search:"Lass die KI die Öffnungszeiten nachschlagen",calc:"Lass die KI mit dem Taschenrechner rechnen",think:"Lass die KI Schritt für Schritt nachdenken",read:(r,n)=>`Lies alle ${n} Sätze im Lernstapel (${r} von ${n})`, fine:'Wähle beim Feinschliff die bessere Antwort',
+ t:{chk:'Entscheide bei jedem Satz: glauben oder nachprüfen?',pic:'Lass ein Bild aus Rauschen entstehen',search:"Lass die KI die Öffnungszeiten nachschlagen",calc:"Lass die KI mit dem Taschenrechner rechnen",think:"Lass die KI Schritt für Schritt nachdenken",read:(r,n)=>`Lies alle ${n} Sätze im Lernstapel (${r} von ${n})`, fine:'Wähle beim Feinschliff die bessere Antwort',
   cut:'Schneide deine Anfrage mit der Schere in Schnipsel',sandbox:'Tippe in der Schnipsel-Werkstatt einen eigenen Satz ein', flip:(a,n)=>`Dreh alle Schnipsel um (${a} von ${n})`,
   map:a=>`Tippe auf mindestens 3 Wörter der Landkarte (${a} von 3)`, regions:a=>`Schau dir Steckbriefe aus 2 verschiedenen Gegenden der Karte an (${a} von 2)`,
   pairs:a=>`Vergleiche mindestens 2 Wortpaare (${a} von 2)`,
@@ -1049,6 +1058,14 @@ ui:{
   {t:'A chatbot writes you a story.',a:'neu',why:'That is a language model: it makes new text, snippet by snippet. Exactly what you got to know with Turi.'},
   {t:'A program paints a picture of a dragon.',a:'neu',why:'That is AI that makes new things too. But it works differently from a chatbot.'}],
  kiGood:'Correct!', kiRather:k=>`Hmm, more like “${k}”.`, kiScore:(ok,n)=>`${ok} of ${n} sorted correctly.`,
+ read:'Read aloud', readStop:'Stop', readNone:'This device has no voice for this',
+ chkTitle:'🔍 Believe it or check it?',
+ chkP:'An AI sometimes mixes true and made-up things in one answer. Look at every sentence: would you simply believe it, or rather check it?',
+ chkQ:'Tell me something about elephants.',
+ chkBtn:['👍 I believe it','🔍 I check it'],
+ chkFb:{hit:'Well spotted!',miss:'Oops!',ok:'True.',extra:'Checking never hurts.'},
+ chkScore:(h,b)=>`You caught ${h} of ${b} made-up sentences.`,
+ chkItems:[{t:'Elephants are the largest land animals on Earth.',why:'This is written in very many books. That is why the AI knows it well.'},{t:'Elephants suck up water with their trunk and squirt it into their mouth.',why:'This is also true and often written in books.'},{t:'An elephant weighs exactly 5,482 kilograms.',bad:true,why:'Elephants differ a lot in weight. The AI made up such an exact number.'},{t:'This is in the book “Elephant Facts” by Professor Tom Trunk, page 12.',bad:true,why:'This book does not exist. AIs sometimes make up books and names.'}],
  sfTitle:'Smart and safe with AI',
  sfSay:'Now you know how a language model works. That helps you <b>use it wisely</b>. AI can be a great help, but it also has weaknesses. And some people use it to harm others. <b>Look at what to watch out for and play the traffic-light game!</b>',
  sfGood:'What AI is good at',
@@ -1131,7 +1148,7 @@ ui:{
  lkThinkSteps:["📝 At the start, Lena has 3 apples.", "📝 Twice as many on top: 3 × 2 = 6. Together: 3 + 6 = 9.", "📝 She eats 2: 9 − 2 = 7.", "Answer: Lena now has <b>7 apples</b>."],
  lkThinkNote:"Every step that is written down lands in the context window. For the next step, attention can look back at it, like at a sticky note. Modern AIs often think like this before they answer.",
  lkFact:"<b>Good to know:</b> Some AIs even use tools to do several steps in a row on their own, for example searching, comparing and writing a table. They are called <b>AI agents</b>. But even with tools an AI can make mistakes, for example by finding a bad source. Checking is still important!",
- t:{pic:'Let a picture appear from noise',search:"Let the AI look up the opening hours",calc:"Let the AI use the calculator",think:"Let the AI think step by step",read:(r,n)=>`Read all ${n} sentences in the learning pile (${r} of ${n})`, fine:'Pick the better answer in the polishing step',
+ t:{chk:'Decide for every sentence: believe it or check it?',pic:'Let a picture appear from noise',search:"Let the AI look up the opening hours",calc:"Let the AI use the calculator",think:"Let the AI think step by step",read:(r,n)=>`Read all ${n} sentences in the learning pile (${r} of ${n})`, fine:'Pick the better answer in the polishing step',
   cut:'Cut your request into snippets with the scissors',sandbox:'Type your own sentence in the snippet workshop', flip:(a,n)=>`Flip all snippets (${a} of ${n})`,
   map:a=>`Tap at least 3 words on the map (${a} of 3)`, regions:a=>`Look at profiles from 2 different areas of the map (${a} of 2)`,
   pairs:a=>`Compare at least 2 word pairs (${a} of 2)`,
@@ -1368,6 +1385,14 @@ ui:{
   {t:'Un chatbot t’écrit une histoire.',a:'neu',why:'C’est un modèle de langage : il crée du nouveau texte, morceau par morceau. Exactement ce que tu as découvert avec Turi.'},
   {t:'Un programme peint l’image d’un dragon.',a:'neu',why:'C’est aussi une IA qui crée du nouveau. Mais elle fonctionne autrement qu’un chatbot.'}],
  kiGood:'Juste !', kiRather:k=>`Hum, plutôt « ${k} ».`, kiScore:(ok,n)=>`${ok} sur ${n} bien triés.`,
+ read:'Lire à voix haute', readStop:'Stop', readNone:'Cet appareil n’a pas de voix pour cela',
+ chkTitle:'🔍 Croire ou vérifier ?',
+ chkP:'Une IA mélange parfois du vrai et de l’inventé dans une même réponse. Regarde chaque phrase : la croirais-tu simplement, ou préférerais-tu vérifier ?',
+ chkQ:'Parle-moi des éléphants.',
+ chkBtn:['👍 Je le crois','🔍 Je vérifie'],
+ chkFb:{hit:'Bien vu !',miss:'Oups !',ok:'C’est vrai.',extra:'Vérifier ne fait jamais de mal.'},
+ chkScore:(h,b)=>`Tu as repéré ${h} des ${b} phrases inventées.`,
+ chkItems:[{t:'Les éléphants sont les plus grands animaux terrestres.',why:'C’est écrit dans de très nombreux livres. C’est pour ça que l’IA le sait bien.'},{t:'Avec leur trompe, les éléphants aspirent l’eau et la versent dans leur bouche.',why:'C’est vrai aussi, et souvent écrit dans les livres.'},{t:'Un éléphant pèse exactement 5 482 kilogrammes.',bad:true,why:'Les éléphants ont des poids très différents. Un nombre aussi précis, l’IA l’a inventé.'},{t:'C’est écrit dans le livre « Tout sur les éléphants » du professeur Tom Trompe, page 12.',bad:true,why:'Ce livre n’existe pas. Les IA inventent parfois des livres et des noms.'}],
  sfTitle:'Malin et prudent avec l’IA',
  sfSay:'Maintenant, tu sais comment fonctionne un modèle de langage. Ça t’aide à <b>bien l’utiliser</b>. L’IA peut beaucoup aider, mais elle a aussi des faiblesses. Et certaines personnes l’utilisent pour faire du mal aux autres. <b>Regarde à quoi faire attention et joue au jeu du feu tricolore !</b>',
  sfGood:'Ce que l’IA fait bien',
@@ -1450,7 +1475,7 @@ ui:{
  lkThinkSteps:["📝 Au début, Lena a 3 pommes.", "📝 Elle en reçoit deux fois plus : 3 × 2 = 6. Ensemble : 3 + 6 = 9.", "📝 Elle en mange 2 : 9 − 2 = 7.", "Réponse : Lena a maintenant <b>7 pommes</b>."],
  lkThinkNote:"Chaque étape écrite va dans la fenêtre de contexte. Pour l’étape suivante, l’attention peut la relire, comme un pense-bête. Les IA modernes réfléchissent souvent ainsi avant de répondre.",
  lkFact:"<b>Bon à savoir :</b> certaines IA font même plusieurs étapes à la suite toutes seules avec des outils, par exemple chercher, comparer et écrire un tableau. On les appelle des <b>agents IA</b>. Mais même avec des outils, une IA peut se tromper, par exemple en trouvant une mauvaise source. Vérifier reste important !",
- t:{pic:'Fais apparaître une image à partir du bruit',search:"Laisse l’IA chercher les horaires",calc:"Laisse l’IA calculer avec la calculatrice",think:"Laisse l’IA réfléchir étape par étape",read:(r,n)=>`Lis les ${n} phrases de la pile d’entraînement (${r} sur ${n})`, fine:'Choisis la meilleure réponse dans la finition',
+ t:{chk:'Décide pour chaque phrase : croire ou vérifier ?',pic:'Fais apparaître une image à partir du bruit',search:"Laisse l’IA chercher les horaires",calc:"Laisse l’IA calculer avec la calculatrice",think:"Laisse l’IA réfléchir étape par étape",read:(r,n)=>`Lis les ${n} phrases de la pile d’entraînement (${r} sur ${n})`, fine:'Choisis la meilleure réponse dans la finition',
   cut:'Découpe ta demande en morceaux avec les ciseaux',sandbox:'Tape ta propre phrase dans l’atelier des morceaux', flip:(a,n)=>`Retourne tous les morceaux (${a} sur ${n})`,
   map:a=>`Touche au moins 3 mots sur la carte (${a} sur 3)`, regions:a=>`Regarde les cartes d’identité de 2 zones différentes de la carte (${a} sur 2)`,
   pairs:a=>`Compare au moins 2 paires de mots (${a} sur 2)`,
@@ -1687,6 +1712,14 @@ ui:{
   {t:'Un chatbot ti scrive una storia.',a:'neu',why:'È un modello linguistico: crea testo nuovo, pezzetto dopo pezzetto. Proprio quello che hai conosciuto con Turi.'},
   {t:'Un programma dipinge un drago.',a:'neu',why:'Anche questa è un’IA che crea cose nuove. Però funziona in modo diverso da un chatbot.'}],
  kiGood:'Giusto!', kiRather:k=>`Mmm, piuttosto «${k}».`, kiScore:(ok,n)=>`${ok} su ${n} sistemati bene.`,
+ read:'Leggi ad alta voce', readStop:'Stop', readNone:'Questo dispositivo non ha una voce per questo',
+ chkTitle:'🔍 Credere o controllare?',
+ chkP:'Un’IA a volte mescola cose vere e inventate nella stessa risposta. Guarda ogni frase: la crederesti e basta, o preferiresti controllare?',
+ chkQ:'Raccontami qualcosa sugli elefanti.',
+ chkBtn:['👍 Ci credo','🔍 Controllo'],
+ chkFb:{hit:'Ben visto!',miss:'Ops!',ok:'È vero.',extra:'Controllare non fa mai male.'},
+ chkScore:(h,b)=>`Hai scoperto ${h} delle ${b} frasi inventate.`,
+ chkItems:[{t:'Gli elefanti sono i più grandi animali terrestri.',why:'È scritto in moltissimi libri. Per questo l’IA lo sa bene.'},{t:'Con la proboscide gli elefanti aspirano l’acqua e se la spruzzano in bocca.',why:'Anche questo è vero ed è scritto spesso nei libri.'},{t:'Un elefante pesa esattamente 5.482 chilogrammi.',bad:true,why:'Gli elefanti hanno pesi molto diversi. Un numero così preciso l’IA se l’è inventato.'},{t:'È scritto nel libro «Tutto sugli elefanti» del professor Tom Proboscide, pagina 12.',bad:true,why:'Questo libro non esiste. Le IA a volte si inventano libri e nomi.'}],
  sfTitle:'Furbi e sicuri con l’IA',
  sfSay:'Ora sai come funziona un modello linguistico. Questo ti aiuta a <b>usarlo bene</b>. L’IA può aiutare tantissimo, ma ha anche dei punti deboli. E alcune persone la usano per fare del male agli altri. <b>Guarda a cosa fare attenzione e gioca al gioco del semaforo!</b>',
  sfGood:'Cosa sa fare bene l’IA',
@@ -1769,7 +1802,7 @@ ui:{
  lkThinkSteps:["📝 All’inizio Lena ha 3 mele.", "📝 Ne riceve il doppio: 3 × 2 = 6. Insieme: 3 + 6 = 9.", "📝 Ne mangia 2: 9 − 2 = 7.", "Risposta: Lena adesso ha <b>7 mele</b>."],
  lkThinkNote:"Ogni passaggio scritto finisce nella finestra di contesto. Per il passaggio successivo l’attenzione può guardarlo di nuovo, come un foglietto di appunti. Le IA moderne spesso ragionano così prima di rispondere.",
  lkFact:"<b>Buono a sapersi:</b> alcune IA con gli strumenti fanno perfino più passaggi di fila da sole, per esempio cercare, confrontare e scrivere una tabella. Si chiamano <b>agenti IA</b>. Ma anche con gli strumenti un’IA può sbagliare, per esempio trovando una fonte sbagliata. Controllare resta importante!",
- t:{pic:'Fai nascere un’immagine dal rumore',search:"Fai cercare all’IA gli orari",calc:"Fai calcolare l’IA con la calcolatrice",think:"Fai ragionare l’IA passo dopo passo",read:(r,n)=>`Leggi tutte le ${n} frasi della pila di studio (${r} di ${n})`, fine:'Scegli la risposta migliore nella rifinitura',
+ t:{chk:'Decidi per ogni frase: credere o controllare?',pic:'Fai nascere un’immagine dal rumore',search:"Fai cercare all’IA gli orari",calc:"Fai calcolare l’IA con la calcolatrice",think:"Fai ragionare l’IA passo dopo passo",read:(r,n)=>`Leggi tutte le ${n} frasi della pila di studio (${r} di ${n})`, fine:'Scegli la risposta migliore nella rifinitura',
   cut:'Taglia la tua richiesta a pezzetti con le forbici',sandbox:'Scrivi una tua frase nel laboratorio dei pezzetti', flip:(a,n)=>`Gira tutti i pezzetti (${a} di ${n})`,
   map:a=>`Tocca almeno 3 parole sulla mappa (${a} di 3)`, regions:a=>`Guarda le carte d’identità di 2 zone diverse della mappa (${a} di 2)`,
   pairs:a=>`Confronta almeno 2 coppie di parole (${a} di 2)`,
@@ -2007,6 +2040,14 @@ ui:{
   {t:'Un chatbot te escribe un cuento.',a:'neu',why:'Es un modelo de lenguaje: crea texto nuevo, trocito a trocito. Justo lo que has conocido con Turi.'},
   {t:'Un programa pinta un dragón.',a:'neu',why:'También es IA que crea cosas nuevas. Pero funciona de otra manera que un chatbot.'}],
  kiGood:'¡Correcto!', kiRather:k=>`Mmm, más bien «${k}».`, kiScore:(ok,n)=>`${ok} de ${n} bien ordenados.`,
+ read:'Leer en voz alta', readStop:'Parar', readNone:'Este dispositivo no tiene voz para esto',
+ chkTitle:'🔍 ¿Creer o comprobar?',
+ chkP:'Una IA a veces mezcla cosas ciertas e inventadas en la misma respuesta. Mira cada frase: ¿te la creerías sin más, o preferirías comprobarla?',
+ chkQ:'Cuéntame algo sobre los elefantes.',
+ chkBtn:['👍 Me lo creo','🔍 Lo compruebo'],
+ chkFb:{hit:'¡Bien visto!',miss:'¡Ups!',ok:'Es verdad.',extra:'Comprobar nunca está de más.'},
+ chkScore:(h,b)=>`Has pillado ${h} de las ${b} frases inventadas.`,
+ chkItems:[{t:'Los elefantes son los animales terrestres más grandes.',why:'Está escrito en muchísimos libros. Por eso la IA lo sabe bien.'},{t:'Con la trompa, los elefantes aspiran agua y se la echan en la boca.',why:'También es verdad y aparece a menudo en los libros.'},{t:'Un elefante pesa exactamente 5.482 kilogramos.',bad:true,why:'Los elefantes pesan cosas muy distintas. Un número tan exacto se lo ha inventado la IA.'},{t:'Está en el libro «Todo sobre los elefantes» del profesor Tom Trompa, página 12.',bad:true,why:'Ese libro no existe. Las IA a veces se inventan libros y nombres.'}],
  sfTitle:'Listos y seguros con la IA',
  sfSay:'Ahora sabes cómo funciona un modelo de lenguaje. Eso te ayuda a <b>usarlo con cabeza</b>. La IA puede ayudar muchísimo, pero también tiene puntos débiles. Y algunas personas la usan para hacer daño a otros. <b>¡Mira a qué debes prestar atención y juega al juego del semáforo!</b>',
  sfGood:'Lo que la IA hace bien',
@@ -2089,7 +2130,7 @@ ui:{
  lkThinkSteps:["📝 Al principio, Lena tiene 3 manzanas.", "📝 Le dan el doble: 3 × 2 = 6. En total: 3 + 6 = 9.", "📝 Se come 2: 9 − 2 = 7.", "Respuesta: Lena tiene ahora <b>7 manzanas</b>."],
  lkThinkNote:"Cada paso escrito va a la ventana de contexto. En el paso siguiente, la atención puede volver a mirarlo, como una nota adhesiva. Las IA modernas a menudo piensan así antes de responder.",
  lkFact:"<b>Bueno saberlo:</b> algunas IA incluso hacen solas varios pasos seguidos con herramientas, por ejemplo buscar, comparar y escribir una tabla. Se llaman <b>agentes de IA</b>. Pero también con herramientas una IA puede equivocarse, por ejemplo si encuentra una mala fuente. ¡Comprobar sigue siendo importante!",
- t:{pic:'Haz que aparezca una imagen a partir del ruido',search:"Deja que la IA busque el horario",calc:"Deja que la IA use la calculadora",think:"Deja que la IA piense paso a paso",read:(r,n)=>`Lee las ${n} frases del montón de estudio (${r} de ${n})`, fine:'Elige la mejor respuesta en el pulido',
+ t:{chk:'Decide en cada frase: ¿creer o comprobar?',pic:'Haz que aparezca una imagen a partir del ruido',search:"Deja que la IA busque el horario",calc:"Deja que la IA use la calculadora",think:"Deja que la IA piense paso a paso",read:(r,n)=>`Lee las ${n} frases del montón de estudio (${r} de ${n})`, fine:'Elige la mejor respuesta en el pulido',
   cut:'Corta tu petición en trocitos con las tijeras',sandbox:'Escribe una frase tuya en el taller de trocitos', flip:(a,n)=>`Da la vuelta a todos los trocitos (${a} de ${n})`,
   map:a=>`Toca al menos 3 palabras del mapa (${a} de 3)`, regions:a=>`Mira fichas de 2 zonas distintas del mapa (${a} de 2)`,
   pairs:a=>`Compara al menos 2 parejas de palabras (${a} de 2)`,
@@ -2327,6 +2368,14 @@ ui:{
   {t:'Een chatbot schrijft een verhaal voor je.',a:'neu',why:'Dat is een taalmodel: het maakt nieuwe tekst, stukje voor stukje. Precies wat je bij Turi hebt leren kennen.'},
   {t:'Een programma tekent een draak.',a:'neu',why:'Ook dat is AI die iets nieuws maakt. Maar ze werkt anders dan een chatbot.'}],
  kiGood:'Goed zo!', kiRather:k=>`Hmm, eerder „${k}”.`, kiScore:(ok,n)=>`${ok} van de ${n} goed gesorteerd.`,
+ read:'Voorlezen', readStop:'Stop', readNone:'Dit apparaat heeft hier geen stem voor',
+ chkTitle:'🔍 Geloven of nakijken?',
+ chkP:'Een AI mengt soms ware en verzonnen dingen in één antwoord. Kijk naar elke zin: zou je hem gewoon geloven, of liever nakijken?',
+ chkQ:'Vertel me iets over olifanten.',
+ chkBtn:['👍 Geloof ik','🔍 Kijk ik na'],
+ chkFb:{hit:'Goed opgelet!',miss:'Oeps!',ok:'Klopt.',extra:'Nakijken kan nooit kwaad.'},
+ chkScore:(h,b)=>`Je hebt ${h} van de ${b} verzonnen zinnen betrapt.`,
+ chkItems:[{t:'Olifanten zijn de grootste landdieren op aarde.',why:'Dat staat in heel veel boeken. Daarom weet de AI het goed.'},{t:'Met hun slurf zuigen olifanten water op en spuiten het in hun bek.',why:'Dat klopt ook en staat vaak in boeken.'},{t:'Een olifant weegt precies 5.482 kilogram.',bad:true,why:'Olifanten zijn heel verschillend zwaar. Zo’n precies getal heeft de AI verzonnen.'},{t:'Dat staat in het boek „Alles over olifanten” van professor Tom Slurf, bladzijde 12.',bad:true,why:'Dit boek bestaat niet. AI’s verzinnen soms boeken en namen.'}],
  sfTitle:'Slim en veilig met AI',
  sfSay:'Nu weet je hoe een taalmodel werkt. Dat helpt je om het <b>slim te gebruiken</b>. AI kan je super goed helpen, maar heeft ook zwakke kanten. En sommige mensen gebruiken het om anderen kwaad te doen. <b>Kijk waar je op moet letten en speel het stoplichtspel!</b>',
  sfGood:'Hier is AI goed in',
@@ -2409,7 +2458,7 @@ ui:{
  lkThinkSteps:["📝 In het begin heeft Lena 3 appels.", "📝 Twee keer zoveel erbij: 3 × 2 = 6. Samen: 3 + 6 = 9.", "📝 Ze eet er 2 op: 9 − 2 = 7.", "Antwoord: Lena heeft nu <b>7 appels</b>."],
  lkThinkNote:"Elke opgeschreven stap komt in het contextvenster. Bij de volgende stap kan de aandacht ernaar terugkijken, zoals naar een briefje. Moderne AI’s denken zo vaak eerst na voordat ze antwoorden.",
  lkFact:"<b>Goed om te weten:</b> sommige AI’s doen met gereedschap zelfs meerdere stappen achter elkaar helemaal zelf, bijvoorbeeld zoeken, vergelijken en een tabel maken. Die heten <b>AI-agenten</b>. Maar ook met gereedschap kan een AI fouten maken, bijvoorbeeld door een slechte bron te vinden. Controleren blijft belangrijk!",
- t:{pic:'Laat een plaatje uit ruis ontstaan',search:"Laat de AI de openingstijden opzoeken",calc:"Laat de AI rekenen met de rekenmachine",think:"Laat de AI stap voor stap nadenken",read:(r,n)=>`Lees alle ${n} zinnen op de leerstapel (${r} van ${n})`, fine:'Kies bij het bijschaven het betere antwoord',
+ t:{chk:'Beslis bij elke zin: geloven of nakijken?',pic:'Laat een plaatje uit ruis ontstaan',search:"Laat de AI de openingstijden opzoeken",calc:"Laat de AI rekenen met de rekenmachine",think:"Laat de AI stap voor stap nadenken",read:(r,n)=>`Lees alle ${n} zinnen op de leerstapel (${r} van ${n})`, fine:'Kies bij het bijschaven het betere antwoord',
   cut:'Knip je vraag met de schaar in stukjes',sandbox:'Typ een eigen zin in de stukjeswerkplaats', flip:(a,n)=>`Draai alle stukjes om (${a} van ${n})`,
   map:a=>`Tik op minstens 3 woorden op de kaart (${a} van 3)`, regions:a=>`Bekijk paspoorten uit 2 verschillende gebieden van de kaart (${a} van 2)`,
   pairs:a=>`Vergelijk minstens 2 woordparen (${a} van 2)`,
@@ -2453,6 +2502,11 @@ function pickLang(){
 const qt=s=>L.q[0]+s+L.q[1];
 const num=(v,d=2)=>v.toFixed(d).replace('.',L.dec);
 const pc=v=>v+L.pc;
+
+/* ---------- Vorlesen: Turis Sprechblase mit der Stimme des Browsers (läuft ohne Internet, wenn das Gerät Stimmen hat) ---------- */
+const canRead='speechSynthesis' in window&&'SpeechSynthesisUtterance' in window;let reading=false;
+if(canRead)speechSynthesis.getVoices();
+function stopRead(){if(canRead&&reading){reading=false;speechSynthesis.cancel()}}
 
 /* ---------- Turi, das Maskottchen ---------- */
 function turi(){return `<svg viewBox="0 0 120 120" aria-hidden="true">
@@ -2554,7 +2608,15 @@ function render(){
   renderPresets(); renderStepper();
   const r=STATIONS[S.st].render();
   const ttl=S.st===STATIONS.length-1?r.title:`${u.station} ${S.st+1}: ${r.title}`;
-  $('#say').innerHTML=`<h2>${ttl}</h2><p>${r.say}</p>`;
+  stopRead();
+  $('#say').innerHTML=`<h2>${ttl}</h2><p>${r.say}</p>${canRead?`<button class="btn readbtn" id="readBtn" aria-pressed="false">🔊 ${u.read}</button>`:''}`;
+  if(canRead)$('#readBtn').onclick=()=>{const b=$('#readBtn');if(reading){stopRead();return}
+    /* nur Stimmen verwenden, die auf dem Gerät installiert sind: Online-Stimmen würden den Text ins Internet schicken */
+    const v=speechSynthesis.getVoices().find(x=>x.localService&&x.lang.toLowerCase().startsWith(LC));
+    if(!v){b.textContent='🔇 '+u.readNone;b.disabled=true;return}
+    const t=new SpeechSynthesisUtterance($('#say h2').textContent+'. '+$('#say p').textContent);t.voice=v;t.lang=v.lang;t.rate=.95;
+    t.onend=t.onerror=()=>{reading=false;if(b.isConnected){b.textContent='🔊 '+u.read;b.setAttribute('aria-pressed','false')}};
+    reading=true;b.textContent='⏹ '+u.readStop;b.setAttribute('aria-pressed','true');speechSynthesis.speak(t)};
   $('#content').innerHTML=r.html;
   r.bind&&r.bind();
   $('#prev').disabled=S.st===0;
@@ -3115,7 +3177,7 @@ function stLook(){
 }
 
 /* ---------- Station 10: Clever mit KI ---------- */
-S.safe={pick:{},ki:{},checked:false,cheese:false};
+S.safe={pick:{},ki:{},chk:{},checked:false,cheese:false};
 const TIP_IC=['🔍','🔒','🧠','🎭','🤝','💬','🚦','👨‍👩‍👧'];
 function stSafe(){
   return {title:u.sfTitle,say:u.sfSay,
@@ -3144,6 +3206,13 @@ function stSafe(){
       </div>
       <div class="row"><button class="btn teal" id="verify">🔍 ${u.verify}</button></div>
       <div class="check" id="verifyOut" ${S.safe.checked?'':'hidden'}>${u.verifyOut}</div>
+    </div>
+    <div class="panel">
+      <div class="panel-title">${u.chkTitle}</div>
+      <p>${u.chkP}</p>
+      <div class="chat"><div class="msg du"><span class="who">${u.you}</span>${esc(u.chkQ)}</div></div>
+      <div class="cases" id="chk"></div>
+      <div class="score" id="chkScore"></div>
     </div>
     <div class="panel">
       <div class="panel-title">${u.misTitle}</div>
@@ -3181,6 +3250,14 @@ function stSafe(){
        const n=Object.keys(S.safe.ki).length,ok=u.kiItems.filter((c,i)=>S.safe.ki[i]===c.a).length;
        $('#kiScore').textContent=n===u.kiItems.length?u.kiScore(ok,n):''};
      drawKi();
+     /* Antwort prüfen: glauben oder nachprüfen? */
+     const drawChk=()=>{$('#chk').innerHTML=u.chkItems.map((c,i)=>{const a=S.safe.chk[i],good=!c.bad||a==='check';
+         return `<div class="case"><div>${esc(c.t)}</div><div class="amp">${['believe','check'].map((k,j)=>`<button class="btn" data-ch="${i}" data-k="${k}" aria-pressed="${a===k}">${esc(u.chkBtn[j])}</button>`).join('')}</div>
+         ${a===undefined?'':`<div class="fb ${c.bad&&a==='believe'?'no':''}"><span class="${good?'v-ok':'v-no'}">${c.bad?(a==='check'?u.chkFb.hit:u.chkFb.miss):(a==='believe'?u.chkFb.ok:u.chkFb.extra)}</span> ${esc(c.why)}</div>`}</div>`}).join('');
+       document.querySelectorAll('#chk [data-ch]').forEach(b=>b.onclick=()=>{S.safe.chk[+b.dataset.ch]=b.dataset.k;drawChk()});
+       const n=Object.keys(S.safe.chk).length,hit=u.chkItems.filter((c,i)=>c.bad&&S.safe.chk[i]==='check').length,bad=u.chkItems.filter(c=>c.bad).length;
+       $('#chkScore').textContent=n===u.chkItems.length?u.chkScore(hit,bad):''};
+     drawChk();
      if(S.safe.cheese)drawCheese(false);
      $('#cheeseBtn').onclick=()=>{S.safe.cheese=true;drawCheese(!reduce);$('#cheeseNote').hidden=false};
      $('#verify').onclick=()=>{S.safe.checked=true;$('#verifyOut').hidden=false};
@@ -3232,6 +3309,7 @@ const TASKS=[
  ()=>[[S.done.search,u.t.search,'#lkYes'],[S.done.calc,u.t.calc,'#calcTool'],[S.done.think,u.t.think,'#thinkSlow']],
  ()=>{const n=Object.keys(S.safe.pick).length;return [[S.safe.cheese,u.t.cheese(qt(CHEESE[3])),'#cheeseBtn'],
       [S.safe.checked,u.t.verify,'#verify'],
+      [Object.keys(S.safe.chk).length>=u.chkItems.length,u.t.chk,'#chk'],
       [n>=CASES.length,u.t.cases(n,CASES.length),'#cases']]},
  ()=>{const n=Object.keys(S.quiz).length;return [[n>=QUIZ.length,u.t.quiz(n,QUIZ.length),'#quiz']]}];
 const missing=i=>TASKS[i]().filter(t=>!t[0]).map(t=>t[1]);
