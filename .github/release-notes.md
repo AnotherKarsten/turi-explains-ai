@@ -1,9 +1,17 @@
-**Version 1.4: Mit KI klug arbeiten. Neue Stationen zum Prüfen, Nachfragen und Lernen, dazu Lernpfade.**
+**Version 1.4.1: Die Fehler-Landschaft beim Training ist jetzt in drei Schritten erklärt.**
 
 | Datei | Für wen |
 |---|---|
 | `turi-explains-ai.html` | **Turi erklärt KI**: für Kinder ab etwa 9 Jahren, spielerisch mit dem Roboter Turi |
 | `ai-under-the-hood.html` | **KI unter der Haube**: für Jugendliche ab etwa 14 Jahren und Erwachsene |
+
+**Neu in 1.4.1 (KI unter der Haube, Station „Training“)**
+- **Schritt 1:** Du stellst ein einzelnes Gewicht mit einem Regler ein und siehst sofort, wie sich Vorhersage und Fehler ändern.
+- **Schritt 2:** Aus dem Regler wird eine Fehlerkurve mit Kugel. Das Training rollt die Kugel von allein bergab, mit drei Schrittweiten.
+- **Schritt 3:** Mit einem zweiten Gewicht wird daraus die drehbare 3D-Landschaft. Die Kurve aus Schritt 2 ist dort eingezeichnet.
+- **Turi erklärt KI** ist gegenüber 1.4.0 unverändert.
+
+**Seit Version 1.4**
 
 **KI unter der Haube** (jetzt 20 Stationen)
 - **Vier neue Stationen:** „Wofür KI taugt“, „Antworten prüfen“, „Die KI gibt dir recht“ und „Lernen mit KI“.
@@ -25,12 +33,20 @@
 
 ---
 
-**Version 1.4: Working wisely with AI. New stations on checking, following up and learning, plus learning paths.**
+**Version 1.4.1: the error landscape in training is now explained in three steps.**
 
 | File | For whom |
 |---|---|
 | `turi-explains-ai.html` | **Turi explains AI**: for children aged about 9 and up, playful with the robot Turi |
 | `ai-under-the-hood.html` | **AI under the hood**: for teenagers aged about 14 and up and adults |
+
+**New in 1.4.1 (AI under the hood, station “Training”)**
+- **Step 1:** you set a single weight with a slider and immediately see how prediction and error change.
+- **Step 2:** the slider becomes an error curve with a ball. Training rolls the ball downhill on its own, with three step sizes.
+- **Step 3:** with a second weight this becomes the rotatable 3D landscape. The curve from step 2 is drawn into it.
+- **Turi explains AI** is unchanged compared with 1.4.0.
+
+**Since version 1.4**
 
 **AI under the hood** (now 20 stations)
 - **Four new stations:** “What AI is good for”, “Checking answers”, “The AI agrees with you” and “Learning with AI”.
