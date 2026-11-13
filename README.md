@@ -13,7 +13,7 @@ Anmeldung oder Internetverbindung.
 |---|---|---|
 | Für wen | Kinder ab etwa 9 Jahren, Schulklassen, Familien | Jugendliche ab etwa 14 Jahren und Erwachsene, Fortbildungen, Teams |
 | Ton | Spielerisch, mit dem Roboter Turi als Begleiter | Spielerisch, aber sachlich und genauer, mit Fachbegriffen zum Aufklappen |
-| Inhalt | 11 Stationen mit Aufgaben, Quiz und Urkunde | 16 Experimente in drei Teilen, Quiz und Spickzettel als PDF |
+| Inhalt | 11 Stationen mit Aufgaben, Quiz und Urkunde | 20 Experimente in drei Teilen, Quiz und Spickzettel als PDF |
 | Datei | [`turi-explains-ai.html`](turi-explains-ai.html) | [`ai-under-the-hood.html`](ai-under-the-hood.html) |
 
 Beide Fassungen gibt es auf Deutsch, Englisch, Französisch, Italienisch, Spanisch und Niederländisch. Sie haben das
@@ -54,7 +54,7 @@ Die Kinder verfolgen eine Anfrage durch elf Stationen, so wie sie auch durch ein
 | 7. Raten | Das nächste Wort wird gewürfelt; ein Kreativitäts-Regler (Temperatur) macht die KI vorsichtig oder wild. |
 | 8. Wort für Wort | Die Antwort entsteht Schritt für Schritt bis zum [ENDE]. Dazu: Wie malt eine KI Bilder? Ein Bild entsteht Schritt für Schritt aus Rauschen, mit neuem Rauschen jedes Mal etwas anders. |
 | 9. Nachschlagen | Werkzeuge: Suchen statt raten, Taschenrechner statt Kopfrechnen, erst nachdenken, dann antworten. |
-| 10. Clever mit KI | Wo überall KI drinsteckt (Sortierspiel: keine KI, KI, die erkennt, KI, die Neues macht), Stärken und Schwächen, Halluzinieren, Missbrauch wie Deepfakes, ein Ampel-Spiel mit Alltagssituationen (auch: KI-Bilder kennzeichnen, Hausaufgaben, Fotos von anderen) und Turis Regeln. |
+| 10. Clever mit KI | Wo überall KI drinsteckt (Sortierspiel: keine KI, KI, die erkennt, KI, die Neues macht), Stärken und Schwächen, Halluzinieren, Missbrauch wie Deepfakes, „Glauben oder nachprüfen?“ (Sätze einer KI-Antwort einschätzen), ein Ampel-Spiel mit Alltagssituationen (auch: KI-Bilder kennzeichnen, Hausaufgaben, Fotos von anderen) und Turis Regeln. |
 | 11. Geschafft! | Zusammenfassung, Quiz und eine Abschluss-Urkunde. |
 
 Drei Beispiel-Anfragen („Der Himmel ist …“, „Was ist die Hauptstadt von Frankreich?“, „Hunde sind die besten …“)
@@ -68,6 +68,7 @@ zeigen jeweils andere Seiten des Modells. Alle Zahlen und Wahrscheinlichkeiten s
 - **Rückmeldung ohne Druck:** Wer weiterklickt, bevor alles erledigt ist, bekommt einen freundlichen Hinweis in der
   Bildmitte, darf aber trotzdem weiter.
 - **Belohnung:** Sind alle Aufgaben aller Stationen geschafft, gibt es ein Abschluss-Fenster mit Auswertung.
+- **Vorlesen:** Turis Sprechblase lässt sich mit der Stimme des Browsers vorlesen (wenn das Gerät Stimmen hat).
 - **Tablet-tauglich:** große Tippflächen, eindeutige Knöpfe, auf dem iPad im Hoch- und Querformat getestet.
 
 ### Tipps für Lehrkräfte und Eltern
@@ -84,7 +85,7 @@ zeigen jeweils andere Seiten des Modells. Alle Zahlen und Wahrscheinlichkeiten s
 
 ## KI unter der Haube (für Jugendliche und Erwachsene)
 
-Die Fassung für Erwachsene zeigt in 16 Experimenten, was zwischen einer Frage und der Antwort passiert, und was das für
+Die Fassung für Erwachsene zeigt in 20 Experimenten, was zwischen einer Frage und der Antwort passiert, und was das für
 Alltag und Beruf bedeutet. Der Ton ist locker (Du-Form), die Inhalte gehen tiefer als bei Turi, und wer noch mehr wissen
 will, klappt bei jeder Station „Unter der Haube“ auf.
 
@@ -112,12 +113,16 @@ will, klappt bei jeder Station „Unter der Haube“ auf.
 | 9. Erfundene Antworten | Warum erfindet die KI Dinge und klingt dabei so sicher? | Bekannte, knifflige und Nischenfragen; die Wahrscheinlichkeiten im Inneren sind immer sichtbar. |
 | 10. Nachschlagen | Wie wird eine KI verlässlicher? | Raten oder nachschlagen, rechnen, Schritt für Schritt denken. |
 | **Teil 3: Klug damit arbeiten** | | |
-| 11. Gut fragen | Wie fragt man so, dass etwas Brauchbares herauskommt? | Bausteine in beliebiger Reihenfolge ein- und ausschalten; jeder ändert die Antwort auf seine Weise. |
-| 12. Vorurteile | Hat eine KI Vorurteile? | Welche Vornamen das Modell für einen Beruf erwartet, vor und nach dem Ausgleich, und warum Verzerrungen in der Praxis schaden. |
-| 13. Energie | Wie viel Energie kostet eine Antwort? | Den eigenen KI-Alltag abschätzen: zuerst Wattstunden und Milliliter Wasser, danach Vergleiche mit Handy-Ladungen, LED-Lampe, Esslöffeln Wasser und Haushaltsstrom. |
-| 14. Was in den Chat darf | Was darf in den Chat, und was nicht? | Ampel-Spiel mit acht Situationen aus dem Berufsalltag. |
-| 15. Urheberrecht | Darf ich KI-Texte und KI-Bilder einfach verwenden? | Ampel-Spiel mit acht Situationen rund um Schutz, Kennzeichnung und fremde Werke; keine Rechtsberatung. |
-| 16. KI-Agenten | Was ändert sich, wenn die KI handelt? | Entscheiden, welche Schritte ein Agent nur mit Freigabe tun darf; dazu Tipps und eine Prompt-Vorlage, damit die KI vorher fragt, und warum eine Anweisung im Prompt keine echte Sperre ist. |
+| 11. Wofür KI taugt | Wofür ist ein Sprachmodell gut geeignet, und wofür nicht? | Acht Aufgaben einordnen: gut geeignet, nur mit Prüfung, lieber nicht. |
+| 12. Gut fragen | Wie fragt man so, dass etwas Brauchbares herauskommt? | Bausteine in beliebiger Reihenfolge ein- und ausschalten; dazu „Nachfragen statt neu fragen“: eine steife Einladung wird in drei Nachfragen gut. |
+| 13. Antworten prüfen | Wie prüfst du, ob eine KI-Antwort stimmt? | In einer KI-Antwort die Aussagen markieren, die man nachprüfen würde, und auflösen, welche erfunden waren. |
+| 14. Die KI gibt dir recht | Warum stimmt dir die KI so gern zu? | Dieselbe Idee suggestiv, neutral und kritisch erfragen und die Antworten vergleichen. |
+| 15. Lernen mit KI | Hilft dir die KI beim Lernen, oder nimmt sie es dir ab? | Abnehmen lassen, abfragen lassen oder erklären lassen: drei Aufträge im Vergleich. |
+| 16. Vorurteile | Hat eine KI Vorurteile? | Welche Vornamen das Modell für einen Beruf erwartet, vor und nach dem Ausgleich, und warum Verzerrungen in der Praxis schaden. |
+| 17. Energie | Wie viel Energie kostet eine Antwort? | Den eigenen KI-Alltag abschätzen: zuerst Wattstunden und Milliliter Wasser, danach Vergleiche mit Handy-Ladungen, LED-Lampe, Esslöffeln Wasser und Haushaltsstrom. |
+| 18. Was in den Chat darf | Was darf in den Chat, und was nicht? | Ampel-Spiel mit acht Situationen aus dem Berufsalltag. |
+| 19. Urheberrecht | Darf ich KI-Texte und KI-Bilder einfach verwenden? | Ampel-Spiel mit acht Situationen rund um Schutz, Kennzeichnung und fremde Werke; keine Rechtsberatung. |
+| 20. KI-Agenten | Was ändert sich, wenn die KI handelt? | Entscheiden, welche Schritte ein Agent nur mit Freigabe tun darf; dazu Tipps und eine Prompt-Vorlage, damit die KI vorher fragt, und warum eine Anweisung im Prompt keine echte Sperre ist. |
 
 Zum Schluss zeigt „Der Weg deiner Frage“ alle Schritte vom Text zur Antwort noch einmal als Kette (jeder Schritt
 führt zur passenden Station), dann gibt es ein Quiz mit zehn Fragen und einen **Spickzettel als PDF** (eine A4-Seite mit den wichtigsten
@@ -126,9 +131,14 @@ Regeln und einer Vorlage für gute Anfragen), den die Seite selbst erzeugt.
 ### So lernt man mit der Seite
 
 - **Ausprobieren:** Jede Station hat ein Labor zum Anfassen, mit Rückmeldung zu jeder Entscheidung.
+- **Erst ausprobieren, dann lesen:** Vor dem Labor steht nur ein kurzer Einstieg, die Erklärung folgt danach unter „Was dahintersteckt“.
+- **Lernpfade:** Auf der Übersicht stehen drei Wege zur Wahl: „Das Wichtigste“ (etwa 15 Minuten), „Wie es funktioniert“ und „Klug damit arbeiten“ (je etwa 30 Minuten). Zurück und Weiter führen dann durch die Stationen des Pfads.
 - **Tiefe nach Wahl:** „Unter der Haube“ erklärt die Fachbegriffe (zum Beispiel Embedding, Softmax, RAG,
   Prompt-Injection). Wer es eilig hat, lässt die Klappe zu.
 - **Praxis:** Jede Station endet mit „Im Alltag heißt das“, zwei konkreten Regeln für Beruf und Privatleben.
+  Danach folgen ein Merksatz („Das nimmst du mit“) und eine Frage zum Weiterdenken.
+- **Erst schätzen:** Bei einigen Stationen gibt man vor dem Experiment eine Schätzung ab; die Auflösung steht darunter.
+- **Quiz mit Wiederholung:** Bei einer falschen Antwort führt ein Link zur passenden Station, und falsche Fragen lassen sich noch einmal versuchen.
 - **Übersicht und freie Reihenfolge:** Die Startseite zeigt alle Stationen als Karten. Jede Station hat eine eigene
   Seite mit Nummernleiste, Zurück und Weiter; besuchte Stationen sind markiert. Quiz und Spickzettel stehen auf der
   Abschlussseite. Einzelne Stationen lassen sich direkt verlinken, zum Beispiel `ai-under-the-hood.html#energie`.
@@ -167,7 +177,7 @@ Die Seiten zeigen dann eine Erklärung, wie man die Datei im richtigen Browser �
 ## Datenschutz
 
 Beide Seiten laden nichts aus dem Internet (auch keine Schriften), setzen keine Cookies und haben kein Tracking. Im
-Browser (`localStorage`) wird nur die gewählte Sprache gespeichert; diese Information verlässt das Gerät nicht. Der
+Browser (`localStorage`) werden nur die gewählte Sprache und bei „KI unter der Haube“ die besuchten Stationen sowie der gewählte Lernpfad gespeichert; diese Informationen verlassen das Gerät nicht. Das Vorlesen bei Turi nutzt nur Stimmen, die auf dem Gerät installiert sind. Der
 Spickzettel wird im Browser erzeugt und nirgendwohin gesendet. Wer die Seiten auf einer eigenen Webseite veröffentlicht, braucht dort je nach Land trotzdem ein Impressum und eine Datenschutzerklärung
 für den eigenen Webserver.
 
