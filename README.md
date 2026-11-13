@@ -131,6 +131,8 @@ Regeln und einer Vorlage für gute Anfragen), den die Seite selbst erzeugt.
 ### So lernt man mit der Seite
 
 - **Ausprobieren:** Jede Station hat ein Labor zum Anfassen, mit Rückmeldung zu jeder Entscheidung.
+- **Erst ausprobieren, dann lesen:** Vor dem Labor steht nur ein kurzer Einstieg, die Erklärung folgt danach unter „Was dahintersteckt“.
+- **Lernpfade:** Auf der Übersicht stehen drei Wege zur Wahl: „Das Wichtigste“ (etwa 15 Minuten), „Wie es funktioniert“ und „Klug damit arbeiten“ (je etwa 30 Minuten). Zurück und Weiter führen dann durch die Stationen des Pfads.
 - **Tiefe nach Wahl:** „Unter der Haube“ erklärt die Fachbegriffe (zum Beispiel Embedding, Softmax, RAG,
   Prompt-Injection). Wer es eilig hat, lässt die Klappe zu.
 - **Praxis:** Jede Station endet mit „Im Alltag heißt das“, zwei konkreten Regeln für Beruf und Privatleben.
@@ -175,7 +177,7 @@ Die Seiten zeigen dann eine Erklärung, wie man die Datei im richtigen Browser �
 ## Datenschutz
 
 Beide Seiten laden nichts aus dem Internet (auch keine Schriften), setzen keine Cookies und haben kein Tracking. Im
-Browser (`localStorage`) werden nur die gewählte Sprache und bei „KI unter der Haube“ die besuchten Stationen gespeichert; diese Informationen verlassen das Gerät nicht. Das Vorlesen bei Turi nutzt nur Stimmen, die auf dem Gerät installiert sind. Der
+Browser (`localStorage`) werden nur die gewählte Sprache und bei „KI unter der Haube“ die besuchten Stationen sowie der gewählte Lernpfad gespeichert; diese Informationen verlassen das Gerät nicht. Das Vorlesen bei Turi nutzt nur Stimmen, die auf dem Gerät installiert sind. Der
 Spickzettel wird im Browser erzeugt und nirgendwohin gesendet. Wer die Seiten auf einer eigenen Webseite veröffentlicht, braucht dort je nach Land trotzdem ein Impressum und eine Datenschutzerklärung
 für den eigenen Webserver.
 

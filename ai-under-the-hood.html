@@ -454,6 +454,13 @@ canvas.c3:active{cursor:grabbing}
 .follow{border-top:2px dashed var(--track);padding-top:14px;margin-top:6px;display:flex;flex-direction:column;gap:10px}
 .follow h3{margin:0}
 @media (hover:hover){.claim:not(:disabled):hover{border-color:var(--edge)}}
+
+/* Erklärung nach dem Labor, Lernpfade */
+.text.behind{border-top:2px dashed var(--track);padding-top:12px}
+.text.behind .h3{font-family:var(--f-display);font-weight:600;font-size:1.1rem;margin:0 0 6px}
+.pathcard.on{box-shadow:0 0 0 4px var(--hi)}
+.pathbar{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;justify-content:space-between;border:2px solid var(--edge);border-radius:14px;padding:8px 12px;background:var(--hi);color:var(--on-hi);margin-bottom:12px;font-family:var(--f-display);font-weight:600}
+.pathbar .btn{background:var(--card);color:var(--ink)}
 </style>
 <!-- Hinweis für Vorschaufenster ohne JavaScript (z. B. Mailprogramm, Dateien-App). Wird beim Programmstart entfernt. -->
 <div id="nojs">
@@ -477,7 +484,7 @@ ui:{
   eyebrow:'Für Erwachsene und Jugendliche · zum Ausprobieren',
   h1:'KI <span class="under">unter der Haube</span>',
   lead:'ChatGPT, Claude und Co. wirken, als würden sie verstehen. Tatsächlich rechnen sie Wahrscheinlichkeiten aus, ein Wortstück nach dem anderen. In 20 kurzen Experimenten schaust du hinein: wie so ein Modell lernt, warum es sich irrt und wie du es im Alltag klug einsetzt.',
-  meta:'Jede Station steht für sich, du kannst springen. Wer tiefer will, klappt „Unter der Haube“ auf. Alle Zahlen sind vereinfacht und dienen der Anschauung. Die Seite lädt nichts aus dem Internet und merkt sich nur deine Sprache und die besuchten Stationen.',
+  meta:'Jede Station steht für sich, du kannst springen. Wer tiefer will, klappt „Unter der Haube“ auf. Alle Zahlen sind vereinfacht und dienen der Anschauung. Die Seite lädt nichts aus dem Internet und merkt sich nur deine Sprache, die besuchten Stationen und den gewählten Lernpfad.',
   tocAria:'Inhalt',
   partKick:n=>`Teil ${n}`,
   station:(i,n)=>`Station ${i} von ${n}`,
@@ -502,6 +509,12 @@ ui:{
   askLbl:'Zum Weiterdenken',
   quizGo:n=>`Zur Station „${n}“`,
   quizRetry:'Falsche Fragen noch einmal versuchen',
+  behind:'Was dahintersteckt',
+  pathsTitle:'Lernpfade',
+  pathsIntro:'Keine Zeit für alle 20 Stationen? Wähle einen Weg. Zurück und Weiter führen dich dann nur durch diese Stationen.',
+  paths:[{t:'Das Wichtigste',d:'etwa 15 Minuten: fünf Stationen für den schnellen Überblick'},{t:'Wie es funktioniert',d:'etwa 30 Minuten: vom Training bis zur fertigen Antwort'},{t:'Klug damit arbeiten',d:'etwa 30 Minuten: fragen, prüfen, lernen, Daten schützen'}],
+  pathBar:(n,i,k)=>`Lernpfad „${n}“ · Schritt ${i} von ${k}`,
+  pathLeave:'Lernpfad verlassen', pathOn:'gewählt',
   quizRight:'Richtig.',
   quizWrong:a=>`Nicht ganz. Richtig ist: „${a}“.`,
   quizProgress:(ok,n,all)=>`${ok} von ${n} richtig, noch ${all-n} offen.`,
@@ -512,7 +525,7 @@ ui:{
   pdfDeclined:'Download abgebrochen.',
   pdfFail:'Das hat nicht geklappt. Öffne die Seite als Datei in Safari, Chrome, Firefox oder Edge und versuche es noch einmal.',
   kids:'Für Kinder ab etwa 9 Jahren gibt es die spielerische Fassung <a href="https://anotherkarsten.github.io/turi-explains-ai/turi-explains-ai.html">„Turi erklärt KI“</a>.',
-  credits:'© 2026 Karsten Leick · Inhalte: <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.de">CC BY-SA 4.0</a> · Programmcode: MIT · Schriften: Fredoka, Atkinson Hyperlegible, JetBrains Mono (SIL Open Font License 1.1) · Erstellt mit Unterstützung von KI (Claude). Diese Seite lädt nichts aus dem Internet und speichert nur deine Spracheinstellung und die besuchten Stationen in deinem Browser.'
+  credits:'© 2026 Karsten Leick · Inhalte: <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.de">CC BY-SA 4.0</a> · Programmcode: MIT · Schriften: Fredoka, Atkinson Hyperlegible, JetBrains Mono (SIL Open Font License 1.1) · Erstellt mit Unterstützung von KI (Claude). Diese Seite lädt nichts aus dem Internet und speichert nur deine Spracheinstellung, die besuchten Stationen und den gewählten Lernpfad in deinem Browser.'
 },
 parts:[
   {id:'z',title:'Das große Bild',intro:'Bevor es um Chatbots geht: Was KI überhaupt ist, welche Arten es gibt und wo Sprachmodelle hineingehören.'},
@@ -1065,7 +1078,7 @@ ui:{
   eyebrow:'For adults and teenagers · hands-on',
   h1:'AI <span class="under">under the hood</span>',
   lead:'ChatGPT, Claude and the like seem to understand you. In fact they calculate probabilities, one piece of a word at a time. In 20 short experiments you look inside: how such a model learns, why it gets things wrong and how to use it wisely in everyday life.',
-  meta:'Every station stands on its own, so feel free to jump around. If you want to go deeper, open “Under the hood”. All numbers are simplified for illustration. The page loads nothing from the internet and only remembers your language and the stations you have visited.',
+  meta:'Every station stands on its own, so feel free to jump around. If you want to go deeper, open “Under the hood”. All numbers are simplified for illustration. The page loads nothing from the internet and only remembers your language, the stations you have visited and the learning path you chose.',
   tocAria:'Contents',
   partKick:n=>`Part ${n}`,
   station:(i,n)=>`Station ${i} of ${n}`,
@@ -1090,6 +1103,12 @@ ui:{
   askLbl:'To think about',
   quizGo:n=>`Go to the station “${n}”`,
   quizRetry:'Try the wrong questions again',
+  behind:'What is behind it',
+  pathsTitle:'Learning paths',
+  pathsIntro:'No time for all 20 stations? Choose a path. Back and Next then take you only through these stations.',
+  paths:[{t:'The essentials',d:'about 15 minutes: five stations for a quick overview'},{t:'How it works',d:'about 30 minutes: from training to the finished answer'},{t:'Working wisely',d:'about 30 minutes: asking, checking, learning, protecting data'}],
+  pathBar:(n,i,k)=>`Learning path “${n}” · step ${i} of ${k}`,
+  pathLeave:'Leave learning path', pathOn:'selected',
   quizRight:'Correct.',
   quizWrong:a=>`Not quite. The right answer is: “${a}”.`,
   quizProgress:(ok,n,all)=>`${ok} of ${n} correct, ${all-n} still open.`,
@@ -1100,7 +1119,7 @@ ui:{
   pdfDeclined:'Download cancelled.',
   pdfFail:'That did not work. Open the page as a file in Safari, Chrome, Firefox or Edge and try again.',
   kids:'For children aged about 9 and up there is the playful version <a href="https://anotherkarsten.github.io/turi-explains-ai/turi-explains-ai.html">“Turi explains AI”</a>.',
-  credits:'© 2026 Karsten Leick · Content: <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> · Code: MIT · Fonts: Fredoka, Atkinson Hyperlegible, JetBrains Mono (SIL Open Font License 1.1) · Created with the help of AI (Claude). This page loads nothing from the internet and only stores your language setting and the stations you have visited in your browser.'
+  credits:'© 2026 Karsten Leick · Content: <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> · Code: MIT · Fonts: Fredoka, Atkinson Hyperlegible, JetBrains Mono (SIL Open Font License 1.1) · Created with the help of AI (Claude). This page loads nothing from the internet and only stores your language setting, the stations you have visited and the learning path you chose in your browser.'
 },
 parts:[
   {id:'z',title:'The big picture',intro:'Before we get to chatbots: what AI actually is, which kinds there are and where language models fit in.'},
@@ -1651,7 +1670,7 @@ ui:{
   eyebrow:'Pour adultes et adolescents · à expérimenter',
   h1:'L’IA <span class="under">sous le capot</span>',
   lead:'ChatGPT, Claude et les autres donnent l’impression de comprendre. En réalité, ils calculent des probabilités, un morceau de mot après l’autre. En 20 courtes expériences, tu regardes à l’intérieur : comment un tel modèle apprend, pourquoi il se trompe et comment l’utiliser intelligemment au quotidien.',
-  meta:'Chaque station se suffit à elle-même, tu peux sauter de l’une à l’autre. Pour aller plus loin, ouvre « Sous le capot ». Tous les chiffres sont simplifiés pour illustrer le principe. La page ne charge rien depuis Internet et ne retient que ta langue et les stations visitées.',
+  meta:'Chaque station se suffit à elle-même, tu peux sauter de l’une à l’autre. Pour aller plus loin, ouvre « Sous le capot ». Tous les chiffres sont simplifiés pour illustrer le principe. La page ne charge rien depuis Internet et ne retient que ta langue, les stations visitées et le parcours choisi.',
   tocAria:'Sommaire',
   partKick:n=>`Partie ${n}`,
   station:(i,n)=>`Station ${i} sur ${n}`,
@@ -1676,6 +1695,12 @@ ui:{
   askLbl:'Pour aller plus loin',
   quizGo:n=>`Vers la station « ${n} »`,
   quizRetry:'Réessayer les questions ratées',
+  behind:'Ce qu’il y a derrière',
+  pathsTitle:'Parcours',
+  pathsIntro:'Pas le temps pour les 20 stations ? Choisis un parcours. Précédent et Suivant te mènent alors seulement à travers ces stations.',
+  paths:[{t:'L’essentiel',d:'environ 15 minutes : cinq stations pour un aperçu rapide'},{t:'Comment ça marche',d:'environ 30 minutes : de l’entraînement à la réponse finie'},{t:'Bien l’utiliser',d:'environ 30 minutes : demander, vérifier, apprendre, protéger ses données'}],
+  pathBar:(n,i,k)=>`Parcours « ${n} » · étape ${i} sur ${k}`,
+  pathLeave:'Quitter le parcours', pathOn:'choisi',
   quizRight:'Exact.',
   quizWrong:a=>`Pas tout à fait. La bonne réponse est : « ${a} ».`,
   quizProgress:(ok,n,all)=>`${ok} sur ${n} justes, encore ${all-n} à faire.`,
@@ -1686,7 +1711,7 @@ ui:{
   pdfDeclined:'Téléchargement annulé.',
   pdfFail:'Cela n’a pas fonctionné. Ouvre la page comme fichier dans Safari, Chrome, Firefox ou Edge et réessaie.',
   kids:'Pour les enfants à partir d’environ 9 ans, il existe la version ludique <a href="https://anotherkarsten.github.io/turi-explains-ai/turi-explains-ai.html">« Turi explique l’IA »</a>.',
-  credits:'© 2026 Karsten Leick · Contenus : <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.fr">CC BY-SA 4.0</a> · Code : MIT · Polices : Fredoka, Atkinson Hyperlegible, JetBrains Mono (SIL Open Font License 1.1) · Créé avec l’aide de l’IA (Claude). Cette page ne charge rien depuis Internet et n’enregistre que ta langue et les stations visitées dans ton navigateur.'
+  credits:'© 2026 Karsten Leick · Contenus : <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.fr">CC BY-SA 4.0</a> · Code : MIT · Polices : Fredoka, Atkinson Hyperlegible, JetBrains Mono (SIL Open Font License 1.1) · Créé avec l’aide de l’IA (Claude). Cette page ne charge rien depuis Internet et n’enregistre que ta langue, les stations visitées et le parcours choisi dans ton navigateur.'
 },
 parts:[
   {id:'z',title:'Vue d’ensemble',intro:'Avant de parler des chatbots : ce qu’est vraiment l’IA, quels types il existe et où se situent les modèles de langage.'},
@@ -2235,7 +2260,7 @@ ui:{
   eyebrow:'Per adulti e ragazzi · da provare',
   h1:'L’IA <span class="under">sotto il cofano</span>',
   lead:'ChatGPT, Claude e simili sembrano capire. In realtà calcolano probabilità, un pezzo di parola dopo l’altro. In 20 brevi esperimenti guardi dentro: come impara un modello del genere, perché sbaglia e come usarlo con intelligenza nella vita di tutti i giorni.',
-  meta:'Ogni stazione sta in piedi da sola, puoi saltare. Chi vuole approfondire apre «Sotto il cofano». Tutti i numeri sono semplificati e servono a spiegare. La pagina non carica nulla da Internet e ricorda solo la tua lingua e le stazioni visitate.',
+  meta:'Ogni stazione sta in piedi da sola, puoi saltare. Chi vuole approfondire apre «Sotto il cofano». Tutti i numeri sono semplificati e servono a spiegare. La pagina non carica nulla da Internet e ricorda solo la tua lingua, le stazioni visitate e il percorso scelto.',
   tocAria:'Indice',
   partKick:n=>`Parte ${n}`,
   station:(i,n)=>`Stazione ${i} di ${n}`,
@@ -2260,6 +2285,12 @@ ui:{
   askLbl:'Per riflettere',
   quizGo:n=>`Vai alla stazione «${n}»`,
   quizRetry:'Riprova le domande sbagliate',
+  behind:'Che cosa c’è dietro',
+  pathsTitle:'Percorsi',
+  pathsIntro:'Non hai tempo per tutte le 20 stazioni? Scegli un percorso. Indietro e Avanti ti portano allora solo attraverso queste stazioni.',
+  paths:[{t:'L’essenziale',d:'circa 15 minuti: cinque stazioni per una panoramica veloce'},{t:'Come funziona',d:'circa 30 minuti: dall’addestramento alla risposta finita'},{t:'Usarla con intelligenza',d:'circa 30 minuti: chiedere, verificare, imparare, proteggere i dati'}],
+  pathBar:(n,i,k)=>`Percorso «${n}» · passo ${i} di ${k}`,
+  pathLeave:'Lascia il percorso', pathOn:'scelto',
   quizRight:'Giusto.',
   quizWrong:a=>`Non proprio. La risposta giusta è: «${a}».`,
   quizProgress:(ok,n,all)=>`${ok} giuste su ${n}, ancora ${all-n} da fare.`,
@@ -2270,7 +2301,7 @@ ui:{
   pdfDeclined:'Download annullato.',
   pdfFail:'Non ha funzionato. Apri la pagina come file in Safari, Chrome, Firefox o Edge e riprova.',
   kids:'Per bambini dai 9 anni circa c’è la versione giocosa <a href="https://anotherkarsten.github.io/turi-explains-ai/turi-explains-ai.html">«Turi spiega l’IA»</a>.',
-  credits:'© 2026 Karsten Leick · Contenuti: <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.it">CC BY-SA 4.0</a> · Codice: MIT · Caratteri: Fredoka, Atkinson Hyperlegible, JetBrains Mono (SIL Open Font License 1.1) · Creato con l’aiuto dell’IA (Claude). Questa pagina non carica nulla da Internet e salva solo la tua lingua e le stazioni visitate nel browser.'
+  credits:'© 2026 Karsten Leick · Contenuti: <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.it">CC BY-SA 4.0</a> · Codice: MIT · Caratteri: Fredoka, Atkinson Hyperlegible, JetBrains Mono (SIL Open Font License 1.1) · Creato con l’aiuto dell’IA (Claude). Questa pagina non carica nulla da Internet e salva solo la tua lingua, le stazioni visitate e il percorso scelto nel browser.'
 },
 parts:[
   {id:'z',title:'Il quadro generale',intro:'Prima di parlare di chatbot: che cos’è davvero l’IA, quali tipi esistono e dove si collocano i modelli linguistici.'},
@@ -2820,7 +2851,7 @@ ui:{
   eyebrow:'Para adultos y jóvenes · para probar',
   h1:'La IA <span class="under">por dentro</span>',
   lead:'ChatGPT, Claude y compañía parecen entender. En realidad calculan probabilidades, un trozo de palabra tras otro. En 20 experimentos cortos miras dentro: cómo aprende un modelo así, por qué se equivoca y cómo usarlo con cabeza en el día a día.',
-  meta:'Cada estación funciona por sí sola, puedes saltar entre ellas. Si quieres profundizar, abre «Por dentro». Todas las cifras están simplificadas para ilustrar. La página no carga nada de internet y solo recuerda tu idioma y las estaciones visitadas.',
+  meta:'Cada estación funciona por sí sola, puedes saltar entre ellas. Si quieres profundizar, abre «Por dentro». Todas las cifras están simplificadas para ilustrar. La página no carga nada de internet y solo recuerda tu idioma, las estaciones visitadas y la ruta elegida.',
   tocAria:'Índice',
   partKick:n=>`Parte ${n}`,
   station:(i,n)=>`Estación ${i} de ${n}`,
@@ -2845,6 +2876,12 @@ ui:{
   askLbl:'Para pensar',
   quizGo:n=>`Ir a la estación «${n}»`,
   quizRetry:'Volver a intentar las preguntas falladas',
+  behind:'Qué hay detrás',
+  pathsTitle:'Rutas de aprendizaje',
+  pathsIntro:'¿No tienes tiempo para las 20 estaciones? Elige una ruta. Atrás y Siguiente te llevan entonces solo por esas estaciones.',
+  paths:[{t:'Lo esencial',d:'unos 15 minutos: cinco estaciones para una visión rápida'},{t:'Cómo funciona',d:'unos 30 minutos: del entrenamiento a la respuesta terminada'},{t:'Usarla con cabeza',d:'unos 30 minutos: preguntar, comprobar, aprender, proteger datos'}],
+  pathBar:(n,i,k)=>`Ruta «${n}» · paso ${i} de ${k}`,
+  pathLeave:'Salir de la ruta', pathOn:'elegida',
   quizRight:'Correcto.',
   quizWrong:a=>`No del todo. La respuesta correcta es: «${a}».`,
   quizProgress:(ok,n,all)=>`${ok} de ${n} correctas, quedan ${all-n}.`,
@@ -2855,7 +2892,7 @@ ui:{
   pdfDeclined:'Descarga cancelada.',
   pdfFail:'No ha funcionado. Abre la página como archivo en Safari, Chrome, Firefox o Edge e inténtalo de nuevo.',
   kids:'Para niños a partir de unos 9 años existe la versión con juegos <a href="https://anotherkarsten.github.io/turi-explains-ai/turi-explains-ai.html">«Turi explica la IA»</a>.',
-  credits:'© 2026 Karsten Leick · Contenidos: <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.es">CC BY-SA 4.0</a> · Código: MIT · Tipografías: Fredoka, Atkinson Hyperlegible, JetBrains Mono (SIL Open Font License 1.1) · Creado con ayuda de IA (Claude). Esta página no carga nada de internet y solo guarda tu idioma y las estaciones visitadas en tu navegador.'
+  credits:'© 2026 Karsten Leick · Contenidos: <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.es">CC BY-SA 4.0</a> · Código: MIT · Tipografías: Fredoka, Atkinson Hyperlegible, JetBrains Mono (SIL Open Font License 1.1) · Creado con ayuda de IA (Claude). Esta página no carga nada de internet y solo guarda tu idioma, las estaciones visitadas y la ruta elegida en tu navegador.'
 },
 parts:[
   {id:'z',title:'El panorama general',intro:'Antes de hablar de chatbots: qué es realmente la IA, qué tipos hay y dónde encajan los modelos de lenguaje.'},
@@ -3404,7 +3441,7 @@ ui:{
   eyebrow:'Voor volwassenen en jongeren · om uit te proberen',
   h1:'AI <span class="under">onder de motorkap</span>',
   lead:'ChatGPT, Claude en co. lijken je te begrijpen. In werkelijkheid berekenen ze kansen, het ene woorddeel na het andere. In 20 korte experimenten kijk je naar binnen: hoe zo’n model leert, waarom het zich vergist en hoe je het in het dagelijks leven slim gebruikt.',
-  meta:'Elk station staat op zichzelf, je kunt dus springen. Wil je dieper gaan, klap dan „Onder de motorkap” open. Alle getallen zijn vereenvoudigd en dienen als illustratie. De pagina laadt niets van internet en onthoudt alleen je taal en de bezochte stations.',
+  meta:'Elk station staat op zichzelf, je kunt dus springen. Wil je dieper gaan, klap dan „Onder de motorkap” open. Alle getallen zijn vereenvoudigd en dienen als illustratie. De pagina laadt niets van internet en onthoudt alleen je taal, de bezochte stations en de gekozen leerroute.',
   tocAria:'Inhoud',
   partKick:n=>`Deel ${n}`,
   station:(i,n)=>`Station ${i} van ${n}`,
@@ -3429,6 +3466,12 @@ ui:{
   askLbl:'Om over na te denken',
   quizGo:n=>`Naar het station „${n}”`,
   quizRetry:'Foute vragen opnieuw proberen',
+  behind:'Wat erachter zit',
+  pathsTitle:'Leerroutes',
+  pathsIntro:'Geen tijd voor alle 20 stations? Kies een route. Terug en Verder leiden je dan alleen langs deze stations.',
+  paths:[{t:'Het belangrijkste',d:'ongeveer 15 minuten: vijf stations voor een snel overzicht'},{t:'Hoe het werkt',d:'ongeveer 30 minuten: van training tot het kant-en-klare antwoord'},{t:'Er slim mee werken',d:'ongeveer 30 minuten: vragen, controleren, leren, gegevens beschermen'}],
+  pathBar:(n,i,k)=>`Leerroute „${n}” · stap ${i} van ${k}`,
+  pathLeave:'Leerroute verlaten', pathOn:'gekozen',
   quizRight:'Goed.',
   quizWrong:a=>`Niet helemaal. Het goede antwoord is: „${a}”.`,
   quizProgress:(ok,n,all)=>`${ok} van ${n} goed, nog ${all-n} open.`,
@@ -3439,7 +3482,7 @@ ui:{
   pdfDeclined:'Download geannuleerd.',
   pdfFail:'Dat is niet gelukt. Open de pagina als bestand in Safari, Chrome, Firefox of Edge en probeer het opnieuw.',
   kids:'Voor kinderen vanaf ongeveer 9 jaar is er de speelse versie <a href="https://anotherkarsten.github.io/turi-explains-ai/turi-explains-ai.html">„Turi legt AI uit”</a>.',
-  credits:'© 2026 Karsten Leick · Inhoud: <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.nl">CC BY-SA 4.0</a> · Code: MIT · Lettertypen: Fredoka, Atkinson Hyperlegible, JetBrains Mono (SIL Open Font License 1.1) · Gemaakt met hulp van AI (Claude). Deze pagina laadt niets van internet en slaat alleen je taalinstelling en de bezochte stations op in je browser.'
+  credits:'© 2026 Karsten Leick · Inhoud: <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.nl">CC BY-SA 4.0</a> · Code: MIT · Lettertypen: Fredoka, Atkinson Hyperlegible, JetBrains Mono (SIL Open Font License 1.1) · Gemaakt met hulp van AI (Claude). Deze pagina laadt niets van internet en slaat alleen je taalinstelling, de bezochte stations en de gekozen leerroute op in je browser.'
 },
 parts:[
   {id:'z',title:'Het grote geheel',intro:'Voordat het over chatbots gaat: wat AI eigenlijk is, welke soorten er zijn en waar taalmodellen bij horen.'},
@@ -4006,6 +4049,12 @@ function setLang(c){
 const HOME='uebersicht',FIN='abschluss';
 /* Besuchte Stationen bleiben im Browser gespeichert (nur die Stations-ids, sonst nichts) */
 const seen=new Set((()=>{try{return JSON.parse(localStorage.getItem('haube-seen')||'[]')}catch(e){return []}})());
+/* Lernpfade: eine Auswahl von Stationen in fester Reihenfolge. Der gewählte Pfad bleibt im Browser gespeichert. */
+const PATHS=[['training','erfunden','pruefen','fragen','datenschutz'],
+  ['training','tokens','wortkarte','aufmerksamkeit','kontext','zufall','erfunden','nachschlagen'],
+  ['einsatz','fragen','pruefen','zustimmung','lernen','datenschutz','agenten']];
+let path=(()=>{try{const v=localStorage.getItem('haube-path');return v===null?-1:+v}catch(e){return -1}})();if(!(path>=0&&path<PATHS.length))path=-1;
+const setPath=v=>{path=v;try{v<0?localStorage.removeItem('haube-path'):localStorage.setItem('haube-path',String(v))}catch(e){}};
 const saveSeen=()=>{try{localStorage.setItem('haube-seen',JSON.stringify([...seen]))}catch(e){}};
 function view(){const h=decodeURIComponent(location.hash.slice(1));if(h==='quiz'||h==='spickzettel')return FIN;
   return h===FIN||L.stations.some(s=>s.id===h)?h:HOME}
@@ -4017,6 +4066,8 @@ function render(){
     ${body}
     <footer class="small"><p>${u.kids}</p><p>${u.credits}</p></footer>
   </div>`;
+  $$('[data-path]').forEach(a=>a.addEventListener('click',()=>setPath(+a.dataset.path)));
+  const po=$('#path-off');if(po)po.onclick=()=>{setPath(-1);render()};
   $$('.langbar [data-lang]').forEach(b=>b.onclick=()=>{if(b.dataset.lang!==LC)setLang(b.dataset.lang)});
   if(i>=0){LAB[st[i].lab.type].bind(st[i].lab,st[i].id);bindGuess(st[i])}
   if(v===FIN){bindFlow();bindQuiz();bindCheat()}
@@ -4035,6 +4086,9 @@ function homePage(){const st=L.stations;
       <p class="small">${u.meta}</p>
       <div class="row"><a class="btn primary" href="#${st[0].id}">${u.startBtn} →</a></div>
     </header>
+    <section class="part-head"><h2>${u.pathsTitle}</h2><p>${u.pathsIntro}</p>
+      <div class="cards">${u.paths.map((p,k)=>`<a class="card pathcard${k===path?' on':''}" href="#${PATHS[k][0]}" data-path="${k}"><span class="n">${['⚡','🔧','🧭'][k]}</span><span class="ct"><b>${p.t}</b><span>${p.d}</span><span class="small">${PATHS[k].map(id=>esc(st.find(s=>s.id===id).short)).join(' · ')}</span></span>${k===path?`<span class="seen">✓ ${u.pathOn}</span>`:''}</a>`).join('')}</div>
+      ${path>=0?`<div class="row"><button class="btn ghost undo" id="path-off">${u.pathLeave}</button></div>`:''}</section>
     ${L.parts.map((p,pi)=>`<section class="part-head"><span class="kick">${u.partKick(pi+1)}</span><h2>${p.title}</h2><p>${p.intro}</p>
       <div class="cards">${st.map((s,k)=>s.part===p.id?card(s,k):'').join('')}</div></section>`).join('')}
     <section class="part-head"><span class="kick">${u.finKick}</span><h2>${u.finTitle}</h2>
@@ -4054,20 +4108,31 @@ function pager(prev,next){const a=(v,lbl,cls)=>v?`<a class="btn ${cls}" href="#$
   return `<nav class="pager">${a(prev,`← ${esc(prev?prev[1]:'')}`,'')}${a(next,`${esc(next?next[1]:'')} →`,'primary')}</nav>`}
 function crumb(label){return `<nav class="crumb"><a href="#${HOME}">← ${u.navHome}</a><span class="small">${label}</span></nav>`}
 function stationPage(i){const st=L.stations,s=st[i],pi=L.parts.findIndex(p=>p.id===s.part);
-  const prev=i>0?[st[i-1].id,st[i-1].short]:[HOME,u.navHome],next=i<st.length-1?[st[i+1].id,st[i+1].short]:[FIN,u.finTitle];
-  return crumb(`${u.partKick(pi+1)} · ${L.parts[pi].title}`)+stepNav(s.id)+station(s,i)+pager(prev,next)}
+  let prev=i>0?[st[i-1].id,st[i-1].short]:[HOME,u.navHome],next=i<st.length-1?[st[i+1].id,st[i+1].short]:[FIN,u.finTitle],bar='';
+  /* Im Lernpfad führen Zurück und Weiter durch die Stationen des Pfads */
+  const P=path>=0?PATHS[path]:null,k=P?P.indexOf(s.id):-1;
+  if(k>=0){const nm=id=>st.find(x=>x.id===id).short;prev=k>0?[P[k-1],nm(P[k-1])]:[HOME,u.navHome];next=k<P.length-1?[P[k+1],nm(P[k+1])]:[FIN,u.finTitle];
+    bar=`<div class="pathbar"><span>${['⚡','🔧','🧭'][path]} ${u.pathBar(u.paths[path].t,k+1,P.length)}</span><button class="btn ghost" id="path-off">${u.pathLeave}</button></div>`}
+  return crumb(`${u.partKick(pi+1)} · ${L.parts[pi].title}`)+stepNav(s.id)+bar+station(s,i)+pager(prev,next)}
 function finPage(){const st=L.stations;
   return crumb(u.finKick)+stepNav(FIN)+`<div class="part-head"><span class="kick">${u.finKick}</span><h2>${u.finTitle}</h2></div>${L.parts.filter(p=>p.flow).map(p=>flowHtml(p.flow)).join('')}${quizHtml()}${cheatHtml()}`
     +pager([st[st.length-1].id,st[st.length-1].short],[HOME,u.navHome])}
+/* Einstieg: der erste Satz des Stationstextes (ist er sehr kurz, die ersten beiden) steht vor dem Labor,
+   der Rest folgt danach unter „Was dahintersteckt“. Wer etwas ausprobiert hat, liest die Erklärung mit einer Frage im Kopf. */
+function leadOf(s){const t=s.text[0],re=/[.!?…](?:<\/b>)?[»”“"]?\s+(?=(?:<b>)?[«„“"¿¡]?\p{Lu})/gu;let cut=-1,mt;
+  while((mt=re.exec(t))){cut=mt.index+mt[0].length;if(cut>=70)break}
+  if(cut<0||t.length-cut<40)return [t,s.text.slice(1)];
+  return [t.slice(0,cut).trim(),[t.slice(cut),...s.text.slice(1)]]}
 function station(s,i){
   return `<section class="station" id="${s.id}" aria-labelledby="h-${s.id}">
     <header><span class="st-label">${u.station(i+1,L.stations.length)}</span><h1 class="h2" id="h-${s.id}">${s.q}</h1></header>
-    <div class="text">${s.text.map(p=>`<p>${p}</p>`).join('')}</div>
+    <div class="text"><p>${leadOf(s)[0]}</p></div>
     ${s.guess?`<div class="guess" id="${s.id}-guess"><b class="h">🤔 ${u.guessKick}</b><p>${s.guess.q}</p>
       <div class="seg" role="group">${s.guess.opts.map((o,k)=>`<button class="opt" data-g="${k}" aria-pressed="false">${esc(o)}</button>`).join('')}</div>
       <p class="small" id="${s.id}-gw" aria-live="polite"></p></div>`:''}
     <div class="lab"><div class="lab-title">${s.lab.title}<span class="score" id="${s.id}-score"></span></div>${LAB[s.lab.type].html(s.lab,s.id)}</div>
     ${s.guess?`<div class="gres" id="${s.id}-gres" hidden></div>`:''}
+    <div class="text behind"><h2 class="h3">${u.behind}</h2>${leadOf(s)[1].map(p=>`<p>${p}</p>`).join('')}</div>
     <details class="hood"><summary><span class="ico" aria-hidden="true">🔧</span><span class="ht"><b>${u.hood}</b><span>${u.hoodCount(s.hood.length)}</span></span><span class="open"><span class="a">${u.open}</span><span class="z">${u.close}</span></span></summary>
       <div class="inner"><dl class="terms">${s.hood.map(([t,d])=>`<dt>${t}</dt><dd>${d}</dd>`).join('')}</dl></div></details>
     <div class="everyday"><b class="h">${u.everyday}</b><ul>${s.everyday.map(e=>`<li>${e}</li>`).join('')}</ul></div>
