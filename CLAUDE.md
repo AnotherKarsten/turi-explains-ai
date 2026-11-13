@@ -19,7 +19,7 @@ Sprache der Seite, der Commits und der Pull Requests: Deutsch.
   mit `flow` „Der Weg deiner Frage“, der als Rückblick auf der Abschlussseite steht, b „Klug damit arbeiten“), je Station Text, ein Labor (`lab.type`: check, compare, sort,
   diffusion, train, tokens, map, attention, window, temperature, confidence, lookup, prompt, bias, cost, ampel, recht, agent), die Klappe „Unter der
   Haube“ (`hood`, Fachbegriffe) und „Im Alltag heißt das“ (`everyday`), dazu Merksatz (`take`), Transferfrage (`ask`) und bei manchen Stationen „Erst schätzen“ (`guess`, Auflösung unter dem Labor). Der erste Satz von `text` steht vor dem Labor, der Rest danach unter „Was dahintersteckt“ (`leadOf()`); den ersten Satz deshalb so schreiben, dass er für sich steht. Besuchte Stationen (`haube-seen`) und den gewählten Lernpfad (`haube-path`, Stationen je Pfad in `PATHS`) merkt sich der Browser. `QUIZ_ST` ordnet jeder Quizfrage eine Station zu. Wortkarte (`map`, Wörter als `[w,x,y,z]`) und Fehler-Landschaft
-  (`train.land`) lassen sich in 3D drehen (Ziehen, Pfeiltasten). Am Ende Quiz (zehn Fragen) und Spickzettel; das PDF erzeugt die
+  (`train.land`) lassen sich in 3D drehen (Ziehen, Pfeiltasten). Die Fehler-Landschaft hat drei Stufen (`land.s1` ein Gewicht per Regler, `s2` Fehlerkurve mit Training, `s3` 3D-Landschaft); die Kurve ist ein Schnitt durch die Landschaft (`cutAt()`). Am Ende Quiz (zehn Fragen) und Spickzettel; das PDF erzeugt die
   Seite selbst (A4, Helvetica, WinAnsi-Zeichensatz: nur Zeichen verwenden, die es dort gibt). Gleiche Farben, Schriften
   und Tasten wie Turi, aber ohne Maskottchen.
 - KI unter der Haube ist in Ansichten derselben Datei aufgeteilt (Hash-Adressen): `#uebersicht` (Startseite, nur Lernpfade, Teile und Karten, keine Inhalte),
