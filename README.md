@@ -13,7 +13,7 @@ Anmeldung oder Internetverbindung.
 |---|---|---|
 | Für wen | Kinder ab etwa 9 Jahren, Schulklassen, Familien | Jugendliche ab etwa 14 Jahren und Erwachsene, Fortbildungen, Teams |
 | Ton | Spielerisch, mit dem Roboter Turi als Begleiter | Spielerisch, aber sachlich und genauer, mit Fachbegriffen zum Aufklappen |
-| Inhalt | 11 Stationen mit Aufgaben, Quiz und Urkunde | 20 Experimente in drei Teilen, Quiz und Spickzettel als PDF |
+| Inhalt | 11 Stationen mit Aufgaben, Quiz und Urkunde | 22 Experimente in vier Teilen, Quiz und Spickzettel als PDF |
 | Datei | [`turi-explains-ai.html`](turi-explains-ai.html) | [`ai-under-the-hood.html`](ai-under-the-hood.html) |
 
 Beide Fassungen gibt es auf Deutsch, Englisch, Französisch, Italienisch, Spanisch und Niederländisch. Sie haben das
@@ -54,7 +54,7 @@ Die Kinder verfolgen eine Anfrage durch elf Stationen, so wie sie auch durch ein
 | 7. Raten | Das nächste Wort wird gewürfelt; ein Kreativitäts-Regler (Temperatur) macht die KI vorsichtig oder wild. |
 | 8. Wort für Wort | Die Antwort entsteht Schritt für Schritt bis zum [ENDE]. Dazu: Wie malt eine KI Bilder? Ein Bild entsteht Schritt für Schritt aus Rauschen, mit neuem Rauschen jedes Mal etwas anders. |
 | 9. Nachschlagen | Werkzeuge: Suchen statt raten, Taschenrechner statt Kopfrechnen, erst nachdenken, dann antworten. |
-| 10. Clever mit KI | Wo überall KI drinsteckt (Sortierspiel: keine KI, KI, die erkennt, KI, die Neues macht), Stärken und Schwächen, Halluzinieren, Missbrauch wie Deepfakes, „Glauben oder nachprüfen?“ (Sätze einer KI-Antwort einschätzen), ein Ampel-Spiel mit Alltagssituationen (auch: KI-Bilder kennzeichnen, Hausaufgaben, Fotos von anderen) und Turis Regeln. |
+| 10. Clever mit KI | Wo überall KI drinsteckt (Sortierspiel: keine KI, KI, die erkennt, KI, die Neues macht), Stärken und Schwächen, Halluzinieren, Missbrauch wie Deepfakes, „Glauben oder nachprüfen?“ (Sätze einer KI-Antwort einschätzen), „Warum sagt die KI manchmal Nein?“ (Leitplanken, kindgerecht), ein Ampel-Spiel mit Alltagssituationen (auch: KI-Bilder kennzeichnen, Hausaufgaben, Fotos von anderen) und Turis Regeln. |
 | 11. Geschafft! | Zusammenfassung, Quiz und eine Abschluss-Urkunde. |
 
 Drei Beispiel-Anfragen („Der Himmel ist …“, „Was ist die Hauptstadt von Frankreich?“, „Hunde sind die besten …“)
@@ -85,7 +85,7 @@ zeigen jeweils andere Seiten des Modells. Alle Zahlen und Wahrscheinlichkeiten s
 
 ## KI unter der Haube (für Jugendliche und Erwachsene)
 
-Die Fassung für Erwachsene zeigt in 20 Experimenten, was zwischen einer Frage und der Antwort passiert, und was das für
+Die Fassung für Erwachsene zeigt in 22 Experimenten, was zwischen einer Frage und der Antwort passiert, und was das für
 Alltag und Beruf bedeutet. Der Ton ist locker (Du-Form), die Inhalte gehen tiefer als bei Turi, und wer noch mehr wissen
 will, klappt bei jeder Station „Unter der Haube“ auf.
 
@@ -122,10 +122,13 @@ will, klappt bei jeder Station „Unter der Haube“ auf.
 | 17. Energie | Wie viel Energie kostet eine Antwort? | Den eigenen KI-Alltag abschätzen: zuerst Wattstunden und Milliliter Wasser, danach Vergleiche mit Handy-Ladungen, LED-Lampe, Esslöffeln Wasser und Haushaltsstrom. |
 | 18. Was in den Chat darf | Was darf in den Chat, und was nicht? | Ampel-Spiel mit acht Situationen aus dem Berufsalltag. |
 | 19. Urheberrecht | Darf ich KI-Texte und KI-Bilder einfach verwenden? | Ampel-Spiel mit acht Situationen rund um Schutz, Kennzeichnung und fremde Werke; keine Rechtsberatung. |
-| 20. KI-Agenten | Was ändert sich, wenn die KI handelt? | Entscheiden, welche Schritte ein Agent nur mit Freigabe tun darf; dazu Tipps und eine Prompt-Vorlage, damit die KI vorher fragt, und warum eine Anweisung im Prompt keine echte Sperre ist. |
+| 20. Leitplanken | Wer passt auf, dass eine KI nichts Gefährliches tut, und wie gut klappt das? | Sieben Anfragen durch fünf Schutzschichten schicken (Eingangsfilter, Modell, Regeln des Anbieters, Werkzeug-Rechte, Ausgangsfilter): vorher schätzen, dann sehen, wo sie hängen bleiben, was zu streng gestoppt wird und was durchrutscht. |
+| 21. KI-Agenten | Was ändert sich, wenn die KI handelt? | Entscheiden, welche Schritte ein Agent nur mit Freigabe tun darf; dazu Tipps und eine Prompt-Vorlage, damit die KI vorher fragt, und warum eine Anweisung im Prompt keine echte Sperre ist. |
+| **Teil 4: Ausblick** | | |
+| 22. Agenten im Team | Was passiert, wenn mehrere KI-Agenten zusammenarbeiten? | Fünf Agenten bereiten ein Kundenmeeting vor; pro Rolle einstellen, ob man freigibt, zuschaut oder nur das Ergebnis bekommt, und sehen, welche Fehler entdeckt werden. Dazu, was gilt, wenn ein Agent per Stimme an einem Meeting teilnimmt (Stand 2026). |
 
 Zum Schluss zeigt „Der Weg deiner Frage“ alle Schritte vom Text zur Antwort noch einmal als Kette (jeder Schritt
-führt zur passenden Station), dann gibt es ein Quiz mit zehn Fragen und einen **Spickzettel als PDF** (eine A4-Seite mit den wichtigsten
+führt zur passenden Station), dann gibt es ein Quiz mit zwölf Fragen und einen **Spickzettel als PDF** (eine A4-Seite mit den wichtigsten
 Regeln und einer Vorlage für gute Anfragen), den die Seite selbst erzeugt.
 
 ### So lernt man mit der Seite
