@@ -1,31 +1,20 @@
-**Version 1.4.1: Die Fehler-Landschaft beim Training ist jetzt in drei Schritten erklärt.**
+**Version 1.5: Leitplanken, Agenten im Team und ein klarerer Blick ins Training.**
 
 | Datei | Für wen |
 |---|---|
 | `turi-explains-ai.html` | **Turi erklärt KI**: für Kinder ab etwa 9 Jahren, spielerisch mit dem Roboter Turi |
 | `ai-under-the-hood.html` | **KI unter der Haube**: für Jugendliche ab etwa 14 Jahren und Erwachsene |
 
-**Neu in 1.4.1 (KI unter der Haube, Station „Training“)**
-- **Schritt 1:** Du stellst ein einzelnes Gewicht mit einem Regler ein und siehst sofort, wie sich Vorhersage und Fehler ändern.
-- **Schritt 2:** Aus dem Regler wird eine Fehlerkurve mit Kugel. Das Training rollt die Kugel von allein bergab, mit drei Schrittweiten.
-- **Schritt 3:** Mit einem zweiten Gewicht wird daraus die drehbare 3D-Landschaft. Die Kurve aus Schritt 2 ist dort eingezeichnet.
-- **Turi erklärt KI** ist gegenüber 1.4.0 unverändert.
-
-**Seit Version 1.4**
-
-**KI unter der Haube** (jetzt 20 Stationen)
-- **Vier neue Stationen:** „Wofür KI taugt“, „Antworten prüfen“, „Die KI gibt dir recht“ und „Lernen mit KI“.
-- **Gut fragen:** Der neue Abschnitt „Nachfragen statt neu fragen“ zeigt, wie eine Antwort in drei Nachfragen gut wird.
-- **Lernpfade:** Auf der Übersicht stehen drei Wege zur Wahl, vom Überblick in etwa 15 Minuten bis zu zwei Pfaden von etwa 30 Minuten.
-- **Erst ausprobieren, dann lesen:** Vor dem Labor steht nur noch ein kurzer Einstieg, die Erklärung folgt danach.
-- **Erst schätzen:** Bei Zufall, Kontextfenster und Vorurteile gibst du vor dem Experiment eine Schätzung ab.
-- **Merksatz und Frage zum Weiterdenken** am Ende jeder Station.
-- **Quiz:** Bei einer falschen Antwort führt ein Link zur passenden Station, und falsche Fragen lassen sich wiederholen.
-- **Fortschritt:** Besuchte Stationen und der gewählte Lernpfad bleiben im Browser gespeichert. Sie verlassen das Gerät nicht.
+**KI unter der Haube** (jetzt 22 Stationen in vier Teilen, Quiz mit zwölf Fragen)
+- **Neue Station „Leitplanken“:** Sieben Anfragen laufen durch fünf Schutzschichten. Du schätzt, ob sie durchkommen, und siehst, wo sie hängen bleiben, was zu streng gestoppt wird und was durchrutscht.
+- **Neuer Teil „Ausblick“ mit „Agenten im Team“:** Fünf Agenten bereiten ein Kundenmeeting vor. Du legst fest, wo du freigibst, zuschaust oder nur das Ergebnis bekommst, und siehst, welche Fehler entdeckt werden. Dazu kommt, was gilt, wenn ein Agent per Stimme an einem Meeting teilnimmt (Stand 2026).
+- **Training:** Fünf Trainingssätze zeigen, woher der Fehler kommt, und die Trainingstexte lassen sich umschalten. Ein Hinweis erklärt, dass ein Gewicht zu keinem bestimmten Satz gehört.
+- **Wortkarte:** Der Rechenweg rechnet in der 3D-Ansicht die dritte Zahl mit. Neben dem Schalter steht, dass die flache Karte zum Verstehen reicht.
 
 **Turi erklärt KI**
-- **„Glauben oder nachprüfen?“:** neue Aufgabe in der Station „Clever mit KI“.
-- **Vorlesen:** Turis Sprechblase lässt sich vorlesen. Das nutzt nur Stimmen, die auf dem Gerät installiert sind.
+- **Neuer Kasten „Warum sagt die KI manchmal Nein?“** in der Station „Clever mit KI“.
+
+**Für Lehrkräfte:** Stundenverläufe, Tipps, Gesprächsimpulse und Arbeitsblätter nennen die neuen Stationen: https://anotherkarsten.github.io/turi-explains-ai/teachers.html
 
 **Online ausprobieren:** https://anotherkarsten.github.io/turi-explains-ai/
 
@@ -33,34 +22,23 @@
 
 ---
 
-**Version 1.4.1: the error landscape in training is now explained in three steps.**
+**Version 1.5: guardrails, agents in a team and a clearer look at training.**
 
 | File | For whom |
 |---|---|
 | `turi-explains-ai.html` | **Turi explains AI**: for children aged about 9 and up, playful with the robot Turi |
 | `ai-under-the-hood.html` | **AI under the hood**: for teenagers aged about 14 and up and adults |
 
-**New in 1.4.1 (AI under the hood, station “Training”)**
-- **Step 1:** you set a single weight with a slider and immediately see how prediction and error change.
-- **Step 2:** the slider becomes an error curve with a ball. Training rolls the ball downhill on its own, with three step sizes.
-- **Step 3:** with a second weight this becomes the rotatable 3D landscape. The curve from step 2 is drawn into it.
-- **Turi explains AI** is unchanged compared with 1.4.0.
-
-**Since version 1.4**
-
-**AI under the hood** (now 20 stations)
-- **Four new stations:** “What AI is good for”, “Checking answers”, “The AI agrees with you” and “Learning with AI”.
-- **Asking well:** the new section “Follow up instead of starting over” shows how an answer becomes good in three follow-ups.
-- **Learning paths:** the overview offers three routes, from an overview in about 15 minutes to two paths of about 30 minutes.
-- **Try first, then read:** only a short lead-in comes before the lab; the explanation follows after it.
-- **Guess first:** for randomness, context window and bias you make a guess before the experiment.
-- **Takeaway and a question to think about** at the end of every station.
-- **Quiz:** a wrong answer links to the matching station, and wrong questions can be tried again.
-- **Progress:** visited stations and the chosen learning path stay stored in the browser. They never leave the device.
+**AI under the hood** (now 22 stations in four parts, quiz with twelve questions)
+- **New station “Guardrails”:** seven requests pass through five protective layers. You guess whether they get through and see where they get stuck, what is stopped too strictly and what slips through.
+- **New part “Outlook” with “Agents in a team”:** five agents prepare a client meeting. You decide where you approve, watch or only get the result, and see which mistakes are found. It also covers what applies when an agent joins a meeting with its own voice (as of 2026).
+- **Training:** five training sentences show where the error comes from, and the training texts can be switched. A note explains that a weight does not belong to any particular sentence.
+- **Word map:** in the 3D view the step-by-step calculation includes the third number. Next to the switch it says that the flat map is enough to understand it.
 
 **Turi explains AI**
-- **“Believe it or check it?”:** a new task in the station “Smart with AI”.
-- **Read aloud:** Turi’s speech bubble can be read aloud. This only uses voices installed on the device.
+- **New box “Why does the AI sometimes say no?”** in the station “Smart with AI”.
+
+**For teachers:** lesson plans, tips, discussion prompts and worksheets mention the new stations: https://anotherkarsten.github.io/turi-explains-ai/teachers.html
 
 **Try it online:** https://anotherkarsten.github.io/turi-explains-ai/
 
