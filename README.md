@@ -48,7 +48,7 @@ Die Kinder verfolgen eine Anfrage durch elf Stationen, so wie sie auch durch ein
 | 1. Training | Ein Mini-Modell liest Sätze, deckt Wörter ab, rät und dreht seine „Knöpfe“, bis es besser wird. Danach geben Menschen den Feinschliff. |
 | 2. Schnipsel | Die Kinder schneiden ihre Anfrage selbst mit der Schere in Tokens, in einer Werkstatt auch eigene Sätze. |
 | 3. Zahlen | Jeder Schnipsel hat eine Nummer; für den Computer wird die Frage zur Zahlenreihe. |
-| 4. Landkarte | Wörter wohnen auf einer Bedeutungs-Landkarte. Koordinaten, Nachbarn und ein „Steckbrief“ zeigen, warum ein Modell Tausende Zahlen pro Wort braucht. |
+| 4. Landkarte | Wörter wohnen auf einer Bedeutungs-Landkarte. „Nur Nummern“ gegen „Mit Landkarte“ zeigt, wozu: Was Turi über den Hund gelernt hat, hilft ihm auch bei der Katze. Koordinaten, Nachbarn und ein „Steckbrief“ zeigen, warum ein Modell Tausende Zahlen pro Wort braucht. |
 | 5. Aufmerksamkeit | Tokens schauen, welche anderen Wörter wichtig sind, und warum die Reihenfolge zählt („Hund beißt Mann“). |
 | 6. Kontext | Ein Wort mit zwei Bedeutungen, Vorhersagen, die sich mit einem Wort ändern, und das Kontextfenster als Kurzzeit-Gedächtnis. |
 | 7. Raten | Das nächste Wort wird gewürfelt; ein Kreativitäts-Regler (Temperatur) macht die KI vorsichtig oder wild. |
@@ -106,7 +106,7 @@ will, klappt bei jeder Station „Unter der Haube“ auf.
 | **Teil 2: So funktioniert ein Sprachmodell** | | |
 | 3. Training | Wie lernt ein Sprachmodell aus Text? | Ein Mini-Modell liest Sätze und lernt, welches Wort folgt; dazu die Fehler-Landschaft in drei Schritten: ein Gewicht von Hand einstellen und an fünf Trainingssätzen sehen, wie oft das Modell danebenliegt (die Trainingstexte lassen sich umschalten, dann verschiebt sich das Tal), die Fehlerkurve mit Kugel und Training, dann die drehbare 3D-Landschaft für zwei Gewichte. Am Ende steht, was das später beim Antworten bedeutet. |
 | 4. Tokens | Warum zählt die KI in Tokens, und warum kostet Deutsch mehr? | Eigenen Text zerlegen; bei vier Satzpaaren schätzen, welche Sprache mehr Tokens braucht. |
-| 5. Wortkarte | Wie kann eine Maschine mit Bedeutung rechnen? | Nachbarn auf einer Bedeutungskarte, die sich auch in 3D drehen lässt, und zwei Analogie-Rätsel („Mann verhält sich zu Frau wie König zu …?“), gelöst mit Pfeilen auf der Karte. |
+| 5. Wortkarte | Wie kann eine Maschine mit Bedeutung rechnen? | „Warum überhaupt Adressen?“: Mit bloßen Nummern rät das Modell bei „Welpe“ blind, mit Adressen überträgt es, was es über „Hund“ gelernt hat; dazu die Kette, was das Modell mit den Adressen macht. Nachbarn auf einer Bedeutungskarte, die sich auch in 3D drehen lässt, und zwei Analogie-Rätsel („Mann verhält sich zu Frau wie König zu …?“), gelöst mit Pfeilen auf der Karte. |
 | 6. Aufmerksamkeit | Woher weiß das Modell, worauf sich ein Wort bezieht? | Sehen, worauf „sie“ oder „er“ im Satz schaut, mit Gewichten in Prozent und einer Erklärung, wie das Modell sie verrechnet. |
 | 7. Kontextfenster | Warum vergisst die KI, was am Anfang stand? | Das Fenster Schritt für Schritt verkleinern und zusehen, wie die Zusammenfassung des Chats immer mehr Erfundenes enthält. |
 | 8. Zufall | Warum bekommt dieselbe Frage zwei Antworten? | Temperaturregler, zehn Fortsetzungen eines Betreffs würfeln, passende Einstellung wählen; dazu, wo du die Temperatur selbst beeinflussen kannst und wo nicht. |
