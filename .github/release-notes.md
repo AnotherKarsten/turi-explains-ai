@@ -1,4 +1,4 @@
-**Version 1.5.1: klarere Bedeutungskarten, einheitliche Bedienung und neue Arbeitsblätter.**
+**Version 1.6: klarere Bedeutungskarten, einheitliche Bedienung und neue Arbeitsblätter.**
 
 | Datei | Für wen |
 |---|---|
@@ -20,7 +20,7 @@
 
 ---
 
-**Version 1.5.1: clearer meaning maps, consistent controls and new worksheets.**
+**Version 1.6: clearer meaning maps, consistent controls and new worksheets.**
 
 | File | For whom |
 |---|---|
