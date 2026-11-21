@@ -204,8 +204,8 @@ nennen, auf dieses Repository verweisen und veränderte Inhalte unter CC BY-SA 4
 - Schriften: [Fredoka](https://github.com/hafontia/Fredoka-One) (The Fredoka Project Authors),
   [Atkinson Hyperlegible](https://www.brailleinstitute.org/freefont/) (Braille Institute of America, besonders gut
   lesbar), [JetBrains Mono](https://github.com/JetBrains/JetBrainsMono) (The JetBrains Mono Project Authors).
-- Beide Seiten wurden mit Unterstützung von KI (Claude von Anthropic) erstellt. Karsten Leick hat die Inhalte nach bestem
-  Wissen noch einmal von Hand geprüft. Fehler lassen sich trotzdem nicht ganz ausschließen: Hinweise und Vorschläge zur
+- Beide Seiten wurden mit Unterstützung von KI (Claude von Anthropic) erstellt. Die Inhalte wurden nach bestem Wissen
+  noch einmal von Hand geprüft. Fehler lassen sich trotzdem nicht ganz ausschließen: Hinweise und Vorschläge zur
   Verbesserung sind sehr willkommen, am einfachsten als [Issue auf GitHub](https://github.com/AnotherKarsten/turi-explains-ai/issues).
 - „ChatGPT“ und „Claude“ werden nur als Beispiele genannt; die Namen sind Marken ihrer jeweiligen Inhaber.
 
