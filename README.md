@@ -152,8 +152,9 @@ Regeln und einer Vorlage für gute Anfragen), den die Seite selbst erzeugt.
 
 Die Seite [`teachers.html`](teachers.html) (auch über die Startseite erreichbar) hilft beim Einsatz im Unterricht:
 je ein Stundenverlauf für Turi (ab etwa 9 Jahren) und für KI unter der Haube (ab etwa 14 Jahren), Gesprächsimpulse,
-Tipps zur Durchführung und zwei Arbeitsblätter, die sich einzeln ausdrucken lassen. Sie gibt es in denselben sechs
-Sprachen.
+Tipps zur Durchführung und zwei Arbeitsblätter, die sich einzeln auf je eine A4-Seite ausdrucken lassen: mit Feldern für
+Name, Klasse und Datum, der passenden Station zu jeder Frage, einem Merkkasten sowie der Adresse und einem QR-Code der Lernseite. Sie gibt es
+in denselben sechs Sprachen.
 
 ---
 
@@ -203,8 +204,9 @@ nennen, auf dieses Repository verweisen und veränderte Inhalte unter CC BY-SA 4
 - Schriften: [Fredoka](https://github.com/hafontia/Fredoka-One) (The Fredoka Project Authors),
   [Atkinson Hyperlegible](https://www.brailleinstitute.org/freefont/) (Braille Institute of America, besonders gut
   lesbar), [JetBrains Mono](https://github.com/JetBrains/JetBrainsMono) (The JetBrains Mono Project Authors).
-- Beide Seiten wurden mit Unterstützung von KI (Claude von Anthropic) erstellt. Inhalte und Funktion wurden von Karsten Leick
-  geprüft und verantwortet.
+- Beide Seiten wurden mit Unterstützung von KI (Claude von Anthropic) erstellt. Karsten Leick hat die Inhalte nach bestem
+  Wissen noch einmal von Hand geprüft. Fehler lassen sich trotzdem nicht ganz ausschließen: Hinweise und Vorschläge zur
+  Verbesserung sind sehr willkommen, am einfachsten als [Issue auf GitHub](https://github.com/AnotherKarsten/turi-explains-ai/issues).
 - „ChatGPT“ und „Claude“ werden nur als Beispiele genannt; die Namen sind Marken ihrer jeweiligen Inhaber.
 
 ## Mitmachen
