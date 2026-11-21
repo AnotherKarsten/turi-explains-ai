@@ -153,7 +153,7 @@ Regeln und einer Vorlage für gute Anfragen), den die Seite selbst erzeugt.
 Die Seite [`teachers.html`](teachers.html) (auch über die Startseite erreichbar) hilft beim Einsatz im Unterricht:
 je ein Stundenverlauf für Turi (ab etwa 9 Jahren) und für KI unter der Haube (ab etwa 14 Jahren), Gesprächsimpulse,
 Tipps zur Durchführung und zwei Arbeitsblätter, die sich einzeln auf je eine A4-Seite ausdrucken lassen: mit Feldern für
-Name, Klasse und Datum, der passenden Station zu jeder Frage, einem Merkkasten und der Adresse der Lernseite. Sie gibt es
+Name, Klasse und Datum, der passenden Station zu jeder Frage, einem Merkkasten sowie der Adresse und einem QR-Code der Lernseite. Sie gibt es
 in denselben sechs Sprachen.
 
 ---
