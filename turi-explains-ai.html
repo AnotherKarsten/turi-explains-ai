@@ -116,6 +116,10 @@ button{font:inherit;cursor:pointer;color:inherit}
 .panel{border:2px solid var(--track);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:12px;min-width:0}
 .panel-title{font-family:var(--f-display);font-weight:600;font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-soft)}
 .fact{background:var(--hi);color:var(--on-hi);border:2px solid var(--edge);border-radius:14px;padding:12px 16px;transform:rotate(-.4deg)}
+.trwarn{background:var(--hi);color:var(--on-hi);border:2px solid var(--edge);border-radius:14px;padding:12px 16px;margin:10px 0;box-shadow:4px 4px 0 var(--edge)}
+.trwarn b{font-family:var(--f-display);font-weight:600;font-size:1.15em;display:block}
+.trwarn p{margin:6px 0 10px}
+.bars.blind{opacity:.55}
 .fact b{font-family:var(--f-display);font-weight:600}
 .small{font-size:.85rem;color:var(--ink-soft)}
 
@@ -640,6 +644,7 @@ ui:{
  trBigTurn:(n,w)=>`${n} Knöpfe werden so gedreht, dass ${w} beim nächsten Mal wahrscheinlicher wird.`,
  trKnobCount:(r,l,k)=>`${r} von ${l} Sätzen gelesen, insgesamt ${k}-mal an Knöpfen gedreht.`,
  trNoKnobs:'Noch nichts gelernt: Alle Knöpfe stehen zufällig.', trReadTimes:n=>`${n}× gelesen`,
+ trWarn0:'Das Modell hat noch nichts gelernt!', trWarn1:'Dazu hat das Modell noch nichts gelesen.', trWarnGo:'Lass es oben Sätze aus dem Lernstapel lesen oder tippe hier. Dann schau dir die Balken noch einmal an.', trWarnBtn:'Jetzt einen Satz lesen',
  trNote0:'Das Modell hat noch nichts gelesen. Alle Wörter sind gleich wahrscheinlich, sogar „Käse“. Es rät völlig ins Blaue.',
  trNote1:'Zu diesem Satzanfang hat das Modell noch kein Beispiel gelesen. Es rät noch ins Blaue. Lies weiter!',
  trNoteN:n=>`Das Modell hat ${n} passende Beispiele gelesen. Was oft vorkam, ist jetzt viel wahrscheinlicher. „Käse“ und Co. werden immer unwahrscheinlicher.`,
@@ -977,6 +982,7 @@ ui:{
  trBigTurn:(n,w)=>`${n} knobs are turned so that ${w} becomes more likely next time.`,
  trKnobCount:(r,l,k)=>`${r} of ${l} sentences read, knobs turned ${k} times in total.`,
  trNoKnobs:'Nothing learned yet: all knobs are set at random.', trReadTimes:n=>`read ${n}×`,
+ trWarn0:'The model has not learned anything yet!', trWarn1:'The model has not read anything about this yet.', trWarnGo:'Let it read sentences from the learning pile above, or tap here. Then look at the bars again.', trWarnBtn:'Read a sentence now',
  trNote0:'The model has not read anything yet. All words are equally likely, even “cheese”. It is guessing completely blindly.',
  trNote1:'The model has not read an example for this sentence start yet. It is still guessing blindly. Keep reading!',
  trNoteN:n=>`The model has read ${n} matching examples. What came up often is now much more likely. “cheese” and friends become less and less likely.`,
@@ -1313,6 +1319,7 @@ ui:{
  trBigTurn:(n,w)=>`${n} boutons sont tournés pour que ${w} soit plus probable la prochaine fois.`,
  trKnobCount:(r,l,k)=>`${r} phrases lues sur ${l}, boutons tournés ${k} fois en tout.`,
  trNoKnobs:'Rien appris pour l’instant : tous les boutons sont au hasard.', trReadTimes:n=>`lu ${n}×`,
+ trWarn0:'Le modèle n’a encore rien appris !', trWarn1:'Le modèle n’a encore rien lu à ce sujet.', trWarnGo:'Fais-lui lire des phrases de la pile d’entraînement plus haut, ou touche ici. Puis regarde à nouveau les barres.', trWarnBtn:'Lire une phrase maintenant',
  trNote0:'Le modèle n’a encore rien lu. Tous les mots sont aussi probables, même « fromage ». Il devine complètement au hasard.',
  trNote1:'Pour ce début de phrase, le modèle n’a encore lu aucun exemple. Il devine encore au hasard. Continue à lire !',
  trNoteN:n=>`Le modèle a lu ${n} exemples qui correspondent. Ce qui revenait souvent est maintenant beaucoup plus probable. « fromage » et compagnie deviennent de moins en moins probables.`,
@@ -1649,6 +1656,7 @@ ui:{
  trBigTurn:(n,w)=>`${n} manopole vengono girate in modo che ${w} sia più probabile la prossima volta.`,
  trKnobCount:(r,l,k)=>`${r} di ${l} frasi lette, manopole girate ${k} volte in tutto.`,
  trNoKnobs:'Non ha ancora imparato niente: tutte le manopole sono a caso.', trReadTimes:n=>`letta ${n}×`,
+ trWarn0:'Il modello non ha ancora imparato niente!', trWarn1:'Su questo il modello non ha ancora letto niente.', trWarnGo:'Fagli leggere le frasi della pila di studio qui sopra, oppure tocca qui. Poi guarda di nuovo le barre.', trWarnBtn:'Leggi una frase adesso',
  trNote0:'Il modello non ha ancora letto niente. Tutte le parole sono ugualmente probabili, perfino «formaggio». Tira a indovinare alla cieca.',
  trNote1:'Per questo inizio di frase il modello non ha ancora letto nessun esempio. Indovina ancora alla cieca. Continua a leggere!',
  trNoteN:n=>`Il modello ha letto ${n} esempi adatti. Quello che compariva spesso ora è molto più probabile. «formaggio» e simili diventano sempre meno probabili.`,
@@ -1986,6 +1994,7 @@ ui:{
  trBigTurn:(n,w)=>`Se giran ${n} botones para que ${w} sea más probable la próxima vez.`,
  trKnobCount:(r,l,k)=>`${r} de ${l} frases leídas, botones girados ${k} veces en total.`,
  trNoKnobs:'Aún no ha aprendido nada: todos los botones están al azar.', trReadTimes:n=>`leída ${n}×`,
+ trWarn0:'¡El modelo todavía no ha aprendido nada!', trWarn1:'Sobre esto el modelo todavía no ha leído nada.', trWarnGo:'Haz que lea frases del montón de estudio de arriba, o toca aquí. Luego mira otra vez las barras.', trWarnBtn:'Leer una frase ahora',
  trNote0:'El modelo todavía no ha leído nada. Todas las palabras son igual de probables, incluso «queso». Adivina totalmente a ciegas.',
  trNote1:'Para este comienzo de frase el modelo aún no ha leído ningún ejemplo. Sigue adivinando a ciegas. ¡Sigue leyendo!',
  trNoteN:n=>`El modelo ha leído ${n} ejemplos que encajan. Lo que salía a menudo ahora es mucho más probable. «queso» y compañía son cada vez menos probables.`,
@@ -2323,6 +2332,7 @@ ui:{
  trBigTurn:(n,w)=>`${n} knoppen worden zo gedraaid dat ${w} de volgende keer waarschijnlijker wordt.`,
  trKnobCount:(r,l,k)=>`${r} van ${l} zinnen gelezen, in totaal ${k} keer aan knoppen gedraaid.`,
  trNoKnobs:'Nog niets geleerd: alle knoppen staan willekeurig.', trReadTimes:n=>`${n}× gelezen`,
+ trWarn0:'Het model heeft nog niets geleerd!', trWarn1:'Hierover heeft het model nog niets gelezen.', trWarnGo:'Laat het hierboven zinnen uit de leerstapel lezen, of tik hier. Kijk daarna nog eens naar de balken.', trWarnBtn:'Nu een zin lezen',
  trNote0:'Het model heeft nog niets gelezen. Alle woorden zijn even waarschijnlijk, zelfs ‘kaas’. Het raadt helemaal in het wilde weg.',
  trNote1:'Bij dit zinsbegin heeft het model nog geen voorbeeld gelezen. Het raadt nog in het wilde weg. Lees verder!',
  trNoteN:n=>`Het model heeft ${n} passende voorbeelden gelezen. Wat vaak voorkwam, is nu veel waarschijnlijker. ‘kaas’ en co. worden steeds onwaarschijnlijker.`,
@@ -2750,6 +2760,7 @@ function stTrain(){
       <div class="panel-title">${u.trTest}</div>
       <div class="probes" id="probes"></div>
       <div class="question" id="probeQ"></div>
+      <div id="trWarn"></div>
       <div class="bars" id="trBars"></div>
       <span class="small" id="trNote"></span>
     </div>
@@ -2784,7 +2795,12 @@ function stTrain(){
        $('#probeQ').innerHTML=`${esc(p.q)} <span class="slot">?</span>`;
        $('#trBars').innerHTML=ps.slice(0,6).map(([w,v],i)=>`<div class="bar ${cnt&&i===0?'win':''}"><span class="w">${esc(w)}</span><span class="tr"><span style="width:${v*100}%"></span></span><span class="p">${pc(Math.round(v*100))}</span><span class="c">${cnt&&cnt[w]?u.trReadTimes(cnt[w]):''}</span></div>`).join('');
        const sum=cnt?Object.values(cnt).reduce((a,b)=>a+b,0):0;
-       $('#trNote').innerHTML=!T.read?u.trNote0:!sum?u.trNote1:u.trNoteN(sum);
+       /* Noch nichts gelernt: groß direkt über den Balken, mit Taste zum Lesen, damit der Grund nicht weggescrollt ist */
+       const blind=!T.read||!sum,more=T.read<CORPUS.length;
+       $('#trWarn').innerHTML=blind?`<div class="trwarn" role="status"><b>${!T.read?u.trWarn0:u.trWarn1}</b><p>${!T.read?u.trNote0:u.trNote1}${more&&!T.read?' '+u.trWarnGo:''}</p>${more?`<button class="btn primary" id="trWarnBtn">${u.trWarnBtn}</button>`:''}</div>`:'';
+       $('#trBars').classList.toggle('blind',blind);
+       const wb=$('#trWarnBtn');if(wb)wb.onclick=()=>{trainOne();draw()};
+       $('#trNote').innerHTML=blind?'':u.trNoteN(sum);
        document.querySelectorAll('.choice').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.c===T.fb)));
        $('#fbOut').innerHTML=!T.fb?'':T.fb==='b'?u.trFbB:u.trFbA;
      };
