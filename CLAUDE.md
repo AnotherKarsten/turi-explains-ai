@@ -27,10 +27,11 @@ Sprache der Seite, der Commits und der Pull Requests: Deutsch.
   Spickzettel; `#quiz` und `#spickzettel` führen dorthin). Stations-ids sind sprachunabhängig und bleiben stabil, damit
   Links funktionieren. `pruefen.js` geht alle Ansichten durch.
 - KI unter der Haube unterscheidet drei Arten von Bedienelementen: Aktionen (`.btn`, Taste mit Schatten; `.primary` mit ▶
-  für die Hauptaktion, `.ghost.undo` mit ↺ zum Zurücksetzen), Auswahlen, die nur die Ansicht wechseln (`seg()` mit `.opt`,
-  flache Pillen mit Häkchen, mit Beschriftung wie „Frage:“), und Schalter für an/aus (`tgl()`). Hinweise und Warnungen
+  für die Hauptaktion, `.ghost.undo` mit ↺ zum Zurücksetzen), Auswahlen (`seg()` mit `.opt`, flache Pillen mit Kreis,
+  gewählt dunkel mit gefülltem Kreis, mit Beschriftung wie „Frage:“; auch Antworten in Spielen und im Quiz), und Schalter für an/aus (`tgl()`). Hinweise und Warnungen
   stehen in Kästen (`callout()`). Beim Tippen bleibt das angetippte Element an seiner Stelle (`hold()`), Ergebnisflächen
-  haben reservierten Platz, damit nichts springt.
+  haben reservierten Platz, damit nichts springt. Anzeigen (Schnipsel, Chips, Schichten) sind flach, ohne Kreis und
+  ohne Schatten; Ergebnisse zu einer Auswahl stehen in einer beschrifteten Fläche (`.outbox`).
 - Turi unterscheidet ebenso streng: Aktionen sind `.btn` (Taste mit Schatten nach unten, `.primary` für die Hauptaktion),
   Auswahlen (eine von mehreren Möglichkeiten, auch Antworten in Spielen und im Quiz) sind `.preset` (runde Pille mit
   Kreis, gewählt gelb mit gefülltem Kreis, `aria-pressed`). Nur was man antippen kann, hat einen Schatten nach unten
