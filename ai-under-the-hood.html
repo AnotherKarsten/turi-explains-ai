@@ -157,7 +157,7 @@ dl.terms dd{margin:0}
 /* Tokens */
 textarea{width:100%;min-height:96px;resize:vertical;font:inherit;color:var(--ink);background:var(--soft);border:2px solid var(--edge);border-radius:12px;padding:10px 12px}
 .toks{display:flex;flex-wrap:wrap;gap:8px;min-height:44px;align-items:flex-end}
-.tok{display:inline-flex;align-items:center;font-family:var(--f-display);font-weight:500;font-size:1.02rem;color:var(--tok-ink);border:2px solid var(--edge);border-radius:9px;padding:3px 9px;box-shadow:2px 2px 0 var(--edge);white-space:pre}
+.tok{display:inline-flex;align-items:center;font-family:var(--f-display);font-weight:500;font-size:1.02rem;color:var(--tok-ink);border:2px solid var(--edge);border-radius:9px;padding:3px 9px;white-space:pre}
 .tok.sp::before{content:"·";opacity:.45;margin-right:3px}
 .c0{background:var(--t0)}.c1{background:var(--t1)}.c2{background:var(--t2)}.c3{background:var(--t3)}.c4{background:var(--t4)}.c5{background:var(--t5)}
 .stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
@@ -308,8 +308,10 @@ h1:focus,h2:focus{outline:none}
 
 .subhead{font-family:var(--f-display);font-weight:600;font-size:1.05rem;margin:6px 0 -4px}
 
-/* Drei Arten von Bedienelementen:
-   Aktion (.btn, Taste mit Schatten), Auswahl (.opt, flache Pille mit Häkchen), Schalter (.tgl, mit Schiebeschalter) */
+/* Drei Arten von Bedienelementen, dazu Anzeigen:
+   Aktion (.btn, Taste mit Schatten), Auswahl (.opt, flache Pille mit Kreis, gewählt dunkel mit gefülltem Kreis),
+   Schalter (.tgl, mit Schiebeschalter). Anzeigen und Ergebnisse (Schnipsel, Schichten, Chips) sind flach, ohne Kreis und
+   ohne Schatten; Ergebnisse zu einer Auswahl stehen in einer beschrifteten Fläche (.outbox). */
 .btn.go::before{content:"▶";font-size:.8em;margin-right:8px}
 .btn.undo::before{content:"↺";margin-right:6px}
 .btn.ghost{background:transparent;box-shadow:none;border-style:dashed;color:var(--ink-soft)}
@@ -318,9 +320,11 @@ h1:focus,h2:focus{outline:none}
 .seglbl{font-family:var(--f-display);font-weight:600;font-size:.92rem;color:var(--ink-soft);margin-right:2px}
 .opt{min-height:44px;border:2px solid var(--edge);border-radius:999px;padding:6px 16px;background:var(--card);color:var(--ink);font-family:var(--f-body);font-weight:700;font-size:.95rem;text-align:left}
 .opt[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
-.opt[aria-pressed="true"]::before{content:"✓";margin-right:6px}
-.opt.light[aria-pressed="true"]::before{content:""}
-.opt.light::before{flex:none}
+.opt{display:inline-flex;align-items:center;gap:8px}
+.opt::before{content:"";flex:none;width:14px;height:14px;border-radius:50%;border:2px solid currentColor;background:transparent}
+.opt[aria-pressed="true"]::before{background:currentColor;box-shadow:inset 0 0 0 3px var(--ink)}
+.opt.light::before{border-color:var(--edge);background:var(--dot)}
+.opt.light[aria-pressed="true"]::before{border-color:var(--paper);background:var(--dot);box-shadow:0 0 0 2px var(--ink),0 0 0 4px var(--paper)}
 .tgl{background:var(--card);box-shadow:none;display:inline-flex;align-items:center;gap:10px;text-align:left}
 .tgl:active{transform:none;box-shadow:none}
 .tgl::before{content:"";flex:none;width:38px;height:22px;border-radius:999px;border:2px solid var(--edge);background:var(--track) radial-gradient(circle at 9px 50%,var(--edge) 6px,transparent 6.5px) no-repeat}
@@ -500,6 +504,8 @@ canvas.c2d{width:100%;height:240px;border:2px solid var(--edge);border-radius:14
 .why{border:2px solid var(--track);border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:10px;margin-bottom:10px}
 .why h3,.why h4{margin:0}.why p{margin:0}.why ol{margin:0;padding-left:1.4em;display:flex;flex-direction:column;gap:4px}
 .whyw{display:flex;flex-wrap:wrap;gap:6px}
+.outbox{border:2px dashed var(--ink-soft);border-radius:12px;padding:8px 12px 10px}
+.outbox .rlabel{display:block;font-size:.8rem;color:var(--ink-soft);margin-bottom:6px}
 </style>
 <!-- Hinweis für Vorschaufenster ohne JavaScript (z. B. Mailprogramm, Dateien-App). Wird beim Programmstart entfernt. -->
 <div id="nojs">
@@ -730,7 +736,7 @@ stations:[
  text:['Jedes Token wird in eine lange Liste von Zahlen übersetzt, ein <b>Embedding</b>. Man kann sich das als Adresse auf einer Landkarte der Bedeutungen vorstellen. Wörter, die in ähnlichen Zusammenhängen vorkommen, landen nah beieinander.',
        'Echte Modelle verwenden nicht zwei, sondern Tausende Koordinaten pro Token. Dadurch tragen sogar Richtungen Bedeutung, zum Beispiel „männlich nach weiblich“ oder „Land nach Hauptstadt“.',
        '<b>Wozu das gut ist:</b> Im Alltag rechnet niemand „König − Mann + Frau“. Das Beispiel zeigt aber, dass ein Modell Beziehungen zwischen Wörtern als Richtungen lernt, ohne dass ihm jemand eine Liste gibt. Darauf beruht zum Beispiel, dass eine Suche bei „PKW“ auch Treffer zu „Auto“ findet und dass eine KI ein Muster wie „Land → Hauptstadt“ auf neue Fälle überträgt.'],
- lab:{type:'map',why:{title:'Warum überhaupt Adressen?',intro:'Beim Training hat das Modell oft gelesen: „Der Hund bellt.“ Einen Satz mit „Welpe“ hat es nie gesehen. Vergleiche, was es mit bloßen Nummern weiß und was mit Adressen auf der Bedeutungskarte.',lbl:'Das Modell kennt:',opts:['nur Nummern','Adressen auf der Karte'],q:'Der Welpe …',words:['bellt','schläft','schmeckt','regnet'],nr:'Nr.',
+ lab:{type:'map',why:{title:'Warum überhaupt Adressen?',store:'So speichert das Modell die Wörter:',intro:'Beim Training hat das Modell oft gelesen: „Der Hund bellt.“ Einen Satz mit „Welpe“ hat es nie gesehen. Vergleiche, was es mit bloßen Nummern weiß und was mit Adressen auf der Bedeutungskarte.',lbl:'Das Modell kennt:',opts:['nur Nummern','Adressen auf der Karte'],q:'Der Welpe …',words:['bellt','schläft','schmeckt','regnet'],nr:'Nr.',
      num:'Nummern sind nur Etiketten, vergeben ohne Rücksicht auf die Bedeutung. „Hund“ und „Pizza“ haben hier benachbarte Nummern, „Welpe“ eine ganz andere. Was das Modell über Hunde gelernt hat, hilft ihm bei „Welpe“ nicht: Es rät blind.',
      map:'Auf der Karte liegt „Welpe“ direkt neben „Hund“. Was das Modell über Hunde gelernt hat, gilt deshalb ein Stück weit auch für Welpen: Es sagt „bellt“, obwohl es den Satz nie gesehen hat. Das ist der eigentliche Grund für die Karte: Gelerntes überträgt sich auf ähnliche Wörter. So reichen viel weniger Beispiele, und auch seltene Wörter werden brauchbar.',
      chainT:'Was das Modell mit den Adressen macht',chain:['Der Text wird in Tokens zerlegt, jedes Token bekommt eine Nummer. Die Nummer ist nur ein Etikett.','Zu jeder Nummer schlägt das Modell die Adresse auf der Bedeutungskarte nach, eine lange Zahlenliste. Wo welches Wort liegt, hat es beim Training selbst gelernt.','Mit diesen Adressen rechnet es weiter: Die Aufmerksamkeit verrechnet die Adressen der Wörter im Satz miteinander, sodass jedes Wort seinen Zusammenhang mitbekommt.','Am Ende wird aus dem Ergebnis für jedes mögliche nächste Wort eine Wahrscheinlichkeit.']},
@@ -1376,7 +1382,7 @@ stations:[
  text:['Every token is translated into a long list of numbers, an <b>embedding</b>. Think of it as an address on a map of meanings. Words that appear in similar contexts end up close together.',
        'Real models use not two but thousands of coordinates per token. That way even directions carry meaning, for example “male to female” or “country to capital”.',
        '<b>Why this matters:</b> Nobody calculates “King − Man + Woman” in everyday life. But the example shows that a model learns relationships between words as directions, without anyone giving it a list. That is why, for example, a search for “car” also finds results about “automobile”, and why an AI can apply a pattern like “country → capital” to new cases.'],
- lab:{type:'map',why:{title:'Why addresses at all?',intro:'During training the model often read: “The dog barks.” It never saw a sentence with “puppy”. Compare what it knows with bare numbers and what it knows with addresses on the meaning map.',lbl:'The model knows:',opts:['only numbers','addresses on the map'],q:'The puppy …',words:['barks','sleeps','tastes','rains'],nr:'No.',
+ lab:{type:'map',why:{title:'Why addresses at all?',store:'This is how the model stores the words:',intro:'During training the model often read: “The dog barks.” It never saw a sentence with “puppy”. Compare what it knows with bare numbers and what it knows with addresses on the meaning map.',lbl:'The model knows:',opts:['only numbers','addresses on the map'],q:'The puppy …',words:['barks','sleeps','tastes','rains'],nr:'No.',
      num:'Numbers are just labels, handed out regardless of meaning. Here “dog” and “pizza” have neighbouring numbers, “puppy” a completely different one. What the model learned about dogs does not help it with “puppy”: it guesses blindly.',
      map:'On the map, “puppy” lies right next to “dog”. So what the model learned about dogs also applies to puppies to some extent: it says “barks” although it never saw the sentence. That is the real reason for the map: what is learned carries over to similar words. This needs far fewer examples, and rare words become usable too.',
      chainT:'What the model does with the addresses',chain:['The text is split into tokens, and every token gets a number. The number is just a label.','For every number the model looks up the address on the meaning map, a long list of numbers. Where each word lies, it learned by itself during training.','It keeps calculating with these addresses: attention combines the addresses of the words in the sentence, so that every word takes in its context.','At the end the result turns into a probability for every possible next word.']},
@@ -2019,7 +2025,7 @@ stations:[
  text:['Chaque jeton est traduit en une longue liste de nombres, un <b>embedding</b> (plongement). On peut l’imaginer comme une adresse sur une carte des significations. Les mots qui apparaissent dans des contextes semblables se retrouvent proches.',
        'Les vrais modèles n’utilisent pas deux coordonnées mais des milliers par jeton. Ainsi, même des directions portent un sens, par exemple « masculin vers féminin » ou « pays vers capitale ».',
        '<b>À quoi ça sert :</b> personne ne calcule « Roi − Homme + Femme » au quotidien. Mais l’exemple montre qu’un modèle apprend les relations entre les mots sous forme de directions, sans que personne lui donne de liste. C’est pour cela, par exemple, qu’une recherche sur « voiture » trouve aussi des résultats sur « automobile » et qu’une IA applique un schéma comme « pays → capitale » à de nouveaux cas.'],
- lab:{type:'map',why:{title:'Pourquoi des adresses ?',intro:'Pendant l’entraînement, le modèle a souvent lu : « Le chien aboie. » Il n’a jamais vu de phrase avec « chiot ». Compare ce qu’il sait avec de simples numéros et ce qu’il sait avec des adresses sur la carte du sens.',lbl:'Le modèle connaît :',opts:['seulement des numéros','des adresses sur la carte'],q:'Le chiot …',words:['aboie','dort','a bon goût','pleut'],nr:'n°',
+ lab:{type:'map',why:{title:'Pourquoi des adresses ?',store:'Voici comment le modèle enregistre les mots :',intro:'Pendant l’entraînement, le modèle a souvent lu : « Le chien aboie. » Il n’a jamais vu de phrase avec « chiot ». Compare ce qu’il sait avec de simples numéros et ce qu’il sait avec des adresses sur la carte du sens.',lbl:'Le modèle connaît :',opts:['seulement des numéros','des adresses sur la carte'],q:'Le chiot …',words:['aboie','dort','a bon goût','pleut'],nr:'n°',
      num:'Les numéros ne sont que des étiquettes, attribuées sans tenir compte du sens. Ici, « chien » et « pizza » ont des numéros voisins, « chiot » un tout autre. Ce que le modèle a appris sur les chiens ne l’aide pas pour « chiot » : il devine à l’aveugle.',
      map:'Sur la carte, « chiot » se trouve juste à côté de « chien ». Ce que le modèle a appris sur les chiens vaut donc un peu aussi pour les chiots : il dit « aboie » alors qu’il n’a jamais vu cette phrase. C’est la vraie raison de la carte : ce qui est appris se transmet aux mots semblables. Il faut ainsi bien moins d’exemples, et même les mots rares deviennent utilisables.',
      chainT:'Ce que le modèle fait des adresses',chain:['Le texte est découpé en jetons, et chaque jeton reçoit un numéro. Le numéro n’est qu’une étiquette.','Pour chaque numéro, le modèle cherche l’adresse sur la carte du sens, une longue liste de nombres. Où se trouve chaque mot, il l’a appris lui-même pendant l’entraînement.','Il continue à calculer avec ces adresses : l’attention combine les adresses des mots de la phrase, pour que chaque mot tienne compte de son contexte.','À la fin, le résultat devient une probabilité pour chaque mot suivant possible.']},
@@ -2662,7 +2668,7 @@ stations:[
  text:['Ogni token viene tradotto in una lunga lista di numeri, un <b>embedding</b>. Puoi immaginarlo come un indirizzo su una mappa dei significati. Le parole che compaiono in contesti simili finiscono vicine.',
        'I modelli veri non usano due coordinate, ma migliaia per token. Così anche le direzioni hanno un significato, per esempio «da maschile a femminile» o «da paese a capitale».',
        '<b>A che cosa serve:</b> nessuno calcola «Re − Uomo + Donna» nella vita di tutti i giorni. L’esempio però mostra che un modello impara le relazioni tra le parole come direzioni, senza che nessuno gli dia un elenco. Per questo, per esempio, una ricerca su «macchina» trova anche risultati su «automobile» e un’IA applica uno schema come «paese → capitale» a casi nuovi.'],
- lab:{type:'map',why:{title:'Perché proprio degli indirizzi?',intro:'Durante l’addestramento il modello ha letto spesso: «Il cane abbaia.» Una frase con «cucciolo» non l’ha mai vista. Confronta che cosa sa con semplici numeri e che cosa sa con indirizzi sulla mappa dei significati.',lbl:'Il modello conosce:',opts:['solo numeri','indirizzi sulla mappa'],q:'Il cucciolo …',words:['abbaia','dorme','è saporito','piove'],nr:'n.',
+ lab:{type:'map',why:{title:'Perché proprio degli indirizzi?',store:'Così il modello memorizza le parole:',intro:'Durante l’addestramento il modello ha letto spesso: «Il cane abbaia.» Una frase con «cucciolo» non l’ha mai vista. Confronta che cosa sa con semplici numeri e che cosa sa con indirizzi sulla mappa dei significati.',lbl:'Il modello conosce:',opts:['solo numeri','indirizzi sulla mappa'],q:'Il cucciolo …',words:['abbaia','dorme','è saporito','piove'],nr:'n.',
      num:'I numeri sono solo etichette, assegnate senza badare al significato. Qui «cane» e «pizza» hanno numeri vicini, «cucciolo» uno del tutto diverso. Ciò che il modello ha imparato sui cani non lo aiuta con «cucciolo»: tira a indovinare alla cieca.',
      map:'Sulla mappa «cucciolo» sta proprio accanto a «cane». Ciò che il modello ha imparato sui cani vale quindi in parte anche per i cuccioli: dice «abbaia» anche se non ha mai visto la frase. È questo il vero motivo della mappa: ciò che si impara si trasferisce alle parole simili. Così bastano molti meno esempi, e diventano utilizzabili anche le parole rare.',
      chainT:'Che cosa fa il modello con gli indirizzi',chain:['Il testo viene diviso in token, e ogni token riceve un numero. Il numero è solo un’etichetta.','Per ogni numero il modello cerca l’indirizzo sulla mappa dei significati, una lunga lista di numeri. Dove si trova ogni parola lo ha imparato da solo durante l’addestramento.','Con questi indirizzi continua a calcolare: l’attenzione combina gli indirizzi delle parole della frase, così ogni parola tiene conto del suo contesto.','Alla fine dal risultato nasce una probabilità per ogni possibile parola successiva.']},
@@ -3306,7 +3312,7 @@ stations:[
  text:['Cada token se traduce en una larga lista de números, un <b>embedding</b>. Puedes imaginarlo como una dirección en un mapa de significados. Las palabras que aparecen en contextos parecidos acaban cerca unas de otras.',
        'Los modelos reales no usan dos coordenadas, sino miles por token. Así, hasta las direcciones tienen significado, por ejemplo «de masculino a femenino» o «de país a capital».',
        '<b>Para qué sirve:</b> nadie calcula «Rey − Hombre + Mujer» en el día a día. Pero el ejemplo muestra que un modelo aprende las relaciones entre palabras como direcciones, sin que nadie le dé una lista. Por eso, por ejemplo, una búsqueda de «coche» también encuentra resultados sobre «automóvil» y una IA aplica un patrón como «país → capital» a casos nuevos.'],
- lab:{type:'map',why:{title:'¿Por qué direcciones?',intro:'Durante el entrenamiento, el modelo leyó a menudo: «El perro ladra.» Nunca vio una frase con «cachorro». Compara lo que sabe con simples números y lo que sabe con direcciones en el mapa del significado.',lbl:'El modelo conoce:',opts:['solo números','direcciones en el mapa'],q:'El cachorro …',words:['ladra','duerme','sabe bien','llueve'],nr:'n.º',
+ lab:{type:'map',why:{title:'¿Por qué direcciones?',store:'Así guarda el modelo las palabras:',intro:'Durante el entrenamiento, el modelo leyó a menudo: «El perro ladra.» Nunca vio una frase con «cachorro». Compara lo que sabe con simples números y lo que sabe con direcciones en el mapa del significado.',lbl:'El modelo conoce:',opts:['solo números','direcciones en el mapa'],q:'El cachorro …',words:['ladra','duerme','sabe bien','llueve'],nr:'n.º',
      num:'Los números son solo etiquetas, asignadas sin tener en cuenta el significado. Aquí «perro» y «pizza» tienen números vecinos y «cachorro» uno muy distinto. Lo que el modelo aprendió sobre los perros no le sirve con «cachorro»: adivina a ciegas.',
      map:'En el mapa, «cachorro» está justo al lado de «perro». Por eso, lo que el modelo aprendió sobre los perros vale en parte también para los cachorros: dice «ladra» aunque nunca vio la frase. Esa es la verdadera razón del mapa: lo aprendido se traslada a palabras parecidas. Así hacen falta muchos menos ejemplos, y también las palabras raras se vuelven útiles.',
      chainT:'Qué hace el modelo con las direcciones',chain:['El texto se divide en tokens, y cada token recibe un número. El número es solo una etiqueta.','Para cada número, el modelo busca la dirección en el mapa del significado, una larga lista de números. Dónde está cada palabra lo aprendió él mismo durante el entrenamiento.','Con esas direcciones sigue calculando: la atención combina las direcciones de las palabras de la frase, para que cada palabra tenga en cuenta su contexto.','Al final, el resultado se convierte en una probabilidad para cada posible palabra siguiente.']},
@@ -3949,7 +3955,7 @@ stations:[
  text:['Elk token wordt vertaald in een lange lijst getallen, een <b>embedding</b>. Je kunt het zien als een adres op een kaart van betekenissen. Woorden die in vergelijkbare samenhang voorkomen, komen dicht bij elkaar terecht.',
        'Echte modellen gebruiken niet twee maar duizenden coördinaten per token. Daardoor dragen zelfs richtingen betekenis, bijvoorbeeld „mannelijk naar vrouwelijk” of „land naar hoofdstad”.',
        '<b>Waar is dit goed voor?</b> Niemand rekent in het dagelijks leven „Koning − Man + Vrouw”. Het voorbeeld laat wel zien dat een model verbanden tussen woorden als richtingen leert, zonder dat iemand het een lijst geeft. Daardoor vindt een zoekopdracht naar „wagen” bijvoorbeeld ook resultaten over „auto”, en past een AI een patroon als „land → hoofdstad” toe op nieuwe gevallen.'],
- lab:{type:'map',why:{title:'Waarom eigenlijk adressen?',intro:'Tijdens de training las het model vaak: „De hond blaft.” Een zin met „puppy” heeft het nooit gezien. Vergelijk wat het weet met alleen nummers en wat het weet met adressen op de betekeniskaart.',lbl:'Het model kent:',opts:['alleen nummers','adressen op de kaart'],q:'De puppy …',words:['blaft','slaapt','smaakt','regent'],nr:'nr.',
+ lab:{type:'map',why:{title:'Waarom eigenlijk adressen?',store:'Zo slaat het model de woorden op:',intro:'Tijdens de training las het model vaak: „De hond blaft.” Een zin met „puppy” heeft het nooit gezien. Vergelijk wat het weet met alleen nummers en wat het weet met adressen op de betekeniskaart.',lbl:'Het model kent:',opts:['alleen nummers','adressen op de kaart'],q:'De puppy …',words:['blaft','slaapt','smaakt','regent'],nr:'nr.',
      num:'Nummers zijn alleen etiketten, uitgedeeld zonder op de betekenis te letten. Hier hebben „hond” en „pizza” naburige nummers en „puppy” een heel ander. Wat het model over honden heeft geleerd, helpt het bij „puppy” niet: het raadt blind.',
      map:'Op de kaart ligt „puppy” vlak naast „hond”. Wat het model over honden heeft geleerd, geldt daarom deels ook voor puppy’s: het zegt „blaft”, hoewel het de zin nooit heeft gezien. Dat is de eigenlijke reden voor de kaart: wat geleerd is, gaat over op vergelijkbare woorden. Zo zijn veel minder voorbeelden nodig, en worden ook zeldzame woorden bruikbaar.',
      chainT:'Wat het model met de adressen doet',chain:['De tekst wordt in tokens verdeeld, en elk token krijgt een nummer. Het nummer is alleen een etiket.','Bij elk nummer zoekt het model het adres op de betekeniskaart op, een lange lijst getallen. Waar elk woord ligt, heeft het tijdens de training zelf geleerd.','Met deze adressen rekent het verder: de aandacht combineert de adressen van de woorden in de zin, zodat elk woord zijn context meekrijgt.','Aan het eind wordt het resultaat een kans voor elk mogelijk volgend woord.']},
@@ -4831,7 +4837,7 @@ const arrowHead=(c,x1,y1,x2,y2,col)=>{const a=Math.atan2(y2-y1,x2-x1),s=9;c.fill
    Gelerntes auf ähnliche Wörter (Welpe liegt neben Hund). Wörter: 0 Hund, 1 Welpe, 5 Pizza aus words; die Nummern sind ausgedacht. */
 const WHY_W=[0,5,1],WHY_NR=[4711,4712,9120],WHY_P=[[.25,.25,.25,.25],[.68,.24,.04,.04]];
 const whyHtml=(w,W,id)=>`<div class="why"><h3>${w.title}</h3><p class="small">${w.intro}</p>
-  ${seg(w.lbl,w.opts,'data-why',0)}<div class="whyw" id="${id}-ww"></div>
+  ${seg(w.lbl,w.opts,'data-why',0)}<div class="outbox"><span class="rlabel">${w.store}</span><div class="whyw" id="${id}-ww"></div></div>
   <p class="prompt">${esc(w.q)}</p><div class="bars" id="${id}-wb"></div><div id="${id}-wn"></div>
   <h4>${w.chainT}</h4><ol class="small">${w.chain.map(x=>`<li>${x}</li>`).join('')}</ol></div>`;
 function whyBind(w,W,id){const show=k=>{press(`#${id} [data-why]`,b=>+b.dataset.why===k);
@@ -4848,7 +4854,7 @@ LAB.map={
     <div class="v3" id="${id}-v3" hidden>${callout('info','',d.why3d)}<canvas class="c3" id="${id}-c3" tabindex="0" role="img" aria-label="${esc(d.alt3d)}"></canvas><p class="small">${d.hint3d}</p></div>
     <div class="row">${tgl(`${id}-3d`,esc(d.view3d),false)}<span class="small" id="${id}-3dw">${d.view3dWhy}</span></div>
     <p id="${id}-out" aria-live="polite">${d.pick}</p>
-    <div class="row" id="${id}-rid" role="group">${d.riddles.map((r,k)=>`<button class="btn teal" data-r="${k}" aria-pressed="false">${esc(r.btn)}</button>`).join('')}</div>
+    <div class="seg" id="${id}-rid" role="group">${d.riddles.map((r,k)=>`<button class="opt" data-r="${k}" aria-pressed="false">${esc(r.btn)}</button>`).join('')}</div>
     <div class="row">${tgl(`${id}-steps`,esc(d.stepsBtn),false).replace('<button','<button hidden')}</div>
     <ol class="calcsteps" id="${id}-list" hidden></ol>`,
   bind(d,id){const W=d.words,fmt=n=>Math.round(n);whyBind(d.why,W,id);let last=null,guide=null,three=false,st={sel:-1,near:[],res:-1,calc:[],p3:null};
@@ -4896,7 +4902,7 @@ LAB.map={
       $(`#${id}-out`).innerHTML=d.near(esc(W[i][0]),`(${(three?[W[i][1],W[i][2],W[i][3]]:[W[i][1],W[i][2]]).join(u.coordSep)})`,nn.map(([j,dd])=>`<b>${esc(W[j][0])}</b> (${fmt(dd)})`).join(', '))};
     $$(`#${id}-map .mw`).forEach(b=>b.onclick=()=>select(+b.dataset.i));
     /* Rätsel „B verhält sich zu C wie A zu …?“: von A denselben Weg gehen wie von B nach C (A − B + C) */
-    $$(`#${id}-rid .btn`).forEach(btn=>btn.onclick=()=>{clear();const r=d.riddles[+btn.dataset.r];press(`#${id}-rid .btn`,x=>x===btn);
+    $$(`#${id}-rid .opt`).forEach(btn=>btn.onclick=()=>{clear();const r=d.riddles[+btn.dataset.r];press(`#${id}-rid .opt`,x=>x===btn);
       const g=n=>W.find(w=>w[0]===n),[a,b,c]=r.calc.map(g);
       const p=[a[1]-b[1]+c[1],a[2]-b[2]+c[2]],p3=[...p,a[3]-b[3]+c[3]],tgt=three?p3:p;
       const best=W.filter(w=>!r.calc.includes(w[0])).sort((x,y)=>dist(tgt,pt(x))-dist(tgt,pt(y)))[0];
@@ -4998,7 +5004,7 @@ LAB.confidence={
 /* Nachschlagen, rechnen, nachdenken: jeder Knopf ändert nur seine eigene Aufgabe */
 LAB.lookup={
   html:(d,id)=>d.items.map((it,i)=>`<div class="q"><b>${it.title}</b><p>${it.p}</p><div class="prompt">${esc(it.q)}</div>
-    <div class="row" role="group"><button class="btn" data-i="${i}" data-k="bad" aria-pressed="false">${it.bad.btn}</button><button class="btn teal" data-i="${i}" data-k="good" aria-pressed="false">${it.good.btn}</button></div>
+    <div class="seg" role="group"><button class="opt" data-i="${i}" data-k="bad" aria-pressed="false">${it.bad.btn}</button><button class="opt" data-i="${i}" data-k="good" aria-pressed="false">${it.good.btn}</button></div>
     <div class="lkout" id="${id}-o${i}"></div></div>`).join(''),
   bind(d,id){$$(`#${id} .lab [data-k]`).forEach(b=>b.onclick=()=>{const i=+b.dataset.i,k=b.dataset.k,it=d.items[i],o=$(`#${id}-o${i}`);
     press(`#${id} .lab [data-i="${i}"]`,x=>x===b);
