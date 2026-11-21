@@ -299,6 +299,8 @@ input[type=text]{font:inherit;width:100%;border:2px solid var(--edge);border-rad
 @media (max-width:640px){.qcards{grid-template-columns:1fr}}
 .qcard{border:2px solid var(--edge);border-radius:14px;background:var(--paper);padding:12px 14px;display:flex;flex-direction:column;gap:6px;box-shadow:3px 3px 0 var(--edge);min-width:0}
 .qhead{font-family:var(--f-display);font-weight:600;font-size:1.3rem}
+.whyw{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0}
+.whychain{margin:0;padding-left:1.4em}
 .trow{display:grid;grid-template-columns:minmax(0,1fr) minmax(80px,150px);gap:8px;align-items:center;font-size:.92rem;padding:2px 4px;border-radius:6px}
 .trow .tr{height:14px;background:var(--track);border-radius:5px;overflow:hidden}
 .trow .tr span{display:block;height:100%;background:var(--blue);border-radius:5px}
@@ -337,6 +339,7 @@ input[type=text]{font:inherit;width:100%;border:2px solid var(--edge);border-rad
 .amp .btn::before{content:"";display:inline-block;width:12px;height:12px;border-radius:50%;border:2px solid var(--edge);margin-right:6px;vertical-align:-1px}
 .amp .g::before{background:var(--teal)}.amp .y::before{background:var(--hi)}.amp .r::before{background:var(--coral)}
 .amp .btn[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+#whyPanel .btn[aria-pressed="true"],#picKinds .btn[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
 .case .fb{font-size:.95rem;border-left:5px solid var(--teal);padding-left:10px}
 .case .fb.no{border-left-color:var(--coral)}
 .tips{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
@@ -657,6 +660,12 @@ ui:{
 
  mapTitle:'Die Bedeutungs-Landkarte',
  mapSay:'Eine Nummer allein sagt noch nichts darüber, was ein Wort <i>bedeutet</i>. Darum bekommt jedes Token einen Platz auf einer riesigen <b>Bedeutungs-Landkarte</b>. Wörter mit ähnlicher Bedeutung wohnen nah beieinander. <b>Tippe auf ein Wort</b> und schau dir an, wo es wohnt und wer seine Nachbarn sind.',
+ whyTitle:'🤔 Warum braucht Turi eine Landkarte?',
+ whyP:'Turi hat beim Training oft gelesen: „Der Hund schläft im Körbchen.“ Über Katzen stand da fast nichts. Was rät Turi bei „Die Katze schläft im …“? Vergleiche:',
+ whyBtn:['🔢 Nur Nummern','🗺️ Mit Landkarte'], whyQ:'Die Katze schläft im …', whyW:['Körbchen','Kühlschrank','Himmel'], whyNr:n=>`Nummer ${n}`, whyPlace:(x,y)=>`Platz ${x} | ${y}`,
+ whyNum:'Mit Nummern sieht Turi nicht, dass Hund und Katze sich ähneln. Nummern sind wie Hausnummern: Wer nebeneinander wohnt, muss sich nicht ähnlich sein. Was Turi über Hunde weiß, hilft ihm hier nicht. Turi rät blind.',
+ whyMap:'Auf der Landkarte wohnt die Katze direkt neben dem Hund, das Brot weit weg. Darum denkt Turi: Was für Hunde stimmt, stimmt oft auch für Katzen, und rät „Körbchen“. Dafür ist die Landkarte da: <b>Was Turi über ein Wort lernt, hilft ihm auch bei den Nachbarn.</b>',
+ whyChainT:'So hängt alles zusammen:', whyChain:['Jeder Schnipsel bekommt eine Nummer.','Mit der Nummer schaut Turi nach, wo das Wort auf der Landkarte wohnt.','Mit diesen Plätzen rechnet Turi weiter und rät das nächste Wort.'],
  mapTap:'Tippe auf ein Wort auf der Karte', mapLegend:'Gelber Ring: Dieses Wort kommt in deiner Anfrage vor.',
  cardTitle:'Der Steckbrief eines Wortes',
  cardP:w=>`Unsere Karte hat nur <b>2 Richtungen</b>: nach rechts und nach unten. Darum hat jedes Wort hier nur 2 Zahlen. Eine echte KI speichert für jedes Wort eine <b>lange Liste von Zahlen</b>, oft über 4.000 Stück. Stell dir jede Zahl wie die Antwort auf eine Frage vor: Je länger der Balken, desto mehr passt „ja“. So sieht ein Teil vom Steckbrief für ${w} aus:`,
@@ -988,6 +997,12 @@ ui:{
 
  mapTitle:'The meaning map',
  mapSay:'A number alone says nothing about what a word <i>means</i>. That is why every token gets a place on a huge <b>meaning map</b>. Words with similar meanings live close together. <b>Tap a word</b> and see where it lives and who its neighbours are.',
+ whyTitle:'🤔 Why does Turi need a map?',
+ whyP:'During training Turi often read: “The dog sleeps in its basket.” There was hardly anything about cats. What does Turi guess for “The cat sleeps in its …”? Compare:',
+ whyBtn:['🔢 Only numbers','🗺️ With the map'], whyQ:'The cat sleeps in its …', whyW:['basket','fridge','sky'], whyNr:n=>`number ${n}`, whyPlace:(x,y)=>`place ${x} | ${y}`,
+ whyNum:'With numbers Turi cannot see that dog and cat are alike. Numbers are like house numbers: people who live next door do not have to be alike. What Turi knows about dogs does not help here. Turi guesses blindly.',
+ whyMap:'On the map the cat lives right next to the dog, the bread far away. So Turi thinks: what is true for dogs is often true for cats too, and guesses “basket”. That is what the map is for: <b>what Turi learns about one word also helps with its neighbours.</b>',
+ whyChainT:'How it all fits together:', whyChain:['Every snippet gets a number.','With the number, Turi looks up where the word lives on the map.','Turi calculates with these places and guesses the next word.'],
  mapTap:'Tap a word on the map', mapLegend:'Yellow ring: this word appears in your request.',
  cardTitle:'A word’s profile',
  cardP:w=>`Our map has only <b>2 directions</b>: to the right and down. That is why every word here has only 2 numbers. A real AI stores a <b>long list of numbers</b> for every word, often more than 4,000 of them. Think of each number as the answer to a question: the longer the bar, the more the answer is “yes”. Here is part of the profile for ${w}:`,
@@ -1318,6 +1333,12 @@ ui:{
 
  mapTitle:'La carte des sens',
  mapSay:'Un numéro tout seul ne dit rien sur ce qu’un mot <i>veut dire</i>. C’est pour ça que chaque jeton reçoit une place sur une immense <b>carte des sens</b>. Les mots de sens proche habitent près les uns des autres. <b>Touche un mot</b> et regarde où il habite et qui sont ses voisins.',
+ whyTitle:'🤔 Pourquoi Turi a-t-il besoin d’une carte ?',
+ whyP:'Pendant l’entraînement, Turi a souvent lu : « Le chien dort dans son panier. » Sur les chats, il n’y avait presque rien. Que devine Turi pour « Le chat dort dans son … » ? Compare :',
+ whyBtn:['🔢 Seulement des numéros','🗺️ Avec la carte'], whyQ:'Le chat dort dans son …', whyW:['panier','frigo','ciel'], whyNr:n=>`numéro ${n}`, whyPlace:(x,y)=>`place ${x} | ${y}`,
+ whyNum:'Avec des numéros, Turi ne voit pas que le chien et le chat se ressemblent. Les numéros sont comme des numéros de maison : des voisins ne se ressemblent pas forcément. Ce que Turi sait sur les chiens ne l’aide pas ici. Turi devine à l’aveugle.',
+ whyMap:'Sur la carte, le chat habite juste à côté du chien, le pain loin. Turi se dit donc : ce qui est vrai pour les chiens l’est souvent aussi pour les chats, et devine « panier ». C’est à ça que sert la carte : <b>ce que Turi apprend sur un mot l’aide aussi pour ses voisins.</b>',
+ whyChainT:'Comment tout s’enchaîne :', whyChain:['Chaque morceau reçoit un numéro.','Avec le numéro, Turi regarde où le mot habite sur la carte.','Turi calcule avec ces places et devine le mot suivant.'],
  mapTap:'Touche un mot sur la carte', mapLegend:'Anneau jaune : ce mot apparaît dans ta demande.',
  cardTitle:'La carte d’identité d’un mot',
  cardP:w=>`Notre carte n’a que <b>2 directions</b> : vers la droite et vers le bas. C’est pour ça qu’ici chaque mot n’a que 2 nombres. Une vraie IA garde pour chaque mot une <b>longue liste de nombres</b>, souvent plus de 4 000. Imagine chaque nombre comme la réponse à une question : plus la barre est longue, plus la réponse est « oui ». Voici une partie de la carte d’identité de ${w} :`,
@@ -1648,6 +1669,12 @@ ui:{
 
  mapTitle:'La mappa dei significati',
  mapSay:'Un numero da solo non dice niente su cosa <i>significa</i> una parola. Per questo ogni token riceve un posto su un’enorme <b>mappa dei significati</b>. Le parole con significato simile abitano vicine. <b>Tocca una parola</b> e guarda dove abita e chi sono i suoi vicini.',
+ whyTitle:'🤔 Perché Turi ha bisogno di una mappa?',
+ whyP:'Durante l’allenamento Turi ha letto spesso: «Il cane dorme nella cuccia.» Sui gatti non c’era quasi niente. Che cosa indovina Turi per «Il gatto dorme nella …»? Confronta:',
+ whyBtn:['🔢 Solo numeri','🗺️ Con la mappa'], whyQ:'Il gatto dorme nella …', whyW:['cuccia','pentola','nuvola'], whyNr:n=>`numero ${n}`, whyPlace:(x,y)=>`posto ${x} | ${y}`,
+ whyNum:'Con i numeri Turi non vede che cane e gatto si somigliano. I numeri sono come i numeri civici: chi abita accanto non deve per forza somigliarsi. Ciò che Turi sa sui cani qui non aiuta. Turi tira a indovinare alla cieca.',
+ whyMap:'Sulla mappa il gatto abita proprio accanto al cane, il pane lontano. Allora Turi pensa: ciò che vale per i cani vale spesso anche per i gatti, e indovina «cuccia». A questo serve la mappa: <b>ciò che Turi impara su una parola lo aiuta anche con i vicini.</b>',
+ whyChainT:'Come si collega tutto:', whyChain:['Ogni pezzetto riceve un numero.','Con il numero Turi guarda dove abita la parola sulla mappa.','Con questi posti Turi continua a calcolare e indovina la parola successiva.'],
  mapTap:'Tocca una parola sulla mappa', mapLegend:'Anello giallo: questa parola è nella tua richiesta.',
  cardTitle:'La carta d’identità di una parola',
  cardP:w=>`La nostra mappa ha solo <b>2 direzioni</b>: verso destra e verso il basso. Per questo qui ogni parola ha solo 2 numeri. Una vera IA salva per ogni parola una <b>lunga lista di numeri</b>, spesso più di 4.000. Immagina ogni numero come la risposta a una domanda: più la barra è lunga, più la risposta è «sì». Ecco una parte della carta d’identità di ${w}:`,
@@ -1979,6 +2006,12 @@ ui:{
 
  mapTitle:'El mapa de los significados',
  mapSay:'Un número solo no dice nada de lo que <i>significa</i> una palabra. Por eso cada token recibe un lugar en un enorme <b>mapa de significados</b>. Las palabras con significado parecido viven cerca. <b>Toca una palabra</b> y mira dónde vive y quiénes son sus vecinos.',
+ whyTitle:'🤔 ¿Por qué necesita Turi un mapa?',
+ whyP:'Durante el entrenamiento, Turi leyó a menudo: «El perro duerme en su cesta.» Sobre gatos casi no había nada. ¿Qué adivina Turi en «El gato duerme en su …»? Compara:',
+ whyBtn:['🔢 Solo números','🗺️ Con el mapa'], whyQ:'El gato duerme en su …', whyW:['cesta','nevera','nube'], whyNr:n=>`número ${n}`, whyPlace:(x,y)=>`sitio ${x} | ${y}`,
+ whyNum:'Con números, Turi no ve que el perro y el gato se parecen. Los números son como los números de las casas: los vecinos no tienen por qué parecerse. Lo que Turi sabe de los perros aquí no le ayuda. Turi adivina a ciegas.',
+ whyMap:'En el mapa, el gato vive justo al lado del perro, y el pan muy lejos. Así que Turi piensa: lo que vale para los perros a menudo también vale para los gatos, y adivina «cesta». Para eso está el mapa: <b>lo que Turi aprende sobre una palabra también le ayuda con sus vecinas.</b>',
+ whyChainT:'Así encaja todo:', whyChain:['Cada trocito recibe un número.','Con el número, Turi busca dónde vive la palabra en el mapa.','Turi calcula con esos sitios y adivina la palabra siguiente.'],
  mapTap:'Toca una palabra del mapa', mapLegend:'Anillo amarillo: esta palabra está en tu petición.',
  cardTitle:'La ficha de una palabra',
  cardP:w=>`Nuestro mapa solo tiene <b>2 direcciones</b>: hacia la derecha y hacia abajo. Por eso aquí cada palabra tiene solo 2 números. Una IA de verdad guarda para cada palabra una <b>larga lista de números</b>, a menudo más de 4.000. Imagina cada número como la respuesta a una pregunta: cuanto más larga es la barra, más es la respuesta «sí». Así es una parte de la ficha de ${w}:`,
@@ -2310,6 +2343,12 @@ ui:{
 
  mapTitle:'De betekeniskaart',
  mapSay:'Een nummer alleen zegt nog niets over wat een woord <i>betekent</i>. Daarom krijgt elk token een plek op een enorme <b>betekeniskaart</b>. Woorden met een vergelijkbare betekenis wonen dicht bij elkaar. <b>Tik op een woord</b> en kijk waar het woont en wie zijn buren zijn.',
+ whyTitle:'🤔 Waarom heeft Turi een kaart nodig?',
+ whyP:'Tijdens de training las Turi vaak: „De hond slaapt in zijn mand.” Over katten stond er bijna niets. Wat raadt Turi bij „De kat slaapt in zijn …”? Vergelijk:',
+ whyBtn:['🔢 Alleen nummers','🗺️ Met de kaart'], whyQ:'De kat slaapt in zijn …', whyW:['mand','koelkast','wolk'], whyNr:n=>`nummer ${n}`, whyPlace:(x,y)=>`plek ${x} | ${y}`,
+ whyNum:'Met nummers ziet Turi niet dat hond en kat op elkaar lijken. Nummers zijn als huisnummers: buren hoeven niet op elkaar te lijken. Wat Turi over honden weet, helpt hier niet. Turi raadt blind.',
+ whyMap:'Op de kaart woont de kat vlak naast de hond, het brood ver weg. Daarom denkt Turi: wat voor honden geldt, geldt vaak ook voor katten, en raadt „mand”. Daar is de kaart voor: <b>wat Turi over één woord leert, helpt ook bij de buren.</b>',
+ whyChainT:'Zo hangt alles samen:', whyChain:['Elk stukje krijgt een nummer.','Met het nummer kijkt Turi waar het woord op de kaart woont.','Met deze plekken rekent Turi verder en raadt het volgende woord.'],
  mapTap:'Tik op een woord op de kaart', mapLegend:'Gele ring: dit woord staat in jouw vraag.',
  cardTitle:'Het paspoort van een woord',
  cardP:w=>`Onze kaart heeft maar <b>2 richtingen</b>: naar rechts en naar beneden. Daarom heeft elk woord hier maar 2 getallen. Een echte AI bewaart voor elk woord een <b>lange lijst met getallen</b>, vaak meer dan 4.000. Zie elk getal als het antwoord op een vraag: hoe langer de balk, hoe meer het antwoord ‘ja’ is. Zo ziet een deel van het paspoort van ${w} eruit:`,
@@ -2839,6 +2878,16 @@ function stMap(){
       <div class="panel" id="mapInfo"></div>
     </div>
     <div class="legend small"><i></i> ${u.mapLegend}</div>
+    <div class="panel" id="whyPanel">
+      <div class="panel-title">${u.whyTitle}</div>
+      <p>${u.whyP}</p>
+      <div class="row">${u.whyBtn.map((t,k)=>`<button class="btn" data-why="${k}" aria-pressed="${k===0}">${esc(t)}</button>`).join('')}</div>
+      <div class="whyw" id="whyW"></div>
+      <div class="sentence"><span class="pr">${esc(u.whyQ)}</span></div>
+      <div class="bars" id="whyBars"></div>
+      <p id="whyNote"></p>
+      <p><b>${u.whyChainT}</b></p><ol class="whychain">${u.whyChain.map(x=>`<li>${x}</li>`).join('')}</ol>
+    </div>
     <div class="panel" id="cardPanel">
       <div class="panel-title">${u.cardTitle}</div>
       <p>${u.cardP('<b id="cardWord"></b>')}</p>
@@ -2886,6 +2935,13 @@ function stMap(){
      document.querySelectorAll('[data-cp]').forEach(b=>b.onclick=()=>pick(+b.dataset.cp));
      $('#toMap').onclick=()=>$('#map').scrollIntoView({behavior:reduce?'auto':'smooth',block:'center'});
      document.querySelectorAll('[data-pair]').forEach(b=>b.onclick=()=>{S.pair=+b.dataset.pair;S.done.pairs.add(S.pair);S.mapSel=PAIR_IDX[S.pair][0];draw();drawPair()});
+     /* Warum die Landkarte? Hund (0), Katze (2), Brot (31): mit Nummern ohne, mit Plätzen mit Nachbarschaft */
+     const drawWhy=k=>{document.querySelectorAll('[data-why]').forEach(b=>b.setAttribute('aria-pressed',String(+b.dataset.why===k)));
+       $('#whyW').innerHTML=[0,2,31].map((i,j)=>{const m=MAP[i],o=tokenize(m[0])[0];return `<span class="tok c${j}">${esc(m[0])} · ${k?u.whyPlace(Math.round(m[1]/5),Math.round(m[2]/5)):u.whyNr(o.id)}</span>`}).join(' ');
+       const P=k?[.78,.12,.1]:[.34,.33,.33];
+       $('#whyBars').innerHTML=u.whyW.map((w,i)=>`<div class="bar ${k&&!i?'win':''}"><span class="w">${esc(w)}</span><span class="tr"><span style="width:${P[i]*100}%"></span></span><span class="p">${pc(Math.round(P[i]*100))}</span><span class="c"></span></div>`).join('');
+       $('#whyNote').innerHTML=k?u.whyMap:u.whyNum};
+     document.querySelectorAll('[data-why]').forEach(b=>b.onclick=()=>drawWhy(+b.dataset.why));drawWhy(0);
      draw();drawPair();
    }};
 }
