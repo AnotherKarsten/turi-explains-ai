@@ -116,7 +116,7 @@ button{font:inherit;cursor:pointer;color:inherit}
 .panel{border:2px solid var(--track);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:12px;min-width:0}
 .panel-title{font-family:var(--f-display);font-weight:600;font-size:1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-soft)}
 .fact{background:var(--hi);color:var(--on-hi);border:2px solid var(--edge);border-radius:14px;padding:12px 16px;transform:rotate(-.4deg)}
-.trwarn{background:var(--hi);color:var(--on-hi);border:2px solid var(--edge);border-radius:14px;padding:12px 16px;margin:10px 0;box-shadow:4px 4px 0 var(--edge)}
+.trwarn{background:var(--hi);color:var(--on-hi);border:2px solid var(--edge);border-radius:14px;padding:12px 16px;margin:10px 0}
 .trwarn b{font-family:var(--f-display);font-weight:600;font-size:1.15em;display:block}
 .trwarn p{margin:6px 0 10px}
 .bars.blind{opacity:.55}
@@ -125,7 +125,7 @@ button{font:inherit;cursor:pointer;color:inherit}
 
 /* Tokens */
 .toks{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end;min-height:48px}
-.tok{display:inline-flex;align-items:center;font-family:var(--f-display);font-weight:500;font-size:1.15rem;background:var(--t0);color:var(--tok-ink);border:2px solid var(--edge);border-radius:10px;padding:5px 11px;box-shadow:3px 3px 0 var(--edge);white-space:pre}
+.tok{display:inline-flex;align-items:center;font-family:var(--f-display);font-weight:500;font-size:1.15rem;background:var(--t0);color:var(--tok-ink);border:2px solid var(--edge);border-radius:10px;padding:5px 11px;white-space:pre}
 .tok.sp::before{content:"·";opacity:.45;margin-right:3px}
 .c0{background:var(--t0)}.c1{background:var(--t1)}.c2{background:var(--t2)}.c3{background:var(--t3)}.c4{background:var(--t4)}.c5{background:var(--t5)}
 .pop{animation:pop .45s cubic-bezier(.3,1.6,.5,1) both}
@@ -164,6 +164,10 @@ input[type=text]{font:inherit;width:100%;border:2px solid var(--edge);border-rad
 .att{display:flex;flex-wrap:wrap;gap:16px 12px;align-items:flex-end;padding-top:30px}
 .attcol{display:flex;flex-direction:column;align-items:center;gap:8px;min-width:54px}
 .attcol .tok{cursor:pointer}
+/* UI-Sprache: Schatten nach unten = antippbar (Taste, Auswahl, antippbarer Schnipsel); Anzeigen und Ergebnisse sind flach */
+.tok[role="button"],.flip .tok{box-shadow:0 4px 0 var(--edge)}
+.tok[role="button"]:active{transform:translateY(3px);box-shadow:0 1px 0 var(--edge)}
+span.mw{box-shadow:none}
 .attcol .tok.focus{outline:4px solid var(--coral);outline-offset:3px}
 .attcol .tok.future{opacity:.3}
 .beam{width:100%;height:12px;border-radius:6px;background:var(--track);overflow:hidden}
@@ -223,14 +227,13 @@ input[type=text]{font:inherit;width:100%;border:2px solid var(--edge);border-rad
 .probes{display:flex;flex-wrap:wrap;gap:8px}
 .probes .preset{padding:5px 12px;font-size:.92rem}
 .choices{display:flex;flex-direction:column;gap:10px}
-.choice{text-align:left;white-space:normal;font-family:var(--f-body);font-weight:400}
-.choice[aria-pressed="true"]{background:var(--hi);color:var(--on-hi)}
+.choice{text-align:left;white-space:normal;font-family:var(--f-body);font-weight:400;border-radius:16px}
 
 /* Kontext */
 .cmap{position:relative;aspect-ratio:2/1;max-width:100%;border:2px solid var(--edge);border-radius:14px;overflow:hidden;background:var(--paper);background-image:radial-gradient(var(--grid) 1.6px,transparent 1.6px);background-size:22px 22px}
 @media (max-width:560px){.cmap{aspect-ratio:4/3}}
 .cmap .mw{pointer-events:none}
-.bankdot{position:absolute;transform:translate(-50%,-50%);background:var(--coral);color:var(--on-color);border:2px solid var(--edge);border-radius:999px;padding:4px 14px;font-family:var(--f-display);font-weight:600;font-size:1.05rem;box-shadow:3px 3px 0 var(--edge);transition:left .8s cubic-bezier(.3,1.3,.5,1),top .8s cubic-bezier(.3,1.3,.5,1);z-index:3}
+.bankdot{position:absolute;transform:translate(-50%,-50%);background:var(--coral);color:var(--on-color);border:2px solid var(--edge);border-radius:999px;padding:4px 14px;font-family:var(--f-display);font-weight:600;font-size:1.05rem;transition:left .8s cubic-bezier(.3,1.3,.5,1),top .8s cubic-bezier(.3,1.3,.5,1);z-index:3}
 .feelq{font-family:var(--f-display);font-size:1.3rem;font-weight:500;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
 .feelq .hl{background:var(--hi);color:var(--on-hi);border-radius:6px;padding:0 6px}
 .chat{display:flex;flex-direction:column;gap:8px}
@@ -301,9 +304,12 @@ input[type=text]{font:inherit;width:100%;border:2px solid var(--edge);border-rad
 .coords .ax{display:inline-block;width:1.4em;color:var(--teal);font-weight:700}
 .qcards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
 @media (max-width:640px){.qcards{grid-template-columns:1fr}}
-.qcard{border:2px solid var(--edge);border-radius:14px;background:var(--paper);padding:12px 14px;display:flex;flex-direction:column;gap:6px;box-shadow:3px 3px 0 var(--edge);min-width:0}
+.qcard{border:2px solid var(--edge);border-radius:14px;background:var(--paper);padding:12px 14px;display:flex;flex-direction:column;gap:6px;min-width:0}
 .qhead{font-family:var(--f-display);font-weight:600;font-size:1.3rem}
-.whyw{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0}
+.whyw{display:flex;flex-wrap:wrap;gap:8px}
+/* Ergebnisfläche: gestrichelt umrandet und beschriftet, damit sie nicht wie eine Auswahl aussieht */
+.result{border:2px dashed var(--ink-soft);border-radius:14px;padding:8px 12px 10px;margin:4px 0 8px}
+.result .rlabel{display:block;font-size:.8rem;color:var(--ink-soft);margin-bottom:6px}
 .whychain{margin:0;padding-left:1.4em}
 .trow{display:grid;grid-template-columns:minmax(0,1fr) minmax(80px,150px);gap:8px;align-items:center;font-size:.92rem;padding:2px 4px;border-radius:6px}
 .trow .tr{height:14px;background:var(--track);border-radius:5px;overflow:hidden}
@@ -339,15 +345,14 @@ input[type=text]{font:inherit;width:100%;border:2px solid var(--edge);border-rad
 .cases{display:flex;flex-direction:column;gap:12px}
 .case{border-bottom:2px dashed var(--track);padding-bottom:12px;display:flex;flex-direction:column;gap:8px}
 .amp{display:flex;flex-wrap:wrap;gap:8px}
-.amp .btn{padding:6px 12px;font-size:.95rem}
-.amp .btn::before{content:"";display:inline-block;width:12px;height:12px;border-radius:50%;border:2px solid var(--edge);margin-right:6px;vertical-align:-1px}
-.amp .g::before{background:var(--teal)}.amp .y::before{background:var(--hi)}.amp .r::before{background:var(--coral)}
-.amp .btn[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
-#whyPanel .btn[aria-pressed="true"],#picKinds .btn[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.amp .preset{padding:6px 12px 6px 10px;font-size:.95rem}
+/* Ampel: der Kreis zeigt die Farbe; gewählt bekommt er wie jede Auswahl einen Ring */
+.amp .g::before,.amp .g[aria-pressed="true"]::before{background:var(--teal)}.amp .y::before,.amp .y[aria-pressed="true"]::before{background:var(--hi)}.amp .r::before,.amp .r[aria-pressed="true"]::before{background:var(--coral)}
+.amp [aria-pressed="true"].g::before,.amp [aria-pressed="true"].y::before,.amp [aria-pressed="true"].r::before{box-shadow:0 0 0 2px var(--hi),0 0 0 4px var(--edge)}
 .case .fb{font-size:.95rem;border-left:5px solid var(--teal);padding-left:10px}
 .case .fb.no{border-left-color:var(--coral)}
 .tips{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
-.tips li{border:2px solid var(--edge);border-radius:14px;padding:12px 14px;background:var(--paper);box-shadow:3px 3px 0 var(--edge);display:flex;flex-direction:column;gap:4px}
+.tips li{border:2px solid var(--edge);border-radius:14px;padding:12px 14px;background:var(--paper);display:flex;flex-direction:column;gap:4px}
 .tips .ic{font-size:1.6rem;line-height:1}
 .tips b{font-family:var(--f-display);font-weight:600;font-size:1.05rem}
 
@@ -364,7 +369,7 @@ button,.tok,.mw,.step,.bankdot{-webkit-tap-highlight-color:transparent;-webkit-u
   .mw{padding:4px 10px}
   .attcol .tok{min-height:44px}
   .flip .inner>*{min-height:44px}
-  .amp .btn{padding:8px 14px}
+  .amp .preset{padding:8px 14px 8px 12px}
   input[type=range]{min-height:44px}
   .corpus{max-height:320px}
 }
@@ -420,8 +425,6 @@ html:not(.js) #nojs ~ .wrap{display:none}
 .lkout.fresh{animation:cardFlash .8s ease}
 .lkfrom{font-family:var(--f-display);font-weight:600;font-size:.9rem;color:var(--ink-soft)}
 /* Gedrückter Knopf in Station 9: Haken und Rahmen, damit klar ist, welche Antwort gerade zu sehen ist */
-.lkrow .btn[aria-pressed="true"]{outline:4px solid var(--hi);outline-offset:3px}
-.lkrow .btn[aria-pressed="true"]::before{content:'✓ '}
 .lkstep{border:2px solid var(--track);border-left:6px solid var(--teal);border-radius:10px;padding:8px 12px;background:var(--paper)}
 .lkstep .src{display:inline-block;font-size:.82rem;background:var(--card);border:1px solid var(--track);border-radius:6px;padding:0 6px;margin-left:4px}
 .lkstep code{font-family:var(--f-mono);font-size:.9rem;background:var(--card);border-radius:6px;padding:1px 6px}
@@ -667,7 +670,7 @@ ui:{
  mapSay:'Eine Nummer allein sagt noch nichts darüber, was ein Wort <i>bedeutet</i>. Darum bekommt jedes Token einen Platz auf einer riesigen <b>Bedeutungs-Landkarte</b>. Wörter mit ähnlicher Bedeutung wohnen nah beieinander. <b>Tippe auf ein Wort</b> und schau dir an, wo es wohnt und wer seine Nachbarn sind.',
  whyTitle:'🤔 Warum braucht Turi eine Landkarte?',
  whyP:'Turi hat beim Training oft gelesen: „Der Hund schläft im Körbchen.“ Über Katzen stand da fast nichts. Was rät Turi bei „Die Katze schläft im …“? Vergleiche:',
- whyBtn:['🔢 Nur Nummern','🗺️ Mit Landkarte'], whyQ:'Die Katze schläft im …', whyW:['Körbchen','Kühlschrank','Himmel'], whyNr:n=>`Nummer ${n}`, whyPlace:(x,y)=>`Platz ${x} | ${y}`,
+ whyBtn:['🔢 Nur Nummern','🗺️ Mit Landkarte'], whyStore:'So merkt sich Turi die Wörter:', whyQ:'Die Katze schläft im …', whyW:['Körbchen','Kühlschrank','Himmel'], whyNr:n=>`Nummer ${n}`, whyPlace:(x,y)=>`Platz ${x} | ${y}`,
  whyNum:'Mit Nummern sieht Turi nicht, dass Hund und Katze sich ähneln. Nummern sind wie Hausnummern: Wer nebeneinander wohnt, muss sich nicht ähnlich sein. Was Turi über Hunde weiß, hilft ihm hier nicht. Turi rät blind.',
  whyMap:'Auf der Landkarte wohnt die Katze direkt neben dem Hund, das Brot weit weg. Darum denkt Turi: Was für Hunde stimmt, stimmt oft auch für Katzen, und rät „Körbchen“. Dafür ist die Landkarte da: <b>Was Turi über ein Wort lernt, hilft ihm auch bei den Nachbarn.</b>',
  whyChainT:'So hängt alles zusammen:', whyChain:['Jeder Schnipsel bekommt eine Nummer.','Mit der Nummer schaut Turi nach, wo das Wort auf der Landkarte wohnt.','Mit diesen Plätzen rechnet Turi weiter und rät das nächste Wort.'],
@@ -1005,7 +1008,7 @@ ui:{
  mapSay:'A number alone says nothing about what a word <i>means</i>. That is why every token gets a place on a huge <b>meaning map</b>. Words with similar meanings live close together. <b>Tap a word</b> and see where it lives and who its neighbours are.',
  whyTitle:'🤔 Why does Turi need a map?',
  whyP:'During training Turi often read: “The dog sleeps in its basket.” There was hardly anything about cats. What does Turi guess for “The cat sleeps in its …”? Compare:',
- whyBtn:['🔢 Only numbers','🗺️ With the map'], whyQ:'The cat sleeps in its …', whyW:['basket','fridge','sky'], whyNr:n=>`number ${n}`, whyPlace:(x,y)=>`place ${x} | ${y}`,
+ whyBtn:['🔢 Only numbers','🗺️ With the map'], whyStore:'This is how Turi stores the words:', whyQ:'The cat sleeps in its …', whyW:['basket','fridge','sky'], whyNr:n=>`number ${n}`, whyPlace:(x,y)=>`place ${x} | ${y}`,
  whyNum:'With numbers Turi cannot see that dog and cat are alike. Numbers are like house numbers: people who live next door do not have to be alike. What Turi knows about dogs does not help here. Turi guesses blindly.',
  whyMap:'On the map the cat lives right next to the dog, the bread far away. So Turi thinks: what is true for dogs is often true for cats too, and guesses “basket”. That is what the map is for: <b>what Turi learns about one word also helps with its neighbours.</b>',
  whyChainT:'How it all fits together:', whyChain:['Every snippet gets a number.','With the number, Turi looks up where the word lives on the map.','Turi calculates with these places and guesses the next word.'],
@@ -1342,7 +1345,7 @@ ui:{
  mapSay:'Un numéro tout seul ne dit rien sur ce qu’un mot <i>veut dire</i>. C’est pour ça que chaque jeton reçoit une place sur une immense <b>carte des sens</b>. Les mots de sens proche habitent près les uns des autres. <b>Touche un mot</b> et regarde où il habite et qui sont ses voisins.',
  whyTitle:'🤔 Pourquoi Turi a-t-il besoin d’une carte ?',
  whyP:'Pendant l’entraînement, Turi a souvent lu : « Le chien dort dans son panier. » Sur les chats, il n’y avait presque rien. Que devine Turi pour « Le chat dort dans son … » ? Compare :',
- whyBtn:['🔢 Seulement des numéros','🗺️ Avec la carte'], whyQ:'Le chat dort dans son …', whyW:['panier','frigo','ciel'], whyNr:n=>`numéro ${n}`, whyPlace:(x,y)=>`place ${x} | ${y}`,
+ whyBtn:['🔢 Seulement des numéros','🗺️ Avec la carte'], whyStore:'Voici comment Turi retient les mots :', whyQ:'Le chat dort dans son …', whyW:['panier','frigo','ciel'], whyNr:n=>`numéro ${n}`, whyPlace:(x,y)=>`place ${x} | ${y}`,
  whyNum:'Avec des numéros, Turi ne voit pas que le chien et le chat se ressemblent. Les numéros sont comme des numéros de maison : des voisins ne se ressemblent pas forcément. Ce que Turi sait sur les chiens ne l’aide pas ici. Turi devine à l’aveugle.',
  whyMap:'Sur la carte, le chat habite juste à côté du chien, le pain loin. Turi se dit donc : ce qui est vrai pour les chiens l’est souvent aussi pour les chats, et devine « panier ». C’est à ça que sert la carte : <b>ce que Turi apprend sur un mot l’aide aussi pour ses voisins.</b>',
  whyChainT:'Comment tout s’enchaîne :', whyChain:['Chaque morceau reçoit un numéro.','Avec le numéro, Turi regarde où le mot habite sur la carte.','Turi calcule avec ces places et devine le mot suivant.'],
@@ -1679,7 +1682,7 @@ ui:{
  mapSay:'Un numero da solo non dice niente su cosa <i>significa</i> una parola. Per questo ogni token riceve un posto su un’enorme <b>mappa dei significati</b>. Le parole con significato simile abitano vicine. <b>Tocca una parola</b> e guarda dove abita e chi sono i suoi vicini.',
  whyTitle:'🤔 Perché Turi ha bisogno di una mappa?',
  whyP:'Durante l’allenamento Turi ha letto spesso: «Il cane dorme nella cuccia.» Sui gatti non c’era quasi niente. Che cosa indovina Turi per «Il gatto dorme nella …»? Confronta:',
- whyBtn:['🔢 Solo numeri','🗺️ Con la mappa'], whyQ:'Il gatto dorme nella …', whyW:['cuccia','pentola','nuvola'], whyNr:n=>`numero ${n}`, whyPlace:(x,y)=>`posto ${x} | ${y}`,
+ whyBtn:['🔢 Solo numeri','🗺️ Con la mappa'], whyStore:'Così Turi si ricorda le parole:', whyQ:'Il gatto dorme nella …', whyW:['cuccia','pentola','nuvola'], whyNr:n=>`numero ${n}`, whyPlace:(x,y)=>`posto ${x} | ${y}`,
  whyNum:'Con i numeri Turi non vede che cane e gatto si somigliano. I numeri sono come i numeri civici: chi abita accanto non deve per forza somigliarsi. Ciò che Turi sa sui cani qui non aiuta. Turi tira a indovinare alla cieca.',
  whyMap:'Sulla mappa il gatto abita proprio accanto al cane, il pane lontano. Allora Turi pensa: ciò che vale per i cani vale spesso anche per i gatti, e indovina «cuccia». A questo serve la mappa: <b>ciò che Turi impara su una parola lo aiuta anche con i vicini.</b>',
  whyChainT:'Come si collega tutto:', whyChain:['Ogni pezzetto riceve un numero.','Con il numero Turi guarda dove abita la parola sulla mappa.','Con questi posti Turi continua a calcolare e indovina la parola successiva.'],
@@ -2017,7 +2020,7 @@ ui:{
  mapSay:'Un número solo no dice nada de lo que <i>significa</i> una palabra. Por eso cada token recibe un lugar en un enorme <b>mapa de significados</b>. Las palabras con significado parecido viven cerca. <b>Toca una palabra</b> y mira dónde vive y quiénes son sus vecinos.',
  whyTitle:'🤔 ¿Por qué necesita Turi un mapa?',
  whyP:'Durante el entrenamiento, Turi leyó a menudo: «El perro duerme en su cesta.» Sobre gatos casi no había nada. ¿Qué adivina Turi en «El gato duerme en su …»? Compara:',
- whyBtn:['🔢 Solo números','🗺️ Con el mapa'], whyQ:'El gato duerme en su …', whyW:['cesta','nevera','nube'], whyNr:n=>`número ${n}`, whyPlace:(x,y)=>`sitio ${x} | ${y}`,
+ whyBtn:['🔢 Solo números','🗺️ Con el mapa'], whyStore:'Así guarda Turi las palabras:', whyQ:'El gato duerme en su …', whyW:['cesta','nevera','nube'], whyNr:n=>`número ${n}`, whyPlace:(x,y)=>`sitio ${x} | ${y}`,
  whyNum:'Con números, Turi no ve que el perro y el gato se parecen. Los números son como los números de las casas: los vecinos no tienen por qué parecerse. Lo que Turi sabe de los perros aquí no le ayuda. Turi adivina a ciegas.',
  whyMap:'En el mapa, el gato vive justo al lado del perro, y el pan muy lejos. Así que Turi piensa: lo que vale para los perros a menudo también vale para los gatos, y adivina «cesta». Para eso está el mapa: <b>lo que Turi aprende sobre una palabra también le ayuda con sus vecinas.</b>',
  whyChainT:'Así encaja todo:', whyChain:['Cada trocito recibe un número.','Con el número, Turi busca dónde vive la palabra en el mapa.','Turi calcula con esos sitios y adivina la palabra siguiente.'],
@@ -2355,7 +2358,7 @@ ui:{
  mapSay:'Een nummer alleen zegt nog niets over wat een woord <i>betekent</i>. Daarom krijgt elk token een plek op een enorme <b>betekeniskaart</b>. Woorden met een vergelijkbare betekenis wonen dicht bij elkaar. <b>Tik op een woord</b> en kijk waar het woont en wie zijn buren zijn.',
  whyTitle:'🤔 Waarom heeft Turi een kaart nodig?',
  whyP:'Tijdens de training las Turi vaak: „De hond slaapt in zijn mand.” Over katten stond er bijna niets. Wat raadt Turi bij „De kat slaapt in zijn …”? Vergelijk:',
- whyBtn:['🔢 Alleen nummers','🗺️ Met de kaart'], whyQ:'De kat slaapt in zijn …', whyW:['mand','koelkast','wolk'], whyNr:n=>`nummer ${n}`, whyPlace:(x,y)=>`plek ${x} | ${y}`,
+ whyBtn:['🔢 Alleen nummers','🗺️ Met de kaart'], whyStore:'Zo onthoudt Turi de woorden:', whyQ:'De kat slaapt in zijn …', whyW:['mand','koelkast','wolk'], whyNr:n=>`nummer ${n}`, whyPlace:(x,y)=>`plek ${x} | ${y}`,
  whyNum:'Met nummers ziet Turi niet dat hond en kat op elkaar lijken. Nummers zijn als huisnummers: buren hoeven niet op elkaar te lijken. Wat Turi over honden weet, helpt hier niet. Turi raadt blind.',
  whyMap:'Op de kaart woont de kat vlak naast de hond, het brood ver weg. Daarom denkt Turi: wat voor honden geldt, geldt vaak ook voor katten, en raadt „mand”. Daar is de kaart voor: <b>wat Turi over één woord leert, helpt ook bij de buren.</b>',
  whyChainT:'Zo hangt alles samen:', whyChain:['Elk stukje krijgt een nummer.','Met het nummer kijkt Turi waar het woord op de kaart woont.','Met deze plekken rekent Turi verder en raadt het volgende woord.'],
@@ -2770,8 +2773,8 @@ function stTrain(){
       <p>${u.trFineP}</p>
       <div class="question">${qt(esc(u.trFineQ))}</div>
       <div class="choices">
-        <button class="btn choice" data-c="a" aria-pressed="${T.fb==='a'}">A: ${qt(esc(u.trA))}</button>
-        <button class="btn choice" data-c="b" aria-pressed="${T.fb==='b'}">B: ${qt(esc(u.trB))}</button>
+        <button class="preset choice" data-c="a" aria-pressed="${T.fb==='a'}">A: ${qt(esc(u.trA))}</button>
+        <button class="preset choice" data-c="b" aria-pressed="${T.fb==='b'}">B: ${qt(esc(u.trB))}</button>
       </div>
       <p id="fbOut"></p>
     </div>
@@ -2897,8 +2900,8 @@ function stMap(){
     <div class="panel" id="whyPanel">
       <div class="panel-title">${u.whyTitle}</div>
       <p>${u.whyP}</p>
-      <div class="row">${u.whyBtn.map((t,k)=>`<button class="btn" data-why="${k}" aria-pressed="${k===0}">${esc(t)}</button>`).join('')}</div>
-      <div class="whyw" id="whyW"></div>
+      <div class="row">${u.whyBtn.map((t,k)=>`<button class="preset" data-why="${k}" aria-pressed="${k===0}">${esc(t)}</button>`).join('')}</div>
+      <div class="result"><span class="rlabel">${u.whyStore}</span><div class="whyw" id="whyW"></div></div>
       <div class="sentence"><span class="pr">${esc(u.whyQ)}</span></div>
       <div class="bars" id="whyBars"></div>
       <p id="whyNote"></p>
@@ -2908,7 +2911,8 @@ function stMap(){
       <div class="panel-title">${u.cardTitle}</div>
       <p>${u.cardP('<b id="cardWord"></b>')}</p>
       <div class="cardhint">👆 ${u.cardHint}</div>
-      <div class="probes" id="cardPick">${CARD_PICK.map(i=>`<button class="preset" data-cp="${i}">${esc(MAP[i][0])}</button>`).join('')}<button class="btn" id="toMap">↑ ${u.cardBack}</button></div>
+      <div class="probes" id="cardPick">${CARD_PICK.map(i=>`<button class="preset" data-cp="${i}">${esc(MAP[i][0])}</button>`).join('')}</div>
+      <div class="row"><button class="btn" id="toMap">↑ ${u.cardBack}</button></div>
       <div class="qcard" id="card"></div>
       <p class="small">${u.cardSmall}</p>
     </div>
@@ -3178,7 +3182,7 @@ const PIC_N=30,PIC_W=240,PIC_H=160;
 const picHtml=()=>`<div class="panel">
       <div class="panel-title">${u.picTitle}</div>
       <p>${u.picP}</p>
-      <div class="row" id="picKinds">${u.picKinds.map((t,i)=>`<button class="btn" data-pk="${i}" aria-pressed="${i===S.pic.kind}">${esc(t)}</button>`).join('')}</div>
+      <div class="row" id="picKinds">${u.picKinds.map((t,i)=>`<button class="preset" data-pk="${i}" aria-pressed="${i===S.pic.kind}">${esc(t)}</button>`).join('')}</div>
       <div class="picrow"><canvas class="piccv" id="picCv" width="${PIC_W}" height="${PIC_H}" role="img" aria-label="${esc(u.picAlt)}"></canvas>
         <figure class="picprev" id="picPrev" ${S.pic.prev?'':'hidden'}><canvas id="picPv" width="${PIC_W}" height="${PIC_H}" role="img" aria-label="${esc(u.picPrev)}"></canvas><figcaption class="small">${u.picPrev}</figcaption></figure></div>
       <div class="slider"><span class="small">${u.picNoise}</span><input type="range" id="picK" min="0" max="${PIC_N}" step="1" value="${S.pic.k}" aria-label="${esc(u.picAria)}"><span class="small">${u.picImage}</span></div>
@@ -3223,21 +3227,21 @@ function stLook(){
       <div class="panel-title">${u.lkSearchTitle}</div>
       <p>${u.lkSearchP}</p>
       <div class="chat"><div class="msg du"><span class="who">${u.you}</span>${esc(u.lkQ)}</div></div>
-      <div class="row lkrow"><button class="btn" id="lkNo" aria-pressed="false">${u.lkNoBtn}</button><button class="btn teal" id="lkYes" aria-pressed="false">🔍 ${u.lkYesBtn}</button></div>
+      <div class="row lkrow"><button class="preset" id="lkNo" aria-pressed="false">${u.lkNoBtn}</button><button class="preset" id="lkYes" aria-pressed="false">🔍 ${u.lkYesBtn}</button></div>
       <div class="lkout" id="lkOut"></div>
     </div>
     <div class="panel">
       <div class="panel-title">${u.lkCalcTitle}</div>
       <p>${u.lkCalcP}</p>
       <div class="question">${esc(u.lkCalcQ)}</div>
-      <div class="row lkrow"><button class="btn" id="calcGuess" aria-pressed="false">${u.lkCalcGuessBtn}</button><button class="btn teal" id="calcTool" aria-pressed="false">🧮 ${u.lkCalcToolBtn}</button></div>
+      <div class="row lkrow"><button class="preset" id="calcGuess" aria-pressed="false">${u.lkCalcGuessBtn}</button><button class="preset" id="calcTool" aria-pressed="false">🧮 ${u.lkCalcToolBtn}</button></div>
       <div class="lkout" id="calcOut"></div>
     </div>
     <div class="panel">
       <div class="panel-title">${u.lkThinkTitle}</div>
       <p>${u.lkThinkP}</p>
       <div class="question">${esc(u.lkThinkQ)}</div>
-      <div class="row lkrow"><button class="btn" id="thinkFast" aria-pressed="false">${u.lkThinkFastBtn}</button><button class="btn teal" id="thinkSlow" aria-pressed="false">📝 ${u.lkThinkSlowBtn}</button></div>
+      <div class="row lkrow"><button class="preset" id="thinkFast" aria-pressed="false">${u.lkThinkFastBtn}</button><button class="preset" id="thinkSlow" aria-pressed="false">📝 ${u.lkThinkSlowBtn}</button></div>
       <div class="lkout" id="thinkOut"></div>
     </div>
     <div class="fact">${u.lkFact}</div>`,
@@ -3328,7 +3332,7 @@ function stSafe(){
    bind(){
      const draw=()=>{
        $('#cases').innerHTML=CASES.map((c,i)=>{const a=S.safe.pick[i];
-         return `<div class="case"><div>${esc(c.s)}</div><div class="amp">${['g','y','r'].map(k=>`<button class="btn ${k}" data-c="${i}" data-k="${k}" aria-pressed="${a===k}">${esc(L.amp[k])}</button>`).join('')}</div>
+         return `<div class="case"><div>${esc(c.s)}</div><div class="amp">${['g','y','r'].map(k=>`<button class="preset ${k}" data-c="${i}" data-k="${k}" aria-pressed="${a===k}">${esc(L.amp[k])}</button>`).join('')}</div>
          ${a===undefined?'':`<div class="fb ${a===c.a?'':'no'}">${a===c.a?`<span class="v-ok">${u.ampGood}</span> `:`<span class="v-no">${u.ampRather(L.ampShort[c.a])}</span> `}${esc(c.why)}</div>`}</div>`}).join('');
        document.querySelectorAll('#cases [data-c]').forEach(b=>b.onclick=()=>{S.safe.pick[+b.dataset.c]=b.dataset.k;draw()});
        const n=Object.keys(S.safe.pick).length,ok=CASES.filter((c,i)=>S.safe.pick[i]===c.a).length;
@@ -3339,7 +3343,7 @@ function stSafe(){
        $('#cheese').innerHTML=h;};
      /* Wo steckt KI drin? Beispiele einsortieren */
      const KK=['none','lern','neu'],drawKi=()=>{$('#kiCases').innerHTML=u.kiItems.map((c,i)=>{const a=S.safe.ki[i];
-         return `<div class="case"><div>${esc(c.t)}</div><div class="amp">${KK.map(k=>`<button class="btn" data-ki="${i}" data-k="${k}" aria-pressed="${a===k}">${esc(u.kiKinds[k])}</button>`).join('')}</div>
+         return `<div class="case"><div>${esc(c.t)}</div><div class="amp">${KK.map(k=>`<button class="preset" data-ki="${i}" data-k="${k}" aria-pressed="${a===k}">${esc(u.kiKinds[k])}</button>`).join('')}</div>
          ${a===undefined?'':`<div class="fb ${a===c.a?'':'no'}">${a===c.a?`<span class="v-ok">${u.kiGood}</span> `:`<span class="v-no">${u.kiRather(u.kiKinds[c.a])}</span> `}${esc(c.why)}</div>`}</div>`}).join('');
        document.querySelectorAll('#kiCases [data-ki]').forEach(b=>b.onclick=()=>{S.safe.ki[+b.dataset.ki]=b.dataset.k;drawKi()});
        const n=Object.keys(S.safe.ki).length,ok=u.kiItems.filter((c,i)=>S.safe.ki[i]===c.a).length;
@@ -3347,7 +3351,7 @@ function stSafe(){
      drawKi();
      /* Antwort prüfen: glauben oder nachprüfen? */
      const drawChk=()=>{$('#chk').innerHTML=u.chkItems.map((c,i)=>{const a=S.safe.chk[i],good=!c.bad||a==='check';
-         return `<div class="case"><div>${esc(c.t)}</div><div class="amp">${['believe','check'].map((k,j)=>`<button class="btn" data-ch="${i}" data-k="${k}" aria-pressed="${a===k}">${esc(u.chkBtn[j])}</button>`).join('')}</div>
+         return `<div class="case"><div>${esc(c.t)}</div><div class="amp">${['believe','check'].map((k,j)=>`<button class="preset" data-ch="${i}" data-k="${k}" aria-pressed="${a===k}">${esc(u.chkBtn[j])}</button>`).join('')}</div>
          ${a===undefined?'':`<div class="fb ${c.bad&&a==='believe'?'no':''}"><span class="${good?'v-ok':'v-no'}">${c.bad?(a==='check'?u.chkFb.hit:u.chkFb.miss):(a==='believe'?u.chkFb.ok:u.chkFb.extra)}</span> ${esc(c.why)}</div>`}</div>`}).join('');
        document.querySelectorAll('#chk [data-ch]').forEach(b=>b.onclick=()=>{S.safe.chk[+b.dataset.ch]=b.dataset.k;drawChk()});
        const n=Object.keys(S.safe.chk).length,hit=u.chkItems.filter((c,i)=>c.bad&&S.safe.chk[i]==='check').length,bad=u.chkItems.filter(c=>c.bad).length;
@@ -3370,7 +3374,7 @@ function stEnd(){
    bind(){
      const draw=()=>{
        $('#quiz').innerHTML=QUIZ.map((q,i)=>{const a=S.quiz[i];
-         return `<div class="q"><div>${esc(q[0])}</div><div class="row"><button class="btn" data-q="${i}" data-a="1">${u.yes}</button><button class="btn" data-q="${i}" data-a="0">${u.no}</button></div>
+         return `<div class="q"><div>${esc(q[0])}</div><div class="row"><button class="preset" data-q="${i}" data-a="1" aria-pressed="${a===true}">${u.yes}</button><button class="preset" data-q="${i}" data-a="0" aria-pressed="${a===false}">${u.no}</button></div>
          ${a===undefined?'':`<div class="fb ${a===q[1]?'ok':'no'}">${a===q[1]?u.qRight:u.qWrong} ${esc(q[2])}</div>`}</div>`}).join('');
        document.querySelectorAll('#quiz [data-q]').forEach(b=>b.onclick=()=>{S.quiz[+b.dataset.q]=b.dataset.a==='1';draw()});
        const n=Object.keys(S.quiz).length,ok=QUIZ.filter((q,i)=>S.quiz[i]===q[1]).length;

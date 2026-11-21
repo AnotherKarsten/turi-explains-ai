@@ -31,6 +31,11 @@ Sprache der Seite, der Commits und der Pull Requests: Deutsch.
   flache Pillen mit Häkchen, mit Beschriftung wie „Frage:“), und Schalter für an/aus (`tgl()`). Hinweise und Warnungen
   stehen in Kästen (`callout()`). Beim Tippen bleibt das angetippte Element an seiner Stelle (`hold()`), Ergebnisflächen
   haben reservierten Platz, damit nichts springt.
+- Turi unterscheidet ebenso streng: Aktionen sind `.btn` (Taste mit Schatten nach unten, `.primary` für die Hauptaktion),
+  Auswahlen (eine von mehreren Möglichkeiten, auch Antworten in Spielen und im Quiz) sind `.preset` (runde Pille mit
+  Kreis, gewählt gelb mit gefülltem Kreis, `aria-pressed`). Nur was man antippen kann, hat einen Schatten nach unten
+  (auch antippbare Schnipsel und Landkarten-Wörter); Anzeigen und Ergebnisse (Schnipsel zum Ansehen, Steckbriefe,
+  Regelkarten) sind flach. Ergebnisse, die zu einer Auswahl gehören, stehen in einer beschrifteten Fläche (`.result`).
 - Startseite `index.html`: deutscher Text steht fest im HTML (funktioniert ohne JavaScript), die anderen Sprachen in
   `INDEX_LANG` (gleiche Schlüssel wie `.de`; Elemente mit `data-k` werden ersetzt). Die Knöpfe führen mit `?lang=` zur
   gewählten Sprache. Neue oder umbenannte Seiten dort mit aufnehmen. Von dort führt ein Link zu `teachers.html`;
